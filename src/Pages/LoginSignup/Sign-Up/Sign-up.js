@@ -1,8 +1,8 @@
 import "./Sign-up.css";
 import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
-import SignUpContext from "../../../Context/Sign-up-context";
 import SignUpForm from "./signUpForm/SignUpForm";
+import { AlertModal } from "./signUpForm/Modal";
 
 export const SignupBtn = ({ btnText, setActiveSignup, setUserRole }) => {
   const handleUserRole = () => {
@@ -33,14 +33,13 @@ export const SignupBtn = ({ btnText, setActiveSignup, setUserRole }) => {
 };
 
 function SignUp() {
-  const { AlertModal } = useContext(SignUpContext);
   const [userRole, setUserRole] = useState("");
   const [activeSignup, setActiveSignup] = useState(false);
 
   //Jsx render section
   return (
     <section className="sign-up-container">
-      {AlertModal}
+      <AlertModal />
       <section className="sign-up-info">
         <h2 className="info-title">Sign up</h2>
         <p className="info-text">I want to sign up</p>

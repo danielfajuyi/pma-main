@@ -3,20 +3,22 @@ import SignUpInput from "./FormInputs";
 import "./SignUpForm.css";
 import { AlertModal } from "./Modal";
 import { useDispatch, useSelector } from "react-redux";
-import { makePost } from "../../../../redux/apiCalls";
+import { loginRegister, makePost } from "../../../../redux/apiCalls";
 import { usePaystackPayment } from "react-paystack";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const SignUpForm = ({ activeSignup, setActiveSignup, userRole }) => {
-  // console.log(userRole);
-  const { isFetching, data } = useSelector((state) => state.user);
+  const { isFetching } = useSelector((state) => state.user);
+  const user = useSelector((state) => state.user.currentUser);
+  console.log(userRole)
   const dispatch = useDispatch();
 
   const [modalTxt, setModalTxt] = useState("");
   const [inputs, setInputs] = useState({});
   const [isChecked, setIschecked] = useState(false);
   const [isError, setIsError] = useState(false);
+  const [message, setMessage] = useState("");
 
   //input error state
   const [error, setError] = useState({
@@ -37,10 +39,11 @@ const SignUpForm = ({ activeSignup, setActiveSignup, userRole }) => {
   };
 
   //paystack payment config
+  const amount = 2000;
   const config = {
     email: inputs.email,
 
-    amount: 2000 * 100,
+    amount: amount * 100,
 
     metadata: {
       name: inputs.firstName,
@@ -51,17 +54,20 @@ const SignUpForm = ({ activeSignup, setActiveSignup, userRole }) => {
 
     channels: ["card", "bank", "ussd", "qr", "mobile_money", "bank_transfer"],
   };
+      
+
+  const handleInvoice =() => {
+    makePost(dispatch, "model/payment/model", { amount, userId: user._id }, setMessage);
+  };
 
   const initializePayment = usePaystackPayment(config);
   const handlePayment = () => {
     const onSuccess = (reference) => {
-      console.log(reference);
+      handleInvoice();
+      // console.log(reference);
       setTimeout(() => {
         setModalTxt("confirm-payment");
-        setTimeout(() => {
-          window.location.reload();
-        }, 2000);
-      }, 3000);
+      }, 2000);
     };
 
     const onClose = () => {
@@ -70,16 +76,11 @@ const SignUpForm = ({ activeSignup, setActiveSignup, userRole }) => {
     initializePayment(onSuccess, onClose);
   };
 
-  useEffect(()=>{
-    data === "Registration successful!" && handlePayment()
-  }, [data])
-  console.log(data)
-
   //validating inputs
   useEffect(() => {
     const nameRegex = /^[A-Z]+$/i;
     const emailRegex =
-      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     const passRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,15}$/;
     const numRegex = /^[0-9]+$/;
 
@@ -199,8 +200,18 @@ const SignUpForm = ({ activeSignup, setActiveSignup, userRole }) => {
   //submit form and creating account
   const handleCreateAccount = (e) => {
     e.preventDefault();
-    makePost(dispatch, "/auth/register", { ...inputs, role:userRole });
+    loginRegister(
+      dispatch,
+      "/auth/register",
+      { ...inputs, role: userRole },
+      setMessage,
+      userRole,
+      setModalTxt,
+      handlePayment
+    );
+    setModalTxt(message);
   };
+
 
   return (
     <section
@@ -210,7 +221,7 @@ const SignUpForm = ({ activeSignup, setActiveSignup, userRole }) => {
       className="sign-up"
     >
       <ToastContainer position="top-center" reverseOrder={false} />
-      <AlertModal modalTxt={modalTxt} setModalTxt={setModalTxt} />
+      <AlertModal modalTxt={modalTxt} setModalTxt={setModalTxt} userRole={userRole} message={message} />
 
       <form className="model-sign-up" onSubmit={handleCreateAccount}>
         <div className="sign-up-img">

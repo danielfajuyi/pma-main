@@ -5,10 +5,6 @@ import { BsSuitHeartFill, BsPeople } from "react-icons/bs";
 import { FiEye } from "react-icons/fi";
 
 import { Bar } from "react-chartjs-2";
-import { useContext } from "react";
-import { GlobalContext } from "../../../contexts/GlobalContext";
-import { useState } from "react";
-import { useEffect } from "react";
 
 const VisitorStats = (props) => {
   return (

@@ -2,10 +2,10 @@ import { useEffect } from "react";
 import { useState } from "react";
 import _ from "lodash";
 import { useContext } from "react";
-import { GlobalContext } from "../contexts/GlobalContext";
+// import { GlobalContext } from "../contexts/GlobalContext";
 
 const useResponsiveText = (containerRef, scale, min) => {
-  const globalData = useContext(GlobalContext);
+  // const globalData = useContext(GlobalContext);
   const [fs, setFS] = useState();
 
   useEffect(() => {
@@ -15,7 +15,7 @@ const useResponsiveText = (containerRef, scale, min) => {
       min || "10"
     )}px`;
     setFS(fs);
-  }, [globalData.width]);
+  }, []);
   return fs;
 };
 

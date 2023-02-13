@@ -1,5 +1,9 @@
-
 export const AlertBox = ({ title, note, icon, setModalTxt }) => {
+  const handleModalTxt = () => {
+    setModalTxt((prev) => !prev);
+    window.location.reload();
+  };
+
   return (
     <div className="alert-box">
       <h2 className="alert-title">
@@ -7,12 +11,12 @@ export const AlertBox = ({ title, note, icon, setModalTxt }) => {
         {icon && <i className="fa-solid fa-circle-check success-icon"></i>}
       </h2>
       <p className="alert-text">
-        {<span className="bold-text colored-text">Note: </span>}
+        {/* {<span className="bold-text colored-text">Note: </span>} */}
         {note}
       </p>
       <div className="alert-btn">
         <button
-          onClick={() => setModalTxt((prev) => !prev)}
+          onClick={handleModalTxt}
           className="del-alert-btn bold-text yes-btn"
         >
           Got it
@@ -22,7 +26,7 @@ export const AlertBox = ({ title, note, icon, setModalTxt }) => {
   );
 };
 
-export const AlertModal = ({ modalTxt, setModalTxt }) => {
+export const AlertModal = ({ modalTxt, setModalTxt, userRole, message }) => {
   /* modal section */
   return (
     <section
@@ -51,8 +55,49 @@ export const AlertModal = ({ modalTxt, setModalTxt }) => {
 
       {modalTxt === "confirm-payment" && (
         <AlertBox
-          title="Successful"
-          note="Your payment have been submitted for confirmation, you will receive an email once your payment is confirm!"
+          title={
+            message === "Oops! An error occured"
+              ? "Error!"
+              : message === "Connection error!"
+              ? message
+              : "Successful"
+          }
+          note={
+            message === "Oops! An error occured"
+              ? message +
+                " receiving your payment, please try again or contact support"
+              : message === "Connection error!"
+              ? "We are unable to receive your payment, please try again or contact support"
+              : "Your payment have been submitted for confirmation, you will receive an email once your payment is confirm!"
+          }
+          icon={
+            message === "Oops! An error occured"
+              ? false
+              : message === "Connection error!"
+              ? false
+              : true
+          }
+          setModalTxt={setModalTxt}
+        />
+      )}
+
+      {modalTxt === "User already exists!" && (
+        <AlertBox
+          title={modalTxt}
+          note="User with that email address already exists, kindly try another email address"
+          icon={false}
+          setModalTxt={setModalTxt}
+        />
+      )}
+
+      {modalTxt === "Registration successful!" && (
+        <AlertBox
+          title={modalTxt}
+          note={
+            userRole === "client"
+              ? "Continue to your account"
+              : "Continue to make your payment"
+          }
           icon={true}
           setModalTxt={setModalTxt}
         />
@@ -60,4 +105,3 @@ export const AlertModal = ({ modalTxt, setModalTxt }) => {
     </section>
   );
 };
-

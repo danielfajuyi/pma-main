@@ -2,7 +2,7 @@ import "./Login-Form.css";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { login } from "../../../redux/apiCalls";
+import { loginRegister } from "../../../redux/apiCalls";
 
 function LoginForm() {
   const { isFetching } = useSelector((state) => state.user);
@@ -10,7 +10,7 @@ function LoginForm() {
 
   const [showPassword, setShowPassword] = useState(false);
   const [inputs, setInputs] = useState({});
-  const [errTxt, setErrTxt] = useState("");
+  const [message, setMessage] = useState("");
 
   const handleChange = (e) => {
     setInputs((prev) => {
@@ -20,7 +20,8 @@ function LoginForm() {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    login(dispatch, { ...inputs }, setErrTxt);
+    loginRegister(dispatch, "/auth/login", { ...inputs }, setMessage);
+    // window.location.reload();
   };
 
   return (
@@ -28,7 +29,7 @@ function LoginForm() {
       <form className="login-form" onSubmit={handleLogin}>
         {/* login title */}
         <h2 className="login-title">welcome Back!</h2>
-        {errTxt && <p className="login-error">{errTxt}</p>}
+        {message && <p className="login-error">{message}</p>}
 
         {/* email input section  */}
         <div className="input-wrapper">

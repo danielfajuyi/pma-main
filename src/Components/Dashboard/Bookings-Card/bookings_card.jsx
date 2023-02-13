@@ -2,11 +2,7 @@ import "./bookings_card.scss";
 import { Line } from "react-chartjs-2";
 import { GoLinkExternal } from "react-icons/go";
 import { useRef } from "react";
-import { useEffect } from "react";
-import { useState } from "react";
 import _ from "lodash";
-import { useContext } from "react";
-import { GlobalContext } from "../../../contexts/GlobalContext";
 import useResponsiveText from "../../../custom_hooks/useResponsiveText";
 
 const BookingsCard = (props) => {

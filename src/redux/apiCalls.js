@@ -6,39 +6,46 @@ import {
   loginStart,
   loginSuccess,
   logout,
-  processFailure,
-  processStart,
-  processSuccess,
   updateFailure,
   updateStart,
   updateSuccess,
 } from "./userRedux";
 import { forgotRequest, userRequest } from "./requestMethod";
 import { toast } from "react-toastify";
+import { processFailure, processStart, processSuccess } from "./processRedux";
 
-export const makePost = async (dispatch, url, data, setErrTxt) => {
+export const makePost = async (dispatch, url, data, setMessage) => {
   dispatch(processStart());
   try {
     const res = await userRequest.post(url, data);
-    dispatch(processSuccess(res.data));
-    alert(res.data);
+    dispatch(processSuccess());
+    setMessage(res.data);
+    console.log(res.data);
   } catch (err) {
     dispatch(processFailure());
-    setErrTxt(err?.response?.data);
-    return alert(err?.response?.data);
+    return setMessage(err.response.data);
   }
 };
 
-export const login = async (dispatch, user, setErrTxt) => {
+export const loginRegister = async (
+  dispatch,
+  url,
+  user,
+  setMessage,
+  userRole,
+  setModalTxt,
+  handlePayment
+) => {
   dispatch(loginStart());
   try {
-    const res = await userRequest.post("/auth/login", user);
+    const res = await userRequest.post(url, user);
     dispatch(loginSuccess(res.data));
-    window.location.reload();
+    setMessage("Registration successful!");
+    setModalTxt("Registration successful!");
+    userRole !== "client" && handlePayment();
   } catch (err) {
     dispatch(loginFailure());
-    setErrTxt(err.response.data);
-    return toast.error(err.response.data);
+    return setMessage(err.response.data);
   }
 };
 

@@ -57,7 +57,6 @@ const DashboardSidebar = (props) => {
                   link.classList.add("active");
                 else link.classList.remove("active");
                 if (item.name === "Log out") {
-                  console.log(item.name);
                   handleLogout();
                 }
               });

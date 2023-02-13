@@ -113,7 +113,7 @@
   text-align: center;
 }
 .alert-title {
-  padding: 0 1rem;
+  padding: 0;
 }
 .alert-text {
   font-size: 18px;
