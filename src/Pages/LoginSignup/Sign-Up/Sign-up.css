@@ -137,6 +137,9 @@
   cursor: pointer;
   transition: all, 0.4s ease-out;
 }
+.yes-btn:disabled {
+  cursor: not-allowed;
+}
 .yes-btn:hover {
   background: var(--Light-color);
   color: var(--Colored-color);

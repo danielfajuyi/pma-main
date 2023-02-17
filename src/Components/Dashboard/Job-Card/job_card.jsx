@@ -1,25 +1,45 @@
 import "./job_card.scss";
-
 import { FiEye } from "react-icons/fi";
+import { useEffect, useState } from "react";
+import { makeGet } from "../../../redux/apiCalls";
+import { useDispatch } from "react-redux";
+import moment from "moment";
 
 const JobCard = (props) => {
+  const [message, setMessage] = useState([]);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    let unsubsribed = false;
+    if (!unsubsribed) {
+      const fetchJob = () => {};
+      makeGet(dispatch, "/job/jobs/all", setMessage);
+      fetchJob();
+    }
+    return () => {
+      unsubsribed = true;
+    };
+  }, [dispatch]);
+
   return (
-    <div className="job_card">
-      <div className="note">{props.note}</div>
+    <div>
+      {message.slice(0, 5).map((item) => (
+        <div className="job_card" key={item._id}>
+          <div className="note">{item.title}</div>
 
-      {props.views && props.applied && (
-        <div className="involved">
-          <span>
-            <FiEye size={14} style={{ marginRight: "0.4em" }} />
-            {props.views}
-          </span>
-          <span className="applied">Applied {props.applied}</span>
+          {props.views && props.applied && (
+            <div className="involved">
+              <span>
+                <FiEye size={14} style={{ marginRight: "0.4em" }} />
+                {props.views}
+              </span>
+              <span className="applied">Applied {props.applied}</span>
+            </div>
+          )}
+
+          <div className="time">{moment(item.createdAt).format("mm-d-yy")}</div>
         </div>
-      )}
-
-      <div className="time" hidden={!props.time}>
-        {props.time}
-      </div>
+      ))}
     </div>
   );
 };

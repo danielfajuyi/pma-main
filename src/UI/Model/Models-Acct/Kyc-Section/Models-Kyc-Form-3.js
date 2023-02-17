@@ -1,82 +1,157 @@
 import "./Models-Kyc-Form-3.css";
+import { getDownloadURL, ref, uploadBytesResumable } from "@firebase/storage";
 import FormNavBtn from "./Form-nav-btn";
 import { useState } from "react";
 import { useEffect } from "react";
+import { Photo, Polaroid } from "../utils";
+import { AlertModal } from "../../../../Pages/LoginSignup/Sign-Up/signUpForm/Modal";
+import { storage } from "../../../../firebase";
+import { useDispatch, useSelector } from "react-redux";
+import { update } from "../../../../redux/apiCalls";
 
-function ModelsKycForm3({
-  DomItems,
-  collectData,
-  handleNavigation,
-  handleModal,
-  form3Data,
-}) {
-  const { Photo, polaroid } = DomItems[0];
+function ModelsKycForm3({ handleNavigation, inputs, setInputs }) {
+  const { isFetching } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
-  const [photo, setPhoto] = useState(form3Data.photos);
-  const [Polaroid, setPolaroid] = useState(form3Data.polaroids);
-  const [compCard, setCompCard] = useState(form3Data.compCard);
+  const [photos, setPhotos] = useState([]);
+  const [previewPhotos, setPreviewPhotos] = useState([]);
+  const [photo, setPhoto] = useState(undefined);
+  const [polaroids, setPolaroids] = useState([]);
+  const [polaroid, setPolaroid] = useState(undefined);
+  const [previewPolaroids, setPreviewPolaroids] = useState([]);
+  const [compCard, setCompCard] = useState(undefined);
+  const [modalTxt, setModalTxt] = useState("");
+  const [progress, setProgress] = useState(0);
 
   const [submit, setSubmit] = useState(false);
   const [isError, setIsError] = useState(false);
 
-  function handleChange(e) {
-    const { id, name, files } = e.target;
-    const img = URL.createObjectURL(files[0]);
+  const handlePhotos = (e) => {
+    const img = URL.createObjectURL(e.target.files[0]);
+    setPreviewPhotos((prevData) => ({ ...prevData, [e.target.id]: img }));
+    setPhoto(e.target.files[0]);
+  };
 
-    if (name === "photo") {
-      setPhoto((prevData) => ({ ...prevData, [id]: img }));
-    } else if (name === "polaroid") {
-      setPolaroid((prevData) => ({ ...prevData, [id]: img }));
-    } else if (name === "compCard") {
-      setCompCard((prevData) => img);
-    }
-  }
+  const handlePolaroids = (e) => {
+    const img = URL.createObjectURL(e.target.files[0]);
+    setPreviewPolaroids((prevData) => ({ ...prevData, [e.target.id]: img }));
+    setPolaroid(e.target.files[0]);
+  };
 
-  //setting error
+  const uploadFile = (file, urlType) => {
+    const fileName = new Date().getTime() + file.name;
+    const storageRef = ref(storage, `/models/${fileName}`);
+    const uploadTask = uploadBytesResumable(storageRef, file);
+
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        if (urlType === "photos") {
+          setProgress(Math.round(progress));
+        }
+        if (urlType === "polaroids") {
+          setProgress(Math.round(progress));
+        }
+        if (urlType === "compCard") {
+          setProgress(Math.round(progress));
+        }
+        switch (snapshot.state) {
+          case "paused":
+            console.log("Upload is paused");
+            break;
+          case "running":
+            console.log("Upload is running");
+            break;
+          default:
+            break;
+        }
+      },
+      (error) => {},
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          if (urlType === "photos") {
+            setPhotos((prev) => [...prev, downloadURL]);
+          }
+          if (urlType === "polaroids") {
+            setPolaroids((prev) => [...prev, downloadURL]);
+          }
+          if (urlType === "compCard") {
+            setInputs((prev) => {
+              return { ...prev, [urlType]: downloadURL };
+            });
+          }
+        });
+      }
+    );
+  };
+
+  useEffect(() => {
+    const sendPhoto = (urlType) => {
+      urlType = "photos";
+      setInputs((prev) => {
+        return { ...prev, [urlType]: photos };
+      });
+      if (photo) {
+        uploadFile(photos, "photos");
+        setPhoto(undefined);
+      }
+    };
+    sendPhoto();
+
+    const sendPolaroid = (urlType) => {
+      urlType = "polaroids";
+      setInputs((prev) => {
+        return { ...prev, [urlType]: polaroids };
+      });
+      if (polaroid) {
+        uploadFile(polaroids, "polaroids");
+        setPolaroid(undefined);
+      }
+    };
+    sendPolaroid();
+
+    const sendCompCard = (urlType) => {
+      urlType = "compCard";
+      if (compCard) {
+        uploadFile(compCard, "compCard");
+        setCompCard(undefined);
+      }
+    };
+    sendCompCard();
+  }, [photos, polaroids, photo, polaroid, compCard, setInputs]);
+
+  //setting empty input
   useEffect(() => {
     let err = false;
-    if (
-      photo.photo1 === "" ||
-      photo.photo2 === "" ||
-      photo.photo3 === "" ||
-      photo.photo4 === "" ||
-      photo.photo5 === "" ||
-      photo.photo6 === ""
-    ) {
+    if (!photos && photos.length < 6) {
       err = true;
     } else {
       err = false;
     }
 
     setIsError(err);
-  }, [photo]);
+  }, [inputs, photos.length]);
 
   //handling submit
   function handleSubmit(text) {
-    if (isError) {
-      handleModal("add-photo");
+    if (photos.length < 6) {
+      setModalTxt("add-photo");
     } else {
-      setSubmit((prev) => !prev);
-      collectData(3, {
-        photos: photo,
-        polaroids: Polaroid,
-        compCard: compCard,
-      });
-      handleNavigation(text);
-
-      setTimeout(() => {
-        setSubmit((prev) => !prev);
-      }, 1000);
+      update(dispatch, "/model/", { ...inputs });
+      setModalTxt("save");
     }
   }
 
   return (
     <form className="kyc-form" onSubmit={(e) => e.preventDefault()}>
+      <AlertModal modalTxt={modalTxt} setModalTxt={setModalTxt} />
       <section className="kyc-hero">
         <img src="/images/kyc (3).jpg" alt="" />
         <div className="kyc-hero__text-rapper">
           <h2 className="kyc-hero__title">Finally</h2>
-          <p className="kyc-hero__text">
+          <p className="kyc-hero__text" style={{ color: "#000" }}>
             You Are Moments Away From Awesomeness!!
           </p>
         </div>
@@ -105,19 +180,22 @@ function ModelsKycForm3({
                       <i className="fa-solid fa-plus fa-2x"></i>
                     </label>
                     <input
-                      onChange={handleChange}
+                      onChange={handlePhotos}
                       type="file"
-                      name="photo"
+                      name="photos"
                       id={item.id}
                       className="file-input"
                     />
 
-                    {photo[item.id] && <img src={photo[item.id]} alt="" />}
+                    {previewPhotos[item.id] && (
+                      <img src={previewPhotos[item.id]} alt="" />
+                    )}
                   </li>
                 );
               })}
             </ul>
           </div>
+
           <div className="sections-container">
             <h2 className="sections-title">Polaroid</h2>
             <p className="description">
@@ -135,22 +213,22 @@ function ModelsKycForm3({
               shot.
             </p>
             <ul className="polaroid-list">
-              {polaroid.map((item) => {
+              {Polaroid.map((item) => {
                 return (
                   <li className="polaroid-item" key={item.id}>
                     <label className="upload-btn on-hover" htmlFor={item.id}>
                       <i className="fa-solid fa-plus fa-2x"></i>
                     </label>
                     <input
-                      onChange={handleChange}
+                      onChange={handlePolaroids}
                       type="file"
-                      name="polaroid"
+                      name="polaroids"
                       id={item.id}
                       className="file-input"
                     />
 
-                    {Polaroid[item.id] && (
-                      <img src={Polaroid[item.id]} alt="" />
+                    {previewPolaroids[item.id] && (
+                      <img src={previewPolaroids[item.id]} alt="" />
                     )}
                   </li>
                 );
@@ -160,9 +238,15 @@ function ModelsKycForm3({
 
           <div className="sections-container">
             <h2 className="sections-title">Comp Card</h2>
-            {compCard && <img className="compCard-img" src={compCard} alt="" />}
+            {compCard && (
+              <img
+                className="compCard-img"
+                src={URL.createObjectURL(compCard)}
+                alt=""
+              />
+            )}
             <input
-              onChange={handleChange}
+              onChange={(e) => setCompCard(e.target.files[0])}
               type="file"
               id="compCard"
               name="compCard"
@@ -178,8 +262,8 @@ function ModelsKycForm3({
               type="button"
             />
             <FormNavBtn
-              submit={submit}
-              btnText="Submit"
+              isFetching={isFetching}
+              btnText={isFetching ? "A moment..." : "Submit"}
               name="form3"
               handleClick={handleSubmit}
               type="submit"

@@ -1,78 +1,86 @@
 import "./Models-Kyc-Form-1.css";
+import { getDownloadURL, ref, uploadBytesResumable } from "@firebase/storage";
 import FormNavBtn from "./Form-nav-btn";
 import { useEffect, useState } from "react";
+import { info } from "../utils";
+import { storage } from "../../../../firebase";
 
-function ModelsKycForm1({
-  DomItems,
-  collectData,
-  handleNavigation,
-  form1Data,
-}) {
-  const { info } = DomItems[0];
-
-  //data state
-  const [data, setData] = useState(form1Data);
-
-  //State Error
+function ModelsKycForm1({ handleNavigation, inputs, handleChange, setInputs }) {
+  const [picture, setPicture] = useState(undefined);
   const [error, setError] = useState({
-    profilePic: "",
-    firstName: "",
-    lastName: "",
-    userName: "",
-    gender: "",
-    state: "",
-    country: "",
-    bio: "",
+    userName: inputs.userName,
+    gender: inputs.gender,
+    state: inputs.state,
+    country: inputs.country,
+    bio: inputs.bio,
   });
-
   const [isError, setIsError] = useState(false);
   const [showError, setShowError] = useState(false);
+  const [progress, setProgress] = useState(0);
 
-  function handleChange(e) {
-    const { name, value, files } = e.target;
+  const uploadFile = (file, urlType) => {
+    const fileName = new Date().getTime() + file.name;
+    const storageRef = ref(storage, `/models/${fileName}`);
+    const uploadTask = uploadBytesResumable(storageRef, file);
 
-    if (name === "profilePic") {
-      const img = URL.createObjectURL(files[0]);
-      setData((prevData) => ({ ...prevData, [name]: img }));
-    } else {
-      setData((prevData) => ({ ...prevData, [name]: value }));
-    }
-  }
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        urlType === "picture" && setProgress(Math.round(progress));
+        switch (snapshot.state) {
+          case "paused":
+            console.log("Upload is paused");
+            break;
+          case "running":
+            console.log("Upload is running");
+            break;
+          default:
+            break;
+        }
+      },
+      (error) => {},
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          setInputs((prev) => {
+            return { ...prev, [urlType]: downloadURL };
+          });
+        });
+      }
+    );
+  };
 
-  //setting error messages
+  useEffect(() => {
+    picture && uploadFile(picture, "picture");
+  }, [picture]);
+
+  // handle empty input
   useEffect(() => {
     function handleError() {
-      let errorText = "This detail is required.!";
+      let errorText = "This detail is required!";
 
-      data.profilePic === ""
-        ? setError((prev) => ({ ...prev, profilePic: errorText }))
-        : setError((prev) => ({ ...prev, profilePic: "" }));
+      picture === undefined
+        ? setError((prev) => ({ ...prev, picture: errorText }))
+        : setError((prev) => ({ ...prev, picture: "" }));
 
-      data.firstName === ""
-        ? setError((prev) => ({ ...prev, firstName: errorText }))
-        : setError((prev) => ({ ...prev, firstName: "" }));
-
-      data.lastName === ""
-        ? setError((prev) => ({ ...prev, lastName: errorText }))
-        : setError((prev) => ({ ...prev, lastName: "" }));
-
-      data.userName === ""
+      !inputs.userName
         ? setError((prev) => ({ ...prev, userName: errorText }))
         : setError((prev) => ({ ...prev, userName: "" }));
 
-      data.gender === ""
+      !inputs.gender
         ? setError((prev) => ({ ...prev, gender: errorText }))
         : setError((prev) => ({ ...prev, gender: "" }));
 
-      data.state === ""
+      !inputs.state
         ? setError((prev) => ({ ...prev, state: errorText }))
         : setError((prev) => ({ ...prev, state: "" }));
 
-      data.country === ""
+      !inputs.country
         ? setError((prev) => ({ ...prev, country: errorText }))
         : setError((prev) => ({ ...prev, country: "" }));
 
-      data.bio === ""
+      !inputs.bio
         ? setError((prev) => ({
             ...prev,
             bio: "The Bio section is required.!",
@@ -81,33 +89,30 @@ function ModelsKycForm1({
     }
 
     handleError();
-  }, [data]);
+  }, [inputs, picture]);
 
   //checking for error message
   useEffect(() => {
     let err = false;
     if (
-      error.profilePic ||
-      error.firstName ||
-      error.lastName ||
-      error.userName ||
-      error.gender ||
-      error.state ||
-      error.country ||
-      error.bio
+      picture === undefined ||
+      !inputs.userName ||
+      !inputs.gender ||
+      !inputs.state ||
+      !inputs.country ||
+      !inputs.bio
     ) {
       err = true;
     }
 
     setIsError(err);
-  }, [error]);
+  }, [error, inputs, picture]);
 
   //submit and go to the next page
   function handleSubmit(text) {
     if (isError) {
       setShowError(true);
     } else {
-      collectData(1, data);
       handleNavigation(text);
     }
   }
@@ -126,28 +131,34 @@ function ModelsKycForm1({
       <section className="kyc-content-section">
         <div className="list-container">
           <div className="sections-container ">
-            <div className="mobile-text">
-              <h2 className="sections-title ">Profile Details</h2>
-              <p className="description">
-                <i className="fa-solid fa-angles-right point"></i>
-                Include a well-lit headShort, generally framed between the top
-                of your head to just below your shoulders.
-              </p>
-            </div>
-
             <div className="detail-container">
               <div className="img-rapper">
-                <label className="upload-btn on-hover" htmlFor="profile-img">
+                <label
+                  className="upload-btn on-hover"
+                  htmlFor="profile-img"
+                  style={{ position: "absolute" }}
+                >
                   <i className="fa-solid fa-plus fa-2x"></i>
                 </label>
                 <input
-                  onChange={handleChange}
+                  onChange={(e) => setPicture(e.target.files[0])}
                   type="file"
-                  name="profilePic"
+                  name="picture"
                   id="profile-img"
                   className="file-input"
-                />
-                {data.profilePic && <img src={data.profilePic} alt="" />}
+                />{" "}
+                {!picture && (
+                  <p className="error-text" style={{ zIndex: 1 }}>
+                    This detail is required!
+                  </p>
+                )}
+                {picture && (
+                  <img
+                    src={URL.createObjectURL(picture)}
+                    alt=""
+                    className="preview"
+                  />
+                )}
               </div>
 
               <div className="info-section__rapper">
@@ -175,16 +186,29 @@ function ModelsKycForm1({
                             )}
                           </span>
 
-                          <input
-                            onChange={handleChange}
-                            className="kyc1-input-field"
-                            type={item.type}
-                            id={item.id}
-                            name={item.id}
-                            placeholder={item.placeholder}
-                            value={data[item.id]}
-                            required
-                          />
+                          {item.id !== "gender" && (
+                            <input
+                              onChange={handleChange}
+                              className="kyc1-input-field"
+                              type={item.type}
+                              id={item.id}
+                              name={item.id}
+                              placeholder={item.placeholder}
+                              required
+                            />
+                          )}
+                          {item.id === "gender" && (
+                            <select
+                              onChange={handleChange}
+                              className="kyc1-input-field"
+                              id={item.id}
+                              name={item.id}
+                            >
+                              <option value="">Select your gender</option>
+                              <option value="m">M</option>
+                              <option value="f">F</option>
+                            </select>
+                          )}
                           {showError && (
                             <p className="error-text">{error[item.id]}</p>
                           )}
@@ -218,7 +242,6 @@ function ModelsKycForm1({
                 cols="30"
                 rows="10"
                 placeholder="wright out your Bio here..."
-                value={data.bio}
                 required
               ></textarea>
             </div>
@@ -226,12 +249,6 @@ function ModelsKycForm1({
             {showError && <p className="error-text">{error.bio}</p>}
           </div>
           <div className="kyc-btn-container">
-            <FormNavBtn
-              btnText="Back"
-              name="form1"
-              handleClick={handleNavigation}
-              type="button"
-            />
             <FormNavBtn
               btnText="Next"
               name="form1"

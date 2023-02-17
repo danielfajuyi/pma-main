@@ -11,7 +11,7 @@ import "react-toastify/dist/ReactToastify.css";
 const SignUpForm = ({ activeSignup, setActiveSignup, userRole }) => {
   const { isFetching } = useSelector((state) => state.user);
   const user = useSelector((state) => state.user.currentUser);
-  console.log(userRole)
+  // console.log(userRole)
   const dispatch = useDispatch();
 
   const [modalTxt, setModalTxt] = useState("");
@@ -54,10 +54,14 @@ const SignUpForm = ({ activeSignup, setActiveSignup, userRole }) => {
 
     channels: ["card", "bank", "ussd", "qr", "mobile_money", "bank_transfer"],
   };
-      
 
-  const handleInvoice =() => {
-    makePost(dispatch, "model/payment/model", { amount, userId: user._id }, setMessage);
+  const handleInvoice = () => {
+    makePost(
+      dispatch,
+      "model/payment/model",
+      { amount, userId: user._id },
+      setMessage
+    );
   };
 
   const initializePayment = usePaystackPayment(config);
@@ -212,7 +216,6 @@ const SignUpForm = ({ activeSignup, setActiveSignup, userRole }) => {
     setModalTxt(message);
   };
 
-
   return (
     <section
       style={{
@@ -221,7 +224,12 @@ const SignUpForm = ({ activeSignup, setActiveSignup, userRole }) => {
       className="sign-up"
     >
       <ToastContainer position="top-center" reverseOrder={false} />
-      <AlertModal modalTxt={modalTxt} setModalTxt={setModalTxt} userRole={userRole} message={message} />
+      <AlertModal
+        modalTxt={modalTxt}
+        setModalTxt={setModalTxt}
+        userRole={userRole}
+        message={message}
+      />
 
       <form className="model-sign-up" onSubmit={handleCreateAccount}>
         <div className="sign-up-img">

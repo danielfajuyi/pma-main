@@ -1,11 +1,6 @@
 import "./dashboard.scss";
-
-//  Icons --> [START]
 import { MdEdit } from "react-icons/md";
 import { RiMessage2Fill } from "react-icons/ri";
-// [END]
-
-// Components --> [START]
 import TopModelHighlight from "../../../../Components/Dashboard/Top-Model-Highlight/top_model_highlight";
 import MessagePreviewCard from "../../../../Components/Dashboard/Message-Preview-Card/message_preview_card";
 import JobCard from "../../../../Components/Dashboard/Job-Card/job_card";
@@ -13,19 +8,34 @@ import ModelCard from "../../../../Components/ModelCard/model_card.jsx";
 import BlogPreviewCard from "../../../../Components/Dashboard/Blog-Preview-Card/blog_preview_card";
 import BookingsCard from "../../../../Components/Dashboard/Bookings-Card/bookings_card";
 import VisitorStats from "../../../../Components/Dashboard/Visitor-Stats/visitor_stats";
-// [END]
-
-// Temporary  Images
 import profileImg from "../../../../Images/model-profile/model.png";
 import coverImg from "../../../../Images/model/model-large.jpg";
-
-// Other External NPM Packages --> [START]
 import _ from "lodash";
 import { Chart } from "chart.js/auto"; //Registering Charts ("Do not remove this import")
 import FadeIn from "../../../../Components/FadeIn/fade_in";
-// [END]
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { makeGet } from "../../../../redux/apiCalls";
 
 const AgencyDashboard = () => {
+  const user = useSelector((state) => state.user.currentUser);
+
+  const [message, setMessage] = useState([]);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    let unsubscribed = false;
+    if (!unsubscribed) {
+      const fetchData = () => {
+        makeGet(dispatch, "/agency/", setMessage);
+      };
+      fetchData();
+    }
+    return () => {
+      unsubscribed = true;
+    };
+  }, []);
+
   // Visitor Stats Graph Data -> (VisitorStats Component) --> [STRAT]
   const data = {
     labels: ["Aug", "Sept", "Oct", "Nov", "Dec", "Jan", "Feb"],
@@ -161,8 +171,12 @@ const AgencyDashboard = () => {
                 <img src={profileImg} alt="profile-pic" />
               </div>
               <div>
-                <div id="name">Hello, {"XMY Agency"}</div>
-                <div id="handle">{"@xyagency"}</div>
+                <div id="name">
+                  Hello, {user?.firstName} {user?.lastName}
+                </div>
+                <div id="handle">
+                  {user?.username ? `@${user.username}` : "@username"}
+                </div>
               </div>
               <button>
                 <MdEdit size={14} />
@@ -170,8 +184,18 @@ const AgencyDashboard = () => {
               </button>
             </div>
             <div id="follow">
-              <span>Following {772}</span>
-              <span>Followers {772}</span>
+              <span>
+                Following{" "}
+                {user?.agency?.followings.length < 1
+                  ? 0
+                  : user?.agency?.followings}
+              </span>
+              <span>
+                Followers{" "}
+                {user?.agency?.followers.length < 1
+                  ? 0
+                  : user?.agency?.followers}
+              </span>
             </div>
             <div id="top_models">
               <TopModelHighlight
@@ -196,26 +220,7 @@ const AgencyDashboard = () => {
                 <a href="./seeall">See all</a>
               </header>
               <div id="body">
-                <JobCard
-                  note="Female model needed for shoot"
-                  time="Aug 19, 2022 - 09:53"
-                />
-                <JobCard
-                  note="Female model needed for shoot"
-                  time="Aug 19, 2022 - 09:53"
-                />
-                <JobCard
-                  note="Female model needed for shoot"
-                  time="Aug 19, 2022 - 09:53"
-                />
-                <JobCard
-                  note="Female model needed for shoot"
-                  time="Aug 19, 2022 - 09:53"
-                />
-                <JobCard
-                  note="Female model needed for shoot"
-                  time="Aug 19, 2022 - 09:53"
-                />
+                <JobCard />
               </div>
             </div>
 
@@ -227,39 +232,7 @@ const AgencyDashboard = () => {
               <div id="body">
                 <BlogPreviewCard
                   img={profileImg}
-                  title="Intro to zero waste lifestyle"
                   model="Premium Models"
-                  date="26/08/2022"
-                />
-                <BlogPreviewCard
-                  img={profileImg}
-                  title="Intro to zero waste lifestyle"
-                  model="Premium Models"
-                  date="26/08/2022"
-                />
-                <BlogPreviewCard
-                  img={profileImg}
-                  title="Intro to zero waste lifestyle"
-                  model="Premium Models"
-                  date="26/08/2022"
-                />
-                <BlogPreviewCard
-                  img={profileImg}
-                  title="Intro to zero waste lifestyle"
-                  model="Premium Models"
-                  date="26/08/2022"
-                />
-                <BlogPreviewCard
-                  img={profileImg}
-                  title="Intro to zero waste lifestyle"
-                  model="Premium Models"
-                  date="26/08/2022"
-                />
-                <BlogPreviewCard
-                  img={profileImg}
-                  title="Intro to zero waste lifestyle"
-                  model="Premium Models"
-                  date="26/08/2022"
                 />
               </div>
             </div>
@@ -317,14 +290,8 @@ const AgencyDashboard = () => {
               <a href="./seeall">See all</a>
             </header>
             <div id="body">
-              <ModelCard />
-              <ModelCard />
-              <ModelCard />
-              <ModelCard />
-              <ModelCard />
-              <ModelCard />
-              <ModelCard />
-              <ModelCard />
+            {message?.map((item) => (
+              <ModelCard item={item} id={item?._id} />))}
             </div>
           </div>
           {/*Our Models <-- [END]  */}
