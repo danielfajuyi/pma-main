@@ -20,14 +20,19 @@
     font-weight: 600;
     cursor: pointer;
 
-    @include mq($width: 280px) {
-      font-size: 0.7rem;
-      padding: 0.8em 0.4em;
+    @include mq($width: 240px) {
+      font-size: 0.5rem;
+      padding: 5px;
     }
 
-    @include mq($width: 320px) {
-      font-size: 0.8rem;
-      padding: $md_padding;
+    @include mq($width: 280px) {
+      font-size: 0.6rem;
+      padding: 0.5em;
+    }
+
+    @include mq($width: 336px) {
+      font-size: 0.7rem;
+      padding: 5px;
     }
   }
 

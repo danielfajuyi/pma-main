@@ -1,8 +1,8 @@
-function FormNavBtn({ btnText, name, handleClick, type, submit }) {
+function FormNavBtn({ btnText, name, handleClick, type, isFetching }) {
   return (
     <button
       style={{
-        opacity: submit && 0.4,
+        opacity: isFetching && 0.4,
       }}
       onClick={() => handleClick(btnText)}
       type={type}
@@ -12,7 +12,7 @@ function FormNavBtn({ btnText, name, handleClick, type, submit }) {
           ? "kyc-nav-btn bold-text cancel-btn "
           : "kyc-nav-btn bold-text yes-btn "
       }
-      disabled={submit && true}
+      disabled={isFetching}
     >
       {btnText}
     </button>

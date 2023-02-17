@@ -6,7 +6,8 @@
   padding: $small_padding;
   background-color: $light_gray;
   border-radius: $box_radius;
-  margin-bottom: 0.5em;
+  margin-bottom: 5px !important;
+  cursor: pointer;
 
   &:last-child {
     margin-bottom: 0;

@@ -1,4 +1,5 @@
-import { useState } from "react";
+import jwt_decode from "jwt-decode";
+import { useEffect, useState } from "react";
 import Navbar from "../Components/Navbar/navbar";
 import About from "../Pages/About/about";
 import Contact from "../Pages/Contact/contact";
@@ -28,12 +29,32 @@ import {
   Navigate,
   Outlet,
 } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { userLogout } from "../redux/apiCalls";
+import ModelsForms from "../UI/Model/Models-Acct/Kyc-Section/Models-Kyc-Forms";
 
 export const BaseRoutes = () => {
   const [showNavbar, setShowNavbar] = useState(true);
   const user = useSelector((state) => state.user.currentUser);
-  // console.log(user);
+  const dispatch = useDispatch();
+
+  // automatically logout a user when session expires
+  const handleLogout = () => {
+    userLogout(dispatch);
+  };
+
+  useEffect(() => {
+    if (user) {
+      const token = user.accessToken;
+      if (token) {
+        const decodedToken = jwt_decode(token);
+        if (decodedToken.exp * 1000 < new Date().getTime()) {
+          handleLogout();
+          return alert("Session expired! kindly login again to continue");
+        }
+      }
+    }
+  });
 
   const ProtectedRoute = ({ children }) => {
     if (!user) {
@@ -126,6 +147,10 @@ export const BaseRoutes = () => {
               path: "dashboard",
               element: <ModelDashboard />,
             },
+            // {
+            //   path: "profile",
+            //   element: <ModelsForms />,
+            // },
             {
               path: "mywallet",
               element: <MyWallet />,
@@ -197,7 +222,19 @@ export const BaseRoutes = () => {
     },
     {
       path: "login",
-      element: !user ? <LoginForm /> : <Navigate to={user?.role === "agency" ? "/agencypage" : user?.role === "model" ? "/modelpage" : "/clientpage"} />,
+      element: !user ? (
+        <LoginForm />
+      ) : (
+        <Navigate
+          to={
+            user?.role === "agency"
+              ? "/agencypage"
+              : user?.role === "model"
+              ? "/modelpage"
+              : "/clientpage"
+          }
+        />
+      ),
     },
   ]);
 

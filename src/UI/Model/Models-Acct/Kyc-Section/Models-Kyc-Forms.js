@@ -1,72 +1,51 @@
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import ModelsKycForm1 from "./Models-Kyc-Form-1";
 import ModelsKycForm2 from "./Models-Kyc-Form-2";
 import ModelsKycForm3 from "./Models-Kyc-Form-3";
 
 import "./Models-Kyc-Forms.css";
 
-function ModelsForms({ DomItems, userData, accountId, handleModal }) {
+function ModelsForms() {
   const [activeForm, setActiveForm] = useState(1);
-  const [form1Data, setForm1Data] = useState({
-    profilePic: "",
-    firstName: "",
-    lastName: "",
-    userName: "",
-    gender: "",
-    agency: "",
-    state: "",
-    country: "",
-    bio: "",
-  });
-  const [form2Data, setForm2Data] = useState({
-    stats: {
-      height: "",
-      waist: "",
-      bust: "",
-      chest: "",
-      hip: "",
-      shoulder: "",
-      eyes: "",
-      size: "",
-      shoe: "",
-      tattoos: "",
-      agency: "",
-      gender: "",
-      hairColor: "",
-      hairLength: "",
-      ethnicity: "",
-      skinColor: "",
-      language: "",
-      availableForTravel: "",
-    },
-    category: [],
-    jobInterest: [],
-    socialMedia: {
-      facebook: "",
-      twitter: "",
-      instagram: "",
-    },
-  });
+  const [inputs, setInputs] = useState({});
+  const [category, setCategory] = useState([]);
+  const [interestedJob, setInterestedJob] = useState([]);
 
-  const [form3Data, setForm3Data] = useState({
-    photos: {
-      photo1: "",
-      photo2: "",
-      photo3: "",
-      photo4: "",
-      photo5: "",
-      photo6: "",
+  const handleChange = useCallback((e) => {
+    setInputs((prev) => {
+      return { ...prev, [e.target.name]: e.target.value };
+    });
+  }, [setInputs]);
+
+  const handleCheckboxChange = useCallback(
+    (type) => {
+      type = "category";
+      setInputs((prev) => {
+        return { ...prev, [type]: category };
+      });
     },
-    polaroids: {
-      pola1: "",
-      pola2: "",
-      pola3: "",
-      pola4: "",
-      pola5: "",
-      pola6: "",
+    [category]
+  );
+  const handleCheckboxChange2 = useCallback(
+    (type) => {
+      type = "interestedJob";
+      setInputs((prev) => {
+        return { ...prev, [type]: interestedJob };
+      });
     },
-    compCard: "",
-  });
+    [interestedJob]
+  );
+
+  useEffect(() => {
+    if (category && category.length <= 2) {
+      handleCheckboxChange(category, "category");
+    }
+    if (interestedJob) {
+      handleCheckboxChange2(interestedJob, "interestedJob");
+    }
+  }, [category, interestedJob]);
+
+
 
   function handleNavigation(text) {
     if (text === "Next") {
@@ -80,93 +59,38 @@ function ModelsForms({ DomItems, userData, accountId, handleModal }) {
     }
   }
 
-  function collectData(formId, data) {
-    if (formId === 1) {
-      setForm1Data(data);
-    } else if (formId === 2) {
-      setForm2Data(data);
-    } else if (formId === 3) {
-      setForm3Data(data);
-      SubmitData(data);
 
-      setTimeout(() => {
-        handleModal("kyc");
-      }, 1500);
-    }
-  }
-
-  //  //getting models data
-  //  useEffect(() => {
-  //   axios
-  //     .get("http://localhost:3500/models")
-  //     .then((res) => console.log(res))
-  //     .catch((err) => console.log(err));
-  // }, []);
-
-  function SubmitData(form3Data) {
-    //converting the photo object in the form2Data into an array
-    //destructure photo object from form2Data
-    const { photo1, photo2, photo3, photo4, photo5, photo6 } = form3Data.photos;
-    const { pola1, pola2, pola3, pola4, pola5, pola6 } = form3Data.polaroids;
-
-    //creating a new array of photo
-    const newPhoto = [photo1, photo2, photo3, photo4, photo5, photo6];
-    const newPolaroid = [pola1, pola2, pola3, pola4, pola5, pola6];
-
-    //updating photo object in the form2Data
-    const newForm3 = {
-      ...form3Data,
-      photos: newPhoto,
-      polaroids: newPolaroid,
-    };
-
-    let data = userData[0];
-    let update = {
-      ...data,
-      profile: {
-        ...data.profile,
-        ...form1Data,
-        ...form2Data,
-        ...newForm3,
-      },
-    };
-
-    userData[0] = update;
-
-    console.log(userData);
-    console.log(form3Data);
-  }
 
   return (
-    <>
+    <div className="kyc">
       {activeForm === 1 && (
         <ModelsKycForm1
-          DomItems={DomItems}
-          collectData={collectData}
+          inputs={inputs}
           handleNavigation={handleNavigation}
-          form1Data={form1Data}
+          handleChange={handleChange}
+          setInputs={setInputs}
         />
       )}
       {activeForm === 2 && (
         <ModelsKycForm2
-          DomItems={DomItems}
-          gender={form1Data.gender}
-          collectData={collectData}
+          inputs={inputs}
           handleNavigation={handleNavigation}
-          handleModal={handleModal}
-          form2Data={form2Data}
+          handleChange={handleChange}
+          setCategory={setCategory}
+          category={category}
+          setInterestedJob={setInterestedJob}
+          interestedJob={interestedJob}
         />
       )}
       {activeForm === 3 && (
         <ModelsKycForm3
-          DomItems={DomItems}
-          collectData={collectData}
+          inputs={inputs}
           handleNavigation={handleNavigation}
-          handleModal={handleModal}
-          form3Data={form3Data}
+          handleChange={handleChange}
+          setInputs={setInputs}
         />
       )}
-    </>
+    </div>
   );
 }
 
