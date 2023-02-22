@@ -192,7 +192,7 @@ function Photos({ userData, handleModal, resetDiscard }) {
               className="file-input"
             />
 
-            {/* <span className="num-photo bold-text">{photo.length}/18 pics</span> */}
+            <span className="num-photo bold-text">{photo.length}/18 pics</span>
           </div>
           <ul className="set_photo-list">
             {photo?.map((item, index) =>
