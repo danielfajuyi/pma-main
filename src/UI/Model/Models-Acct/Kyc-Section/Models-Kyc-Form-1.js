@@ -11,7 +11,7 @@ function ModelsKycForm1({ handleNavigation, inputs, handleChange, setInputs }) {
 
   const [picture, setPicture] = useState(undefined);
   const [error, setError] = useState({
-    userName: inputs.userName,
+    username: inputs.username,
     gender: inputs.gender,
     state: inputs.state,
     country: inputs.country,
@@ -67,9 +67,9 @@ function ModelsKycForm1({ handleNavigation, inputs, handleChange, setInputs }) {
         ? setError((prev) => ({ ...prev, picture: errorText }))
         : setError((prev) => ({ ...prev, picture: "" }));
 
-      !inputs.userName
-        ? setError((prev) => ({ ...prev, userName: errorText }))
-        : setError((prev) => ({ ...prev, userName: "" }));
+      !inputs.username
+        ? setError((prev) => ({ ...prev, username: errorText }))
+        : setError((prev) => ({ ...prev, username: "" }));
 
       !inputs.gender
         ? setError((prev) => ({ ...prev, gender: errorText }))
@@ -99,7 +99,7 @@ function ModelsKycForm1({ handleNavigation, inputs, handleChange, setInputs }) {
     let err = false;
     if (
       picture === undefined ||
-      !inputs.userName ||
+      !inputs.username ||
       !inputs.gender ||
       !inputs.state ||
       !inputs.country ||
