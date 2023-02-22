@@ -39,8 +39,8 @@ function ModelsKycForm2({
     skinColor: inputs.skinColor,
     language: inputs.language,
     availableForTravel: inputs.availableForTravel,
-    facebook: inputs.facebook,
-    twitter: inputs.twitter,
+    // facebook: inputs.facebook,
+    // twitter: inputs.twitter,
     instagram: inputs.instagram,
   });
 
@@ -49,10 +49,6 @@ function ModelsKycForm2({
     function handleError() {
       let errorText = "This detail is required.!";
       let socialErr = "You social-media link is required.!";
-
-      !inputs.height
-        ? setError((prev) => ({ ...prev, height: errorText }))
-        : setError((prev) => ({ ...prev, height: "" }));
 
       !inputs.waist
         ? setError((prev) => ({ ...prev, waist: errorText }))
@@ -102,19 +98,23 @@ function ModelsKycForm2({
         ? setError((prev) => ({ ...prev, availableForTravel: errorText }))
         : setError((prev) => ({ ...prev, availableForTravel: "" }));
 
-      !inputs.facebook
-        ? setError((prev) => ({ ...prev, facebook: socialErr }))
-        : setError((prev) => ({ ...prev, facebook: "" }));
+      // !inputs.facebook
+      //   ? setError((prev) => ({ ...prev, facebook: socialErr }))
+      //   : setError((prev) => ({ ...prev, facebook: "" }));
 
-      !inputs.twitter
-        ? setError((prev) => ({ ...prev, twitter: socialErr }))
-        : setError((prev) => ({ ...prev, twitter: "" }));
+      // !inputs.twitter
+      //   ? setError((prev) => ({ ...prev, twitter: socialErr }))
+      //   : setError((prev) => ({ ...prev, twitter: "" }));
 
       !inputs.instagram
         ? setError((prev) => ({ ...prev, instagram: socialErr }))
         : setError((prev) => ({ ...prev, instagram: "" }));
 
       if (inputs.gender === "m") {
+        !inputs.height
+          ? setError((prev) => ({ ...prev, height: errorText }))
+          : setError((prev) => ({ ...prev, height: "" }));
+
         !inputs?.chest
           ? setError((prev) => ({ ...prev, chest: errorText }))
           : setError((prev) => ({ ...prev, chest: "" }));
@@ -141,11 +141,10 @@ function ModelsKycForm2({
     let err = false;
 
     if (
-      !inputs.height ||
       !inputs.waist ||
       !inputs.eyes ||
-      inputs.size === "" ||
-      inputs.shoe === "" ||
+      !inputs.size ||
+      !inputs.shoe ||
       !inputs.tattoos ||
       !inputs.agency ||
       !inputs.hairColor ||
@@ -154,12 +153,12 @@ function ModelsKycForm2({
       !inputs.skinColor ||
       !inputs.language ||
       !inputs.availableForTravel ||
-      !inputs.facebook ||
-      inputs.twitter === "" ||
+      // !inputs.facebook ||
+      // !inputs.twitter ||
       !inputs.instagram
     ) {
       err = true;
-      if (!inputs?.chest || !inputs?.shoulder) {
+      if (!inputs?.height || !inputs?.chest || !inputs?.shoulder) {
         inputs.gender === "m" && (err = true);
       } else if (!inputs?.bust || !inputs?.hip) {
         err = true;
@@ -167,6 +166,7 @@ function ModelsKycForm2({
     }
     !user.isUpdated && setIsError(err);
   }, [error, inputs, user]);
+  console.log(error)
 
   //submit and go to the next page
   function handleSubmit(text) {
