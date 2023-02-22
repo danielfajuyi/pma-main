@@ -32,6 +32,7 @@ function ModelsKycForm2({
     size: inputs.size,
     shoe: inputs.shoe,
     tattoos: inputs.tattoos,
+    agency: inputs.agency,
     hairColor: inputs.hairColor,
     hairLength: inputs.hairLength,
     ethnicity: inputs.ethnicity,
@@ -73,9 +74,9 @@ function ModelsKycForm2({
         ? setError((prev) => ({ ...prev, tattoos: errorText }))
         : setError((prev) => ({ ...prev, tattoos: "" }));
 
-      // !inputs.agency
-      //   ? setError((prev) => ({ ...prev, agency: errorText }))
-      //   : setError((prev) => ({ ...prev, agency: "" }));
+      !inputs.agency
+        ? setError((prev) => ({ ...prev, agency: errorText }))
+        : setError((prev) => ({ ...prev, agency: "" }));
 
       !inputs.hairColor
         ? setError((prev) => ({ ...prev, hairColor: errorText }))
@@ -146,6 +147,7 @@ function ModelsKycForm2({
       inputs.size === "" ||
       inputs.shoe === "" ||
       !inputs.tattoos ||
+      !inputs.agency ||
       !inputs.hairColor ||
       !inputs.hairLength ||
       !inputs.ethnicity ||
