@@ -32,6 +32,8 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { userLogout } from "../redux/apiCalls";
 import ModelsForms from "../UI/Model/Models-Acct/Kyc-Section/Models-Kyc-Forms";
+import ProfilePage from "../Pages/FindModel/Models-Profile-page/Profile-Page";
+import ModelPortfolio from "../UI/Model/ModelPortfolio/ModelPortfolio";
 
 export const BaseRoutes = () => {
   const [showNavbar, setShowNavbar] = useState(true);
@@ -92,8 +94,13 @@ export const BaseRoutes = () => {
           element: <Contact />,
         },
         {
-          path: "find-model",
+          path: "find-model/",
           element: <FindModel />,
+         
+        },
+        {
+          path:"find-model/profile/:id",
+          element: <ProfilePage />
         },
         {
           path: "faqs",
@@ -147,10 +154,10 @@ export const BaseRoutes = () => {
               path: "dashboard",
               element: <ModelDashboard />,
             },
-            // {
-            //   path: "profile",
-            //   element: <ModelsForms />,
-            // },
+            {
+              path: "profile",
+              element: <ModelPortfolio />,
+            },
             {
               path: "mywallet",
               element: <MyWallet />,

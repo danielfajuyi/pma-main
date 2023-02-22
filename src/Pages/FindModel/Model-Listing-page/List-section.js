@@ -20,10 +20,10 @@ function List({ data, handleProfile, currentPage }) {
       <ul className="main__list modelportfolio__container">
         {pageRange().map((item) => (
           <ListItem
-            key={item.id}
-            img={item.image}
-            firstName={item.firstName}
-            secondName={item.secondName}
+            key={item._id}
+            uuid={item.uuid}
+            img={item.picture}
+            fullName={item.fullName}
             firstCategory={item.category[0]}
             secondCategory={item.category[1]}
             state={item.state}

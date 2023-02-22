@@ -1,133 +1,86 @@
-import { useEffect, useState } from "react";
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import { useCallback, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { storage } from "../../../../firebase";
+import { AlertModal } from "../../../../Pages/LoginSignup/Sign-Up/signUpForm/Modal";
+import { update } from "../../../../redux/apiCalls";
+import { info } from "../utils";
 import "./About.css";
 import EditBtn from "./Edit-btn";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-function BasicInfo({
-  DomItems,
-  handleActiveEdit,
-  activeEdit,
-  userData,
-  resetDiscard,
-  handleModal,
-}) {
-  const { info } = DomItems[0];
+function BasicInfo({ handleActiveEdit, activeEdit, resetDiscard }) {
+  const user = useSelector((state) => state.user.currentUser);
+  const { isFetching } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
-  //data state
-  const [data, setData] = useState(userData[0].profile);
+  const [inputs, setInputs] = useState({});
+  const [progress, setProgress] = useState(0);
+  const [picture, setPicture] = useState(undefined);
+  const [message, setMessage] = useState("");
+  const [modalTxt, setModalTxt] = useState("");
 
-  //State Error
-  const [error, setError] = useState({
-    firstName: "",
-    lastName: "",
-    userName: "",
-    gender: "",
-    state: "",
-    country: "",
-    bio: "",
-  });
+  const uploadFile = (file, urlType) => {
+    const fileName = new Date().getTime() + file.name;
+    const storageRef = ref(storage, `/models/${fileName}`);
+    const uploadTask = uploadBytesResumable(storageRef, file);
 
-  const [isError, setIsError] = useState(false);
-
-  //handling changes
-  function handleChange(e) {
-    const { name, value, files } = e.target;
-
-    if (name === "profilePic") {
-      const img = URL.createObjectURL(files[0]);
-      setData((prevData) => ({ ...prevData, [name]: img }));
-    } else {
-      setData((prevData) => ({ ...prevData, [name]: value }));
-    }
-  }
-
-  //setting error messages
-  useEffect(() => {
-    function handleError() {
-      let errorText = "Please Fill out this field";
-
-      data.firstName === ""
-        ? setError((prev) => ({ ...prev, firstName: errorText }))
-        : setError((prev) => ({ ...prev, firstName: "" }));
-
-      data.lastName === ""
-        ? setError((prev) => ({ ...prev, lastName: errorText }))
-        : setError((prev) => ({ ...prev, lastName: "" }));
-
-      data.userName === ""
-        ? setError((prev) => ({ ...prev, userName: errorText }))
-        : setError((prev) => ({ ...prev, userName: "" }));
-
-      data.gender === ""
-        ? setError((prev) => ({ ...prev, gender: errorText }))
-        : setError((prev) => ({ ...prev, gender: "" }));
-
-      data.state === ""
-        ? setError((prev) => ({ ...prev, state: errorText }))
-        : setError((prev) => ({ ...prev, state: "" }));
-
-      data.country === ""
-        ? setError((prev) => ({ ...prev, country: errorText }))
-        : setError((prev) => ({ ...prev, country: "" }));
-
-      data.bio === ""
-        ? setError((prev) => ({ ...prev, bio: errorText }))
-        : setError((prev) => ({ ...prev, bio: "" }));
-    }
-
-    handleError();
-  }, [data]);
-
-  //checking for error message
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        urlType === "picture" && setProgress(Math.round(progress));
+        switch (snapshot.state) {
+          case "paused":
+            console.log("Upload is paused");
+            break;
+          case "running":
+            console.log("Upload is running");
+            break;
+          default:
+            break;
+        }
+      },
+      () => {},
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          setInputs((prev) => {
+            return { ...prev, [urlType]: downloadURL };
+          });
+        });
+      }
+    );
+  };
 
   useEffect(() => {
-    let err = false;
-    if (
-      error.profilePic ||
-      error.firstName ||
-      error.lastName ||
-      error.userName ||
-      error.gender ||
-      error.state ||
-      error.country ||
-      error.bio
-    ) {
-      err = true;
-    }
+    picture && uploadFile(picture, "picture");
+  }, [picture]);
 
-    setIsError(err);
-  }, [error]);
+  const handleChange = useCallback(
+    (e) => {
+      setInputs((prev) => {
+        return { ...prev, [e.target.name]: e.target.value };
+      });
+    },
+    [setInputs]
+  );
 
   //handle save
-  function handleSave(btn) {
-    let x = {
-      ...userData[0].profile,
-      profilePic: data.profilePic,
-      firstName: data.firstName,
-      lastName: data.lastName,
-      userName: data.userName,
-      gender: data.gender,
-      state: data.state,
-      country: data.country,
-      bio: data.bio,
-    };
-
-    if (btn === "save") {
-      console.log((userData[0].profile = x));
-      handleModal("save");
-    } else {
-      setData(userData[0].profile);
-      handleActiveEdit(activeEdit, "Done");
-      console.log(userData[0].profile);
-    }
-  }
+  const handleSave = () => {
+    update(dispatch, "/model/", { ...inputs }, setMessage);
+    setModalTxt("save");
+  };
 
   return (
     <form className="content-container" onSubmit={(e) => e.preventDefault()}>
       {/* profile detail section */}
-
       <div className="set_sections-container ">
-        {/* mobile text */}
+        <AlertModal modalTxt={modalTxt} setModalTxt={setModalTxt} />
+        <ToastContainer position="top-center" />
 
+        {/* mobile text */}
         <div className="set_mobile-text">
           <div className="set_sections-title-rapper">
             <h2 className="set_sections-title ">Profile Details</h2>
@@ -135,7 +88,6 @@ function BasicInfo({
               btnText={activeEdit === "profile-details" ? "Done" : "Edit"}
               section="profile-details"
               handleActiveEdit={handleActiveEdit}
-              isError={isError}
             />
           </div>
 
@@ -153,7 +105,7 @@ function BasicInfo({
 
           {activeEdit !== "profile-details" && (
             <div className="set_img-rapper">
-              <img src={data.profilePic} alt="" />
+              <img src={user?.picture} alt="" />
             </div>
           )}
 
@@ -168,13 +120,16 @@ function BasicInfo({
                 <i className="fa-solid fa-plus fa-2x"></i>
               </label>
               <input
-                onChange={handleChange}
+                onChange={(e) => setPicture(e.target.files[0])}
                 type="file"
-                name="profilePic"
+                name="picture"
                 id="set_profile-img"
                 className="file-input"
               />
-              <img src={data.profilePic} alt="" />
+              <img
+                src={picture ? URL.createObjectURL(picture) : user?.picture}
+                alt=""
+              />
             </div>
           )}
 
@@ -188,7 +143,6 @@ function BasicInfo({
                   btnText={activeEdit === "profile-details" ? "Done" : "Edit"}
                   section="profile-details"
                   handleActiveEdit={handleActiveEdit}
-                  isError={isError}
                 />
               </div>
 
@@ -202,7 +156,6 @@ function BasicInfo({
             </div>
 
             {/* profile edit section */}
-
             {activeEdit === "profile-details" && (
               <ul className="set1_info-section">
                 {info.map((item) => {
@@ -217,10 +170,8 @@ function BasicInfo({
                           id={item.id}
                           name={item.id}
                           placeholder={item.placeholder}
-                          value={data[item.id]}
                           required
                         />
-                        <p className="error-text"> {error[item.id]}</p>
                       </label>
                     </li>
                   );
@@ -232,28 +183,24 @@ function BasicInfo({
             {activeEdit !== "profile-details" && (
               <ul className="set1_info-text-container">
                 <li>
-                  <span className="bold-text">First Name: </span>
-                  {data.firstName}
-                </li>
-                <li>
-                  <span className="bold-text">Last Name: </span>
-                  {data.lastName}
+                  <span className="bold-text">Name: </span>
+                  {user?.model?.fullName}
                 </li>
                 <li>
                   <span className="bold-text">User Name: </span>
-                  {data.userName}
+                  {user?.username}
                 </li>
                 <li>
                   <span className="bold-text">Gender: </span>
-                  {data.gender}
+                  {user?.model?.gender === "m" ? "Male" : "Female"}
                 </li>
                 <li>
                   <span className="bold-text">Country: </span>
-                  {data.country}
+                  {user?.model?.country}
                 </li>
                 <li>
                   <span className="bold-text">State: </span>
-                  {data.state}
+                  {user?.model?.state}
                 </li>
               </ul>
             )}
@@ -270,7 +217,6 @@ function BasicInfo({
             btnText={activeEdit === "model-bio" ? "Done" : "Edit"}
             section="model-bio"
             handleActiveEdit={handleActiveEdit}
-            isError={isError}
           />
         </div>
 
@@ -301,21 +247,20 @@ function BasicInfo({
                 id="bio"
                 cols="30"
                 rows="10"
-                value={data.bio}
                 required
               ></textarea>
             </div>
-            <p className="error-text">{error.bio}</p>
           </div>
         )}
 
         {/* bio read only section  */}
 
-        {activeEdit !== "model-bio" && <p className="bio-text">{data.bio}</p>}
+        {activeEdit !== "model-bio" && (
+          <p className="bio-text">{user?.model?.bio}</p>
+        )}
       </div>
 
       {/* btn section  */}
-
       <section className="setting_btn-container">
         <button
           onClick={() => resetDiscard(() => handleSave)}
@@ -328,11 +273,12 @@ function BasicInfo({
             backgroundColor: activeEdit !== "Done" && "#bbbb",
           }}
           disabled={activeEdit !== "Done" && true}
-          onClick={() => handleSave("save")}
+          onClick={handleSave}
           className="save-btn  bold-text yes-btn"
         >
-          Save
+          {isFetching ? "Please wait..." : "Save"}
         </button>
+        <p className="error-text">{message}</p>
       </section>
     </form>
   );

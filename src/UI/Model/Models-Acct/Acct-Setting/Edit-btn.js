@@ -4,7 +4,6 @@ function EditBtn({
   handleActiveEdit,
   handlePassword,
   handleEmail,
-  isError,
 }) {
   function handleClick() {
     handleActiveEdit(section, btnText);
@@ -15,7 +14,6 @@ function EditBtn({
 
   return (
     <button
-      disabled={isError && true}
       onClick={handleClick}
       className="edit-btn colored-hover"
       type="button"

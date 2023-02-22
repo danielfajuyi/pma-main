@@ -8,9 +8,12 @@ import { AlertModal } from "../../../../Pages/LoginSignup/Sign-Up/signUpForm/Mod
 import { storage } from "../../../../firebase";
 import { useDispatch, useSelector } from "react-redux";
 import { update } from "../../../../redux/apiCalls";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function ModelsKycForm3({ handleNavigation, inputs, setInputs }) {
   const { isFetching } = useSelector((state) => state.user);
+  const user = useSelector((state) => state.user.currentUser);
   const dispatch = useDispatch();
 
   const [photos, setPhotos] = useState([]);
@@ -94,7 +97,7 @@ function ModelsKycForm3({ handleNavigation, inputs, setInputs }) {
         return { ...prev, [urlType]: photos };
       });
       if (photo) {
-        uploadFile(photos, "photos");
+        uploadFile(photo, "photos");
         setPhoto(undefined);
       }
     };
@@ -106,7 +109,7 @@ function ModelsKycForm3({ handleNavigation, inputs, setInputs }) {
         return { ...prev, [urlType]: polaroids };
       });
       if (polaroid) {
-        uploadFile(polaroids, "polaroids");
+        uploadFile(polaroid, "polaroids");
         setPolaroid(undefined);
       }
     };
@@ -131,22 +134,23 @@ function ModelsKycForm3({ handleNavigation, inputs, setInputs }) {
       err = false;
     }
 
-    setIsError(err);
-  }, [inputs, photos.length]);
+    !user.isUpdated && setIsError(err);
+  }, [inputs, photos, user]);
 
   //handling submit
   function handleSubmit(text) {
     if (photos.length < 6) {
       setModalTxt("add-photo");
     } else {
-      update(dispatch, "/model/", { ...inputs });
-      setModalTxt("save");
+      update(dispatch, "/model/", { ...inputs }, setModalTxt);
+     
     }
   }
 
   return (
     <form className="kyc-form" onSubmit={(e) => e.preventDefault()}>
       <AlertModal modalTxt={modalTxt} setModalTxt={setModalTxt} />
+      <ToastContainer position="top-center" />
       <section className="kyc-hero">
         <img src="/images/kyc (3).jpg" alt="" />
         <div className="kyc-hero__text-rapper">

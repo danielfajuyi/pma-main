@@ -6,9 +6,10 @@ import Stats from "./Stats";
 import Photos from "./Photos";
 import Videos from "./Videos";
 import { useState } from "react";
+import { navList1, navList2 } from "../utils";
 
-function AcctSetting({ DomItems, handleModal, userData }) {
-  const { navList1, navList2 } = DomItems[0];
+function AcctSetting({  handleModal, userData }) {
+  // const { navList1, navList2 } = DomItems[0];
   const [activeSet, setActiveSet] = useState("about");
   const [toggleSetMenu, setToggleSetMenu] = useState(false);
   const [activeEdit, setActiveEdit] = useState("");
@@ -169,7 +170,7 @@ function AcctSetting({ DomItems, handleModal, userData }) {
 
           {activeSet === "about" && (
             <About
-              DomItems={DomItems}
+              // DomItems={DomItems}
               handleActiveEdit={handleActiveEdit}
               activeEdit={activeEdit}
               userData={userData}
@@ -182,7 +183,7 @@ function AcctSetting({ DomItems, handleModal, userData }) {
 
           {activeSet === "stats" && (
             <Stats
-              DomItems={DomItems}
+              // DomItems={DomItems}
               handleActiveEdit={handleActiveEdit}
               activeEdit={activeEdit}
               userData={userData}

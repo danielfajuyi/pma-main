@@ -4,8 +4,11 @@ import FormNavBtn from "./Form-nav-btn";
 import { useEffect, useState } from "react";
 import { info } from "../utils";
 import { storage } from "../../../../firebase";
+import { useSelector } from "react-redux";
 
 function ModelsKycForm1({ handleNavigation, inputs, handleChange, setInputs }) {
+  const user = useSelector((state) => state.user.currentUser);
+
   const [picture, setPicture] = useState(undefined);
   const [error, setError] = useState({
     userName: inputs.userName,
@@ -105,7 +108,7 @@ function ModelsKycForm1({ handleNavigation, inputs, handleChange, setInputs }) {
       err = true;
     }
 
-    setIsError(err);
+    !user.isUpdated && setIsError(err);
   }, [error, inputs, picture]);
 
   //submit and go to the next page
@@ -147,7 +150,7 @@ function ModelsKycForm1({ handleNavigation, inputs, handleChange, setInputs }) {
                   id="profile-img"
                   className="file-input"
                 />{" "}
-                {!picture && (
+                {!picture && !user.isUpdated && (
                   <p className="error-text" style={{ zIndex: 1 }}>
                     This detail is required!
                   </p>
@@ -193,6 +196,7 @@ function ModelsKycForm1({ handleNavigation, inputs, handleChange, setInputs }) {
                               type={item.type}
                               id={item.id}
                               name={item.id}
+                              // defaultValue={user === item.id}
                               placeholder={item.placeholder}
                               required
                             />
@@ -205,8 +209,8 @@ function ModelsKycForm1({ handleNavigation, inputs, handleChange, setInputs }) {
                               name={item.id}
                             >
                               <option value="">Select your gender</option>
-                              <option value="m">M</option>
-                              <option value="f">F</option>
+                              <option value="m">Male</option>
+                              <option value="f">Female</option>
                             </select>
                           )}
                           {showError && (

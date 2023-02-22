@@ -8,14 +8,36 @@ import ModelVideo from "./Model-Video";
 import ModelPolaroid from "./Model-Polaroid";
 import BookingForm from "./BookingForm";
 import { useState, useEffect } from "react";
+import { makeGet } from "../../../redux/apiCalls";
+import { useLocation } from "react-router";
+import { useDispatch } from "react-redux";
 
 function ProfilePage({ item, postMsg }) {
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const path = location.pathname.split("/")[3];
+
   const [activeSection, setActiveSection] = useState("Photos");
   const [toggleForm, setToggleForm] = useState(false);
   const [displayLimit, setDisplayLimit] = useState("");
   const [deviceSize, setDeviceSize] = useState(window.innerWidth);
   const [activeDisplay, setActiveDisplay] = useState("");
   const [viewAll, setViewAll] = useState(false);
+  const [message, setMessage] = useState("");
+
+  useEffect(() => {
+    let unsubscribed = false;
+    if (!unsubscribed) {
+      const fetchData = () => {
+        makeGet(dispatch, `/model/${path}`, setMessage);
+      };
+      fetchData();
+    }
+    return () => {
+      unsubscribed = true;
+    };
+  }, [path, dispatch]);
+  // console.log(message);
 
   // setting device size
   function handleResize() {
@@ -50,22 +72,22 @@ function ProfilePage({ item, postMsg }) {
 
   return (
     <>
-      <ModelInfo item={item} handleForm={handleForm} />
+      <ModelInfo item={message} handleForm={handleForm} />
       <Links handleSection={handleSection} activeSection={activeSection} />
       {activeSection === "Photos" && (
         <ModelPhoto
-          photos={item.photos}
+          photos={message.model?.photos}
           activeDisplay={activeDisplay}
           displayLimit={displayLimit}
           handleDisplay={handleDisplay}
           viewAll={viewAll}
         />
       )}
-      {activeSection === "Stats" && <ModelStats item={item} />}
-      {activeSection === "Bio" && <ModelBio item={item} />}
+      {activeSection === "Stats" && <ModelStats item={message} />}
+      {activeSection === "Bio" && <ModelBio item={message} />}
       {activeSection === "Videos" && (
         <ModelVideo
-          videos={item.videos}
+          videos={message.model?.videos}
           activeDisplay={activeDisplay}
           displayLimit={displayLimit}
           handleDisplay={handleDisplay}
@@ -74,7 +96,7 @@ function ProfilePage({ item, postMsg }) {
       )}
       {activeSection === "Polaroids" && (
         <ModelPolaroid
-          polaroids={item.polaroids}
+          polaroids={message.model?.polaroids}
           activeDisplay={activeDisplay}
           displayLimit={displayLimit}
           handleDisplay={handleDisplay}
@@ -84,7 +106,7 @@ function ProfilePage({ item, postMsg }) {
       <BookingForm
         handleForm={handleForm}
         toggleForm={toggleForm}
-        profileId={item.id}
+        profileId={message?._id}
         postMsg={postMsg}
       />
       <div className="profile-footer">

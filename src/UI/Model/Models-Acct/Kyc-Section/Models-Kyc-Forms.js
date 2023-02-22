@@ -11,11 +11,14 @@ function ModelsForms() {
   const [category, setCategory] = useState([]);
   const [interestedJob, setInterestedJob] = useState([]);
 
-  const handleChange = useCallback((e) => {
-    setInputs((prev) => {
-      return { ...prev, [e.target.name]: e.target.value };
-    });
-  }, [setInputs]);
+  const handleChange = useCallback(
+    (e) => {
+      setInputs((prev) => {
+        return { ...prev, [e.target.name]: e.target.value };
+      });
+    },
+    [setInputs]
+  );
 
   const handleCheckboxChange = useCallback(
     (type) => {
@@ -45,8 +48,6 @@ function ModelsForms() {
     }
   }, [category, interestedJob]);
 
-
-
   function handleNavigation(text) {
     if (text === "Next") {
       setActiveForm((prevForm) => prevForm + 1);
@@ -58,8 +59,6 @@ function ModelsForms() {
       }, 1500);
     }
   }
-
-
 
   return (
     <div className="kyc">

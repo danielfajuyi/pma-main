@@ -13,7 +13,7 @@ export const info = [
   //   },
   {
     type: "text",
-    id: "userName",
+    id: "username",
     placeholder: "User Name...",
     label: "User Name",
   },
@@ -128,12 +128,12 @@ export const statsInput = [
     placeholder: "language...",
     label: "Language",
   },
-  // {
-  //   type: "text",
-  //   id: "agency",
-  //   placeholder: "Agency Name...",
-  //   label: "Agency",
-  // },
+  {
+    type: "text",
+    id: "agency",
+    placeholder: "Agency Name...",
+    label: "Agency",
+  },
   {
     type: "text",
     id: "availableForTravel",
@@ -306,24 +306,24 @@ export const jobsInput = [
 ];
 
 export const SocialMedia = [
-  {
-    type: "text",
-    id: "facebook",
-    placeholder: "Facebook...",
-    label: "Facebook",
-  },
+  // {
+  //   type: "text",
+  //   id: "facebook",
+  //   placeholder: "Facebook...",
+  //   label: "Facebook",
+  // },
   {
     type: "text",
     id: "instagram",
     placeholder: "Ig handle...",
     label: "Instagram",
   },
-  {
-    type: "text",
-    id: "twitter",
-    placeholder: "Twitter...",
-    label: "Twitter",
-  },
+  // {
+  //   type: "text",
+  //   id: "twitter",
+  //   placeholder: "Twitter...",
+  //   label: "Twitter",
+  // },
 ];
 
 export const Photo = [
@@ -367,3 +367,6 @@ export const Polaroid = [
     id: "pola6",
   },
 ];
+
+export const navList1 = ["about", "stats", "photos", "videos"];
+export const navList2 = ["email/pass", "payment", "dash board"];
