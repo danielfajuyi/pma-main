@@ -216,16 +216,44 @@ function ModelsKycForm2({
                               )}
                             </span>
 
-                            <input
-                              onChange={handleChange}
-                              className="kyc-input-field"
-                              type={item.type}
-                              id={item.id}
-                              name={item.id}
-                              placeholder={item.placeholder}
-                              required
-                              spellCheck={false}
-                            />
+                            {item.id !== "availableForTravel" &&
+                              item.id !== "tattoos" && (
+                                <input
+                                  onChange={handleChange}
+                                  className="kyc-input-field"
+                                  type={item.type}
+                                  id={item.id}
+                                  name={item.id}
+                                  placeholder={item.placeholder}
+                                  required
+                                  spellCheck={false}
+                                />
+                              )}
+
+                            {item.id === "availableForTravel" && (
+                              <select
+                                onChange={handleChange}
+                                className="kyc-input-field"
+                                id={item.id}
+                                name={item.id}
+                              >
+                                <option value="">Select option...</option>
+                                <option value="true">Yes</option>
+                                <option value="false">No</option>
+                              </select>
+                            )}
+                            {item.id === "tattoos" && (
+                              <select
+                                onChange={handleChange}
+                                className="kyc-input-field"
+                                id={item.id}
+                                name={item.id}
+                              >
+                                <option value="">Select option...</option>
+                                <option value="true">Yes</option>
+                                <option value="false">No</option>
+                              </select>
+                            )}
 
                             {showError && (
                               <p className="error-text">
