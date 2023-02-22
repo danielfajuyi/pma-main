@@ -29,7 +29,7 @@
 
 .model-Info__text-content {
   position: relative;
-  width: 60%;
+  width: 60% !important;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -249,7 +249,7 @@
 .videoList,
 .imgList {
   display: flex;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   flex-wrap: wrap;
   row-gap: 1.2rem;
   align-items: center;

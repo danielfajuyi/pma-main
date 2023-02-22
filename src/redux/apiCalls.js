@@ -36,16 +36,16 @@ export const loginRegister = async (
   }
 };
 
-export const update = async (dispatch, url, user) => {
+export const update = async (dispatch, url, user, setMessage, setModalTxt) => {
   dispatch(updateStart());
   try {
     const res = await userRequest.put(url, user);
     dispatch(updateSuccess(res.data));
-    console.log(res.data)
+    setModalTxt("save");
     return toast.success("Data updated successfully, kindly referesh.");
   } catch (err) {
     dispatch(updateFailure());
-    return toast.error(err.response.data);
+    return setMessage(err.response.data);
   }
 };
 
@@ -88,7 +88,7 @@ export const makeGet = async (dispatch, url, setMessage) => {
     // console.log(res.data);
   } catch (err) {
     dispatch(processFailure());
-    return setMessage(err.response.data);
+    return toast.error(err.response.data);
   }
 };
 

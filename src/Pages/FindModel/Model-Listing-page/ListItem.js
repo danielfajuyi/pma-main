@@ -5,26 +5,28 @@ import { MdLocationPin } from "react-icons/md";
 
 function ListItem({
   img,
-  firstName,
-  secondName,
+  fullName,
   firstCategory,
   secondCategory,
   agency,
   state,
   country,
   handleProfile,
+  uuid,
 }) {
   return (
     <li className=" modelportfolio__wrapper">
       <div className=" modelportfolio__imgwrapper ">
-        <img className="model__imgs" src={img} alt="./model-img" />
+        <img
+          className="model__imgs"
+          src={img ? img : "/images/avatar2.png"}
+          alt="./model-img"
+        />
       </div>
 
       <div className="modelportfolio__textwrapper">
         <div className="text1 model__namewrap">
-          <span className="model__names">
-            {firstName} {secondName}
-          </span>
+          <span className="model__names">{fullName}</span>
           <BsPatchCheckFill />
         </div>
 
@@ -73,7 +75,7 @@ function ListItem({
             type="button"
             className="viewprofile__btn shadow-fit"
           >
-            <Link to="/find-model/profile">View Portfolio</Link>
+            <Link to={`/find-model/profile/${uuid}`}>View Portfolio</Link>
           </button>
         </div>
       </div>

@@ -2,11 +2,11 @@ import { useState } from "react";
 import "./Photos.css";
 
 function Photos({ userData, handleModal, resetDiscard }) {
-  const { photos, polaroids, compCard } = userData[0].profile;
+  // const { photos, polaroids, compCard } = userData[0].profile;
 
-  const [photo, setPhoto] = useState(photos);
-  const [polaroid, setPolaroid] = useState(polaroids);
-  const [card, setCard] = useState(compCard);
+  const [photo, setPhoto] = useState([]);
+  const [polaroid, setPolaroid] = useState([]);
+  const [card, setCard] = useState();
   const [viewAll, setViewAll] = useState({ photo: false, polaroid: false });
 
   const [image, setImage] = useState("");
@@ -102,22 +102,22 @@ function Photos({ userData, handleModal, resetDiscard }) {
 
   //handle save
   function handleSave(btn) {
-    let x = {
-      ...userData[0].profile,
-      photos: photo,
-      polaroids: polaroid,
-      compCard: card,
-    };
+    // let x = {
+    //   ...userData[0].profile,
+    //   photos: photo,
+    //   polaroids: polaroid,
+    //   compCard: card,
+    // };
 
-    if (btn === "save") {
-      console.log((userData[0].profile = x));
-      handleModal("save");
-    } else {
-      setPhoto(photos);
-      setPolaroid(polaroids);
-      setCard(compCard);
-      console.log(userData[0].profile);
-    }
+    // if (btn === "save") {
+    //   console.log((userData[0].profile = x));
+    //   handleModal("save");
+    // } else {
+    //   setPhoto();
+    //   setPolaroid();
+    //   setCard();
+    //   console.log();
+    // }
   }
 
   return (
@@ -195,7 +195,7 @@ function Photos({ userData, handleModal, resetDiscard }) {
             <span className="num-photo bold-text">{photo.length}/18 pics</span>
           </div>
           <ul className="set_photo-list">
-            {photo.map((item, index) =>
+            {photo?.map((item, index) =>
               viewAll.photo ? (
                 <li className="set_photo-item on-hover" key={index}>
                   <img src={item} alt="" />
@@ -270,10 +270,10 @@ function Photos({ userData, handleModal, resetDiscard }) {
               className="file-input"
             />
 
-            <span className="bold-text">{polaroid.length}/18 pics</span>
+            <span className="bold-text">{polaroid?.length}/18 pics</span>
           </div>
           <ul className="set_polaroid-list">
-            {polaroid.map((item, index) =>
+            {polaroid?.map((item, index) =>
               viewAll.polaroid
                 ? item && (
                     <li className="set_polaroid-item on-hover" key={index}>

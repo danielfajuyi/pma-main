@@ -21,7 +21,7 @@ const ClientCard = (props) => {
 
   return (
     <div>
-      {message.map((item) => (
+      {message?.map((item) => (
         <div className="client_card" key={item._id}>
           <div className="profile_img">
             <img src={props.img} alt="client-img" />

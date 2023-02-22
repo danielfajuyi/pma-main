@@ -23,7 +23,7 @@ const JobCard = (props) => {
 
   return (
     <div>
-      {message.slice(0, 5).map((item) => (
+      {message?.slice(0, 5).map((item) => (
         <div className="job_card" key={item._id}>
           <div className="note">{item.title}</div>
 

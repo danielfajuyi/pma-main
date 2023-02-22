@@ -1,264 +1,74 @@
 import "./Stats.css";
 import EditBtn from "./Edit-btn";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useEffect } from "react";
+import { categoryInput, jobsInput, SocialMedia, statsInput } from "../utils";
+import { useDispatch, useSelector } from "react-redux";
+import { update } from "../../../../redux/apiCalls";
+import { AlertModal } from "../../../../Pages/LoginSignup/Sign-Up/signUpForm/Modal";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-function Stats({
-  DomItems,
-  handleActiveEdit,
-  activeEdit,
-  userData,
-  handleModal,
-  resetDiscard,
-}) {
-  const { statsInput, categoryInput, jobsInput, SocialMedia } = DomItems[0];
-  const [newStats, setNewStats] = useState([]);
-  const { stats, category, jobInterest, socialMedia, gender } =
-    userData[0].profile;
+function Stats({ handleActiveEdit, activeEdit, resetDiscard }) {
+  const user = useSelector((state) => state.user.currentUser);
+  const { isFetching } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
-  //data state
-  const [stat, setStat] = useState(stats);
-  const [social, setSocial] = useState(socialMedia);
-  const [cate, setCate] = useState(category);
-  const [job, setJob] = useState(jobInterest);
+  const [inputs, setInputs] = useState({});
+  const [category, setCategory] = useState(user?.model?.category);
+  const [interestedJob, setInterestedJob] = useState(
+    user?.model?.interestedJob
+  );
+  const [modalTxt, setModalTxt] = useState("");
+  const [message, setMessage] = useState("");
 
-  //error state
-  const [error, setError] = useState({
-    height: "",
-    waist: "",
-    bust: "",
-    chest: "",
-    hip: "",
-    shoulder: "",
-    eyes: "",
-    size: "",
-    shoe: "",
-    tattoos: "",
-    agency: "",
-    hairColor: "",
-    hairLength: "",
-    ethnicity: "",
-    skinColor: "",
-    language: "",
-    availableForTravel: "",
-    facebook: "",
-    twitter: "",
-    instagram: "",
-  });
+  const handleChange = useCallback(
+    (e) => {
+      setInputs((prev) => {
+        return { ...prev, [e.target.name]: e.target.value };
+      });
+    },
+    [setInputs]
+  );
 
-  const [isError, setIsError] = useState(false);
+  const handleCheckboxChange = useCallback(
+    (type) => {
+      type = "category";
+      setInputs((prev) => {
+        return { ...prev, [type]: category };
+      });
+    },
+    [category]
+  );
+  const handleCheckboxChange2 = useCallback(
+    (type) => {
+      type = "interestedJob";
+      setInputs((prev) => {
+        return { ...prev, [type]: interestedJob };
+      });
+    },
+    [interestedJob]
+  );
 
-  //handling text input
-  function handleChange(e) {
-    const { name, value } = e.target;
-
-    if (name === "facebook" || name === "twitter" || name === "instagram") {
-      setSocial((prevData) => ({ ...prevData, [name]: value }));
-    } else {
-      setStat((prevData) => ({ ...prevData, [name]: value }));
-    }
-  }
-
-  //validating check inputs
-  function handleCheck(e) {
-    const { name, value, checked } = e.target;
-
-    //validating category check input
-    if (name === "category") {
-      if (cate.length < 2) {
-        //unchecking input and removing them from the array
-
-        checked === false
-          ? setCate((prevVal) => prevVal.filter((item) => item !== value))
-          : //checking input and adding them to the array
-            setCate((prevVal) => [...prevVal, value]);
-      } else {
-        //unchecking input and removing them from the array
-
-        checked === false
-          ? setCate((prevVal) => prevVal.filter((item) => item !== value))
-          : //opening an alert modal
-            handleModal("category");
-      }
-
-      //validating job interest check input
-    } else if (name === "job-interest") {
-      checked === false
-        ? setJob((prevJob) => prevJob.filter((item) => item !== value))
-        : setJob((prevJob) => [...prevJob, value]);
-    }
-  }
-
-  //setting Error messages
   useEffect(() => {
-    function handleError() {
-      let errorText = "This detail is required.!";
-      let SocialErr = "Your social link is required.!";
-
-      stat.height === ""
-        ? setError((prev) => ({ ...prev, height: errorText }))
-        : setError((prev) => ({ ...prev, height: "" }));
-
-      stat.waist === ""
-        ? setError((prev) => ({ ...prev, waist: errorText }))
-        : setError((prev) => ({ ...prev, waist: "" }));
-
-      stat.eyes === ""
-        ? setError((prev) => ({ ...prev, eyes: errorText }))
-        : setError((prev) => ({ ...prev, eyes: "" }));
-
-      stat.size === ""
-        ? setError((prev) => ({ ...prev, size: errorText }))
-        : setError((prev) => ({ ...prev, size: "" }));
-
-      stat.shoe === ""
-        ? setError((prev) => ({ ...prev, shoe: errorText }))
-        : setError((prev) => ({ ...prev, shoe: "" }));
-
-      stat.tattoos === ""
-        ? setError((prev) => ({ ...prev, tattoos: errorText }))
-        : setError((prev) => ({ ...prev, tattoos: "" }));
-
-      stat.agency === ""
-        ? setError((prev) => ({ ...prev, agency: errorText }))
-        : setError((prev) => ({ ...prev, agency: "" }));
-
-      stat.hairColor === ""
-        ? setError((prev) => ({ ...prev, hairColor: errorText }))
-        : setError((prev) => ({ ...prev, hairColor: "" }));
-
-      stat.hairLength === ""
-        ? setError((prev) => ({ ...prev, hairLength: errorText }))
-        : setError((prev) => ({ ...prev, hairLength: "" }));
-
-      stat.ethnicity === ""
-        ? setError((prev) => ({ ...prev, ethnicity: errorText }))
-        : setError((prev) => ({ ...prev, ethnicity: "" }));
-
-      stat.skinColor === ""
-        ? setError((prev) => ({ ...prev, skinColor: errorText }))
-        : setError((prev) => ({ ...prev, skinColor: "" }));
-
-      stat.language === ""
-        ? setError((prev) => ({ ...prev, language: errorText }))
-        : setError((prev) => ({ ...prev, language: "" }));
-
-      stat.availableForTravel === ""
-        ? setError((prev) => ({ ...prev, availableForTravel: errorText }))
-        : setError((prev) => ({ ...prev, availableForTravel: "" }));
-
-      social.facebook === ""
-        ? setError((prev) => ({ ...prev, facebook: SocialErr }))
-        : setError((prev) => ({ ...prev, facebook: "" }));
-
-      social.twitter === ""
-        ? setError((prev) => ({ ...prev, twitter: SocialErr }))
-        : setError((prev) => ({ ...prev, twitter: "" }));
-
-      social.instagram === ""
-        ? setError((prev) => ({ ...prev, instagram: SocialErr }))
-        : setError((prev) => ({ ...prev, instagram: "" }));
-
-      if (gender === "female") {
-        stat.hip === ""
-          ? setError((prev) => ({ ...prev, hip: errorText }))
-          : setError((prev) => ({ ...prev, hip: "" }));
-
-        stat.bust === ""
-          ? setError((prev) => ({ ...prev, bust: errorText }))
-          : setError((prev) => ({ ...prev, bust: "" }));
-      } else if (gender === "male") {
-        stat.chest === ""
-          ? setError((prev) => ({ ...prev, chest: errorText }))
-          : setError((prev) => ({ ...prev, chest: "" }));
-
-        stat.shoulder === ""
-          ? setError((prev) => ({ ...prev, shoulder: errorText }))
-          : setError((prev) => ({ ...prev, shoulder: "" }));
-      }
+    if (category && category.length <= 2) {
+      handleCheckboxChange(category, "category");
     }
-
-    handleError();
-  }, [stat, social, gender]);
-
-  //checking for an error
-  useEffect(() => {
-    let err = false;
-
-    if (
-      error.height ||
-      error.waist ||
-      error.eyes ||
-      error.size ||
-      error.shoe ||
-      error.tattoos ||
-      error.agency ||
-      error.hairColor ||
-      error.hairLength ||
-      error.ethnicity ||
-      error.skinColor ||
-      error.language ||
-      error.travel ||
-      error.facebook ||
-      error.twitter ||
-      error.instagram
-    ) {
-      err = true;
-    } else if (error.bust || error.hip) {
-      gender === "female" && (err = true);
-    } else if (error.chest || error.shoulder) {
-      gender === "male" && (err = true);
+    if (interestedJob) {
+      handleCheckboxChange2(interestedJob, "interestedJob");
     }
-
-    if (cate.length === 0) {
-      handleModal("category");
-      err = true;
-    } else if (job.length === 0) {
-      handleModal("job");
-      err = true;
-    }
-    setIsError(err);
-  }, [error, gender, cate, job]);
-
-  //checking for gender
-  useEffect(() => {
-    setNewStats(
-      statsInput.filter((item) =>
-        gender.toLowerCase() === "male"
-          ? item.id !== "bust" && item.id !== "hip"
-          : gender.toLowerCase() === "female"
-          ? item.id !== "chest" && item.id !== "shoulder"
-          : null
-      )
-    );
-  }, [statsInput, gender]);
+  }, [category, interestedJob]);
 
   //handle save
-  function handleSave(btn) {
-    let x = {
-      ...userData[0].profile,
-      stats: stat,
-      category: cate,
-      jobInterest: job,
-      socialMedia: social,
-    };
-    if (btn === "save") {
-      console.log((userData[0].profile = x));
-      handleModal("save");
-    } else {
-      setStat(stats);
-      setCate(category);
-      setJob(jobInterest);
-      setSocial(socialMedia);
-      handleActiveEdit(activeEdit, "Done");
-      console.log(userData[0].profile);
-    }
-  }
+  const handleSave = () => {
+    update(dispatch, "/model/", { ...inputs }, setMessage, setModalTxt);
+  };
 
   return (
     <form onSubmit={(e) => e.preventDefault()}>
       <section className="content-container">
-        {/* stats section */}
+        <AlertModal modalTxt={modalTxt} setModalTxt={setModalTxt} />
+        <ToastContainer position="top-center" />
 
         <div className="set_sections-title-rapper">
           <h2 className="set_sections-title">Models statistic</h2>
@@ -266,7 +76,6 @@ function Stats({
             btnText={activeEdit === "model-statistic" ? "Done" : "Edit"}
             section="model-statistic"
             handleActiveEdit={handleActiveEdit}
-            isError={isError}
           />
         </div>
         {activeEdit === "model-statistic" && (
@@ -282,127 +91,193 @@ function Stats({
             Do your best to be as accurate as possible.
           </p>
         )}
-        {/*statistic edit section */}
-        {activeEdit === "model-statistic" && (
-          <ul className="set_model-statistic">
-            {newStats.map((item) => {
-              return (
-                <li className="setting_input-container" key={item.id}>
-                  <label className="setting_input-label" htmlFor={item.id}>
-                    {item.label}
-                    <input
-                      onChange={handleChange}
-                      className="setting_input-field"
-                      type={item.type}
-                      id={item.id}
-                      name={item.id}
-                      placeholder={item.placeholder}
-                      spellCheck={false}
-                      value={stat[item.id]}
-                      required
-                    />
-                    <p className="error-text">{error[item.id]}</p>
-                  </label>
-                </li>
-              );
-            })}
-          </ul>
-        )}
 
-        {/*statistic read only section  */}
-        {activeEdit !== "model-statistic" && (
-          <ul className="set_stats-list">
+        {/*statistic read & write section  */}
+        <ul className="set_stats-list">
+          <li className="stats-item">
+            <span className="stats-item-text">height: </span>
+            <input
+              defaultValue={user?.model?.height}
+              autoFocus={activeEdit === "model-statistic"}
+              readOnly={activeEdit === "model-statistic" ? false : true}
+              name="height"
+              onChange={handleChange}
+            />
+          </li>
+          <li className="stats-item">
+            <span className="stats-item-text">waist: </span>
+            <input
+              defaultValue={user?.model?.waist}
+              readOnly={activeEdit === "model-statistic" ? false : true}
+              name="waist"
+              onChange={handleChange}
+            />
+          </li>
+          {user?.model?.gender.toLowerCase() !== "m" && (
             <li className="stats-item">
-              <span className="stats-item-text">height: </span>
-              {stat.height}
+              <span className="stats-item-text">bust: </span>
+              <input
+                defaultValue={user?.model?.bust}
+                readOnly={activeEdit === "model-statistic" ? false : true}
+                name="bust"
+                onChange={handleChange}
+              />
             </li>
+          )}
+          {user?.model?.gender.toLowerCase() !== "m" && (
             <li className="stats-item">
-              <span className="stats-item-text">waist: </span>
-              {stat.waist}
+              <span className="stats-item-text">hip: </span>
+              <input
+                defaultValue={user?.model?.hip}
+                readOnly={activeEdit === "model-statistic" ? false : true}
+                name="hip"
+                onChange={handleChange}
+              />
             </li>
-            {gender.toLowerCase() === "female" && (
-              <li className="stats-item">
-                <span className="stats-item-text">bust: </span>
-                {stat.bust}
-              </li>
-            )}
-            {gender.toLowerCase() === "female" && (
-              <li className="stats-item">
-                <span className="stats-item-text">hip: </span>
-                {stat.hip}
-              </li>
-            )}
-            {gender.toLowerCase() === "male" && (
-              <li className="stats-item">
-                <span className="stats-item-text">chest: </span>
-                {stat.chest}
-              </li>
-            )}
-            {gender.toLowerCase() === "male" && (
-              <li className="stats-item">
-                <span className="stats-item-text">shoulder: </span>
-                {stat.shoulder}
-              </li>
-            )}
+          )}
+          {user?.model?.gender.toLowerCase() === "m" && (
             <li className="stats-item">
-              <span className="stats-item-text">size: </span>
-              {stat.size}
+              <span className="stats-item-text">chest: </span>
+              <input
+                defaultValue={user?.model?.chest}
+                readOnly={activeEdit === "model-statistic" ? false : true}
+                name="chest"
+                onChange={handleChange}
+              />
             </li>
+          )}
+          {user?.model?.gender.toLowerCase() === "m" && (
             <li className="stats-item">
-              <span className="stats-item-text">shoe: </span>
-              {stat.shoe}
+              <span className="stats-item-text">shoulder: </span>
+              <input
+                defaultValue={user?.model?.shoulder}
+                readOnly={activeEdit === "model-statistic" ? false : true}
+                name="shoulder"
+                onChange={handleChange}
+              />
             </li>
-            <li className="stats-item">
-              <span className="stats-item-text">eyes: </span>
-              {stat.eyes}
-            </li>
-            <li className="stats-item">
-              <span className="stats-item-text">skin Color: </span>
-              {stat.skinColor}
-            </li>
-            <li className="stats-item">
-              <span className="stats-item-text">hairColor: </span>
-              {stat.hairColor}
-            </li>
-            <li className="stats-item">
-              <span className="stats-item-text">hairLength: </span>
-              {stat.hairLength}
-            </li>
+          )}
+          <li className="stats-item">
+            <span className="stats-item-text">size: </span>
+            <input
+              defaultValue={user?.model?.size}
+              readOnly={activeEdit === "model-statistic" ? false : true}
+              name="size"
+              onChange={handleChange}
+            />
+          </li>
+          <li className="stats-item">
+            <span className="stats-item-text">shoe: </span>
+            <input
+              defaultValue={user?.model?.shoe}
+              readOnly={activeEdit === "model-statistic" ? false : true}
+              name="shoe"
+              onChange={handleChange}
+            />
+          </li>
+          <li className="stats-item">
+            <span className="stats-item-text">eyes: </span>
+            <input
+              defaultValue={user?.model?.eyes}
+              readOnly={activeEdit === "model-statistic" ? false : true}
+              name="eyes"
+              onChange={handleChange}
+            />
+          </li>
+          <li className="stats-item">
+            <span className="stats-item-text">skin Color: </span>
+            <input
+              defaultValue={user?.model?.skinColor}
+              readOnly={activeEdit === "model-statistic" ? false : true}
+              name="skinColor"
+              onChange={handleChange}
+            />
+          </li>
+          <li className="stats-item">
+            <span className="stats-item-text">hairColor: </span>
+            <input
+              defaultValue={user?.model?.hairColor}
+              readOnly={activeEdit === "model-statistic" ? false : true}
+              name="hairColor"
+              onChange={handleChange}
+            />
+          </li>
+          <li className="stats-item">
+            <span className="stats-item-text">hairLength: </span>
+            <input
+              defaultValue={user?.model?.hairLength}
+              readOnly={activeEdit === "model-statistic" ? false : true}
+              name="hairLength"
+              onChange={handleChange}
+            />
+          </li>
 
-            <li className="stats-item">
-              <span className="stats-item-text">tattoos: </span>
-              {stat.tattoos}
-            </li>
+          <li className="stats-item">
+            <span className="stats-item-text">tattoos: </span>
+            <select
+              disabled={activeEdit === "model-statistic" ? false : true}
+              name="tattoos"
+              onChange={handleChange}
+            >
+              <option value={user?.model?.tattoos}>
+                {user?.model?.tattoos ? "Yes" : "No"}
+              </option>
+              <option value="true">Yes</option>
+              <option value="false">No</option>
+            </select>
+          </li>
 
-            <li className="stats-item">
-              <span className="stats-item-text">ethnicity: </span>
-              {stat.ethnicity}
-            </li>
+          <li className="stats-item">
+            <span className="stats-item-text">ethnicity: </span>
+            <input
+              defaultValue={user?.model?.ethnicity}
+              readOnly={activeEdit === "model-statistic" ? false : true}
+              name="ethnicity"
+              onChange={handleChange}
+            />
+          </li>
 
-            <li className="stats-item">
-              <span className="stats-item-text">language: </span>
-              {stat.language}
-            </li>
-            <li className="stats-item">
-              <span className="stats-item-text">agency: </span>
-              {stat.agency}
-            </li>
-            <li className="stats-item">
-              <span className="stats-item-text">available For Travel: </span>
-              {stat.availableForTravel}
-            </li>
-          </ul>
-        )}
+          <li className="stats-item">
+            <span className="stats-item-text">language: </span>
+            <input
+              defaultValue={user?.model?.language}
+              readOnly={activeEdit === "model-statistic" ? false : true}
+              name="language"
+              onChange={handleChange}
+            />
+          </li>
+          <li className="stats-item">
+            <span className="stats-item-text">agency: </span>
+            <input
+              defaultValue={user?.model?.agency}
+              readOnly={activeEdit === "model-statistic" ? false : true}
+              name="agency"
+              onChange={handleChange}
+            />
+          </li>
+          <li className="stats-item" style={{ width: "48%" }}>
+            <span className="stats-item-text">available For Travel: </span>
+            <select
+              disabled={activeEdit === "model-statistic" ? false : true}
+              name="availableForTravel"
+              onChange={handleChange}
+            >
+              <option value={user?.model?.availableForTravel}>
+                {user?.model?.availableForTravel ? "Yes" : "No"}
+              </option>
+              <option value="true">Yes</option>
+              <option value="false">No</option>
+            </select>
+          </li>
+        </ul>
 
         {/* category section*/}
-
         <div className="set_sections-title-rapper">
           <h2 className="set_sections-title">Models categories</h2>
           <EditBtn
             btnText={activeEdit === "model-categories" ? "Done" : "Edit"}
             section="model-categories"
             handleActiveEdit={handleActiveEdit}
-            isError={isError}
           />
           {activeEdit === "model-categories" && (
             <p className="category-text-2">
@@ -415,16 +290,18 @@ function Stats({
             choose which type of model you suited (2max)
           </p>
         )}
+
         {/* category read only section */}
         {activeEdit !== "model-categories" && (
           <ul className="set_category-list">
-            {cate.map((item) => (
+            {user?.model?.category.map((item) => (
               <li key={item} className="category-item">
                 {item} Model
               </li>
             ))}
           </ul>
         )}
+
         {/* category edit section */}
         {activeEdit === "model-categories" && (
           <ul className="set_model-categories">
@@ -437,14 +314,23 @@ function Stats({
                   >
                     {item.label}
                     <input
-                      onChange={handleCheck}
+                      onChange={(e) => {
+                        if (e.target.checked && category.length >= 3) {
+                          return; // prevent checkbox from being checked
+                        }
+                        setCategory((prev) =>
+                          e.target.checked === false
+                            ? prev.filter((item) => item !== e.target.value)
+                            : [...prev, e.target.value]
+                        );
+                      }}
                       className="setting_check-box"
                       type={item.type}
                       id={item.id}
                       name="category"
                       value={item.value}
                       checked={
-                        cate.find((value) => value === item.value)
+                        category.find((value) => value === item.value)
                           ? true
                           : false
                       }
@@ -455,6 +341,7 @@ function Stats({
             })}
           </ul>
         )}
+
         {/* work interest section */}
         <div className="set_sections-title-rapper">
           <h2 className="set_sections-title">Jobs interested in</h2>
@@ -462,13 +349,12 @@ function Stats({
             btnText={activeEdit === "job-interest" ? "Done" : "Edit"}
             section="job-interest"
             handleActiveEdit={handleActiveEdit}
-            isError={isError}
           />
         </div>
         {/* work-interest read only section */}
         {activeEdit !== "job-interest" && (
           <ul className="set_job-list">
-            {job.map((item) => (
+            {user?.model?.interestedJob?.map((item) => (
               <li key={item} className="job-item">
                 {item}
               </li>
@@ -487,14 +373,22 @@ function Stats({
                   >
                     {item.label}
                     <input
-                      onChange={handleCheck}
+                      onChange={(e) =>
+                        setInterestedJob((prev) =>
+                          e.target.checked === false
+                            ? prev.filter((item) => item !== e.target.value)
+                            : [...prev, e.target.value]
+                        )
+                      }
                       className="setting_check-box"
                       type={item.type}
                       id={item.id}
                       name="job-interest"
                       value={item.value}
                       checked={
-                        job.find((value) => value === item.value) ? true : false
+                        interestedJob.find((value) => value === item.value)
+                          ? true
+                          : false
                       }
                     />
                   </label>
@@ -510,15 +404,12 @@ function Stats({
             btnText={activeEdit === "social-media" ? "Done" : "Edit"}
             section="social-media"
             handleActiveEdit={handleActiveEdit}
-            isError={isError}
           />
         </div>
         {/* social-media  read only section */}
         {activeEdit !== "social-media" && (
           <ul className="set_social-list">
-            <li className="social-item">{social.facebook}</li>
-            <li className="social-item">{social.twitter}</li>
-            <li className="social-item">{social.instagram}</li>
+            <li className="social-item">{user?.model?.instagram}</li>
           </ul>
         )}
         {/* social-media  edit section */}
@@ -537,10 +428,8 @@ function Stats({
                       name={item.id}
                       placeholder={item.placeholder}
                       spellCheck={false}
-                      value={social[item.id]}
                       required
                     />
-                    <p className="error-text">{error[item.id]}</p>
                   </label>
                 </li>
               );
@@ -562,11 +451,12 @@ function Stats({
               backgroundColor: activeEdit !== "Done" && "#bbbb",
             }}
             disabled={activeEdit !== "Done" && true}
-            onClick={() => handleSave("save")}
+            onClick={handleSave}
             className="save-btn  bold-text yes-btn"
           >
-            Save
+            {isFetching ? "Please wait..." : "Save"}
           </button>
+          <p className="error-text">{message}</p>
         </section>
       </section>
     </form>

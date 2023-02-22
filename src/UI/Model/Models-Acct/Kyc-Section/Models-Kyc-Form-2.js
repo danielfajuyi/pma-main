@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { categoryInput, jobsInput, SocialMedia, statsInput } from "../utils";
 import { AlertModal } from "../../../../Pages/LoginSignup/Sign-Up/signUpForm/Modal";
+import { useSelector } from "react-redux";
 
 function ModelsKycForm2({
   handleNavigation,
@@ -14,6 +15,8 @@ function ModelsKycForm2({
   setInterestedJob,
   interestedJob,
 }) {
+  const user = useSelector((state) => state.user.currentUser);
+
   //static DOM elements
   const [isError, setIsError] = useState(false);
   const [showError, setShowError] = useState(false);
@@ -160,8 +163,8 @@ function ModelsKycForm2({
         err = true;
       }
     }
-    setIsError(err);
-  }, [error, inputs]);
+    !user.isUpdated && setIsError(err);
+  }, [error, inputs, user]);
 
   //submit and go to the next page
   function handleSubmit(text) {
@@ -231,7 +234,8 @@ function ModelsKycForm2({
                         </li>
                       )
                     : item.id !== "chest" &&
-                      item.id !== "shoulder" && (
+                      item.id !== "shoulder" &&
+                      item.id !== "height" && (
                         <li className="kyc-input-container" key={item.id}>
                           <label className="input-label" htmlFor={item.id}>
                             <span className="required-icon_rapper">
