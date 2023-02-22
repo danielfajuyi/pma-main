@@ -15,6 +15,7 @@ function ModelsKycForm1({ handleNavigation, inputs, handleChange, setInputs }) {
     gender: inputs.gender,
     state: inputs.state,
     country: inputs.country,
+    agency: inputs.agency,
     bio: inputs.bio,
   });
   const [isError, setIsError] = useState(false);
@@ -83,6 +84,10 @@ function ModelsKycForm1({ handleNavigation, inputs, handleChange, setInputs }) {
         ? setError((prev) => ({ ...prev, country: errorText }))
         : setError((prev) => ({ ...prev, country: "" }));
 
+      !inputs.agency
+        ? setError((prev) => ({ ...prev, agency: errorText }))
+        : setError((prev) => ({ ...prev, agency: "" }));
+
       !inputs.bio
         ? setError((prev) => ({
             ...prev,
@@ -103,6 +108,7 @@ function ModelsKycForm1({ handleNavigation, inputs, handleChange, setInputs }) {
       !inputs.gender ||
       !inputs.state ||
       !inputs.country ||
+      !inputs.agency ||
       !inputs.bio
     ) {
       err = true;

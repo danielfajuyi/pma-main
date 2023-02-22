@@ -22,7 +22,7 @@ const ModelDashboard = () => {
   const dispatch = useDispatch();
 
   const [isEdit, setIsEdit] = useState(false);
-  const [inputs, setInputs] = useState({});
+  const [inputs, setInputs] = useState({}); 
   const [picture, setPicture] = useState(undefined);
   const [progress, setProgress] = useState(0);
   const [message, setMessage] = useState([]);
