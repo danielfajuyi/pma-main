@@ -101,7 +101,7 @@ function ModelStats({ item }) {
       )}
 
       {/* job interest section */}
-      <h2 className="stat__title">Model Category</h2>
+      {/* <h2 className="stat__title">Model Category</h2>
       {!item?.model && (
         <ul className="job__list">
           {item?.category?.map((job) => (
@@ -119,7 +119,7 @@ function ModelStats({ item }) {
             </li>
           ))}
         </ul>
-      )}
+      )} */}
 
       {/* compCard section */}
       <button type="download" className="compCard-btn dark--btn bold-text">

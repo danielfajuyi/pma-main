@@ -28,7 +28,7 @@ export const AlertBox = ({ title, note, icon, setModalTxt }) => {
 export const AlertBox2 = ({ title, note, icon, setModalTxt }) => {
   const handleModalTxt = () => {
     setModalTxt((prev) => !prev);
-    window.location.reload();
+    // window.location.reload();
   };
 
   return (

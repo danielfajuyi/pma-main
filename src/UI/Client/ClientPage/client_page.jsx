@@ -29,9 +29,12 @@ import _ from "lodash";
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Outlet, useLocation, useNavigate } from "react-router";
+import { useSelector } from "react-redux";
 //[END]
 
 const ClientPage = ({ showNavbar, setShowNavbar }) => {
+  const user = useSelector((state) => state.user.currentUser);
+
   // Using Hooks  --> [START]
   useEffect(() => {
     setShowNavbar(false);
@@ -54,9 +57,9 @@ const ClientPage = ({ showNavbar, setShowNavbar }) => {
   // Array For Composing Sidebar Navigation -> (Sidebar Componet) --> [START]
   const topList = [
     { name: "Dashboard", icon: <MdOutlineDashboard />, path: "dashboard" },
-    { name: "Profile", icon: <CgUserList />, path: "profile" },
+    { name: "Profile", icon: <CgUserList />, path: "/profile/"+user._id },
     { name: "Post Job", icon: <MdOutlinePostAdd />, path: "postjob" },
-    { name: "Find Models", icon: <RiUserSearchLine />, path: "findmodels" },
+    { name: "Find Models", icon: <RiUserSearchLine />, path: "/find-model" },
     {
       name: "Review",
       icon: <MdOutlineReviews />,
@@ -86,31 +89,35 @@ const ClientPage = ({ showNavbar, setShowNavbar }) => {
 
   return (
     !showNavbar && (
-      <div id="client_page">
-        {/* Client Page Sidebar Navigation --> [START] */}
-        {mQ ? (
-          <DashboardSidebar top={topList} bottom={bottomList} />
-        ) : sidebarVisibility ? (
-          <Background childState={setSidebarVisibility}>
+      <>
+        <div id="client_page">
+          {/* Client Page Sidebar Navigation --> [START] */}
+          {mQ ? (
             <DashboardSidebar top={topList} bottom={bottomList} />
-          </Background>
-        ) : null}
-        {/* [END] */}
-
-        <main>
-          {/* Model Page Topbar --> [START] */}
-          <DashboardTopbar
-            lastItem={button}
-            sidebarVisibility={sidebarVisibility}
-            setSidebarVisibility={setSidebarVisibility}
-          />
+          ) : sidebarVisibility ? (
+            <Background childState={setSidebarVisibility}>
+              <DashboardSidebar top={topList} bottom={bottomList} />
+            </Background>
+          ) : null}
           {/* [END] */}
 
-          {/* Render The Current Sidebar Navigation Link --> [START] */}
-          <Outlet />
-          {/* [END] */}
-        </main>
-      </div>
+          <main>
+            {/* Model Page Topbar --> [START] */}
+            {user.isUpdated && user?.isVerified && (
+              <DashboardTopbar
+                lastItem={button}
+                sidebarVisibility={sidebarVisibility}
+                setSidebarVisibility={setSidebarVisibility}
+              />
+            )}
+            {/* [END] */}
+
+            {/* Render The Current Sidebar Navigation Link --> [START] */}
+            <Outlet />
+            {/* [END] */}
+          </main>
+        </div>
+      </>
     )
   );
 };

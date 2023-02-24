@@ -1,8 +1,12 @@
 import { useSelector } from "react-redux";
 import { InteractiveBtn } from "./Buttons";
+import { useLocation } from "react-router";
 
 function ModelInfo({ item, handleForm, setEditPortfolio }) {
   const user = useSelector((state) => state.user.currentUser);
+  const location = useLocation()
+  const path = location.pathname.split("/")[3]
+  console.log(user)
 
   const handleEditProfile = () => {
     setEditPortfolio(true);
@@ -35,7 +39,7 @@ function ModelInfo({ item, handleForm, setEditPortfolio }) {
           </p>
           <p>
             <span className="model__category semi-bold">
-              {/* {item?.category[0]} and {item?.category[1]} Model */}
+              {item?.model?.category[0]} and {item?.model?.category[1]} Model
             </span>
           </p>
 
@@ -89,20 +93,20 @@ function ModelInfo({ item, handleForm, setEditPortfolio }) {
           {/* desktop CTA btn section */}
 
           <button
-            onClick={user ? handleEditProfile : handleForm}
+            onClick={user && user._id === path ? handleEditProfile : handleForm}
             className="cta-btn desktop-cta dark--btn on-hover"
           >
             <i className="fa-solid fa-envelope-circle-check Icon"></i>
-            {!user ? "Book model" : "Edit Portfolio"}
+            {!user || user._id !== path ? "Book model" : "Edit Portfolio"}
           </button>
         </div>
       </section>
 
       {/* mobile CTA btn section */}
       <div className="cta-btn-wrapper">
-        <button onClick={user ? handleEditProfile : handleForm} className="cta-btn dark--btn on-hover">
+        <button onClick={user && user._id === path ? handleEditProfile : handleForm} className="cta-btn dark--btn on-hover">
           <i className="fa-solid fa-envelope-circle-check Icon"></i>
-          {!user ? "Book model" : "Edit Portfolio"}
+          {!user || user._id !== path ? "Book model" : "Edit Portfolio"}
         </button>
       </div>
     </>

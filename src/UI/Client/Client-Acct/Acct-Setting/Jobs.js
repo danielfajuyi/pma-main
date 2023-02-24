@@ -2,10 +2,10 @@ import { useState } from "react";
 import "./Jobs.css";
 
 function Photos({ userData, handleModal, resetDiscard }) {
-  const { photos, coverPic } = userData[0].profile;
+  // const { photos, coverPic } = userData?.profile;
 
-  const [photo, setPhoto] = useState(photos);
-  const [cover, setCover] = useState(coverPic);
+  const [photo, setPhoto] = useState();
+  const [cover, setCover] = useState();
 
   const [viewAll, setViewAll] = useState(false);
 
@@ -77,8 +77,8 @@ function Photos({ userData, handleModal, resetDiscard }) {
       console.log((userData[0].profile = x));
       handleModal("save");
     } else {
-      setPhoto(photos);
-      setCover(coverPic);
+      // setPhoto(photos);
+      // setCover(coverPic);
       console.log(userData[0].profile);
     }
   }
@@ -152,10 +152,10 @@ function Photos({ userData, handleModal, resetDiscard }) {
               className="--file-input"
             />
 
-            <span className=" bold-text">{photo.length}/18 pics</span>
+            <span className=" bold-text">{photo?.length}/18 pics</span>
           </div>
           <ul className="--set_photo-list">
-            {photo.map((item, index) =>
+            {photo?.map((item, index) =>
               viewAll ? (
                 <li className="--set_photo-item on-hover" key={index}>
                   <img src={item} alt="" />

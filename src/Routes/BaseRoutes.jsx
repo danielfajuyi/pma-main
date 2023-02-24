@@ -34,6 +34,9 @@ import { userLogout } from "../redux/apiCalls";
 import ModelsForms from "../UI/Model/Models-Acct/Kyc-Section/Models-Kyc-Forms";
 import ProfilePage from "../Pages/FindModel/Models-Profile-page/Profile-Page";
 import ModelPortfolio from "../UI/Model/ModelPortfolio/ModelPortfolio";
+import SeeModels from "../Components/SeeModels/see_models";
+import ClientProfile from "../UI/Client/ClientProfile/ClientProfile";
+import AcctSetting from "../UI/Client/Client-Acct/Acct-Setting/Client-Acct-Setting";
 
 export const BaseRoutes = () => {
   const [showNavbar, setShowNavbar] = useState(true);
@@ -96,11 +99,10 @@ export const BaseRoutes = () => {
         {
           path: "find-model/",
           element: <FindModel />,
-         
         },
         {
-          path:"find-model/profile/:id",
-          element: <ProfilePage />
+          path: "find-model/profile/:id",
+          element: <ProfilePage />,
         },
         {
           path: "faqs",
@@ -155,7 +157,7 @@ export const BaseRoutes = () => {
               element: <ModelDashboard />,
             },
             {
-              path: "profile",
+              path: "profile/:id",
               element: <ModelPortfolio />,
             },
             {
@@ -202,6 +204,10 @@ export const BaseRoutes = () => {
               element: <MyWallet />,
             },
             {
+              path: "findmodels",
+              element: <FindModel />,
+            },
+            {
               path: "review/",
               element: <Review />,
               children: [
@@ -216,10 +222,22 @@ export const BaseRoutes = () => {
               ],
             },
             {
+              path: "settings",
+              element: <AcctSetting />,
+            },
+            {
               path: "subscription",
               element: <ModelSubscription />,
             },
           ],
+        },
+        {
+          path: "profile/:id",
+          element: (
+            <ProtectedRoute>
+              <ClientProfile />
+            </ProtectedRoute>
+          ),
         },
       ],
     },

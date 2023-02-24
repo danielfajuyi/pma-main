@@ -12,9 +12,11 @@ import coverImg from "../../../../Images/model/model-large.jpg";
 import _ from "lodash";
 import { Chart } from "chart.js/auto"; //Registering Charts ("Do not remove this import")
 import { useSelector } from "react-redux";
+import ClientsForms from "../../Client-Acct/Kyc-Section/Client-Kyc-Forms";
 
 const ClientDashboard = () => {
   const user = useSelector((state)=> state.user.currentUser)
+  // console.log(user)
 
   // Visitor Stats Graph Data -> (VisitorStats Component) --> [STRAT]
   const data = {
@@ -109,7 +111,9 @@ const ClientDashboard = () => {
 
   return (
     <FadeIn>
-      <div id="client_dashboard">
+      {!user?.isUpdated && <ClientsForms />}
+      {user.isUpdated && !user?.isVerified && <h1 style={{color:'white', textAlign:'center', margin:'40px'}}>Your account is undergoing verification, please hang-on awhile for us to finish the process, thanks.</h1> }
+      {user?.isVerified && <div id="client_dashboard">
         {/* GRID  --> [START]*/}
         <div id="pane">
           {/* Grid Area 1 --> [START]*/}
@@ -259,7 +263,7 @@ const ClientDashboard = () => {
           {/*Inbox <-- [END]  */}
         </div>
         {/* [GRID <-- END] */}
-      </div>
+      </div>}
     </FadeIn>
   );
 };
