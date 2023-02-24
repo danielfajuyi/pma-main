@@ -2,54 +2,24 @@ import "./Client-Kyc-Form-1.css";
 import FormNavBtn from "./Form-nav-btn";
 import { useEffect, useState } from "react";
 import { Input1, Input2, Input3 } from "./kyc-input";
+import { Industry, SocialMedia } from "../utils";
 
-function ClientsKycForm1({
-  DomItems,
-  collectData,
-  handleNavigation,
-  form1Data,
-}) {
-  const { SocialMedia, Industry } = DomItems[0];
-
-  //data state
-  const [data, setData] = useState(form1Data);
-  const [social, setSocial] = useState(data.socialMedia);
-
-  const [industry, setIndustry] = useState(data.industry);
-  const [toggleIndustry, setToggleIndustry] = useState(false);
-
+function ClientsKycForm1({ handleNavigation, handleChange, inputs }) {
   //State Error
   const [error, setError] = useState({
-    name: "",
-    url: "",
-    address: "",
-    state: "",
-    country: "",
-    bio: "",
-    facebook: "",
-    twitter: "",
-    instagram: "",
-    industry: "",
+    brandName: inputs.brandName,
+    brandUrl: inputs.brandUrl,
+    address: inputs.address,
+    state: inputs.state,
+    country: inputs.country,
+    bio: inputs.bio,
+    instagram: inputs.instagram,
+    industry: inputs.industry,
   });
 
   const [isError, setIsError] = useState(false);
   const [showError, setShowError] = useState(false);
 
-  function handleChange(e) {
-    const { name, value } = e.target;
-
-    if (name === "facebook" || name === "twitter" || name === "instagram") {
-      setSocial((prevData) => ({ ...prevData, [name]: value }));
-    } else {
-      setData((prevData) => ({ ...prevData, [name]: value }));
-    }
-  }
-
-  //handling industry choice
-  function handleIndustry(option) {
-    option !== "toggle" && setIndustry(option);
-    setToggleIndustry((prev) => !prev);
-  }
   //setting error messages
   useEffect(() => {
     function handleError() {
@@ -58,64 +28,54 @@ function ClientsKycForm1({
       let industryErr = "Please choose an industry.!";
       let socialErr = "You social-media link is required.!";
 
-      data.name === ""
-        ? setError((prev) => ({ ...prev, name: errorText }))
-        : setError((prev) => ({ ...prev, name: "" }));
+      !inputs.brandName
+        ? setError((prev) => ({ ...prev, brandName: errorText }))
+        : setError((prev) => ({ ...prev, brandName: "" }));
 
-      data.url === ""
-        ? setError((prev) => ({ ...prev, url: errorText }))
-        : setError((prev) => ({ ...prev, url: "" }));
+      !inputs.brandUrl
+        ? setError((prev) => ({ ...prev, brandUrl: errorText }))
+        : setError((prev) => ({ ...prev, brandUrl: "" }));
 
-      data.address === ""
+      !inputs.address
         ? setError((prev) => ({ ...prev, address: errorText }))
         : setError((prev) => ({ ...prev, address: "" }));
 
-      data.state === ""
+      !inputs.state
         ? setError((prev) => ({ ...prev, state: errorText }))
         : setError((prev) => ({ ...prev, state: "" }));
 
-      data.country === ""
+      !inputs.country
         ? setError((prev) => ({ ...prev, country: errorText }))
         : setError((prev) => ({ ...prev, country: "" }));
 
-      data.bio === ""
+      !inputs.bio
         ? setError((prev) => ({ ...prev, bio: bioErr }))
         : setError((prev) => ({ ...prev, bio: "" }));
 
-      industry === ""
+      !inputs.industry
         ? setError((prev) => ({ ...prev, industry: industryErr }))
         : setError((prev) => ({ ...prev, industry: "" }));
 
-      social.facebook === ""
-        ? setError((prev) => ({ ...prev, facebook: socialErr }))
-        : setError((prev) => ({ ...prev, facebook: "" }));
-
-      social.twitter === ""
-        ? setError((prev) => ({ ...prev, twitter: socialErr }))
-        : setError((prev) => ({ ...prev, twitter: "" }));
-
-      social.instagram === ""
+      !inputs.instagram
         ? setError((prev) => ({ ...prev, instagram: socialErr }))
         : setError((prev) => ({ ...prev, instagram: "" }));
     }
 
     handleError();
-  }, [data, social, industry]);
+  }, [inputs]);
 
   //checking for error message
   useEffect(() => {
     let err = false;
     if (
-      error.name ||
-      error.url ||
-      error.address ||
-      error.state ||
-      error.country ||
-      error.bio ||
-      error.facebook ||
-      error.twitter ||
-      error.instagram ||
-      error.industry
+      !inputs.brandName ||
+      !inputs.brandUrl ||
+      !inputs.address ||
+      !inputs.state ||
+      !inputs.country ||
+      !inputs.bio ||
+      !inputs.instagram ||
+      !inputs.industry
     ) {
       err = true;
     } else {
@@ -130,7 +90,6 @@ function ClientsKycForm1({
     if (isError) {
       setShowError(true);
     } else {
-      collectData(1, { ...data, socialMedia: social, industry: industry });
       handleNavigation(text);
     }
   }
@@ -163,22 +122,19 @@ function ClientsKycForm1({
             <ul className="--info-section">
               {/* name input */}
               <Input1
-                id="name"
-                label="Brand Name"
-                value={data.name}
+                id="brandName"
                 placeholder="Your Brand Name..."
-                error={error.name}
+                error={error.brandName}
                 handleChange={handleChange}
                 showError={showError}
               />
 
               {/* url input  */}
               <Input1
-                id="url"
+                id="brandUrl"
                 label="Brand Url"
-                value={data.url}
                 placeholder="Brand Url..."
-                error={error.url}
+                error={error.brandUrl}
                 handleChange={handleChange}
                 showError={showError}
               />
@@ -187,7 +143,6 @@ function ClientsKycForm1({
               <Input2
                 id="address"
                 label="Office Address"
-                value={data.address}
                 placeholder="Office Address..."
                 error={error.address}
                 handleChange={handleChange}
@@ -198,7 +153,6 @@ function ClientsKycForm1({
               <Input3
                 id="country"
                 label="Country"
-                value={data.country}
                 placeholder="Country..."
                 error={error.country}
                 handleChange={handleChange}
@@ -209,7 +163,6 @@ function ClientsKycForm1({
               <Input3
                 id="state"
                 label="State"
-                value={data.state}
                 placeholder="State..."
                 error={error.state}
                 handleChange={handleChange}
@@ -230,37 +183,22 @@ function ClientsKycForm1({
               <i className="fa-solid fa-angles-right --points"></i>
               Please ensure that your chosen industry compliments your Brand.
             </p>
-            <div className="industry-container">
-              <button
-                onClick={() => handleIndustry("toggle")}
-                className="industry__btn --cancel-btn "
-                type="button"
-              >
-                {industry ? `industry: ${industry}` : "Choose an industry"}
-                <i
-                  style={{ transform: toggleIndustry && `rotateX(${180}deg)` }}
-                  className="fa-solid fa-angle-down"
-                ></i>
-              </button>
-              {toggleIndustry && (
-                <ul className="industry-list">
-                  {Industry.map((item) => (
-                    <li
-                      key={item}
-                      onClick={() => handleIndustry(item)}
-                      className="industry-item "
-                    >
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              )}
-              {showError && <p className="--error-text">{error.industry}</p>}
-            </div>
+            <select
+              className="--kyc-input-field"
+              name="industry"
+              onChange={handleChange}
+            >
+              <option value="">Choose an industry</option>
+              {Industry.map((item, index) => (
+                <option value={item} key={index}>
+                  {item}
+                </option>
+              ))}
+            </select>
+            {showError && <p className="--error-text">{error.industry}</p>}
           </section>
 
           {/* bio section */}
-
           <section className="--sections-container">
             <h2 className="--sections-title">Client's Bio</h2>
             <p className="--note-text">
@@ -282,7 +220,6 @@ function ClientsKycForm1({
                 cols="30"
                 rows="10"
                 placeholder="Brief information about your Brand..."
-                value={data.bio}
                 required
               ></textarea>
             </div>
@@ -293,13 +230,12 @@ function ClientsKycForm1({
           </section>
 
           {/* social media section */}
-
           <section className="--sections-container">
             <h2 className="--sections-title">Social Media Handles</h2>
             <ul className="--social-media-link">
-              {SocialMedia.map((item) => {
+              {SocialMedia.map((item, index) => {
                 return (
-                  <li className="--kyc-input-container" key={item.id}>
+                  <li className="--kyc-input-container" key={index}>
                     <label className="--kyc-input-label" htmlFor={item.id}>
                       <span className="--required-icon_rapper">
                         {item.label}
@@ -316,7 +252,6 @@ function ClientsKycForm1({
                         id={item.id}
                         name={item.id}
                         placeholder={item.placeholder}
-                        value={social[item.id]}
                         required
                         spellCheck={false}
                       />
@@ -331,12 +266,12 @@ function ClientsKycForm1({
           </section>
 
           <section className="--kyc-btn-container">
-            <FormNavBtn
+            {/* <FormNavBtn
               btnText="Back"
               name="form1"
               handleClick={handleNavigation}
               type="button"
-            />
+            /> */}
             <FormNavBtn
               btnText="Next"
               name="form1"

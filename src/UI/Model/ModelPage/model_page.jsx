@@ -25,8 +25,10 @@ import useMediaQuery from "../../../custom_hooks/useMediaQuery"; //[END]
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router"; //[END]
+import { useSelector } from "react-redux";
 
 const ModelPage = ({ showNavbar, setShowNavbar }) => {
+  const user = useSelector((state)=> state.user.currentUser)
   // Using Hooks  --> [START]
 
   useEffect(() => {
@@ -49,7 +51,7 @@ const ModelPage = ({ showNavbar, setShowNavbar }) => {
   // Array For Composing Sidebar Navigation -> (Sidebar Componet) --> [START]
   const topList = [
     { name: "Dashboard", icon: <MdOutlineDashboard />, path: "dashboard" },
-    { name: "Profile", icon: <CgUserList />, path: "profile" },
+    { name: "Profile", icon: <CgUserList />, path: "profile/"+user._id },
     { name: "My Wallet", icon: <BiWallet />, path: "mywallet" },
     {
       name: "Review",

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Industry, SocialMedia } from "../utils";
 import "./About.css";
 import EditBtn from "./Edit-btn";
 import { Input1, Input2, Input3 } from "./set--kyc-input";
@@ -11,14 +12,14 @@ function About({
   resetDiscard,
   handleModal,
 }) {
-  const { SocialMedia, Industry } = DomItems[0];
+  // const { SocialMedia, Industry } = DomItems[0];
 
   //data state
-  const [data, setData] = useState(userData[0].profile);
+  const [data, setData] = useState(userData?.profile);
 
-  const [social, setSocial] = useState(data.socialMedia);
+  const [social, setSocial] = useState(data?.socialMedia);
 
-  const [industry, setIndustry] = useState(data.industry);
+  const [industry, setIndustry] = useState(data?.industry);
   const [toggleIndustry, setToggleIndustry] = useState(false);
 
   //State Error
@@ -69,27 +70,27 @@ function About({
       let bioErr = "The Bio section is required!";
       let industryErr = "Please choose an industry!";
       let socialErr = "You social-media link is required";
-      data.name === ""
+      data?.name === ""
         ? setError((prev) => ({ ...prev, name: errorText }))
         : setError((prev) => ({ ...prev, name: "" }));
 
-      data.url === ""
+      data?.url === ""
         ? setError((prev) => ({ ...prev, url: errorText }))
         : setError((prev) => ({ ...prev, url: "" }));
 
-      data.address === ""
+      data?.address === ""
         ? setError((prev) => ({ ...prev, address: errorText }))
         : setError((prev) => ({ ...prev, address: "" }));
 
-      data.state === ""
+      data?.state === ""
         ? setError((prev) => ({ ...prev, state: errorText }))
         : setError((prev) => ({ ...prev, state: "" }));
 
-      data.country === ""
+      data?.country === ""
         ? setError((prev) => ({ ...prev, country: errorText }))
         : setError((prev) => ({ ...prev, country: "" }));
 
-      data.bio === ""
+      data?.bio === ""
         ? setError((prev) => ({ ...prev, bio: bioErr }))
         : setError((prev) => ({ ...prev, bio: "" }));
 
@@ -97,15 +98,15 @@ function About({
         ? setError((prev) => ({ ...prev, industry: industryErr }))
         : setError((prev) => ({ ...prev, industry: "" }));
 
-      social.facebook === ""
+      social?.facebook === ""
         ? setError((prev) => ({ ...prev, facebook: socialErr }))
         : setError((prev) => ({ ...prev, facebook: "" }));
 
-      social.twitter === ""
+      social?.twitter === ""
         ? setError((prev) => ({ ...prev, twitter: socialErr }))
         : setError((prev) => ({ ...prev, twitter: "" }));
 
-      social.instagram === ""
+      social?.instagram === ""
         ? setError((prev) => ({ ...prev, instagram: socialErr }))
         : setError((prev) => ({ ...prev, instagram: "" }));
     }
@@ -194,7 +195,7 @@ function About({
 
           {activeEdit !== "profile-details" && (
             <div className="--set_img-rapper">
-              <img src={data.profilePic} alt="" />
+              <img src={data?.profilePic} alt="" />
             </div>
           )}
 
@@ -302,24 +303,24 @@ function About({
               <ul className="--set_info-text-container">
                 <li>
                   <span className="bold-text">Brand Name: </span>
-                  {data.name}
+                  {data?.name}
                 </li>
                 <li>
                   <span className="bold-text "> Brand Url: </span>
-                  <span className="--url">{data.url}</span>
+                  <span className="--url">{data?.url}</span>
                 </li>
                 <li>
                   <span className="bold-text">Address: </span>
-                  {data.address}
+                  {data?.address}
                 </li>
 
                 <li>
                   <span className="bold-text">Country: </span>
-                  {data.country}
+                  {data?.country}
                 </li>
                 <li>
                   <span className="bold-text">State: </span>
-                  {data.state}
+                  {data?.state}
                 </li>
               </ul>
             )}
@@ -434,7 +435,7 @@ function About({
                 id="bio"
                 cols="30"
                 rows="10"
-                value={data.bio}
+                value={data?.bio}
                 required
               ></textarea>
             </div>
@@ -445,7 +446,7 @@ function About({
         {/* bio read only section  */}
 
         {activeEdit !== "client-bio" && (
-          <p className="--set_bio-text">{data.bio}</p>
+          <p className="--set_bio-text">{data?.bio}</p>
         )}
       </div>
 
@@ -464,9 +465,9 @@ function About({
         {/* social-media  read only section */}
         {activeEdit !== "social-media" && (
           <ul className="--set_social-list">
-            <li className="--social-item">{social.facebook}</li>
-            <li className="--social-item">{social.twitter}</li>
-            <li className="--social-item">{social.instagram}</li>
+            <li className="--social-item">{social?.facebook}</li>
+            <li className="--social-item">{social?.twitter}</li>
+            <li className="--social-item">{social?.instagram}</li>
           </ul>
         )}
         {/* social-media  edit section */}

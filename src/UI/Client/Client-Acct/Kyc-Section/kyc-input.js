@@ -34,7 +34,6 @@ function Input1({
           id={id}
           name={id}
           placeholder={placeholder}
-          value={value}
           required
         />
         {showError && <p className="--error-text">{error}</p>}
@@ -72,7 +71,6 @@ function Input2({
           id={id}
           name={id}
           placeholder={placeholder}
-          value={value}
           required
         />
         {showError && <p className="--error-text">{error}</p>}
@@ -110,7 +108,6 @@ function Input3({
           id={id}
           name={id}
           placeholder={placeholder}
-          value={value}
           required
         />
         {showError && <p className="--error-text">{error}</p>}

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import ClientKycForm1 from "./Client-Kyc-Form-1";
 import ClientKycForm2 from "./Client-Kyc-Form-2";
 
@@ -6,6 +6,19 @@ import "./Client-Kyc-Forms.css";
 
 function ClientsForms({ DomItems, userData, accountId, handleModal }) {
   const [activeForm, setActiveForm] = useState(1);
+  const [inputs, setInputs] = useState({});
+
+  const handleChange = useCallback(
+    (e) => {
+      setInputs((prev) => {
+        return { ...prev, [e.target.name]: e.target.value };
+      });
+    },
+    [setInputs]
+  );
+
+  console.log(inputs)
+
   const [form1Data, setForm1Data] = useState({
     name: "",
     url: "",
@@ -96,13 +109,16 @@ function ClientsForms({ DomItems, userData, accountId, handleModal }) {
   }
 
   return (
-    <>
+    <div style={{ backgroundColor: "white" }}>
       {activeForm === 1 && (
         <ClientKycForm1
           DomItems={DomItems}
           collectData={collectData}
           handleNavigation={handleNavigation}
           form1Data={form1Data}
+          handleChange={handleChange}
+          setInputs={setInputs}
+          inputs={inputs}
         />
       )}
 
@@ -113,9 +129,12 @@ function ClientsForms({ DomItems, userData, accountId, handleModal }) {
           handleNavigation={handleNavigation}
           handleModal={handleModal}
           form2Data={form2Data}
+          handleChange={handleChange}
+          setInputs={setInputs}
+          inputs={inputs}
         />
       )}
-    </>
+    </div>
   );
 }
 

@@ -25,6 +25,7 @@
 .--kyc-hero__text {
   font-size: 1.6rem;
   line-height: 1.8;
+  color: #333 !important;
 }
 /* content section */
 
@@ -106,6 +107,7 @@
   .--kyc-hero__text {
     font-size: 2rem;
     line-height: 1.5;
+    color: #333 !important;
   }
   .--kyc-content-section {
     width: 70%;

@@ -143,7 +143,6 @@ function ModelsKycForm3({ handleNavigation, inputs, setInputs }) {
       setModalTxt("add-photo");
     } else {
       update(dispatch, "/model/", { ...inputs }, setModalTxt);
-     
     }
   }
 
