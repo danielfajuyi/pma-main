@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.45920cdb.css",
-    "main.js": "/static/js/main.8e09f20e.js",
+    "main.css": "/static/css/main.c0ceba02.css",
+    "main.js": "/static/js/main.8a35d18a.js",
     "static/media/color-splash.png": "/static/media/color-splash.7a9562f6115f27c0287a.png",
     "static/media/team4.png": "/static/media/team4.6023223d35c5670854af.png",
     "static/media/post.jpg": "/static/media/post.077dfb734b18952342f9.jpg",
@@ -17,7 +17,13 @@
     "static/media/slider12.jpg": "/static/media/slider12.5534cd7355bcc690099a.jpg",
     "static/media/join-community.jpg": "/static/media/join-community.843989a58f22939a6726.jpg",
     "static/media/slider18.jpg": "/static/media/slider18.a83ea15d4edea7c8a09e.jpg",
+    "static/media/portfolio1.jpg": "/static/media/portfolio1.87ea719e36e95d66063b.jpg",
     "static/media/slider2.jpg": "/static/media/slider2.566431a265c1fff6e495.jpg",
+    "static/media/portfolio3.jpg": "/static/media/portfolio3.a47d05aa79086de99bcc.jpg",
+    "static/media/portfolio2.jpg": "/static/media/portfolio2.d0b6bfc52a85dc4a0713.jpg",
+    "static/media/portfolio4.jpg": "/static/media/portfolio4.c4a3c9f7f793f23536e3.jpg",
+    "static/media/portfolio5.jpg": "/static/media/portfolio5.95edc1a1df17c8c64fff.jpg",
+    "static/media/portfolio6.jpg": "/static/media/portfolio6.95edc1a1df17c8c64fff.jpg",
     "static/media/bg1.jpg": "/static/media/bg1.7d8c705106760d5ac221.jpg",
     "static/media/about-section.jpg": "/static/media/about-section.5a2eb12c043d63ef5fea.jpg",
     "static/media/Roboto-Medium.woff2": "/static/media/Roboto-Medium.70ace3870f471997ceb7.woff2",
@@ -25,6 +31,7 @@
     "static/media/Roboto-Bold.woff2": "/static/media/Roboto-Bold.002079d85a6f27587d17.woff2",
     "static/media/Roboto-Regular.woff2": "/static/media/Roboto-Regular.9429985be4f46ec8fcfc.woff2",
     "static/media/Roboto-Light.woff2": "/static/media/Roboto-Light.81c7589f0813d50a673e.woff2",
+    "static/media/clientimg.jpg": "/static/media/clientimg.c1006457d9f5356f0952.jpg",
     "static/media/model3.jpg": "/static/media/model3.e426f1639286419b608e.jpg",
     "static/media/Poppins-Regular.woff2": "/static/media/Poppins-Regular.d24565ba90b75abd350b.woff2",
     "static/media/Poppins-Light.woff2": "/static/media/Poppins-Light.37501d33c74586bc89f6.woff2",
@@ -36,11 +43,11 @@
     "static/media/slick.woff": "/static/media/slick.295183786cd8a1389865.woff",
     "index.html": "/index.html",
     "static/media/earning.svg": "/static/media/earning.6e213feff4f1ba8ccfb5e0dbd8e58f20.svg",
-    "main.45920cdb.css.map": "/static/css/main.45920cdb.css.map",
-    "main.8e09f20e.js.map": "/static/js/main.8e09f20e.js.map"
+    "main.c0ceba02.css.map": "/static/css/main.c0ceba02.css.map",
+    "main.8a35d18a.js.map": "/static/js/main.8a35d18a.js.map"
   },
   "entrypoints": [
-    "static/css/main.45920cdb.css",
-    "static/js/main.8e09f20e.js"
+    "static/css/main.c0ceba02.css",
+    "static/js/main.8a35d18a.js"
   ]
 }
