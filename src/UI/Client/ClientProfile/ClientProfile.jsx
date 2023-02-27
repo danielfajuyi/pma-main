@@ -1,5 +1,4 @@
 import "../ClientProfile/client.css";
-import clientimg from "../ClientProfile/assets/clientimg.jpg";
 import { GrLocation } from "react-icons/gr";
 import { SlSocialInstagram } from "react-icons/sl";
 import { AiFillFacebook } from "react-icons/ai";
@@ -7,13 +6,11 @@ import { AiFillTwitterCircle } from "react-icons/ai";
 import { BsFillBagFill } from "react-icons/bs";
 import { AiOutlineInfoCircle } from "react-icons/ai";
 import { AiOutlineIdcard } from "react-icons/ai";
-import { SlUserFollow } from "react-icons/sl";
 import { SiWebauthn } from "react-icons/si";
 import About from "../ClientProfile/About";
 import Jobs from "../ClientProfile/Jobs";
 import Portfolio from "../ClientProfile/Portfolio";
-import { Link, Route, Routes } from "react-router-dom";
-import header from "../ClientProfile/assets/header.png";
+import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useState } from "react";
 
@@ -54,21 +51,21 @@ const ClientProfile = () => {
           <div className="client-img">
             <img src={user?.picture} alt="placeholder" />
           </div>
-          <div className="nav-links">
+          <div className="nav-links" style={{ color: "white" }}>
             <Link to="" onClick={handleAbout}>
-              <p className="about-nav">
+              <p className="about-nav" style={{ color: "white" }}>
                 <AiOutlineInfoCircle />
                 About
               </p>
             </Link>
             <Link to="" onClick={handleJob}>
-              <p className="jobs-nav">
+              <p className="jobs-nav" style={{ color: "white" }}>
                 <BsFillBagFill />
                 Jobs
               </p>
             </Link>
             <Link to="" onClick={handlePortfolio}>
-              <p className="portfolio-nav">
+              <p className="portfolio-nav" style={{ color: "white" }}>
                 <AiOutlineIdcard />
                 potfolio
               </p>
@@ -86,11 +83,11 @@ const ClientProfile = () => {
             <SiWebauthn />
             {user?.client?.brandUrl}
           </p>
-          <Link>
+          {/* <Link>
             <button>
               <SlUserFollow /> Follow
             </button>
-          </Link>
+          </Link> */}
           <div className="followSection">
             <div className="following">
               <p>Following</p>
