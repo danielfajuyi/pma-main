@@ -118,14 +118,13 @@ function ClientsKycForm2({
 
   //setting error
   useEffect(() => {
-    let err = false;
     if (jobPhotos.length < 6 && !picture) {
-      err = true;
+      setIsError(true);
     } else {
-      err = false;
+      setIsError(false);
     }
-    setIsError(err);
-  }, []);
+  }, [jobPhotos, picture]);
+  console.log( isError)
 
   //handling submit
   function handleSubmit() {
