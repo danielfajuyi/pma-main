@@ -13,9 +13,12 @@ function EmailAndPassword({
   const [pwdDescription, setPwdDescription] = useState("");
   const [emailDescription, setEmailDescription] = useState("");
 
-  const { email, password, deactivateAccount } = userData[0].account;
+  // const { email, password, deactivateAccount } = userData?.account;
+  let email;
+  let password;
+  let deactivateAccount;
 
-  const [deactivation, setDeactivation] = useState(deactivateAccount);
+  const [deactivation, setDeactivation] = useState();
 
   const [newEmail, setNewEmail] = useState("");
   const [VerifyEmail, setVerifyEmail] = useState(false);

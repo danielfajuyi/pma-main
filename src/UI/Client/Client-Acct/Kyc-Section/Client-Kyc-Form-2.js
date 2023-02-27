@@ -10,12 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { update } from "../../../../redux/apiCalls";
 
 function ClientsKycForm2({
-  DomItems,
-  collectData,
   handleNavigation,
-  handleModal,
-  form2Data,
-  handleChange,
   inputs,
   setInputs,
 }) {
@@ -68,7 +63,7 @@ function ClientsKycForm2({
             break;
         }
       },
-      (error) => {},
+      () => {},
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           if (urlType === "jobPhotos") {
