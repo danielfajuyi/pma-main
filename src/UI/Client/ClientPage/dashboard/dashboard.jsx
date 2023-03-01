@@ -1,30 +1,23 @@
 import "./dashboard.scss";
-
-//  Icons --> [START]
 import { MdEdit } from "react-icons/md";
 import { RiMessage2Fill } from "react-icons/ri";
-// [END]
-
-// Components --> [START]
 import BookingsCard from "../../../../Components/Dashboard/Bookings-Card/bookings_card";
 import MessagePreviewCard from "../../../../Components/Dashboard/Message-Preview-Card/message_preview_card";
 import JobCard from "../../../../Components/Dashboard/Job-Card/job_card";
 import ClientCard from "../../../../Components/Dashboard/Client-Card/client_card";
 import VisitorStats from "../../../../Components/Dashboard/Visitor-Stats/visitor_stats";
 import FadeIn from "../../../../Components/FadeIn/fade_in";
-// [END]
-
-// Temporary  Images
 import profileImg from "../../../../Images/model-profile/model.png";
 import coverImg from "../../../../Images/model/model-large.jpg";
-
-// Other External NPM Packages --> [START]
 import _ from "lodash";
 import { Chart } from "chart.js/auto"; //Registering Charts ("Do not remove this import")
-
-// [END]
+import { useSelector } from "react-redux";
+import ClientsForms from "../../Client-Acct/Kyc-Section/Client-Kyc-Forms";
 
 const ClientDashboard = () => {
+  const user = useSelector((state)=> state.user.currentUser)
+  // console.log(user)
+
   // Visitor Stats Graph Data -> (VisitorStats Component) --> [STRAT]
   const data = {
     labels: ["Aug", "Sept", "Oct", "Nov", "Dec", "Jan", "Feb"],
@@ -118,7 +111,9 @@ const ClientDashboard = () => {
 
   return (
     <FadeIn>
-      <div id="client_dashboard">
+      {!user?.isUpdated && <ClientsForms />}
+      {user.isUpdated && !user?.isVerified && <h1 style={{color:'white', textAlign:'center', margin:'40px'}}>Your account is undergoing verification, please hang-on awhile for us to finish the process, thanks.</h1> }
+      {user?.isVerified && <div id="client_dashboard">
         {/* GRID  --> [START]*/}
         <div id="pane">
           {/* Grid Area 1 --> [START]*/}
@@ -160,8 +155,8 @@ const ClientDashboard = () => {
                 <img src={profileImg} alt="profile-pic" />
               </div>
               <div>
-                <div id="name">Hello, {"Fourwall"}</div>
-                <div id="handle">{"@fourwall"}</div>
+                <div id="name">Hello, {user?.firstName} {user?.lastName}</div>
+                {/* <div id="handle">{`@${user?.username}`}</div> */}
               </div>
               <button>
                 <MdEdit size={14} />
@@ -169,17 +164,12 @@ const ClientDashboard = () => {
               </button>
             </div>
             <div id="status">
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-              Dignissimos doloremque velit nobis et qui, deserunt soluta
-              delectus quas officia inventore odio sequi porro alias ullam ipsam
-              eaque nam dolores dicta hic impedit libero atque quaerat. Id iusto
-              quae ipsum, at qui, commodi, molestias maiores est in dolor
-              ratione ipsa alias soluta sit. Accusantium culpa.
+              {user?.client?.bio}
             </div>
-            <div id="follow">
+            {/* <div id="follow">
               <span>Following {772}</span>
               <span>Followers {772}</span>
-            </div>
+            </div> */}
           </div>
           {/* PROFILE PANEL <-- [END] */}
 
@@ -192,21 +182,6 @@ const ClientDashboard = () => {
                 <a href="./seeall"> See all</a>
               </header>
               <div id="body">
-                <ClientCard
-                  img={profileImg}
-                  name="Eke Kara"
-                  location="Lagos, Nigeria"
-                />
-                <ClientCard
-                  img={profileImg}
-                  name="Eke Kara"
-                  location="Lagos, Nigeria"
-                />
-                <ClientCard
-                  img={profileImg}
-                  name="Eke Kara"
-                  location="Lagos, Nigeria"
-                />
                 <ClientCard
                   img={profileImg}
                   name="Eke Kara"
@@ -226,21 +201,6 @@ const ClientDashboard = () => {
                   name="Eke Kara"
                   location="Lagos, Nigeria"
                 />
-                <ClientCard
-                  img={profileImg}
-                  name="Eke Kara"
-                  location="Lagos, Nigeria"
-                />
-                <ClientCard
-                  img={profileImg}
-                  name="Eke Kara"
-                  location="Lagos, Nigeria"
-                />
-                <ClientCard
-                  img={profileImg}
-                  name="Eke Kara"
-                  location="Lagos, Nigeria"
-                />
               </div>
             </div>
 
@@ -250,21 +210,6 @@ const ClientDashboard = () => {
                 <a href="./seeall">See all</a>
               </header>
               <div id="body">
-                <JobCard
-                  note="Female model needed for shoot"
-                  views="12.6k"
-                  applied="26"
-                />
-                <JobCard
-                  note="Female model needed for shoot"
-                  views="12.6k"
-                  applied="26"
-                />
-                <JobCard
-                  note="Female model needed for shoot"
-                  views="12.6k"
-                  applied="26"
-                />
                 <JobCard
                   note="Female model needed for shoot"
                   views="12.6k"
@@ -313,7 +258,7 @@ const ClientDashboard = () => {
           {/*Inbox <-- [END]  */}
         </div>
         {/* [GRID <-- END] */}
-      </div>
+      </div>}
     </FadeIn>
   );
 };

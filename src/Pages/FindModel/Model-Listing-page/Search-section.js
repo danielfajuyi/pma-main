@@ -9,7 +9,6 @@ function AllSearch({
   handleData,
   gender,
   category,
-  search,
   searchResult,
 }) {
   const [toggleGender, setToggleGender] = useState(false);
@@ -81,8 +80,8 @@ function AllSearch({
                     itemText="all gender"
                     handleFilter={filterGender}
                   />
-                  <FilterItem itemText="male" handleFilter={filterGender} />
-                  <FilterItem itemText="female" handleFilter={filterGender} />
+                  <FilterItem itemText="m" handleFilter={filterGender} />
+                  <FilterItem itemText="f" handleFilter={filterGender} />
                 </ul>
               )}
             </div>
@@ -105,7 +104,6 @@ function AllSearch({
                 onChange={handleSearch}
                 type="search"
                 id="search"
-                value={search}
                 placeholder="Atlanta, Usa"
                 spellCheck="false"
                 autoFocus

@@ -47,58 +47,89 @@
     .head {
       @include d_flex;
       padding-block: 0.5em;
-    }
-    .profile_img {
-      @include img_holder(10em, 10em);
-    }
-    .edit_holder {
-      position: absolute;
-      @include d_flex($justify: flex-start);
-      font-size: 0.74rem;
-      text-align: right;
-      right: 1.5em;
-    }
-    .edit {
-      cursor: pointer;
-      font-size: 0.8rem;
-      background-color: $yellow;
-      border-radius: 4px;
-      @include d_flex;
-      padding: 0.1em;
-      margin-left: 0.2em;
-    }
-
-    .name {
-      text-align: center;
-      margin-bottom: 0.1em;
-    }
-    .model {
-      width: 80px;
-      margin: 0 auto;
-      text-align: center;
-      font-size: 0.7rem;
-      background-color: $yellow;
-      padding: 0.4em 1em;
-      border-radius: 2em;
+      .profile_img {
+        position: relative;
+        @include img_holder(10em, 10em);
+        .ppLabel {
+          position: absolute;
+          z-index: 9;
+          bottom: 10px;
+          right: 20px;
+          cursor: pointer;
+          .photo_icon {
+            color: #fff;
+          }
+        }
+      }
     }
 
     .body {
       position: relative;
       padding: 0 1em 1em;
       font-weight: 500;
-    }
 
-    label {
-      font-size: 0.8rem;
-      color: lighten($black, 35%);
-    }
+      .name {
+        text-align: center;
+        margin-bottom: 0.1em;
+      }
+      .model {
+        width: 80px;
+        margin: 0 auto;
+        text-align: center;
+        font-size: 0.7rem;
+        background-color: $yellow;
+        padding: 0.4em 1em;
+        border-radius: 2em;
+      }
 
-    label + div {
-      border: 1px solid lighten($black, 60%);
-      padding: 0.4em;
-      border-radius: 0.3em;
-      color: lighten($black, 15%);
-      font-size: 0.86rem;
+      .edit_holder {
+        position: absolute;
+        @include d_flex($justify: flex-start);
+        font-size: 0.74rem;
+        text-align: right;
+        right: 1.5em;
+        .edit {
+          cursor: pointer;
+          font-size: 0.8rem;
+          background-color: $yellow;
+          border-radius: 4px;
+          @include d_flex;
+          padding: 0.1em;
+          margin-left: 0.2em;
+        }
+      }
+
+      .mDet {
+        display: flex;
+        flex-direction: column;
+        label {
+          font-size: 0.8rem;
+          color: lighten($black, 35%);
+          margin-top: 5px;
+        }
+
+        input,
+        select {
+          border: 1px solid lighten($black, 60%);
+          padding: 0.4em;
+          border-radius: 0.3em;
+          color: lighten($black, 15%);
+          font-size: 0.86rem;
+        }
+
+        .update {
+          width: 100%;
+          margin: 0 auto;
+          text-align: center;
+          font-size: 0.8rem;
+          background-color: $yellow;
+          padding: 0.4em 1em;
+          border-radius: 0.4em;
+          height: 30px;
+          margin-top: 5px;
+          cursor: pointer;
+        }
+      }
     }
   }
   #latest_post {

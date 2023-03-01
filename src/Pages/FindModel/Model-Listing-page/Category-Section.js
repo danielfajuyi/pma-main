@@ -4,6 +4,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import CategoryLabel from "../../../Components/CategoryLabel/CategoryLable";
+import CategoryItem from "./CategoryItem";
 
 const CategoryItems = [
   {
@@ -138,15 +139,15 @@ function Categories() {
       {/* <h2 className="category-title">Modeling Categories</h2> */}
       <Sectionhead title="Categories" description="Our Models" />
 
-      {/* <ul className="categories">
-        <CategoryItem img="./images/model (1).jpg" text="Runway" />
-        <CategoryItem img="./images/model (20).jpg" text="Child" />
-        <CategoryItem img="./images/model (2).jpg" text="Fashion" />
-        <CategoryItem img="./images/model (14).jpg" text="Plus size" />
-        <CategoryItem img="./images/model (4).jpg" text="Fitness" />
-      </ul> */}
+      <ul className="categories">
+        <CategoryItem img="images/model (1).jpg" text="Runway" />
+        <CategoryItem img="images/model (20).jpg" text="Child" />
+        <CategoryItem img="images/model (2).jpg" text="Fashion" />
+        <CategoryItem img="images/model (14).jpg" text="Plus size" />
+        <CategoryItem img="images/model (4).jpg" text="Fitness" />
+      </ul>
 
-      <CategoryItemsSlider />
+      {/* <CategoryItemsSlider /> */}
     </section>
   );
 }

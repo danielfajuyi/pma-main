@@ -6,7 +6,7 @@ function ModelPhoto({ photos, activeDisplay, displayLimit, handleDisplay, viewAl
     <section className="section photo-section">
       {/* photo display section */}
       <ul className="imgList">
-        {photos.map((photo, index) =>
+        {photos?.map((photo, index) =>
           activeDisplay !== "photos" ? (
             index <= displayLimit - 1 && <ImgItem key={index} img={photo} />
           ) : activeDisplay === "photos" && !viewAll ? (
@@ -18,12 +18,12 @@ function ModelPhoto({ photos, activeDisplay, displayLimit, handleDisplay, viewAl
       </ul>
 
       {/* No photo posted yet */}
-      <div style={{ display: photos.length > 1 && "none" }} className="empty-content-text">
+      <div style={{ display: photos?.length > 1 && "none" }} className="empty-content-text">
         Sorry, Model is yet to post a Photo.
       </div>
 
       {/* photo display btn section */}
-      {photos.length > displayLimit && (
+      {photos?.length > displayLimit && (
         <ViewBtn
           id="photos"
           handleDisplay={handleDisplay}

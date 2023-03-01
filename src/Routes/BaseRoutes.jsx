@@ -1,4 +1,5 @@
-import { useState } from "react";
+import jwt_decode from "jwt-decode";
+import { useEffect, useState } from "react";
 import Navbar from "../Components/Navbar/navbar";
 import About from "../Pages/About/about";
 import Contact from "../Pages/Contact/contact";
@@ -28,12 +29,37 @@ import {
   Navigate,
   Outlet,
 } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { userLogout } from "../redux/apiCalls";
+import ModelsForms from "../UI/Model/Models-Acct/Kyc-Section/Models-Kyc-Forms";
+import ProfilePage from "../Pages/FindModel/Models-Profile-page/Profile-Page";
+import ModelPortfolio from "../UI/Model/ModelPortfolio/ModelPortfolio";
+import SeeModels from "../Components/SeeModels/see_models";
+import ClientProfile from "../UI/Client/ClientProfile/ClientProfile";
+import AcctSetting from "../UI/Client/Client-Acct/Acct-Setting/Client-Acct-Setting";
 
 export const BaseRoutes = () => {
   const [showNavbar, setShowNavbar] = useState(true);
   const user = useSelector((state) => state.user.currentUser);
-  // console.log(user);
+  const dispatch = useDispatch();
+
+  // automatically logout a user when session expires
+  const handleLogout = () => {
+    userLogout(dispatch);
+  };
+
+  useEffect(() => {
+    if (user) {
+      const token = user.accessToken;
+      if (token) {
+        const decodedToken = jwt_decode(token);
+        if (decodedToken.exp * 1000 < new Date().getTime()) {
+          handleLogout();
+          return alert("Session expired! kindly login again to continue");
+        }
+      }
+    }
+  });
 
   const ProtectedRoute = ({ children }) => {
     if (!user) {
@@ -71,8 +97,12 @@ export const BaseRoutes = () => {
           element: <Contact />,
         },
         {
-          path: "find-model",
+          path: "find-model/",
           element: <FindModel />,
+        },
+        {
+          path: "find-model/profile/:id",
+          element: <ProfilePage />,
         },
         {
           path: "faqs",
@@ -127,6 +157,10 @@ export const BaseRoutes = () => {
               element: <ModelDashboard />,
             },
             {
+              path: "profile/:id",
+              element: <ModelPortfolio />,
+            },
+            {
               path: "mywallet",
               element: <MyWallet />,
             },
@@ -170,6 +204,10 @@ export const BaseRoutes = () => {
               element: <MyWallet />,
             },
             {
+              path: "findmodels",
+              element: <FindModel />,
+            },
+            {
               path: "review/",
               element: <Review />,
               children: [
@@ -184,10 +222,22 @@ export const BaseRoutes = () => {
               ],
             },
             {
+              path: "settings",
+              element: <AcctSetting />,
+            },
+            {
               path: "subscription",
               element: <ModelSubscription />,
             },
           ],
+        },
+        {
+          path: "profile/:id",
+          element: (
+            <ProtectedRoute>
+              <ClientProfile />
+            </ProtectedRoute>
+          ),
         },
       ],
     },
@@ -197,7 +247,19 @@ export const BaseRoutes = () => {
     },
     {
       path: "login",
-      element: !user ? <LoginForm /> : <Navigate to={user?.role === "agency" ? "/agencypage" : user?.role === "model" ? "/modelpage" : "/clientpage"} />,
+      element: !user ? (
+        <LoginForm />
+      ) : (
+        <Navigate
+          to={
+            user?.role === "agency"
+              ? "/agencypage"
+              : user?.role === "model"
+              ? "/modelpage"
+              : "/clientpage"
+          }
+        />
+      ),
     },
   ]);
 

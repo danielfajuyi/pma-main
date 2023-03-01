@@ -1,78 +1,144 @@
 import "./Client-Kyc-Form-2.css";
+import { getDownloadURL, ref, uploadBytesResumable } from "@firebase/storage";
 import FormNavBtn from "./Form-nav-btn";
 import { useState } from "react";
 import { useEffect } from "react";
+import { Photo } from "../utils";
+import { storage } from "../../../../firebase";
+import { AlertModal } from "../../../../Pages/LoginSignup/Sign-Up/signUpForm/Modal";
+import { useDispatch, useSelector } from "react-redux";
+import { update } from "../../../../redux/apiCalls";
 
 function ClientsKycForm2({
-  DomItems,
-  collectData,
   handleNavigation,
-  handleModal,
-  form2Data,
+  inputs,
+  setInputs,
 }) {
-  const { Photo } = DomItems[0];
+  const { isFetching } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
-  const [photo, setPhoto] = useState(form2Data.photos);
-  const [profilePic, setProfilePic] = useState(form2Data.profilePic);
-  const [coverPic, setCoverPic] = useState(form2Data.coverPic);
-
+  const [jobPhotos, setJobPhotos] = useState([]);
+  const [jobPhoto, setJobPhoto] = useState(undefined);
+  const [previewPhotos, setPreviewPhotos] = useState([]);
+  const [picture, setPicture] = useState(undefined);
+  const [coverPicture, setCoverPicture] = useState(undefined);
   const [submit, setSubmit] = useState(false);
   const [isError, setIsError] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [modalTxt, setModalTxt] = useState("");
 
-  function handleChange(e) {
-    const { id, name, files } = e.target;
-    const img = URL.createObjectURL(files[0]);
+  const handlePhotos = (e) => {
+    const img = URL.createObjectURL(e.target.files[0]);
+    setPreviewPhotos((prevData) => ({ ...prevData, [e.target.id]: img }));
+    setJobPhoto(e.target.files[0]);
+  };
 
-    if (name === "profilePic") {
-      setProfilePic(img);
-    } else if (name === "photo") {
-      setPhoto((prevData) => ({ ...prevData, [id]: img }));
-    } else {
-      setCoverPic(img);
-    }
-  }
+  const uploadFile = (file, urlType) => {
+    const fileName = new Date().getTime() + file.name;
+    const storageRef = ref(storage, `/clients/${fileName}`);
+    const uploadTask = uploadBytesResumable(storageRef, file);
+
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        if (urlType === "jobPhotos") {
+          setProgress(Math.round(progress));
+        }
+        if (urlType === "picture") {
+          setProgress(Math.round(progress));
+        }
+        if (urlType === "coverPicture") {
+          setProgress(Math.round(progress));
+        }
+        switch (snapshot.state) {
+          case "paused":
+            console.log("Upload is paused");
+            break;
+          case "running":
+            console.log("Upload is running");
+            break;
+          default:
+            break;
+        }
+      },
+      () => {},
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          if (urlType === "jobPhotos") {
+            setJobPhotos((prev) => [...prev, downloadURL]);
+          }
+          if (urlType === "picture") {
+            setInputs((prev) => {
+              return { ...prev, [urlType]: downloadURL };
+            });
+          }
+          if (urlType === "coverPicture") {
+            setInputs((prev) => {
+              return { ...prev, [urlType]: downloadURL };
+            });
+          }
+        });
+      }
+    );
+  };
+
+  useEffect(() => {
+    const sendJobPhoto = (urlType) => {
+      urlType = "jobPhotos";
+      setInputs((prev) => {
+        return { ...prev, [urlType]: jobPhotos };
+      });
+      if (jobPhoto) {
+        uploadFile(jobPhoto, "jobPhotos");
+        setJobPhoto(undefined);
+      }
+    };
+    sendJobPhoto();
+
+    const sendPicture = (urlType) => {
+      urlType = "picture";
+      if (picture) {
+        uploadFile(picture, "picture");
+        // setPicture(undefined);
+      }
+    };
+    sendPicture();
+
+    const sendCoverPicture = (urlType) => {
+      urlType = "coverPicture";
+      if (coverPicture) {
+        uploadFile(coverPicture, "coverPicture");
+        // setCoverPicture(undefined);
+      }
+    };
+    sendCoverPicture();
+  }, [setInputs, coverPicture, jobPhoto, jobPhotos, picture]);
 
   //setting error
   useEffect(() => {
-    let err = false;
-    if (
-      photo.photo1 === "" ||
-      photo.photo2 === "" ||
-      photo.photo3 === "" ||
-      photo.photo4 === "" ||
-      photo.photo5 === "" ||
-      photo.photo6 === "" ||
-      profilePic === ""
-    ) {
-      err = true;
+    if (jobPhotos.length < 6 && !picture) {
+      setIsError(true);
     } else {
-      err = false;
+      setIsError(false);
     }
-
-    setIsError(err);
-  }, [photo, profilePic]);
+  }, [jobPhotos, picture]);
+  console.log( isError)
 
   //handling submit
-  function handleSubmit(text) {
+  function handleSubmit() {
     if (isError) {
-      handleModal("add-photo");
+      setModalTxt("add-photo");
     } else {
-      setSubmit((prev) => !prev);
-      collectData(2, {
-        profilePic: profilePic,
-        photos: photo,
-        coverPic: coverPic,
-      });
-      handleNavigation(text);
-
-      setTimeout(() => {
-        setSubmit((prev) => !prev);
-      }, 1000);
+      update(dispatch, "/client/", { ...inputs }, setModalTxt);
     }
   }
 
   return (
     <form className="--kyc-form" onSubmit={(e) => e.preventDefault()}>
+      <AlertModal modalTxt={modalTxt} setModalTxt={setModalTxt} />
+
       <section className="--kyc-hero">
         <img src="/images/client_4.jpg" alt="" />
         <div className="--kyc-hero__text-rapper">
@@ -110,17 +176,18 @@ function ClientsKycForm2({
               </p>
             </div>
             <div className="--img-rapper">
-              <label className="--upload-btn on-hover" htmlFor="profile-img">
+              <label className="--upload-btn on-hover" htmlFor="picture">
                 <i className="fa-solid fa-plus fa-2x"></i>
               </label>
               <input
-                onChange={handleChange}
+                onChange={(e) => setPicture(e.target.files[0])}
                 type="file"
-                name="profilePic"
-                id="profile-img"
+                name="picture"
+                id="picture"
                 className="--file-input"
+                style={{ display: "none" }}
               />
-              {profilePic && <img src={profilePic} alt="" />}
+              {picture && <img src={URL.createObjectURL(picture)} alt="" />}
             </div>
           </section>
 
@@ -146,14 +213,17 @@ function ClientsKycForm2({
                       <i className="fa-solid fa-plus fa-2x"></i>
                     </label>
                     <input
-                      onChange={handleChange}
+                      onChange={handlePhotos}
                       type="file"
-                      name="photo"
+                      name="jobPhotos"
                       id={item.id}
                       className="--file-input"
+                      style={{ display: "none" }}
                     />
 
-                    {photo[item.id] && <img src={photo[item.id]} alt="" />}
+                    {previewPhotos[item.id] && (
+                      <img src={previewPhotos[item.id]} alt="" />
+                    )}
                   </li>
                 );
               })}
@@ -175,18 +245,20 @@ function ClientsKycForm2({
             <div className="--cover-img-rapper">
               <label
                 className="--cover-upload-btn on-hover"
-                htmlFor="cover-img"
+                htmlFor="coverPicture"
               >
                 <i className="fa-solid fa-plus fa-2x"></i>
               </label>
               <input
-                onChange={handleChange}
+                onChange={(e) => setCoverPicture(e.target.files[0])}
                 type="file"
-                name="cover-img"
-                id="cover-img"
+                name="coverPicture"
+                id="coverPicture"
                 className="--file-input"
               />
-              {coverPic && <img src={coverPic} alt="" />}
+              {coverPicture && (
+                <img src={URL.createObjectURL(coverPicture)} alt="" />
+              )}
             </div>
           </section>
 
@@ -199,7 +271,7 @@ function ClientsKycForm2({
             />
             <FormNavBtn
               submit={submit}
-              btnText="Submit"
+              btnText={isFetching ? "A moment..." : "Submit"}
               name="form3"
               handleClick={handleSubmit}
               type="submit"

@@ -65,6 +65,14 @@
 }
 .stats-item {
   width: 46%;
+  display: flex;
+  align-items: center;
+}
+.stats-item > input, select{
+  font-size: 20px;
+  font-weight: 600;
+  color: rgba(34, 34, 34, 0.816);
+  margin-left: 5px;
 }
 .category-item,
 .social-item {

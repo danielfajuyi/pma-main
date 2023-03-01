@@ -1,66 +1,94 @@
-import { useEffect, useState } from "react";
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import { useCallback, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { storage } from "../../../../firebase";
+import { AlertModal } from "../../../../Pages/LoginSignup/Sign-Up/signUpForm/Modal";
+import { update } from "../../../../redux/apiCalls";
+import { Industry, SocialMedia } from "../utils";
 import "./About.css";
 import EditBtn from "./Edit-btn";
 import { Input1, Input2, Input3 } from "./set--kyc-input";
 
-function About({
-  DomItems,
-  handleActiveEdit,
-  activeEdit,
-  userData,
-  resetDiscard,
-  handleModal,
-}) {
-  const { SocialMedia, Industry } = DomItems[0];
+function About({ handleActiveEdit, activeEdit, resetDiscard, user }) {
+  const { isFetching } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
-  //data state
-  const [data, setData] = useState(userData[0].profile);
+  const [picture, setPicture] = useState(undefined);
+  const [progress, setProgress] = useState(0);
+  const [inputs, setInputs] = useState({});
+  const [modalTxt, setModalTxt] = useState("");
 
-  const [social, setSocial] = useState(data.socialMedia);
+  const handleChange = useCallback(
+    (e) => {
+      setInputs((prev) => {
+        return { ...prev, [e.target.name]: e.target.value };
+      });
+    },
+    [setInputs]
+  );
+  // console.log(inputs)
 
-  const [industry, setIndustry] = useState(data.industry);
-  const [toggleIndustry, setToggleIndustry] = useState(false);
+  const uploadFile = (file, urlType) => {
+    const fileName = new Date().getTime() + file.name;
+    const storageRef = ref(storage, `/clients/${fileName}`);
+    const uploadTask = uploadBytesResumable(storageRef, file);
+
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        if (urlType === "picture") {
+          setProgress(Math.round(progress));
+        }
+        switch (snapshot.state) {
+          case "paused":
+            console.log("Upload is paused");
+            break;
+          case "running":
+            console.log("Upload is running");
+            break;
+          default:
+            break;
+        }
+      },
+      () => {},
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          if (urlType === "picture") {
+            setInputs((prev) => {
+              return { ...prev, [urlType]: downloadURL };
+            });
+          }
+        });
+      }
+    );
+  };
+
+  useEffect(() => {
+    const sendPicture = (urlType) => {
+      urlType = "picture";
+      if (picture) {
+        uploadFile(picture, "picture");
+        // setPicture(undefined);
+      }
+    };
+    sendPicture();
+  }, [picture]);
 
   //State Error
   const [error, setError] = useState({
-    name: "",
-    url: "",
-    address: "",
-    state: "",
-    country: "",
-    bio: "",
-    industry: "",
-    facebook: "",
-    twitter: "",
-    instagram: "",
+    brandName: inputs.brandName,
+    brandUrl: inputs.brandUrl,
+    address: inputs.address,
+    state: inputs.state,
+    country: inputs.country,
+    bio: inputs.bio,
+    industry: inputs.industry,
+    instagram: inputs.instagram,
   });
 
   const [isError, setIsError] = useState(false);
-
-  //handling changes
-  function handleChange(e) {
-    const { name, value, files } = e.target;
-
-    if (name === "profilePic") {
-      const img = URL.createObjectURL(files[0]);
-      setData((prevData) => ({ ...prevData, [name]: img }));
-    } else if (
-      name === "facebook" ||
-      name === "twitter" ||
-      name === "instagram"
-    ) {
-      setSocial((prevData) => ({ ...prevData, [name]: value }));
-    } else {
-      setData((prevData) => ({ ...prevData, [name]: value }));
-    }
-  }
-
-  //handling industry choices
-
-  function handleIndustry(option) {
-    option !== "toggle" && setIndustry(option);
-    setToggleIndustry((prev) => !prev);
-  }
 
   //setting error messages
   useEffect(() => {
@@ -69,66 +97,56 @@ function About({
       let bioErr = "The Bio section is required!";
       let industryErr = "Please choose an industry!";
       let socialErr = "You social-media link is required";
-      data.name === ""
-        ? setError((prev) => ({ ...prev, name: errorText }))
-        : setError((prev) => ({ ...prev, name: "" }));
+      !inputs?.brandName
+        ? setError((prev) => ({ ...prev, brandName: errorText }))
+        : setError((prev) => ({ ...prev, brandName: "" }));
 
-      data.url === ""
-        ? setError((prev) => ({ ...prev, url: errorText }))
-        : setError((prev) => ({ ...prev, url: "" }));
+      !inputs?.brandUrl
+        ? setError((prev) => ({ ...prev, brandUrl: errorText }))
+        : setError((prev) => ({ ...prev, brandUrl: "" }));
 
-      data.address === ""
+      !inputs?.address
         ? setError((prev) => ({ ...prev, address: errorText }))
         : setError((prev) => ({ ...prev, address: "" }));
 
-      data.state === ""
+      !inputs?.state
         ? setError((prev) => ({ ...prev, state: errorText }))
         : setError((prev) => ({ ...prev, state: "" }));
 
-      data.country === ""
+      !inputs?.country
         ? setError((prev) => ({ ...prev, country: errorText }))
         : setError((prev) => ({ ...prev, country: "" }));
 
-      data.bio === ""
+      !inputs?.bio
         ? setError((prev) => ({ ...prev, bio: bioErr }))
         : setError((prev) => ({ ...prev, bio: "" }));
 
-      industry === ""
+      !inputs?.industry
         ? setError((prev) => ({ ...prev, industry: industryErr }))
         : setError((prev) => ({ ...prev, industry: "" }));
 
-      social.facebook === ""
-        ? setError((prev) => ({ ...prev, facebook: socialErr }))
-        : setError((prev) => ({ ...prev, facebook: "" }));
-
-      social.twitter === ""
-        ? setError((prev) => ({ ...prev, twitter: socialErr }))
-        : setError((prev) => ({ ...prev, twitter: "" }));
-
-      social.instagram === ""
+      !inputs?.instagram
         ? setError((prev) => ({ ...prev, instagram: socialErr }))
         : setError((prev) => ({ ...prev, instagram: "" }));
     }
 
     handleError();
-  }, [data, social, industry]);
+  }, [inputs]);
 
   //checking for error message
 
   useEffect(() => {
     let err = false;
     if (
-      error.profilePic ||
-      error.name ||
-      error.url ||
-      error.address ||
-      error.state ||
-      error.country ||
-      error.bio ||
-      error.facebook ||
-      error.twitter ||
-      error.instagram ||
-      error.industry
+      !inputs.picture ||
+      !inputs.brandName ||
+      !inputs.brandUrl ||
+      !inputs.address ||
+      !inputs.state ||
+      !inputs.country ||
+      !inputs.bio ||
+      !inputs.instagram ||
+      !inputs.industry
     ) {
       err = true;
     } else {
@@ -139,34 +157,19 @@ function About({
   }, [error]);
 
   //handle save
-  function handleSave(btn) {
-    let x = {
-      ...userData[0].profile,
-      profilePic: data.profilePic,
-      name: data.name,
-      url: data.url,
-      address: data.address,
-      state: data.state,
-      country: data.country,
-      bio: data.bio,
-      industry: industry,
-      socialMedia: social,
-    };
-
-    if (btn === "save") {
-      console.log((userData[0].profile = x));
-      handleModal("save");
+  function handleSubmit() {
+    if (isError) {
+      setModalTxt("add-photo");
     } else {
-      setData(userData[0].profile);
-      handleActiveEdit(activeEdit, "Done");
-      console.log(userData[0].profile);
+      update(dispatch, "/client/", { ...inputs }, setModalTxt);
     }
   }
 
   return (
     <form className="--content-container" onSubmit={(e) => e.preventDefault()}>
-      {/* profile detail section */}
+      <AlertModal modalTxt={modalTxt} setModalTxt={setModalTxt} />
 
+      {/* profile detail section */}
       <div className="--set_sections-container ">
         {/* mobile text */}
 
@@ -194,7 +197,7 @@ function About({
 
           {activeEdit !== "profile-details" && (
             <div className="--set_img-rapper">
-              <img src={data.profilePic} alt="" />
+              <img src={user?.picture} alt="" />
             </div>
           )}
 
@@ -209,13 +212,13 @@ function About({
                 <i className="fa-solid fa-plus fa-2x"></i>
               </label>
               <input
-                onChange={handleChange}
+                onChange={(e) => setPicture(e.target.files[0])}
                 type="file"
-                name="profilePic"
+                name="picture"
                 id="set_profile-img"
                 className="--file-input"
               />
-              <img src={data.profilePic} alt="" />
+              {picture && <img src={URL.createObjectURL(picture)} alt="" />}
             </div>
           )}
 
@@ -247,9 +250,8 @@ function About({
               <ul className="--set_info-section">
                 {/* name input */}
                 <Input1
-                  id="name"
+                  id="brandName"
                   label="Brand Name"
-                  value={data.name}
                   placeholder="Your Brand Name..."
                   error={error.name}
                   handleChange={handleChange}
@@ -257,9 +259,8 @@ function About({
 
                 {/* url input  */}
                 <Input1
-                  id="url"
+                  id="brandUrl"
                   label="Brand Url"
-                  value={data.url}
                   placeholder="https://brand-url.com"
                   error={error.url}
                   handleChange={handleChange}
@@ -269,7 +270,6 @@ function About({
                 <Input2
                   id="address"
                   label="Address"
-                  value={data.address}
                   placeholder="Client Address..."
                   error={error.address}
                   handleChange={handleChange}
@@ -279,7 +279,6 @@ function About({
                 <Input3
                   id="country"
                   label="Country"
-                  value={data.country}
                   placeholder="Client Country..."
                   error={error.country}
                   handleChange={handleChange}
@@ -289,7 +288,6 @@ function About({
                 <Input3
                   id="state"
                   label="State"
-                  value={data.state}
                   placeholder="Client State..."
                   error={error.state}
                   handleChange={handleChange}
@@ -302,24 +300,24 @@ function About({
               <ul className="--set_info-text-container">
                 <li>
                   <span className="bold-text">Brand Name: </span>
-                  {data.name}
+                  {user?.client?.brandName}
                 </li>
                 <li>
                   <span className="bold-text "> Brand Url: </span>
-                  <span className="--url">{data.url}</span>
+                  <span className="--url">{user?.client?.brandUrl}</span>
                 </li>
                 <li>
                   <span className="bold-text">Address: </span>
-                  {data.address}
+                  {user?.client?.address}
                 </li>
 
                 <li>
                   <span className="bold-text">Country: </span>
-                  {data.country}
+                  {user?.client?.country}
                 </li>
                 <li>
                   <span className="bold-text">State: </span>
-                  {data.state}
+                  {user?.client?.state}
                 </li>
               </ul>
             )}
@@ -357,30 +355,18 @@ function About({
 
         {activeEdit === "client-industry" && (
           <div className="industry-container">
-            <button
-              onClick={() => handleIndustry("toggle")}
-              className="industry__btn --cancel-btn "
-              type="button"
+            <select
+              className="--kyc-input-field"
+              name="industry"
+              onChange={handleChange}
             >
-              {industry ? `industry: ${industry}` : "Choose an industry"}
-              <i
-                style={{ transform: toggleIndustry && `rotateX(${180}deg)` }}
-                className="fa-solid fa-angle-down"
-              ></i>
-            </button>
-            {toggleIndustry && (
-              <ul className="industry-list">
-                {Industry.map((item) => (
-                  <li
-                    key={item}
-                    onClick={() => handleIndustry(item)}
-                    className="industry-item "
-                  >
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            )}
+              <option value="">Choose an industry</option>
+              {Industry.map((item, index) => (
+                <option value={item} key={index}>
+                  {item}
+                </option>
+              ))}
+            </select>
             <p className="--error-text">{error.industry}</p>
           </div>
         )}
@@ -389,7 +375,8 @@ function About({
 
         {activeEdit !== "client-industry" && (
           <p className="industry-text">
-            <span className="bold-text">client industry: </span> {industry}
+            <span className="bold-text">client industry: </span>{" "}
+            {user?.client?.industry}
           </p>
         )}
       </div>
@@ -434,7 +421,6 @@ function About({
                 id="bio"
                 cols="30"
                 rows="10"
-                value={data.bio}
                 required
               ></textarea>
             </div>
@@ -445,7 +431,7 @@ function About({
         {/* bio read only section  */}
 
         {activeEdit !== "client-bio" && (
-          <p className="--set_bio-text">{data.bio}</p>
+          <p className="--set_bio-text">{user?.client?.bio}</p>
         )}
       </div>
 
@@ -464,9 +450,9 @@ function About({
         {/* social-media  read only section */}
         {activeEdit !== "social-media" && (
           <ul className="--set_social-list">
-            <li className="--social-item">{social.facebook}</li>
-            <li className="--social-item">{social.twitter}</li>
-            <li className="--social-item">{social.instagram}</li>
+            {/* <li className="--social-item">{social?.facebook}</li>
+            <li className="--social-item">{social?.twitter}</li> */}
+            <li className="--social-item">{user?.client?.instagram}</li>
           </ul>
         )}
         {/* social-media  edit section */}
@@ -484,7 +470,6 @@ function About({
                       id={item.id}
                       name={item.id}
                       placeholder={item.placeholder}
-                      value={social[item.id]}
                       required
                       spellCheck={false}
                     />
@@ -502,7 +487,7 @@ function About({
 
       <section className="--setting_btn-container">
         <button
-          onClick={() => resetDiscard(() => handleSave)}
+          onClick={() => resetDiscard()}
           className="--discard-btn  bold-text --cancel-btn"
           type="button"
         >
@@ -513,10 +498,10 @@ function About({
             backgroundColor: activeEdit !== "Done" && "#bbbb",
           }}
           disabled={activeEdit !== "Done" && true}
-          onClick={() => handleSave("save")}
+          onClick={handleSubmit}
           className="--save-btn  bold-text --yes-btn"
         >
-          Save
+          {isFetching ? "A moment..." : "Save"}
         </button>
       </section>
     </form>
