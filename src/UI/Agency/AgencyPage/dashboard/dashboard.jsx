@@ -16,9 +16,11 @@ import FadeIn from "../../../../Components/FadeIn/fade_in";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { makeGet } from "../../../../redux/apiCalls";
+import AgencyForms from "../../Agency-Acct/Kyc-Section/Agency-Kyc-Forms";
 
 const AgencyDashboard = () => {
   const user = useSelector((state) => state.user.currentUser);
+  // console.log(user)
 
   const [message, setMessage] = useState([]);
   const dispatch = useDispatch();
@@ -130,172 +132,173 @@ const AgencyDashboard = () => {
   return (
     <FadeIn>
       <div id="agency_dashboard">
+        {!user.isUpdated && <AgencyForms />}
         {/* GRID  --> [START]*/}
-        <div id="pane">
-          {/* Grid Area 1 --> [START]*/}
-          <div id="area_one">
-            <VisitorStats data={data} options={options} />
-            <div id="bookings">
-              <BookingsCard
-                data={lineData1}
-                options={lineOptions}
-                type="All Bookings"
-                total="16"
-                percent="87.34%"
-              />
-              <BookingsCard
-                data={lineData2}
-                options={lineOptions}
-                type="Completed"
-                total="11"
-                percent="48%"
-              />
-              <BookingsCard
-                data={lineData3}
-                options={lineOptions}
-                type="Cancelled"
-                total="5"
-                percent="17%"
-              />
-            </div>
-          </div>
-          {/* Grid Area 1 <-- [END] */}
-
-          {/* PROFILE PANEL --> [START] */}
-          <div id="profile_panel">
-            <div id="cover">
-              <img src={coverImg} alt="cover-pic" />
-            </div>
-            <div id="profile">
-              <div id="img_holder">
-                <img src={profileImg} alt="profile-pic" />
-              </div>
-              <div>
-                <div id="name">
-                  Hello, {user?.firstName} {user?.lastName}
-                </div>
-                <div id="handle">
-                  {user?.username ? `@${user.username}` : "@username"}
-                </div>
-              </div>
-              <button>
-                <MdEdit size={14} />
-                <span>Edit Portfolio</span>
-              </button>
-            </div>
-            <div id="follow">
-              <span>
-                Following{" "}
-                {user?.agency?.followings.length < 1
-                  ? 0
-                  : user?.agency?.followings}
-              </span>
-              <span>
-                Followers{" "}
-                {user?.agency?.followers.length < 1
-                  ? 0
-                  : user?.agency?.followers}
-              </span>
-            </div>
-            <div id="top_models">
-              <TopModelHighlight
-                img={profileImg}
-                name="Emilly Okoro"
-                views="13.6k"
-              />
-              <TopModelHighlight
-                img={profileImg}
-                name="Ikegwuru Ndiuwa"
-                views="12.4k"
-              />
-            </div>
-          </div>
-          {/* PROFILE PANEL <-- [END] */}
-
-          {/* Grid Area 2 --> [START]*/}
-          <div id="area_two">
-            <div id="latest_offers">
-              <header>
-                <h4>Latest Job Offer</h4>
-                <a href="./seeall">See all</a>
-              </header>
-              <div id="body">
-                <JobCard />
-              </div>
-            </div>
-
-            <div id="latest_blogs">
-              <header>
-                <h4>Latest Blog News</h4>
-                <a href="./seeall">See all</a>
-              </header>
-              <div id="body">
-                <BlogPreviewCard
-                  img={profileImg}
-                  model="Premium Models"
+        {user.isUpdated && (
+          <div id="pane">
+            {/* Grid Area 1 --> [START]*/}
+            <div id="area_one">
+              <VisitorStats data={data} options={options} />
+              <div id="bookings">
+                <BookingsCard
+                  data={lineData1}
+                  options={lineOptions}
+                  type="All Bookings"
+                  total="16"
+                  percent="87.34%"
+                />
+                <BookingsCard
+                  data={lineData2}
+                  options={lineOptions}
+                  type="Completed"
+                  total="11"
+                  percent="48%"
+                />
+                <BookingsCard
+                  data={lineData3}
+                  options={lineOptions}
+                  type="Cancelled"
+                  total="5"
+                  percent="17%"
                 />
               </div>
             </div>
-          </div>
-          {/* Grid Area 2 <-- [END] */}
+            {/* Grid Area 1 <-- [END] */}
 
-          {/*Inbox --> [START]  */}
-          <div id="inbox">
-            <header>
-              <h4>Inbox</h4>
-              <span className="msg">
-                <div className="notification">{25}</div>
-                <RiMessage2Fill size={28} />
-                <span>Messages</span>
-              </span>
-            </header>
-            <MessagePreviewCard
-              img={profileImg}
-              online={true}
-              sender="Micheal B"
-              title="Project manager"
-              msg="see you tomorrow"
-              count="5"
-            />
-            <MessagePreviewCard
-              img={profileImg}
-              online={false}
-              sender="Sarah Jay"
-              title="Model"
-              msg="I wanna work with you"
-              count="2"
-            />
-            <MessagePreviewCard
-              img={profileImg}
-              online={true}
-              sender="Micheal B"
-              title="Project manager"
-              msg="see you tomorrow"
-            />
-            <MessagePreviewCard
-              img={profileImg}
-              online={false}
-              sender="Sarah Jay"
-              title="Model"
-              msg="I wanna work with you"
-              count="5"
-            />
-          </div>
-          {/*Inbox <-- [END]  */}
-
-          {/*Our Models --> [START]  */}
-          <div id="our_models">
-            <header>
-              <h4>Our Models</h4>
-              <a href="./seeall">See all</a>
-            </header>
-            <div id="body">
-            {message?.map((item) => (
-              <ModelCard item={item} id={item?._id} />))}
+            {/* PROFILE PANEL --> [START] */}
+            <div id="profile_panel">
+              <div id="cover">
+                <img src={coverImg} alt="cover-pic" />
+              </div>
+              <div id="profile">
+                <div id="img_holder">
+                  <img src={profileImg} alt="profile-pic" />
+                </div>
+                <div>
+                  <div id="name">
+                    Hello, {user?.firstName} {user?.lastName}
+                  </div>
+                  {/* <div id="handle">
+                    {user?.username ? `@${user.username}` : "@username"}
+                  </div> */}
+                </div>
+                <button>
+                  <MdEdit size={14} />
+                  <span>Edit Portfolio</span>
+                </button>
+              </div>
+              <div id="follow">
+                <span>
+                  Following{" "}
+                  {user?.agency?.followings.length < 1
+                    ? 0
+                    : user?.agency?.followings}
+                </span>
+                <span>
+                  Followers{" "}
+                  {user?.agency?.followers.length < 1
+                    ? 0
+                    : user?.agency?.followers}
+                </span>
+              </div>
+              <div id="top_models">
+                <TopModelHighlight
+                  img={profileImg}
+                  name="Emilly Okoro"
+                  views="13.6k"
+                />
+                <TopModelHighlight
+                  img={profileImg}
+                  name="Ikegwuru Ndiuwa"
+                  views="12.4k"
+                />
+              </div>
             </div>
+            {/* PROFILE PANEL <-- [END] */}
+
+            {/* Grid Area 2 --> [START]*/}
+            <div id="area_two">
+              <div id="latest_offers">
+                <header>
+                  <h4>Latest Job Offer</h4>
+                  <a href="./seeall">See all</a>
+                </header>
+                <div id="body">
+                  <JobCard />
+                </div>
+              </div>
+
+              <div id="latest_blogs">
+                <header>
+                  <h4>Latest Blog News</h4>
+                  <a href="./seeall">See all</a>
+                </header>
+                <div id="body">
+                  <BlogPreviewCard img={profileImg} model="Premium Models" />
+                </div>
+              </div>
+            </div>
+            {/* Grid Area 2 <-- [END] */}
+
+            {/*Inbox --> [START]  */}
+            <div id="inbox">
+              <header>
+                <h4>Inbox</h4>
+                <span className="msg">
+                  <div className="notification">{25}</div>
+                  <RiMessage2Fill size={28} />
+                  <span>Messages</span>
+                </span>
+              </header>
+              <MessagePreviewCard
+                img={profileImg}
+                online={true}
+                sender="Micheal B"
+                title="Project manager"
+                msg="see you tomorrow"
+                count="5"
+              />
+              <MessagePreviewCard
+                img={profileImg}
+                online={false}
+                sender="Sarah Jay"
+                title="Model"
+                msg="I wanna work with you"
+                count="2"
+              />
+              <MessagePreviewCard
+                img={profileImg}
+                online={true}
+                sender="Micheal B"
+                title="Project manager"
+                msg="see you tomorrow"
+              />
+              <MessagePreviewCard
+                img={profileImg}
+                online={false}
+                sender="Sarah Jay"
+                title="Model"
+                msg="I wanna work with you"
+                count="5"
+              />
+            </div>
+            {/*Inbox <-- [END]  */}
+
+            {/*Our Models --> [START]  */}
+            <div id="our_models">
+              <header>
+                <h4>Our Models</h4>
+                <a href="./seeall">See all</a>
+              </header>
+              <div id="body">
+                {message?.map((item) => (
+                  <ModelCard item={item} id={item?._id} />
+                ))}
+              </div>
+            </div>
+            {/*Our Models <-- [END]  */}
           </div>
-          {/*Our Models <-- [END]  */}
-        </div>
+        )}
 
         {/* [GRID <-- END] */}
       </div>

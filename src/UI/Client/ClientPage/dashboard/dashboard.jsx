@@ -156,7 +156,7 @@ const ClientDashboard = () => {
               </div>
               <div>
                 <div id="name">Hello, {user?.firstName} {user?.lastName}</div>
-                <div id="handle">{`@${user?.username}`}</div>
+                {/* <div id="handle">{`@${user?.username}`}</div> */}
               </div>
               <button>
                 <MdEdit size={14} />

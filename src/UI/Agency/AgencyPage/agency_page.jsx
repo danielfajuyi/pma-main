@@ -11,6 +11,7 @@ import {
 import { HiOutlineUserGroup } from "react-icons/hi";
 import { RiUserSearchLine } from "react-icons/ri";
 import { BiLogOut, BiWallet } from "react-icons/bi";
+import { CgUserList } from "react-icons/cg";
 // [END]
 
 // Components (The Sidebar, Topbar and Background)  --> [START]
@@ -53,8 +54,16 @@ const AgencyPage = ({ showNavbar, setShowNavbar }) => {
   // Array For Composing Sidebar Navigation -> (Sidebar Componet) --> [START]
   const topList = [
     { name: "Dashboard", icon: <MdOutlineDashboard />, path: "dashboard" },
+    { name: "Profile", icon: <CgUserList />, path: "profile" },
     { name: "My Wallet", icon: <BiWallet />, path: "mywallet" },
-    { name: "Listing", icon: <IoListOutline />, path: "listing" },
+    {
+      name: "Listing",
+      icon: <IoListOutline />,
+      children: [
+        { name: "Add model", path: "listing/add" },
+        { name: "Manage models", path: "listing/manage" },
+      ],
+    },
     { name: "Find Models", icon: <RiUserSearchLine />, path: "findmodels" },
     {
       name: "Review",

@@ -77,7 +77,7 @@
 
   .nav_link.active {
     background-color: $white;
-    color: $black;
+    color: $black !important;
     box-shadow: inset 3px 0px 0px $deep_pink;
     border-radius: $small_padding;
   }
