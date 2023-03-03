@@ -34,7 +34,7 @@ const Navbar = () => {
           </Link>
 
           <div className="desktop-nav">
-            <ul className="desktop-nav__list" style={{color:'black'}}>
+            <ul className="desktop-nav__list">
               {links.map(({ name, path }, index) => {
                 //using device size to render specific num of items from the array
                 if (deviceSize < 920) {

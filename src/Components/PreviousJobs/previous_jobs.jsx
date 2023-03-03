@@ -1,13 +1,29 @@
 import ImageCard from "../ImageCard/image_card";
 import "./previous_jobs.scss";
 
-const PreviousJobs = ({ user }) => {
+const PreviousJobs = () => {
   return (
     <section id="prev_jobs">
       <div>
-        {user?.agency?.jobPhotos.map((photo, index) => (
-          <ImageCard photo={photo} />
-        ))}
+        <ImageCard />
+        <ImageCard />
+        <ImageCard />
+        <ImageCard />
+        <ImageCard />
+        <ImageCard />
+        <ImageCard />
+        <ImageCard />
+        <ImageCard />
+        <ImageCard />
+        <ImageCard />
+        <ImageCard />
+        <ImageCard />
+        <ImageCard />
+        <ImageCard />
+        <ImageCard />
+        <ImageCard />
+        <ImageCard />
+        <ImageCard />
       </div>
     </section>
   );

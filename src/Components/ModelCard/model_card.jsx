@@ -5,12 +5,12 @@ import { GoVerified, GoStar } from "react-icons/go";
 import { IconContext } from "react-icons";
 import { motion } from "framer-motion";
 
-const ModelCard = (props,{model}) => {
+const ModelCard = (props) => {
   return (
     <div id="model_card" style={{ height: props.ch }} key={props.id} >
       <div id="img_holder">
         <img
-          src={model?.picture ? model?.picture : "/images/avatar.jpg"}
+          src={props.item?.picture ? props.item?.picture : "/images/avatar.jpg"}
           alt="proilepic"
         />
       </div>
@@ -19,9 +19,9 @@ const ModelCard = (props,{model}) => {
         <div id="title">MODEL</div>
         <div>
           <span id="name">
-            {model?.fullName}
+            {props.item?.fullName}
           </span>
-          {model?.isVerified && <GoVerified color="green" size={14} />}
+          {props.item?.isVerified && <GoVerified color="green" size={14} />}
         </div>
         <div id="rating">
           <IconContext.Provider value={{ size: 18, color: "seagreen" }}>
@@ -32,10 +32,10 @@ const ModelCard = (props,{model}) => {
             <GoStar />
           </IconContext.Provider>
         </div>
-        <div id="categories">{model?.category[0]}, {model?.category[1]}</div>
+        <div id="categories">Commercial Model, Fashion Model</div>
         <div id="address">
           <FaMapMarkerAlt size={12} />
-          {model?.country && <span>{model?.state}, {model?.country}</span>}
+          {props.item?.country && <span>{props.item?.state}, {props.item?.country}</span>}
         </div>
         <button id="card_btn">See Portfolio</button>
       </motion.div>

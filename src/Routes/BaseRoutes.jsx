@@ -5,6 +5,7 @@ import About from "../Pages/About/about";
 import Contact from "../Pages/Contact/contact";
 import FAQs from "../Pages/Faqs/Faq";
 import FindModel from "../Pages/FindModel/find-model";
+import JobPost from "../Pages/JobPost/JobPost";
 import Home from "../Pages/Home/home";
 import HowItWorks from "../Pages/HowItWorks/HowItWorks";
 import LoginForm from "../Pages/LoginSignup/Login/Login-Form";
@@ -37,7 +38,6 @@ import ModelPortfolio from "../UI/Model/ModelPortfolio/ModelPortfolio";
 import SeeModels from "../Components/SeeModels/see_models";
 import ClientProfile from "../UI/Client/ClientProfile/ClientProfile";
 import AcctSetting from "../UI/Client/Client-Acct/Acct-Setting/Client-Acct-Setting";
-import AgencyProfile from "../UI/Agency/AgencyProfile/agency_profile";
 
 export const BaseRoutes = () => {
   const [showNavbar, setShowNavbar] = useState(true);
@@ -102,6 +102,10 @@ export const BaseRoutes = () => {
           element: <FindModel />,
         },
         {
+          path: "jobpost/*",
+          element: <JobPost />,
+        },
+        {
           path: "find-model/profile/:id",
           element: <ProfilePage />,
         },
@@ -109,6 +113,7 @@ export const BaseRoutes = () => {
           path: "faqs",
           element: <FAQs />,
         },
+
         {
           path: "howitworks",
           element: <HowItWorks />,
@@ -139,10 +144,6 @@ export const BaseRoutes = () => {
             {
               path: "dashboard",
               element: <AgencyDashboard />,
-            },
-            {
-              path: "profile",
-              element: <AgencyProfile />,
             },
           ],
         },

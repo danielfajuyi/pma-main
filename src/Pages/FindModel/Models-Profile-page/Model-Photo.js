@@ -1,9 +1,15 @@
 import ImgItem from "./ImgItem";
 import { ViewBtn } from "./Buttons";
 
-function ModelPhoto({ photos, activeDisplay, displayLimit, handleDisplay, viewAll }) {
+function ModelPhoto({
+  photos,
+  activeDisplay,
+  displayLimit,
+  handleDisplay,
+  viewAll,
+}) {
   return (
-    <section className="section photo-section">
+    <section className="section  section-profile photo-section">
       {/* photo display section */}
       <ul className="imgList">
         {photos?.map((photo, index) =>
@@ -18,7 +24,10 @@ function ModelPhoto({ photos, activeDisplay, displayLimit, handleDisplay, viewAl
       </ul>
 
       {/* No photo posted yet */}
-      <div style={{ display: photos?.length > 1 && "none" }} className="empty-content-text">
+      <div
+        style={{ display: photos?.length > 1 && "none" }}
+        className="empty-content-text"
+      >
         Sorry, Model is yet to post a Photo.
       </div>
 
@@ -27,7 +36,9 @@ function ModelPhoto({ photos, activeDisplay, displayLimit, handleDisplay, viewAl
         <ViewBtn
           id="photos"
           handleDisplay={handleDisplay}
-          btnText={activeDisplay === "photos" && viewAll ? "view Less" : "view All"}
+          btnText={
+            activeDisplay === "photos" && viewAll ? "view Less" : "view All"
+          }
         />
       )}
     </section>

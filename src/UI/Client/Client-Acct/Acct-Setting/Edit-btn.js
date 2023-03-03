@@ -15,7 +15,7 @@ function EditBtn({
 
   return (
     <button
-      // disabled={isError && true}
+      disabled={isError && true}
       onClick={handleClick}
       className="--edit-btn --colored-hover"
       type="button"

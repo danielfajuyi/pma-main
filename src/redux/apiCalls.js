@@ -88,7 +88,6 @@ export const makeGet = async (dispatch, url, setMessage) => {
     // console.log(res.data);
   } catch (err) {
     dispatch(processFailure());
-    // console.log(err.response.data)
     return toast.error(err.response.data);
   }
 };
