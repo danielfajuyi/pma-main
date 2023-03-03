@@ -32,7 +32,10 @@ const BlogPreviewCard = (props) => {
             {/* <div className="blog_title">{item.text}</div> */}
             <div className="blog_info">
               <span className="model">{props.model}</span>
-              <span className="date">{" "}{moment(item.createdAt).format('D-MM-YYYY')}</span>
+              <span className="date">
+                {" "}
+                {moment(item.createdAt).format("D-MM-YYYY")}
+              </span>
             </div>
           </div>
         </div>

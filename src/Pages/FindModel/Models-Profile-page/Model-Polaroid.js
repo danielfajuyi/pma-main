@@ -1,9 +1,15 @@
 import ImgItem from "./ImgItem";
 import { ViewBtn } from "./Buttons";
 
-function ModelPolaroid({ polaroids, activeDisplay, displayLimit, handleDisplay, viewAll }) {
+function ModelPolaroid({
+  polaroids,
+  activeDisplay,
+  displayLimit,
+  handleDisplay,
+  viewAll,
+}) {
   return (
-    <section className="section polaroid-section">
+    <section className="section section-profile  polaroid-section">
       {/* image display section  */}
       <ul className="imgList">
         {polaroids.map((polaroid, index) =>
@@ -19,7 +25,10 @@ function ModelPolaroid({ polaroids, activeDisplay, displayLimit, handleDisplay, 
 
       {/* No image posted yet */}
 
-      <div style={{ display: polaroids.length > 1 && "none" }} className="empty-content-text">
+      <div
+        style={{ display: polaroids.length > 1 && "none" }}
+        className="empty-content-text"
+      >
         Sorry, Model is yet to post a Polaroid.
       </div>
 
@@ -29,7 +38,9 @@ function ModelPolaroid({ polaroids, activeDisplay, displayLimit, handleDisplay, 
         <ViewBtn
           id="polaroids"
           handleDisplay={handleDisplay}
-          btnText={activeDisplay === "polaroids" && viewAll ? "view Less" : "view All"}
+          btnText={
+            activeDisplay === "polaroids" && viewAll ? "view Less" : "view All"
+          }
         />
       )}
     </section>

@@ -1,9 +1,7 @@
 import "./Email-and-password.css";
 import EditBtn from "./Edit-btn";
 import SwitchBtn from "./Switch-Btn";
-import { useState, useEffect, useCallback } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { update } from "../../../../redux/apiCalls";
+import { useState, useEffect } from "react";
 
 function EmailAndPassword({
   handleActiveEdit,
@@ -12,34 +10,12 @@ function EmailAndPassword({
   resetDiscard,
   handleModal,
 }) {
-  const user = useSelector((state) => state.user.currentUser);
-  const dispatch = useDispatch();
-  const [inputs, setInputs] = useState({});
-  const [isPassEdit, setIsPassEdit] = useState(false);
-
-  const handleChange = useCallback(
-    (e) => {
-      setInputs((prev) => {
-        return { ...prev, [e.target.name]: e.target.value };
-      });
-    },
-    [setInputs]
-  );
-  console.log(inputs);
-
-  function handleSubmit() {
-    update(dispatch, "/user/" + user?._id, { ...inputs });
-  }
-
   const [pwdDescription, setPwdDescription] = useState("");
   const [emailDescription, setEmailDescription] = useState("");
 
-  // const { email, password, deactivateAccount } = userData?.account;
-  let email;
-  let password = "1234";
-  let deactivateAccount;
+  const { email, password, deactivateAccount } = userData[0].account;
 
-  const [deactivation, setDeactivation] = useState();
+  const [deactivation, setDeactivation] = useState(deactivateAccount);
 
   const [newEmail, setNewEmail] = useState("");
   const [VerifyEmail, setVerifyEmail] = useState(false);
@@ -213,32 +189,22 @@ function EmailAndPassword({
       <section className="--set_sections-container">
         <div className="--set_sections-title-rapper">
           <h2 className="--set_sections-title">Reset Password</h2>
-          {/* <EditBtn
-          btnText={isEdit ? "Update" : "Edit"}
-          handleSubmit={isEdit ? handleSubmit : setIsEdit(true)}
-            // btnText={
-            //   activeEdit === "Reset"
-            //     ? "Verify"
-            //     : activeEdit === "Verify"
-            //     ? VerifyPwd
-            //       ? "Done"
-            //       : "Verify"
-            //     : !VerifyPwd
-            //     ? "Reset"
-            //     : "Done"
-            // }
-            // section="reset-password"
-            // handleActiveEdit={handleActiveEdit}
-            // handlePassword={handlePassword}
-          /> */}
-          <button
-            onClick={()=>setIsPassEdit(!isPassEdit)}
-            className="--edit-btn --colored-hover"
-            type="button"
-          >
-            {isPassEdit ? "Update" : "Edit"}
-            <i className="fa-solid fa-pen-to-square"></i>
-          </button>
+          <EditBtn
+            btnText={
+              activeEdit === "Reset"
+                ? "Verify"
+                : activeEdit === "Verify"
+                ? VerifyPwd
+                  ? "Done"
+                  : "Verify"
+                : !VerifyPwd
+                ? "Reset"
+                : "Done"
+            }
+            section="reset-password"
+            handleActiveEdit={handleActiveEdit}
+            handlePassword={handlePassword}
+          />
         </div>
 
         <p className="--set_note-text">
@@ -253,24 +219,23 @@ function EmailAndPassword({
           </p>
         )}
 
-        {isPassEdit ? (
+        {activeEdit === "Verify" || activeEdit === "Reset" || VerifyPwd ? (
           <label className="--set-label bold-text" htmlFor="set-password">
             Password:
             <input
-              onChange={handleChange}
+              onChange={(e) => setNewPassword(e.target.value)}
               className="--set-input-field"
               type="password"
               id="set-password"
-              name="password"
               placeholder="Enter password"
-              // value={newPassword}
+              value={newPassword}
             />
             <p className="--error-text">{error.passErr}</p>
           </label>
         ) : null}
       </section>
 
-      {/* email section
+      {/* email section */}
 
       <section className="--set_sections-container">
         <div className="--set_sections-title-rapper">
@@ -319,7 +284,7 @@ function EmailAndPassword({
             <p className="--error-text">{error.emailErr}</p>
           </label>
         ) : null}
-      </section> */}
+      </section>
 
       {/*account deactivation section */}
 
@@ -357,8 +322,8 @@ function EmailAndPassword({
           style={{
             backgroundColor: !activateSave && "#bbbb",
           }}
-          // disabled={!activateSave && true}
-          onClick={handleSubmit}
+          disabled={!activateSave && true}
+          onClick={() => handleSave("save")}
           className="--save-btn  bold-text --yes-btn"
         >
           Save

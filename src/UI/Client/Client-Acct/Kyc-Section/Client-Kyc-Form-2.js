@@ -10,7 +10,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { update } from "../../../../redux/apiCalls";
 
 function ClientsKycForm2({
+  DomItems,
+  collectData,
   handleNavigation,
+  handleModal,
+  form2Data,
+  handleChange,
   inputs,
   setInputs,
 }) {
@@ -63,7 +68,7 @@ function ClientsKycForm2({
             break;
         }
       },
-      () => {},
+      (error) => {},
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           if (urlType === "jobPhotos") {
@@ -118,13 +123,14 @@ function ClientsKycForm2({
 
   //setting error
   useEffect(() => {
+    let err = false;
     if (jobPhotos.length < 6 && !picture) {
-      setIsError(true);
+      err = true;
     } else {
-      setIsError(false);
+      err = false;
     }
-  }, [jobPhotos, picture]);
-  console.log( isError)
+    setIsError(err);
+  }, []);
 
   //handling submit
   function handleSubmit() {

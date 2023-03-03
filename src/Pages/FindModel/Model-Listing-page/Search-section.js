@@ -1,13 +1,15 @@
 import { useState } from "react";
 import FilterItem from "./FilterItem";
-import { FaArrowCircleDown, FaSearchLocation } from "react-icons/fa";
-import AnimateArrow from "../../../Components/AnimationAssets/AnimateArrow/Arrow";
+import "./Search-section.css";
+import { BiCategoryAlt } from "react-icons/bi";
+import { FaUser } from "react-icons/fa";
 function AllSearch({
   filterGender,
   filterCategory,
   handleSearch,
   handleData,
   gender,
+  search,
   category,
   searchResult,
 }) {
@@ -42,19 +44,19 @@ function AllSearch({
     <>
       <section className="search-container container mtop">
         <div className="filter-section">
-          <p className="filter__text">Filter by Category & Gender</p>
+          <h4 className="filter__text">Filter by Category & Gender</h4>
 
           <div className="filter">
-            <div className="filter-container">
-              <button
-                onClick={handleCategory}
-                className="filter__btn dark--btn on-hover"
-              >
-                <FaArrowCircleDown />
+            <div className="filter-container category__dropdown">
+              <div onClick={handleCategory} className=" dropdown-btn">
+                <BiCategoryAlt />
                 {category ? category : "Category"}
-              </button>
+              </div>
               {toggleCategory && (
-                <ul className="filter-list dark--btn">
+                <div
+                  className="dropdown-option active-bt"
+                  onClick={handleCategory}
+                >
                   {categoryList.map((item, index) => (
                     <FilterItem
                       key={index}
@@ -62,67 +64,55 @@ function AllSearch({
                       handleFilter={filterCategory}
                     />
                   ))}
-                </ul>
+                </div>
               )}
             </div>
 
-            <div className="filter-container">
-              <button
-                onClick={handleGender}
-                className="filter__btn colored--btn on-hover"
-              >
+            <div className="filter-container category__dropdown ">
+              <div onClick={handleGender} className="dropdown-btn">
+                <FaUser />
                 {gender ? gender : "Gender"}
-                <FaArrowCircleDown />
-              </button>
+              </div>
+
               {toggleGender && (
-                <ul className="filter-list colored--btn">
+                <div className="dropdown-option active-bt">
                   <FilterItem
                     itemText="all gender"
                     handleFilter={filterGender}
                   />
                   <FilterItem itemText="m" handleFilter={filterGender} />
                   <FilterItem itemText="f" handleFilter={filterGender} />
-                </ul>
+                </div>
               )}
             </div>
           </div>
         </div>
 
         <div className="input-section">
-          <p className="search__text">
-            <i
-              className="fa-solid fa-magnifying-glass fa-2x "
-              style={{ display: "none" }}
-            ></i>
-            <FaSearchLocation />
-            Search by Country & State
-          </p>
+          <h4 className="filter__text">Search by Country & State</h4>
 
           <div className="search">
             <label className="input-box" htmlFor="search">
-              <input
-                onChange={handleSearch}
-                type="search"
-                id="search"
-                placeholder="Atlanta, Usa"
-                spellCheck="false"
-                autoFocus
-                autoComplete="NO"
-              />
+              <div className="search-box-container">
+                <input
+                  onChange={handleSearch}
+                  type="search"
+                  id="search"
+                  placeholder="Atlanta, Usa"
+                  spellCheck="false"
+                  autoFocus
+                  autoComplete="NO"
+                  className="search-box"
+                />
+                <button className="searchButton" onClick={handleData}>
+                  <span></span>
+                </button>
+              </div>
             </label>
-
-            <button
-              onClick={handleData}
-              className="dark--btn search__btn on-hover"
-              type="submit"
-            >
-              Search
-            </button>
           </div>
         </div>
       </section>
-      <section className="result-container mtop container">
-        <AnimateArrow />
+      <section className="result-container container">
         <span className="result">{searchResult} Results Found</span>
       </section>
     </>

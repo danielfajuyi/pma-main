@@ -6,10 +6,8 @@ import Jobs from "./Jobs";
 import DiscardAlert from "./DiscardAlert";
 import { useState } from "react";
 import { navList1, navList2 } from "../utils";
-import { useSelector } from "react-redux";
 
 function AcctSetting({ DomItems, handleModal, userData }) {
-  const user = useSelector((state)=> state.user.currentUser)
   // const { navList1, navList2 } = DomItems[0];
   const [activeSet, setActiveSet] = useState("about");
   const [toggleSetMenu, setToggleSetMenu] = useState(false);
@@ -51,7 +49,7 @@ function AcctSetting({ DomItems, handleModal, userData }) {
 
   return (
     <>
-      <div className="--set_sections" style={{backgroundColor:'white'}}>
+      <div className="--set_sections">
         {/* displaying discard alert */}
 
         <DiscardAlert
@@ -144,7 +142,6 @@ function AcctSetting({ DomItems, handleModal, userData }) {
               userData={userData}
               handleModal={handleModal}
               resetDiscard={resetDiscard}
-              user={user}
             />
           )}
 
