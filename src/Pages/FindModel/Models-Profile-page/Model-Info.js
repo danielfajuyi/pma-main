@@ -1,12 +1,24 @@
 import { useSelector } from "react-redux";
 import { InteractiveBtn } from "./Buttons";
 import { useLocation } from "react-router";
+import { BiCategoryAlt } from "react-icons/bi";
+import { BsPatchCheckFill } from "react-icons/bs";
+import {
+  FaEnvelope,
+  FaEnvelopeOpen,
+  FaHome,
+  FaRegEnvelope,
+  FaRegStar,
+  FaStar,
+  FaUser,
+} from "react-icons/fa";
+import { MdLocationPin } from "react-icons/md";
 
 function ModelInfo({ item, handleForm, setEditPortfolio }) {
   const user = useSelector((state) => state.user.currentUser);
-  const location = useLocation()
-  const path = location.pathname.split("/")[3]
-  console.log(user)
+  const location = useLocation();
+  const path = location.pathname.split("/")[3];
+  console.log(user);
 
   const handleEditProfile = () => {
     setEditPortfolio(true);
@@ -14,7 +26,7 @@ function ModelInfo({ item, handleForm, setEditPortfolio }) {
 
   return (
     <>
-      <section className="section model-info">
+      <section className="section section-profile2 model-info">
         <div className="model__img-container">
           <img
             className="model__img"
@@ -25,34 +37,46 @@ function ModelInfo({ item, handleForm, setEditPortfolio }) {
           />
         </div>
         <div className="model-Info__text-content">
-          <span className="top-text">
-            <h3 className="model__name">{`${item?.model?.fullName}`}</h3>
-            <i className="fa-solid fa-circle-check check-icon"></i>
+          <span className="top-text model__namewrap">
+            <span className="model__names">{`${item?.model?.fullName}`}</span>
+            <BsPatchCheckFill />
           </span>
-          <p className="model__rating">
-            <i className="fa-solid fa-star star--icon"></i>
-            <i className="fa-solid fa-star star--icon"></i>
-            <i className="fa-solid fa-star star--icon"></i>
-            <i className="fa-regular fa-star star--icon"></i>
-            <i className="fa-regular fa-star star--icon"></i>
-            <span> (3.0)</span>
-          </p>
-          <p>
-            <span className="model__category semi-bold">
-              {item?.model?.category[0]} and {item?.model?.category[1]} Model
+          <div className="text2 model__ratings">
+            <span>
+              <FaStar />
+              <FaStar />
+              <FaStar />
             </span>
-          </p>
 
-          <p className="model__location">
-            <i className="fa-solid fa-location-dot model__location-icon"></i>
-            <span className="semi-bold">
+            <span>
+              <FaRegStar />
+              <FaRegStar />
+            </span>
+
+            <span>(3.0)</span>
+          </div>
+          <div className="text3 model__categorys">
+            <div id="agencylable">
+              <FaHome />
+              <span className="value">{item?.model?.agency}</span>
+            </div>
+
+            <div id="categorylable">
+              <span>
+                <BiCategoryAlt />
+              </span>
+              <span className="value">
+                {item?.model?.category[0]} and {item?.model?.category[1]} Model
+              </span>
+            </div>
+          </div>
+
+          <div className="text4 model__locations">
+            <MdLocationPin />
+            <span>
               {item?.state}, {item?.country}
             </span>
-          </p>
-          <p className="model__agency">
-            <i className="fa-solid fa-house-chimney model__agency-icon"></i>
-            <span className="semi-bold">{item?.model?.agency}</span>
-          </p>
+          </div>
 
           {!user && (
             <div className="interactive-section">
@@ -90,25 +114,27 @@ function ModelInfo({ item, handleForm, setEditPortfolio }) {
             </p>
           </div>
 
-          {/* desktop CTA btn section */}
-
-          <button
-            onClick={user && user._id === path ? handleEditProfile : handleForm}
-            className="cta-btn desktop-cta dark--btn on-hover"
-          >
-            <i className="fa-solid fa-envelope-circle-check Icon"></i>
-            {!user || user._id !== path ? "Book model" : "Edit Portfolio"}
-          </button>
+          <div className="profile-btn btn-shadow">
+            <button
+              onClick={
+                user && user._id === path ? handleEditProfile : handleForm
+              }
+              className="model-profilebtn  btn-shadow"
+            >
+              <FaEnvelope />
+              {!user || user._id !== path ? (
+                <>
+                  <span>Book</span> <span>Model</span>
+                </>
+              ) : (
+                <>
+                  <span>Edit</span> <span>Portfolio</span>
+                </>
+              )}
+            </button>
+          </div>
         </div>
       </section>
-
-      {/* mobile CTA btn section */}
-      <div className="cta-btn-wrapper">
-        <button onClick={user && user._id === path ? handleEditProfile : handleForm} className="cta-btn dark--btn on-hover">
-          <i className="fa-solid fa-envelope-circle-check Icon"></i>
-          {!user || user._id !== path ? "Book model" : "Edit Portfolio"}
-        </button>
-      </div>
     </>
   );
 }

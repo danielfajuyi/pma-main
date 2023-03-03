@@ -1,9 +1,15 @@
 import VideItem from "./VideoItem";
 import { ViewBtn } from "./Buttons";
 
-function ModelVideo({ videos, activeDisplay, displayLimit, handleDisplay, viewAll }) {
+function ModelVideo({
+  videos,
+  activeDisplay,
+  displayLimit,
+  handleDisplay,
+  viewAll,
+}) {
   return (
-    <section className="section video-section">
+    <section className="section section-profile video-section">
       <ul className="videoList">
         {videos.map((video, index) =>
           activeDisplay !== "videos" ? (
@@ -17,7 +23,10 @@ function ModelVideo({ videos, activeDisplay, displayLimit, handleDisplay, viewAl
       </ul>
 
       {/* No video posted yet */}
-      <p style={{ display: videos.length > 1 && "none" }} className="empty-content-text">
+      <p
+        style={{ display: videos.length > 1 && "none" }}
+        className="empty-content-text"
+      >
         Sorry, Model is yet to post a Video.
       </p>
 
@@ -26,7 +35,9 @@ function ModelVideo({ videos, activeDisplay, displayLimit, handleDisplay, viewAl
         <ViewBtn
           id="videos"
           handleDisplay={handleDisplay}
-          btnText={activeDisplay === "videos" && viewAll ? "view Less" : "view All"}
+          btnText={
+            activeDisplay === "videos" && viewAll ? "view Less" : "view All"
+          }
         />
       )}
     </section>

@@ -13,11 +13,11 @@ function List({ data, handleProfile, currentPage }) {
   }
 
   return (
-    <section className="list-section container mtop ">
+    <section className="property container">
       {data.length < 1 && (
         <div className="empty-search-text">Sorry No Result Found!</div>
       )}
-      <ul className="main__list modelportfolio__container">
+      <div className="row">
         {pageRange().map((item) => (
           <ListItem
             key={item._id}
@@ -32,7 +32,7 @@ function List({ data, handleProfile, currentPage }) {
             handleProfile={() => handleProfile(item.id)}
           />
         ))}
-      </ul>
+      </div>
     </section>
   );
 }
