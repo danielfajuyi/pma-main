@@ -4,7 +4,7 @@ import ClientKycForm2 from "./Client-Kyc-Form-2";
 
 import "./Client-Kyc-Forms.css";
 
-function ClientsForms({ DomItems, userData, accountId, handleModal }) {
+function ClientsForms() {
   const [activeForm, setActiveForm] = useState(1);
   const [inputs, setInputs] = useState({});
 

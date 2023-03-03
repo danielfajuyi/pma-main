@@ -2,44 +2,22 @@ import "./Agency-Kyc-Form-1.css";
 import FormNavBtn from "./Form-nav-btn";
 import { useEffect, useState } from "react";
 import { Input1, Input2, Input3 } from "./kyc-input";
+import { SocialMedia } from "../utils";
 
-function AgencyKycForm1({
-  DomItems,
-  collectData,
-  handleNavigation,
-  form1Data,
-}) {
-  const { SocialMedia } = DomItems[0];
-
-  //data state
-  const [data, setData] = useState(form1Data);
-  const [social, setSocial] = useState(form1Data.socialMedia);
-
+function AgencyKycForm1({ handleNavigation, handleChange, inputs }) {
   //State Error
   const [error, setError] = useState({
-    name: "",
-    url: "",
-    address: "",
-    state: "",
-    country: "",
-    bio: "",
-    facebook: "",
-    twitter: "",
-    instagram: "",
+    agencyName: inputs.agencyName,
+    agencyUrl: inputs.agencyUrl,
+    address: inputs.address,
+    state: inputs.state,
+    country: inputs.country,
+    about: inputs.about,
+    instagram: inputs.instagram,
   });
 
   const [isError, setIsError] = useState(false);
   const [showError, setShowError] = useState(false);
-
-  function handleChange(e) {
-    const { name, value } = e.target;
-
-    if (name === "facebook" || name === "twitter" || name === "instagram") {
-      setSocial((prevData) => ({ ...prevData, [name]: value }));
-    } else {
-      setData((prevData) => ({ ...prevData, [name]: value }));
-    }
-  }
 
   //setting error messages
   useEffect(() => {
@@ -47,62 +25,52 @@ function AgencyKycForm1({
       let errorText = "This detail is required.!";
       let socialErr = "Your social-media link is required.!";
 
-      data.name === ""
-        ? setError((prev) => ({ ...prev, name: errorText }))
+      !inputs.agencyName
+        ? setError((prev) => ({ ...prev, agencyName: errorText }))
         : setError((prev) => ({ ...prev, name: "" }));
 
-      data.url === ""
-        ? setError((prev) => ({ ...prev, url: errorText }))
+      !inputs.agencyUrl
+        ? setError((prev) => ({ ...prev, agencyUrl: errorText }))
         : setError((prev) => ({ ...prev, url: "" }));
 
-      data.address === ""
+      !inputs.address
         ? setError((prev) => ({ ...prev, address: errorText }))
         : setError((prev) => ({ ...prev, address: "" }));
 
-      data.state === ""
+      !inputs.state
         ? setError((prev) => ({ ...prev, state: errorText }))
         : setError((prev) => ({ ...prev, state: "" }));
 
-      data.country === ""
+      !inputs.country
         ? setError((prev) => ({ ...prev, country: errorText }))
         : setError((prev) => ({ ...prev, country: "" }));
 
-      data.bio === ""
+      !inputs.about
         ? setError((prev) => ({
             ...prev,
-            bio: "The Bio section is required.!",
+            about: "The Bio section is required.!",
           }))
-        : setError((prev) => ({ ...prev, bio: "" }));
+        : setError((prev) => ({ ...prev, about: "" }));
 
-      social.facebook === ""
-        ? setError((prev) => ({ ...prev, facebook: socialErr }))
-        : setError((prev) => ({ ...prev, facebook: "" }));
-
-      social.twitter === ""
-        ? setError((prev) => ({ ...prev, twitter: socialErr }))
-        : setError((prev) => ({ ...prev, twitter: "" }));
-
-      social.instagram === ""
+      !inputs.instagram
         ? setError((prev) => ({ ...prev, instagram: socialErr }))
         : setError((prev) => ({ ...prev, instagram: "" }));
     }
 
     handleError();
-  }, [data, social]);
+  }, [inputs]);
 
   //checking for error message
   useEffect(() => {
     let err = false;
     if (
-      error.name ||
-      error.url ||
-      error.address ||
-      error.state ||
-      error.country ||
-      error.bio ||
-      error.facebook ||
-      error.twitter ||
-      error.instagram
+      !inputs.agencyName ||
+      !inputs.agencyUrl ||
+      !inputs.address ||
+      !inputs.state ||
+      !inputs.country ||
+      !inputs.about ||
+      !inputs.instagram
     ) {
       err = true;
     } else {
@@ -114,11 +82,9 @@ function AgencyKycForm1({
 
   //submit and go to the next page
   function handleSubmit(text) {
-    console.log({ ...data, socialMedia: social });
     if (isError) {
       setShowError(true);
     } else {
-      collectData(1, { ...data, socialMedia: social });
       handleNavigation(text);
     }
   }
@@ -152,9 +118,8 @@ function AgencyKycForm1({
             <ul className="info--section">
               {/* name input */}
               <Input1
-                id="name"
+                id="agencyName"
                 label=" Agency Name"
-                value={data.name}
                 placeholder="Your Agency Name..."
                 error={error.name}
                 handleChange={handleChange}
@@ -163,9 +128,8 @@ function AgencyKycForm1({
 
               {/* url input  */}
               <Input1
-                id="url"
+                id="agencyUrl"
                 label=" Agency Url"
-                value={data.url}
                 placeholder="Agency Url..."
                 error={error.url}
                 handleChange={handleChange}
@@ -176,7 +140,6 @@ function AgencyKycForm1({
               <Input2
                 id="address"
                 label=" Agency Address"
-                value={data.address}
                 placeholder="Agency Address..."
                 error={error.address}
                 handleChange={handleChange}
@@ -187,7 +150,6 @@ function AgencyKycForm1({
               <Input3
                 id="country"
                 label="Country"
-                value={data.country}
                 placeholder="Agency Country..."
                 error={error.country}
                 handleChange={handleChange}
@@ -198,7 +160,6 @@ function AgencyKycForm1({
               <Input3
                 id="state"
                 label="State"
-                value={data.state}
                 placeholder="Agency State..."
                 error={error.state}
                 handleChange={handleChange}
@@ -223,12 +184,11 @@ function AgencyKycForm1({
               <textarea
                 className="bio--text-area"
                 onChange={handleChange}
-                name="bio"
-                id="bio"
+                name="about"
+                id="about"
                 cols="30"
                 rows="10"
                 placeholder="Brief information about your Agency..."
-                value={data.bio}
                 required
               ></textarea>
             </div>
@@ -259,7 +219,6 @@ function AgencyKycForm1({
                         id={item.id}
                         name={item.id}
                         placeholder={item.placeholder}
-                        value={social[item.id]}
                         required
                         spellCheck={false}
                       />
@@ -274,12 +233,6 @@ function AgencyKycForm1({
           </div>
 
           <div className="kyc--btn-container">
-            <FormNavBtn
-              btnText="Back"
-              name="form1"
-              handleClick={handleNavigation}
-              type="button"
-            />
             <FormNavBtn
               btnText="Next"
               name="form1"
