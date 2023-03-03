@@ -2,77 +2,139 @@ import "./Agency-Kyc-Form-2.css";
 import FormNavBtn from "./Form-nav-btn";
 import { useState } from "react";
 import { useEffect } from "react";
+import { Photo } from "../utils";
+import { useDispatch, useSelector } from "react-redux";
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import { storage } from "../../../../firebase";
+import { update } from "../../../../redux/apiCalls";
+import { AlertModal } from "../../../../Pages/LoginSignup/Sign-Up/signUpForm/Modal";
 
-function AgencyKycForm2({
-  DomItems,
-  collectData,
-  handleNavigation,
-  handleModal,
-  form2Data,
-}) {
-  const { Photo } = DomItems[0];
+function AgencyKycForm2({ handleNavigation, inputs, setInputs }) {
+  const { isFetching } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
-  const [photo, setPhoto] = useState(form2Data.photos);
-  const [profilePic, setProfilePic] = useState(form2Data.profilePic);
-  const [coverPic, setCoverPic] = useState(form2Data.coverPic);
+  const [jobPhotos, setJobPhotos] = useState([]);
+  const [jobPhoto, setJobPhoto] = useState(undefined);
+  const [previewPhotos, setPreviewPhotos] = useState([]);
+  const [photo, setPhoto] = useState(undefined);
+  const [coverPhoto, setCoverPhoto] = useState(undefined);
+  const [progress, setProgress] = useState(0);
+  const [modalTxt, setModalTxt] = useState("");
 
   const [submit, setSubmit] = useState(false);
   const [isError, setIsError] = useState(false);
 
-  function handleChange(e) {
-    const { id, name, files } = e.target;
-    const img = URL.createObjectURL(files[0]);
+  const handlePhotos = (e) => {
+    const img = URL.createObjectURL(e.target.files[0]);
+    setPreviewPhotos((prevData) => ({ ...prevData, [e.target.id]: img }));
+    setJobPhoto(e.target.files[0]);
+  };
 
-    if (name === "profilePic") {
-      setProfilePic(img);
-    } else if (name === "photo") {
-      setPhoto((prevData) => ({ ...prevData, [id]: img }));
-    } else {
-      setCoverPic(img);
-    }
-  }
+  const uploadFile = (file, urlType) => {
+    const fileName = new Date().getTime() + file.name;
+    const storageRef = ref(storage, `/agency/${fileName}`);
+    const uploadTask = uploadBytesResumable(storageRef, file);
+
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        if (urlType === "jobPhotos") {
+          setProgress(Math.round(progress));
+        }
+        if (urlType === "photo") {
+          setProgress(Math.round(progress));
+        }
+        if (urlType === "coverPhoto") {
+          setProgress(Math.round(progress));
+        }
+        switch (snapshot.state) {
+          case "paused":
+            console.log("Upload is paused");
+            break;
+          case "running":
+            console.log("Upload is running");
+            break;
+          default:
+            break;
+        }
+      },
+      () => {},
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          if (urlType === "jobPhotos") {
+            setJobPhotos((prev) => [...prev, downloadURL]);
+          }
+          if (urlType === "photo") {
+            setInputs((prev) => {
+              return { ...prev, [urlType]: downloadURL };
+            });
+          }
+          if (urlType === "coverPhoto") {
+            setInputs((prev) => {
+              return { ...prev, [urlType]: downloadURL };
+            });
+          }
+        });
+      }
+    );
+  };
+
+  useEffect(() => {
+    const sendJobPhoto = (urlType) => {
+      urlType = "jobPhotos";
+      setInputs((prev) => {
+        return { ...prev, [urlType]: jobPhotos };
+      });
+      if (jobPhoto) {
+        uploadFile(jobPhoto, "jobPhotos");
+        setJobPhoto(undefined);
+      }
+    };
+    sendJobPhoto();
+
+    const sendPicture = (urlType) => {
+      urlType = "photo";
+      if (photo) {
+        uploadFile(photo, "photo");
+        // setPicture(undefined);
+      }
+    };
+    sendPicture();
+
+    const sendCoverPicture = (urlType) => {
+      urlType = "coverPhoto";
+      if (coverPhoto) {
+        uploadFile(coverPhoto, "coverPhoto");
+        // setCoverPicture(undefined);
+      }
+    };
+    sendCoverPicture();
+  }, [setInputs, coverPhoto, jobPhoto, jobPhotos, photo]);
 
   //setting error
   useEffect(() => {
-    let err = false;
-    if (
-      photo.photo1 === "" ||
-      photo.photo2 === "" ||
-      photo.photo3 === "" ||
-      photo.photo4 === "" ||
-      photo.photo5 === "" ||
-      photo.photo6 === "" ||
-      profilePic === ""
-    ) {
-      err = true;
+    if (jobPhotos.length < 6) {
+      setIsError(true);
     } else {
-      err = false;
+      setIsError(false);
     }
-
-    setIsError(err);
-  }, [photo, profilePic]);
+  }, [jobPhoto]);
 
   //handling submit
-  function handleSubmit(text) {
+  function handleSubmit() {
     if (isError) {
-      handleModal("add-photo");
+      setModalTxt("add-photo");
     } else {
-      setSubmit((prev) => !prev);
-      collectData(2, {
-        profilePic: profilePic,
-        photos: photo,
-        coverPic: coverPic,
-      });
-      handleNavigation(text);
-
-      setTimeout(() => {
-        setSubmit((prev) => !prev);
-      }, 1000);
+      update(dispatch, "/agency/", { ...inputs }, setModalTxt);
     }
   }
 
   return (
     <form className="kyc--form" onSubmit={(e) => e.preventDefault()}>
+      <AlertModal modalTxt={modalTxt} setModalTxt={setModalTxt} />
+
       <section className="kyc--hero">
         <img src="/images/agent_3.jpg" alt="" />
         <div className="kyc--hero__text-rapper">
@@ -114,13 +176,13 @@ function AgencyKycForm2({
                 <i className="fa-solid fa-plus fa-2x"></i>
               </label>
               <input
-                onChange={handleChange}
+                onChange={(e) => setPhoto(e.target.files[0])}
                 type="file"
-                name="profilePic"
+                name="photo"
                 id="profile-img"
                 className="file--input"
               />
-              {profilePic && <img src={profilePic} alt="" />}
+              {photo && <img src={URL.createObjectURL(photo)} alt="" />}
             </div>
           </section>
 
@@ -146,14 +208,16 @@ function AgencyKycForm2({
                       <i className="fa-solid fa-plus fa-2x"></i>
                     </label>
                     <input
-                      onChange={handleChange}
+                      onChange={handlePhotos}
                       type="file"
-                      name="photo"
+                      name="jobPhotos"
                       id={item.id}
                       className="file--input"
                     />
 
-                    {photo[item.id] && <img src={photo[item.id]} alt="" />}
+                    {previewPhotos[item.id] && (
+                      <img src={previewPhotos[item.id]} alt="" />
+                    )}
                   </li>
                 );
               })}
@@ -177,13 +241,15 @@ function AgencyKycForm2({
                 <i className="fa-solid fa-plus fa-2x"></i>
               </label>
               <input
-                onChange={handleChange}
+                onChange={(e) => setCoverPhoto(e.target.files[0])}
                 type="file"
-                name="cover-img"
+                name="coverPhoto"
                 id="cover-img"
                 className="file--input"
               />
-              {coverPic && <img src={coverPic} alt="" />}
+              {coverPhoto && (
+                <img src={URL.createObjectURL(coverPhoto)} alt="" />
+              )}
             </div>
           </section>
 
@@ -196,7 +262,7 @@ function AgencyKycForm2({
             />
             <FormNavBtn
               submit={submit}
-              btnText="Submit"
+              btnText={isFetching ? "A moment..." : "Submit"}
               name="form3"
               handleClick={handleSubmit}
               type="submit"
