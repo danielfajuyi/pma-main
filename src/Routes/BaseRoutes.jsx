@@ -5,6 +5,7 @@ import About from "../Pages/About/about";
 import Contact from "../Pages/Contact/contact";
 import FAQs from "../Pages/Faqs/Faq";
 import FindModel from "../Pages/FindModel/find-model";
+import JobPost from "../Pages/JobPost/JobPost";
 import Home from "../Pages/Home/home";
 import HowItWorks from "../Pages/HowItWorks/HowItWorks";
 import LoginForm from "../Pages/LoginSignup/Login/Login-Form";
@@ -102,6 +103,10 @@ export const BaseRoutes = () => {
           element: <FindModel />,
         },
         {
+          path: "jobpost/*",
+          element: <JobPost />,
+        },
+        {
           path: "find-model/profile/:id",
           element: <ProfilePage />,
         },
@@ -109,6 +114,7 @@ export const BaseRoutes = () => {
           path: "faqs",
           element: <FAQs />,
         },
+
         {
           path: "howitworks",
           element: <HowItWorks />,

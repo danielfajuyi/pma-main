@@ -1,0 +1,71 @@
+.postjobimg-container {
+  .postjobimg-wrapper {
+    width: 661px;
+    height: 300px;
+
+    div {
+      padding: 0.1rem;
+      height: 270px;
+      width: 100%;
+      img {
+        width: 100%;
+        border-radius: 27px;
+
+        object-fit: cover;
+        object-position: center;
+        height: 100%;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 978px) and (min-width: 880px) {
+  .postjobimg-container {
+    .postjobimg-wrapper {
+      width: 550px;
+      height: 300px;
+    }
+  }
+}
+
+@media screen and (max-width: 880px) and (min-width: 689px) {
+  .postjobimg-container {
+    .postjobimg-wrapper {
+      width: 410px;
+      height: 280px;
+    }
+  }
+}
+
+@media screen and (max-width: 689px) {
+  .postjobimg-container {
+    .postjobimg-wrapper {
+      width: 100%;
+      height: 280px;
+      margin: 0 auto;
+    }
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .postjobimg-container {
+    .postjobimg-wrapper {
+      width: 100%;
+      height: 200px;
+
+      div {
+        padding: 0.1rem;
+        height: 200px;
+        width: 100%;
+        img {
+          width: 100%;
+          border-radius: 27px;
+
+          object-fit: cover;
+          object-position: center;
+          height: 100%;
+        }
+      }
+    }
+  }
+}

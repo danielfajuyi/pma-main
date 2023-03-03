@@ -1,6 +1,6 @@
 function ModelStats({ item }) {
   return (
-    <section className="section stat-section">
+    <section className="section section-profile stat-section">
       {/* stats section  */}
 
       <ul className="stat__list">
@@ -9,41 +9,48 @@ function ModelStats({ item }) {
             <span className="semi-bold">Height:</span>{" "}
             <span>{item?.height || item?.model?.height}</span>
           </li>
-        ): null}
-        {item?.waist  || item?.model?.waist ? (
+        ) : null}
+        {item?.waist || item?.model?.waist ? (
           <li className="stat__item">
-            <span className="semi-bold">Waist:</span> <span>{item?.waist || item?.model?.waist}</span>
+            <span className="semi-bold">Waist:</span>{" "}
+            <span>{item?.waist || item?.model?.waist}</span>
           </li>
-        ): null}
-        {item?.bust  || item?.model?.bust ? (
+        ) : null}
+        {item?.bust || item?.model?.bust ? (
           <li className="stat__item">
-            <span className="semi-bold">Bust:</span> <span>{item?.bust || item?.model?.bust}</span>
+            <span className="semi-bold">Bust:</span>{" "}
+            <span>{item?.bust || item?.model?.bust}</span>
           </li>
-        ):null}
-        {item?.chest  || item?.model?.chest ? (
+        ) : null}
+        {item?.chest || item?.model?.chest ? (
           <li className="stat__item">
-            <span className="semi-bold">Chest:</span> <span>{item?.chest || item?.model?.chest}</span>
+            <span className="semi-bold">Chest:</span>{" "}
+            <span>{item?.chest || item?.model?.chest}</span>
           </li>
-        ):null}
+        ) : null}
         {item?.hip || item?.model?.hip ? (
           <li className="stat__item">
-            <span className="semi-bold">Hip:</span> <span>{item?.hip || item?.model?.hip}</span>
+            <span className="semi-bold">Hip:</span>{" "}
+            <span>{item?.hip || item?.model?.hip}</span>
           </li>
-        ): null}
+        ) : null}
         {item?.shoulder || item?.model?.shoulder ? (
           <li className="stat__item">
             <span className="semi-bold">Shoulder: </span>
             <span>{item?.shoulder || item?.model?.shoulder}</span>
           </li>
-        ): null}
+        ) : null}
         <li className="stat__item">
-          <span className="semi-bold">Eyes:</span> <span>{item?.eyes || item?.model?.eyes}</span>
+          <span className="semi-bold">Eyes:</span>{" "}
+          <span>{item?.eyes || item?.model?.eyes}</span>
         </li>
         <li className="stat__item">
-          <span className="semi-bold">Size:</span> <span>{item?.size || item?.model?.size}</span>
+          <span className="semi-bold">Size:</span>{" "}
+          <span>{item?.size || item?.model?.size}</span>
         </li>
         <li className="stat__item">
-          <span className="semi-bold">Shoe:</span> <span>{item?.shoe || item?.model?.shoe}</span>
+          <span className="semi-bold">Shoe:</span>{" "}
+          <span>{item?.shoe || item?.model?.shoe}</span>
         </li>
         <li className="stat__item">
           <span className="semi-bold">Tattoos: </span>
@@ -51,7 +58,9 @@ function ModelStats({ item }) {
         </li>
         <li className="stat__item">
           <span className="semi-bold">Gender: </span>
-          <span>{item?.gender || item?.model?.gender === "m" ? "Male" : "Female"}</span>
+          <span>
+            {item?.gender || item?.model?.gender === "m" ? "Male" : "Female"}
+          </span>
         </li>
         <li className="stat__item">
           <span className="semi-bold">Skin Color: </span>
@@ -75,7 +84,11 @@ function ModelStats({ item }) {
         </li>
         <li className="stat__item">
           <span className="semi-bold">Available For Travel: </span>
-          <span>{item?.availableForTravel || item?.model?.availableForTravel ? "Yes" : "No"}</span>
+          <span>
+            {item?.availableForTravel || item?.model?.availableForTravel
+              ? "Yes"
+              : "No"}
+          </span>
         </li>
       </ul>
 
