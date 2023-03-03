@@ -20,7 +20,7 @@ import AgencyForms from "../../Agency-Acct/Kyc-Section/Agency-Kyc-Forms";
 
 const AgencyDashboard = () => {
   const user = useSelector((state) => state.user.currentUser);
-  console.log(user)
+  // console.log(user)
 
   const [message, setMessage] = useState([]);
   const dispatch = useDispatch();

@@ -43,6 +43,7 @@ const DashboardSidebar = (props) => {
         <li key={item.name} className="nav_link__li">
           <NavLink
             to={item.children ? "#" : item.path}
+            style={{ color: "white" }}
             className="nav_link"
             end={item.children ? false : true}
             onClick={(e) => {
