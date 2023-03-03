@@ -38,6 +38,7 @@ import ModelPortfolio from "../UI/Model/ModelPortfolio/ModelPortfolio";
 import SeeModels from "../Components/SeeModels/see_models";
 import ClientProfile from "../UI/Client/ClientProfile/ClientProfile";
 import AcctSetting from "../UI/Client/Client-Acct/Acct-Setting/Client-Acct-Setting";
+import AgencyProfile from "../UI/Agency/AgencyProfile/agency_profile";
 
 export const BaseRoutes = () => {
   const [showNavbar, setShowNavbar] = useState(true);
@@ -144,6 +145,10 @@ export const BaseRoutes = () => {
             {
               path: "dashboard",
               element: <AgencyDashboard />,
+            },
+            {
+              path: "profile",
+              element: <AgencyProfile />,
             },
           ],
         },
