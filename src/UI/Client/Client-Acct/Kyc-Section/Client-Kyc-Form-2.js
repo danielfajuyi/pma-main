@@ -130,7 +130,7 @@ function ClientsKycForm2({
       err = false;
     }
   }, [jobPhotos, picture]);
-  console.log( isError)
+  // console.log( isError)
 
   //handling submit
   function handleSubmit() {
