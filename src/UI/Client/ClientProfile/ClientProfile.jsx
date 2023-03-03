@@ -76,6 +76,7 @@ const ClientProfile = () => {
           </div>
         </div>
       </div>
+      
       <div className="cbox">
         <div className="clientBox-1">
           <h2>{user?.client?.brandName}</h2>

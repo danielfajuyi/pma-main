@@ -85,7 +85,7 @@ export const makeGet = async (dispatch, url, setMessage) => {
     const res = await userRequest.get(url);
     dispatch(processSuccess());
     setMessage(res.data);
-    // console.log(res.data);
+    // toast.success("Job has been posted successfully!");
   } catch (err) {
     dispatch(processFailure());
     return toast.error(err.response.data);
