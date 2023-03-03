@@ -129,8 +129,8 @@ function ClientsKycForm2({
     } else {
       err = false;
     }
-    setIsError(err);
-  }, []);
+  }, [jobPhotos, picture]);
+  console.log( isError)
 
   //handling submit
   function handleSubmit() {

@@ -29,31 +29,35 @@ import profileImg from "../../../Images/model/model3.jpg";
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { IconContext } from "react-icons/lib";
+import { useSelector } from "react-redux";
 //[END];
 
 // About Section (Gets rendered when 'page state' is 'about')
-const ABOUT = (
-  <section id="about">
-    <div>
-      <h2>About Agency</h2>
-      <p>
-        Fourwall Models was formed in 2020. We accept all kinds of model and
-        this is the platform to make your dream of becoming a professional model
-        a reality.
-      </p>
-      <p>
-        We deliver the best professional models in all kind of categories and
-        our models are the best.
-      </p>
-    </div>
-  </section>
-);
+const ABOUT = ({user}) => {
+  return (
+    <section id="about">
+      <div>
+        <h2>About Agency</h2>
+        <p>
+          {user?.agency?.about}
+        </p>
+        {/* <p>
+          We deliver the best professional models in all kind of categories and
+          our models are the best.
+        </p> */}
+      </div>
+    </section>
+  );
+};
 
 const AgencyProfile = ({ showNavbar, setShowNavbar }) => {
+  const user = useSelector((state) => state.user.currentUser);
+
+
   // Using Hooks
-  useEffect(() => {
-    setShowNavbar(false);
-  }, [setShowNavbar]);
+  // useEffect(() => {
+  //   setShowNavbar(false);
+  // }, [setShowNavbar]);
 
   const [page, setPage] = useState("about");
   //   [END]
@@ -100,14 +104,14 @@ const AgencyProfile = ({ showNavbar, setShowNavbar }) => {
         <main>
           <div id="sidebar">
             <header>
-              <h1>Fourwall Models</h1>
+              <h1>{user?.agency?.agencyName}</h1>
               <div id="location">
                 <FaMapMarkerAlt color="#ff007a" size={16} />
-                <span>Lagos, Nigeria</span>
+                <span>{user?.agency?.state}, {user?.agency?.country}</span>
               </div>
               <div id="link">
                 <RiGlobalLine size={16} />
-                <span>www.fourwallmag.com</span>
+                <span>{user?.agency?.agencyUrl}</span>
               </div>
             </header>
             <div id="follow_container">
@@ -160,9 +164,9 @@ const AgencyProfile = ({ showNavbar, setShowNavbar }) => {
               Previous Jobs
             </li>
           </ul>
-          {page === "about" ? ABOUT : null}
-          {page === "see_models" ? <SeeModels /> : null}
-          {page === "prev_jobs" ? <PreviousJobs /> : null}
+          {page === "about" ? <ABOUT user={user} /> : null}
+          {page === "see_models" ? <SeeModels user={user} /> : null}
+          {page === "prev_jobs" ? <PreviousJobs user={user} /> : null}
         </main>
       </div>
     </IconContext.Provider>
