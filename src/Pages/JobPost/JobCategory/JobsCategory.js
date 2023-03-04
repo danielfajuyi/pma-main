@@ -1,6 +1,6 @@
 export const statusOption = ["Paid", "Colaboration", "Product"];
 
-export const jobTypeOption = ["Online", "Offline"];
+export const jobTypeOption = ["online", "offline"];
 
 export const jobdurationOption = ["15 Days", "1 Months", "3 Months"];
 

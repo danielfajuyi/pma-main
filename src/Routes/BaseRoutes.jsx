@@ -39,6 +39,7 @@ import SeeModels from "../Components/SeeModels/see_models";
 import ClientProfile from "../UI/Client/ClientProfile/ClientProfile";
 import AcctSetting from "../UI/Client/Client-Acct/Acct-Setting/Client-Acct-Setting";
 import AgencyProfile from "../UI/Agency/AgencyProfile/agency_profile";
+import JobPostForm from "../Pages/JobPost/JobPostForm/JobPostForm";
 
 export const BaseRoutes = () => {
   const [showNavbar, setShowNavbar] = useState(true);
@@ -211,6 +212,14 @@ export const BaseRoutes = () => {
               element: <ClientDashboard />,
             },
             {
+              path: "profile/:id",
+              element: <ClientProfile />,
+            },
+            {
+              path: "post-a-job",
+              element: <JobPostForm />,
+            },
+            {
               path: "mywallet",
               element: <MyWallet />,
             },
@@ -242,14 +251,22 @@ export const BaseRoutes = () => {
             },
           ],
         },
-        {
-          path: "profile/:id",
-          element: (
-            <ProtectedRoute>
-              <ClientProfile />
-            </ProtectedRoute>
-          ),
-        },
+        // {
+        //   path: "profile/:id",
+        //   element: (
+        //     <ProtectedRoute>
+        //       <ClientProfile />
+        //     </ProtectedRoute>
+        //   ),
+        // },
+        // {
+        //   path: "/jobpost/post-a-job",
+        //   element: (
+        //     <ProtectedRoute>
+        //       <JobPostForm />
+        //     </ProtectedRoute>
+        //   ),
+        // },
       ],
     },
     {

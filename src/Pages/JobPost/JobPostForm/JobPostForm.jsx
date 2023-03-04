@@ -15,177 +15,99 @@ import {
   ageOption,
   heightOption,
 } from "../JobCategory/JobsCategory";
+import { useDispatch, useSelector } from "react-redux";
+import { makePost } from "../../../redux/apiCalls";
 
-const jobapi = "https://formapi-4wry.onrender.com/postjob";
+const JobPostForm = () => {
+  const { isFetching } = useSelector((state) => state.process);
+  const dispatch = useDispatch();
 
-const initialState = {
-  title: "",
-  desc: "",
-  country: "",
-  city: "",
-  duedate: "",
-  price: "",
-  location: "",
-  status: "",
-  statusInfo: "",
-  date: "",
-  jobtype: "",
-  gender: "male",
-  age: "",
-  height: "",
-};
+  const [inputs, setInputs] = useState({});
+  const [photos, setPhotos] = useState([]);
+  const [photo, setPhoto] = useState(undefined);
+  const [previewPhotos, setPreviewPhotos] = useState([]);
+  const [progress, setProgress] = useState(0);
+  const [message, setMessage] = useState({});
 
-const JobPostForm = ({ loadJobPostData }) => {
-  const [form, setForm] = useState(initialState);
-  const [file, setFile] = useState(null);
+  const handleChange = (e) => {
+    setInputs((prev) => {
+      return { ...prev, [e.target.name]: e.target.value };
+    });
+  };
+  console.log(inputs);
 
-  // eslint-disable-next-line
-  const [progress, setProgress] = useState(null);
-  const navigate = useNavigate();
-  // const countrydataApi =
-  //   "https://pkgstore.datahub.io/core/world-cities/world-cities_json/data/5b3dd46ad10990bca47b04b4739a02ba/world-cities_json.json";
+  const handlePhotos = (e) => {
+    const img = URL.createObjectURL(e.target.files[0]);
+    setPreviewPhotos((prevData) => [...prevData, img]);
+    setPhoto(e.target.files[0]);
+  };
+  // console.log(previewPhotos);
 
-  const {
-    title,
-    desc,
-    date,
-    country,
-    city,
-    duedate,
-    price,
-    location,
-    status,
-    statusInfo,
-    jobtype,
-    gender,
-    age,
-    height,
-  } = form;
+  const uploadFile = (file, urlType) => {
+    const fileName = new Date().getTime() + file.name;
+    const storageRef = ref(storage, `/jobs/${fileName}`);
+    const uploadTask = uploadBytesResumable(storageRef, file);
+
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        urlType === "photos" && setProgress(progress);
+        switch (snapshot.state) {
+          case "paused":
+            console.log("Upload is paused");
+            break;
+          case "running":
+            console.log("Upload is running");
+            break;
+          default:
+            break;
+        }
+      },
+      (error) => {},
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          setPhotos((prev) => [...prev, downloadURL]);
+        });
+      }
+    );
+  };
 
   useEffect(() => {
-    const uploadFile = () => {
-      const storageRef = ref(storage, file.name);
-
-      const uploadTask = uploadBytesResumable(storageRef, file);
-
-      uploadTask.on(
-        "state_changed",
-        (snapshot) => {
-          const progress =
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          console.log("Upload is " + progress + "% done");
-          setProgress(progress);
-          switch (snapshot.state) {
-            case "Paused":
-              console.log("Upload is paused");
-              break;
-            case "running":
-              console.log("Upload is running");
-              break;
-            default:
-              break;
-          }
-        },
-        (error) => {
-          console.log(error);
-        },
-        () => {
-          getDownloadURL(uploadTask.snapshot.ref).then((downloadUrl) => {
-            setForm((prev) => ({ ...prev, img: [downloadUrl] }));
-          });
-        }
-      );
+    const sendPhoto = (urlType) => {
+      urlType = "photos";
+      setInputs((prev) => {
+        return { ...prev, [urlType]: photos };
+      });
+      if (photo) {
+        uploadFile(photo, "photos");
+        setPhoto(undefined);
+      }
     };
-    file && uploadFile();
-  }, [file]);
-
-  const onFileChange = (e) => {
-    setFile(e.target.files[0]);
-  };
-
-  const onInputChange = (e) => {
-    let { name, value } = e.target;
-    setForm({ ...form, [name]: value });
-  };
-
-  const onCountryChange = (e) => {
-    setForm({ ...form, country: e.target.value });
-  };
-
-  const onCityChange = (e) => {
-    setForm({ ...form, city: e.target.value });
-  };
-
-  const onDateChange = (e) => {
-    setForm({ ...form, date: e.target.value });
-  };
-
-  const onGenderChange = (e) => {
-    setForm({ ...form, gender: e.target.value });
-  };
-
-  const onStatusChange = (e) => {
-    setForm({ ...form, status: e.target.value });
-  };
-
-  const onJobTypeChange = (e) => {
-    setForm({ ...form, jobtype: e.target.value });
-  };
-
-  const onJobdueChange = (e) => {
-    setForm({ ...form, duedate: e.target.value });
-  };
-
-  const onHeightChange = (e) => {
-    setForm({ ...form, height: e.target.value });
-  };
-
-  const onAgeChange = (e) => {
-    setForm({ ...form, age: e.target.value });
-  };
+    sendPhoto();
+  }, [photo, photos]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (
-      !title ||
-      !desc ||
-      !country ||
-      !city ||
-      !duedate ||
-      !date ||
-      !price ||
-      !location ||
-      !status ||
-      !statusInfo ||
-      !jobtype ||
-      !gender ||
-      !age ||
-      !height
+      !inputs.title ||
+      !inputs.desc ||
+      !inputs.country ||
+      !inputs.state ||
+      !inputs.expire ||
+      !inputs.price ||
+      !inputs.location ||
+      !inputs.paymentInfo ||
+      !inputs.payMoreDetails ||
+      !inputs.type ||
+      !inputs.gender ||
+      !inputs.age ||
+      !inputs.height
     ) {
       toast.error("Please fill all input feild");
     } else {
-      axios.post(jobapi, form);
-      toast.success("Job Added Successfully");
-      console.log(form);
-      console.log(`New Jobapi => ${jobapi}`);
-      setForm({
-        title: "",
-        desc: "",
-        country: "",
-        city: "",
-        duedate: "",
-        price: "",
-        location: "",
-        status: "",
-        statusInfo: "",
-        date: "",
-        jobtype: "",
-        gender: "male",
-        age: "",
-        height: "",
-      });
-
-      setTimeout(() => loadJobPostData(), 5000 , navigate("/jobpost"));
+      makePost(dispatch, "/job/post-job/", {...inputs}, setMessage);
     }
   };
 
@@ -207,8 +129,7 @@ const JobPostForm = ({ loadJobPostData }) => {
               type="text"
               id="title"
               name="title"
-              value={title}
-              onChange={onInputChange}
+              onChange={handleChange}
               placeholder="For example: Female model required for photo shoot"
             />
 
@@ -219,9 +140,8 @@ const JobPostForm = ({ loadJobPostData }) => {
               <textarea
                 placeholder="Explain the type of model jobs"
                 name="desc"
-                value={desc}
                 className="bookform-textarea"
-                onChange={onInputChange}
+                onChange={handleChange}
               ></textarea>
               <h6>Email address is not permitted here</h6>
             </div>
@@ -231,21 +151,20 @@ const JobPostForm = ({ loadJobPostData }) => {
             <label htmlFor="status" className="bookform-label">
               Payment information
             </label>
-            <select value={status} onChange={onStatusChange}>
-              <option hidden>Please select payment status</option>
-              {statusOption.map((option, index) => {
-                return (
-                  <option value={option || ""} key={index}>
-                    {option}
-                  </option>
-                );
-              })}
+            <select name="paymentInfo" onChange={handleChange}>
+              <option hidden value="">
+                Please select payment status
+              </option>
+              {statusOption.map((option, index) => (
+                <option value={option || ""} key={index}>
+                  {option}
+                </option>
+              ))}
             </select>
             <input
               type="text"
-              name="statusInfo"
-              value={statusInfo}
-              onChange={onInputChange}
+              name="payMoreDetails"
+              onChange={handleChange}
               className="bookform-text"
               style={{ border: "none", margin: "10px 0px" }}
               placeholder="Enter more details"
@@ -256,8 +175,7 @@ const JobPostForm = ({ loadJobPostData }) => {
               <input
                 type="text"
                 name="price"
-                value={price}
-                onChange={onInputChange}
+                onChange={handleChange}
                 placeholder="Enter Price"
               />
             </div>
@@ -267,15 +185,15 @@ const JobPostForm = ({ loadJobPostData }) => {
                 Job or collaboration type
               </label>
 
-              <select value={jobtype} onChange={onJobTypeChange}>
-                <option hidden>Please select payment status</option>
-                {jobTypeOption.map((option, index) => {
-                  return (
-                    <option id="jobcategory" value={option || ""} key={index}>
-                      {option}
-                    </option>
-                  );
-                })}
+              <select name="type" onChange={handleChange}>
+                <option hidden value="">
+                  Please select payment status
+                </option>
+                {jobTypeOption.map((option, index) => (
+                  <option id="jobcategory" value={option || ""} key={index}>
+                    {option}
+                  </option>
+                ))}
               </select>
             </div>
           </div>
@@ -287,8 +205,7 @@ const JobPostForm = ({ loadJobPostData }) => {
             <input
               type="text"
               name="location"
-              value={location}
-              onChange={onInputChange}
+              onChange={handleChange}
               placeholder="give breif details abou the job location"
             />
 
@@ -297,8 +214,10 @@ const JobPostForm = ({ loadJobPostData }) => {
                 Where can models apply from ?
               </label>
 
-              <select onChange={onCountryChange} value={country}>
-                <option hidden>--Select Country--</option>
+              <select onChange={handleChange} name="country">
+                <option hidden value="">
+                  --Select Country--
+                </option>
                 {countrydata.map((getCountry, index) => {
                   const { country_name } = getCountry;
                   return (
@@ -309,20 +228,21 @@ const JobPostForm = ({ loadJobPostData }) => {
                 })}
               </select>
 
-              <select onChange={onCityChange} value={city}>
-                <option hidden>--Select State--</option>
+              <select onChange={handleChange} name="state">
+                <option hidden value="">
+                  --Select State--
+                </option>
                 {countrydata.map((getstates, index) => {
                   const { states } = getstates;
                   return (
                     <>
-                      {states &&
-                        states.map((state, index) => {
-                          return (
-                            <option value={state.state_name || ""} key={index}>
-                              {state.state_name}
-                            </option>
-                          );
-                        })}
+                      {states.map((state, index) => {
+                        return (
+                          <option value={state.state_name || ""} key={index}>
+                            {state.state_name}
+                          </option>
+                        );
+                      })}
                     </>
                   );
                 })}
@@ -332,23 +252,22 @@ const JobPostForm = ({ loadJobPostData }) => {
             <div>
               <label className="bookform-label">Application expires</label>
 
-              <select value={duedate} onChange={onJobdueChange}>
-                <option hidden>Please select expire date </option>
-                {jobdurationOption.map((option, index) => {
-                  return (
-                    <option value={option || ""} key={index}>
-                      {option}
-                    </option>
-                  );
-                })}
+              <select name="expire" onChange={handleChange}>
+                <option hidden value="">
+                  Please select expire date{" "}
+                </option>
+                {jobdurationOption.map((option, index) => (
+                  <option value={option || ""} key={index}>
+                    {option}
+                  </option>
+                ))}
               </select>
               <button>Custom</button>
               <input
                 type="date"
-                name="date"
-                value={date}
+                name="expire"
                 placeholder="Enter date"
-                onChange={onDateChange}
+                onChange={handleChange}
               />
             </div>
           </div>
@@ -363,10 +282,10 @@ const JobPostForm = ({ loadJobPostData }) => {
                   type="radio"
                   name="gender"
                   value="male"
-                  checked={gender === "male"}
-                  onChange={onGenderChange}
+                  id="male"
+                  onChange={handleChange}
                 />
-                <label>Male</label>
+                <label htmlFor="male">Male</label>
               </div>
 
               <div>
@@ -374,50 +293,82 @@ const JobPostForm = ({ loadJobPostData }) => {
                   type="radio"
                   name="gender"
                   value="female"
-                  checked={gender === "female"}
-                  onChange={onGenderChange}
+                  id="female"
+                  onChange={handleChange}
                 />
-                <label>Female</label>
+                <label htmlFor="female">Female</label>
               </div>
             </div>
 
             <div>
               <label className="bookform-label">Age</label>
-              <select value={age} onChange={onAgeChange}>
-                <option hidden>Choose Age</option>
-                {ageOption.map((option, index) => {
-                  return (
-                    <option value={option || ""} key={index}>
-                      {option}
-                    </option>
-                  );
-                })}
+              <select name="age" onChange={handleChange}>
+                <option hidden value="">
+                  Choose Age
+                </option>
+                {ageOption.map((option, index) => (
+                  <option value={option || ""} key={index}>
+                    {option}
+                  </option>
+                ))}
               </select>
             </div>
 
             <div>
               <label className="bookform-label">Height</label>
-              <select value={height} onChange={onHeightChange}>
-                <option hidden>Please select payment status</option>
-                {heightOption.map((option, index) => {
-                  return (
-                    <option value={option || ""} key={index}>
-                      {option}
-                    </option>
-                  );
-                })}
+              <select name="height" onChange={handleChange}>
+                <option hidden value="">
+                  Please select preferred height
+                </option>
+                {heightOption.map((option, index) => (
+                  <option value={option || ""} key={index}>
+                    {option}
+                  </option>
+                ))}
               </select>
             </div>
           </div>
 
           <div className="form-box form-mtop">
             <label>Upload Photo</label>
-            <input type="file" onChange={onFileChange} />
+            <input
+              type="file"
+              name="photos"
+              onChange={handlePhotos}
+              disabled={previewPhotos.length === 5}
+            />
             <p>You can add up to 5 images to represent the mood of your post</p>
-            <div className="form-mtop button-wrapper ">
-              <button type="submit" className="btn-shadow">
-                Post
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "10px",
+                width: "100%",
+                flexWrap: "wrap",
+              }}
+            >
+              {previewPhotos?.map((img, index) => (
+                <img
+                  src={img}
+                  alt=""
+                  style={{
+                    width: "120px",
+                    height: "80px",
+                    objectFit: "contain ",
+                  }}
+                  key={index}
+                />
+              ))}
+            </div>
+            <div className="form-mtop button-wrapper " style={{paddingBottom:'10px'}}>
+              <button
+                type="submit"
+                className="btn-shadow"
+                disabled={progress > 0 && progress < 100}
+              >
+                {isFetching ? "Please wait..." : "Post"}
               </button>
+              <p>{message ? "Job has been posted successfully!": ""}</p>
             </div>
           </div>
         </form>
