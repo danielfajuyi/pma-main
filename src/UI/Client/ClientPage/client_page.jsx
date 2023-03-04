@@ -57,8 +57,8 @@ const ClientPage = ({ showNavbar, setShowNavbar }) => {
   // Array For Composing Sidebar Navigation -> (Sidebar Componet) --> [START]
   const topList = [
     { name: "Dashboard", icon: <MdOutlineDashboard />, path: "dashboard" },
-    { name: "Profile", icon: <CgUserList />, path: "/profile/"+user._id },
-    { name: "Post Job", icon: <MdOutlinePostAdd />, path: "postjob" },
+    { name: "Profile", icon: <CgUserList />, path: "profile/"+user._id },
+    { name: "Post Job", icon: <MdOutlinePostAdd />, path: "post-a-job" },
     { name: "Find Models", icon: <RiUserSearchLine />, path: "/find-model" },
     {
       name: "Review",

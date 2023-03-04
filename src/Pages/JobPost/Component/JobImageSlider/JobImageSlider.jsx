@@ -8,7 +8,7 @@ import img3 from "./Images/img3.jpg";
 import img4 from "./Images/img4.jpg";
 import img5 from "./Images/img5.jpg";
 
-const JobImageSlider = ({ jobdetail }) => {
+const JobImageSlider = ({ message }) => {
   let settings = {
     infinite: true,
     speed: 400,
@@ -36,25 +36,11 @@ const JobImageSlider = ({ jobdetail }) => {
     <div className="postjobimg-container">
       <div className="postjobimg-wrapper ">
         <Slider {...settings}>
-          <div>
-            <img src={jobdetail.img} alt="job-img" />
-          </div>
-
-          <div>
-            <img src={img2} alt="job-img" />
-          </div>
-
-          <div>
-            <img src={img3} alt="job-img" />
-          </div>
-
-          <div>
-            <img src={img4} alt="job-img" />
-          </div>
-
-          <div>
-            <img src={img5} alt="job-img" />
-          </div>
+          {message?.photos?.map((photo, index) => (
+            <div key={index}>
+              <img src={photo} alt="job-img" />
+            </div>
+          ))}
         </Slider>
       </div>
     </div>
