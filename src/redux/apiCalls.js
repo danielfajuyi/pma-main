@@ -49,6 +49,19 @@ export const update = async (dispatch, url, user, setMessage, setModalTxt) => {
   }
 };
 
+export const update2 = async (dispatch, url, user, setMessage, setModalTxt) => {
+  dispatch(updateStart());
+  try {
+    const res = await userRequest.post(url, user);
+    dispatch(updateSuccess(res.data));
+    setModalTxt("save");
+    return toast.success("Data updated successfully, kindly referesh.");
+  } catch (err) {
+    dispatch(updateFailure());
+    return setMessage(err.response.data);
+  }
+};
+
 export const loginForgot = async (dispatch, user) => {
   dispatch(forgotLoginStart());
   try {
@@ -88,7 +101,7 @@ export const makeGet = async (dispatch, url, setMessage) => {
     // toast.success("Job has been posted successfully!");
   } catch (err) {
     dispatch(processFailure());
-    return toast.error(err.response.data);
+    return toast.error(err?.response?.data);
   }
 };
 

@@ -22,7 +22,6 @@ function AgencyKycForm2({ handleNavigation, inputs, setInputs }) {
   const [modalTxt, setModalTxt] = useState("");
 
   const [submit, setSubmit] = useState(false);
-  const [isError, setIsError] = useState(false);
 
   const handlePhotos = (e) => {
     const img = URL.createObjectURL(e.target.files[0]);
@@ -113,18 +112,9 @@ function AgencyKycForm2({ handleNavigation, inputs, setInputs }) {
     sendCoverPicture();
   }, [setInputs, coverPhoto, jobPhoto, jobPhotos, photo]);
 
-  //setting error
-  useEffect(() => {
-    if (jobPhotos.length < 6) {
-      setIsError(true);
-    } else {
-      setIsError(false);
-    }
-  }, [jobPhoto]);
-
   //handling submit
   function handleSubmit() {
-    if (isError) {
+    if (jobPhotos.length < 6) {
       setModalTxt("add-photo");
     } else {
       update(dispatch, "/agency/", { ...inputs }, setModalTxt);
@@ -261,7 +251,7 @@ function AgencyKycForm2({ handleNavigation, inputs, setInputs }) {
               type="button"
             />
             <FormNavBtn
-              submit={submit}
+              submit={progress > 0 && progress < 100}
               btnText={isFetching ? "A moment..." : "Submit"}
               name="form3"
               handleClick={handleSubmit}
