@@ -40,6 +40,7 @@ import ClientProfile from "../UI/Client/ClientProfile/ClientProfile";
 import AcctSetting from "../UI/Client/Client-Acct/Acct-Setting/Client-Acct-Setting";
 import AgencyProfile from "../UI/Agency/AgencyProfile/agency_profile";
 import JobPostForm from "../Pages/JobPost/JobPostForm/JobPostForm";
+import AgencyAcctSetting from "../UI/Agency/Agency-Acct/Acct-Setting/Agency-Acct-Setting";
 
 export const BaseRoutes = () => {
   const [showNavbar, setShowNavbar] = useState(true);
@@ -150,6 +151,10 @@ export const BaseRoutes = () => {
             {
               path: "profile",
               element: <AgencyProfile />,
+            },
+            {
+              path: "settings",
+              element: <AgencyAcctSetting />,
             },
           ],
         },

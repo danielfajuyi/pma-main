@@ -64,7 +64,7 @@ const AgencyPage = ({ showNavbar, setShowNavbar }) => {
         { name: "Manage models", path: "listing/manage" },
       ],
     },
-    { name: "Find Models", icon: <RiUserSearchLine />, path: "findmodels" },
+    { name: "Find Models", icon: <RiUserSearchLine />, path: "/find-model" },
     {
       name: "Review",
       icon: <MdOutlineReviews />,
