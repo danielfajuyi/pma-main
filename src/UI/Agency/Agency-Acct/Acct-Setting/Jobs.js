@@ -1,25 +1,112 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./Jobs.css";
 import JobItem from "./JobItem";
+import { useDispatch, useSelector } from "react-redux";
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import { storage } from "../../../../firebase";
+import { update } from "../../../../redux/apiCalls";
+import { AlertModal } from "../../../../Pages/LoginSignup/Sign-Up/signUpForm/Modal";
 
-function Photos({ userData, handleModal, resetDiscard }) {
-  const { photos, coverPic } = userData[0].profile;
+function Photos({ resetDiscard }) {
+  const { isFetching } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
-  const [photo, setPhoto] = useState(photos);
-  const [cover, setCover] = useState(coverPic);
-
+  const [inputs, setInputs] = useState({});
+  const [jobPhotos, setJobPhotos] = useState([]);
+  const [jobPhoto, setJobPhoto] = useState(undefined);
+  const [previewPhotos, setPreviewPhotos] = useState([]);
+  const [coverPhoto, setCoverPhoto] = useState(undefined);
+  const [progress, setProgress] = useState(0);
+  const [modalTxt, setModalTxt] = useState("");
   const [viewAll, setViewAll] = useState(false);
-
   const [image, setImage] = useState("");
   const [activeModal, setActiveModal] = useState("");
   const [toggleModal, setToggleModal] = useState(false);
   const [trashId, setTrashId] = useState("");
 
+  const handlePhotos = (e) => {
+    // const img = URL.createObjectURL(e.target.files[0]);
+    // setPreviewPhotos((prevData) => ({ ...prevData, [e.target.id]: img }));
+    setJobPhoto(e.target.files[0]);
+  };
+
+  const uploadFile = (file, urlType) => {
+    const fileName = new Date().getTime() + file.name;
+    const storageRef = ref(storage, `/agency/${fileName}`);
+    const uploadTask = uploadBytesResumable(storageRef, file);
+
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        if (urlType === "jobPhotos") {
+          setProgress(Math.round(progress));
+        }
+        if (urlType === "coverPhoto") {
+          setProgress(Math.round(progress));
+        }
+        switch (snapshot.state) {
+          case "paused":
+            console.log("Upload is paused");
+            break;
+          case "running":
+            console.log("Upload is running");
+            break;
+          default:
+            break;
+        }
+      },
+      () => {},
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          if (urlType === "jobPhotos") {
+            setJobPhotos((prev) => [...prev, downloadURL]);
+          }
+          if (urlType === "coverPhoto") {
+            setInputs((prev) => {
+              return { ...prev, [urlType]: downloadURL };
+            });
+          }
+        });
+      }
+    );
+  };
+
+  useEffect(() => {
+    const sendJobPhoto = (urlType) => {
+      urlType = "jobPhotos";
+      setInputs((prev) => {
+        return { ...prev, [urlType]: jobPhotos };
+      });
+      if (jobPhoto) {
+        uploadFile(jobPhoto, "jobPhotos");
+        setJobPhoto(undefined);
+      }
+    };
+    sendJobPhoto();
+
+    const sendCoverPicture = (urlType) => {
+      urlType = "coverPhoto";
+      if (coverPhoto) {
+        uploadFile(coverPhoto, "coverPhoto");
+        // setCoverPicture(undefined);
+      }
+    };
+    sendCoverPicture();
+  }, [setInputs, coverPhoto, jobPhoto, jobPhotos]);
+
+  //handling submit
+  function handleSubmit() {
+    update(dispatch, "/agency/", { ...inputs }, setModalTxt);
+  }
+  console.log(inputs);
+
   //Setting state and viewing photos
   function handleClick(action, id) {
     //viewing photos
     if (action === "view") {
-      let selected = photo.filter((item, index) =>
+      let selected = jobPhotos.filter((item, index) =>
         index === id ? item : null
       );
       setActiveModal("display");
@@ -29,8 +116,8 @@ function Photos({ userData, handleModal, resetDiscard }) {
       setImage(selected[0]);
     } else if (action === "trash") {
       //checking if photo delete limit has been exceeded
-      if (photo.length <= 6) {
-        handleModal("trash-photo");
+      if (jobPhotos.length <= 6) {
+        setModalTxt("trash-photo");
       } else {
         setActiveModal("alert");
 
@@ -44,8 +131,8 @@ function Photos({ userData, handleModal, resetDiscard }) {
   //deleting photo from the list
   function handleTrash(response) {
     if (response === "Yes") {
-      setPhoto(
-        photo.filter((item, index) => (index !== trashId ? item : null))
+      setJobPhotos(
+        jobPhotos.filter((item, index) => (index !== trashId ? item : null))
       );
       setToggleModal((prev) => !prev);
     } else if (response === "No") {
@@ -53,38 +140,10 @@ function Photos({ userData, handleModal, resetDiscard }) {
     }
   }
 
-  //handle change and adding photos
-
-  function handleChange(e) {
-    const { name, files } = e.target;
-    let img = URL.createObjectURL(files[0]);
-
-    if (name === "photo") {
-      setPhoto((prev) => [...prev, img]);
-    } else {
-      setCover(img);
-    }
-  }
-
-  //handle save
-  function handleSave(btn) {
-    let x = {
-      ...userData[0].profile,
-      photos: photo,
-      coverPic: cover,
-    };
-
-    if (btn === "save") {
-      console.log((userData[0].profile = x));
-      handleModal("save");
-    } else {
-      setPhoto(photos);
-      console.log(userData[0].profile);
-    }
-  }
-
   return (
     <form onSubmit={(e) => e.preventDefault()}>
+      <AlertModal modalTxt={modalTxt} setModalTxt={setModalTxt} />
+
       <section
         style={{ transform: toggleModal && `translateX(${0}%)` }}
         className="modal--section"
@@ -148,17 +207,18 @@ function Photos({ userData, handleModal, resetDiscard }) {
             </label>
 
             <input
-              onChange={handleChange}
+              onChange={handlePhotos}
               type="file"
-              name="photo"
+              name="jobPhotos"
               id="add-photo"
               className="file--input"
+              style={{ display: "none" }}
             />
 
-            <span className=" bold-text">{photo.length}/18 pics</span>
+            <span className=" bold-text">{jobPhotos.length}/18 pics</span>
           </div>
           <ul className="set_photo--list">
-            {photo.map((item, index) =>
+            {jobPhotos?.map((item, index) =>
               viewAll ? (
                 <JobItem
                   key={index}
@@ -203,13 +263,13 @@ function Photos({ userData, handleModal, resetDiscard }) {
               <i className="fa-solid fa-plus fa-2x"></i>
             </label>
             <input
-              onChange={handleChange}
+              onChange={(e) => setCoverPhoto(e.target.files[0])}
               type="file"
-              name="cover-img"
+              name="coverPhoto"
               id="cover-img"
               className="file--input"
             />
-            {cover && <img src={cover} alt="" />}
+            <img src={coverPhoto && URL.createObjectURL(coverPhoto)} alt="" />
           </div>
         </section>
 
@@ -217,17 +277,18 @@ function Photos({ userData, handleModal, resetDiscard }) {
 
         <section className="setting_btn--container">
           <button
-            onClick={() => resetDiscard(() => handleSave)}
+            onClick={() => resetDiscard(() => handleSubmit)}
             className="discard--btn dark--btn bold-text cancel--btn"
           >
             Discard
           </button>
           <button
             //style={{ backgroundColor: "#ff007a", color: "#fff" }}
-            onClick={() => handleSave("save")}
+            onClick={handleSubmit}
             className="save--btn  bold-text yes--btn"
+            disabled={progress > 0 && progress < 100}
           >
-            Save
+            {isFetching ? "Please wait..." : "Save"}
           </button>
         </section>
       </section>

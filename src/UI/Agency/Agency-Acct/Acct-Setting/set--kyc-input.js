@@ -6,7 +6,7 @@
 //i duplicate the input so that i can style they easily
 
 //input 1
-function Input1({ id, label, value, placeholder, error, handleChange }) {
+function Input1({ id, label, placeholder, error, handleChange }) {
   return (
     <li className="set_details--input-1">
       <label className="set_input--label" htmlFor={id}>
@@ -18,9 +18,8 @@ function Input1({ id, label, value, placeholder, error, handleChange }) {
           id={id}
           name={id}
           placeholder={placeholder}
-          value={value}
           spellCheck={false}
-          required
+          // required
         />
         <p className="error-text">{error}</p>
       </label>
@@ -29,7 +28,7 @@ function Input1({ id, label, value, placeholder, error, handleChange }) {
 }
 
 //input 2
-function Input2({ id, label, value, placeholder, error, handleChange }) {
+function Input2({ id, label, placeholder, error, handleChange }) {
   return (
     <li className="set_details--input-2">
       <label className="set_input--label" htmlFor={id}>
@@ -41,9 +40,8 @@ function Input2({ id, label, value, placeholder, error, handleChange }) {
           id={id}
           name={id}
           placeholder={placeholder}
-          value={value}
           spellCheck={false}
-          required
+          // required
         />
         <p className="error-text">{error}</p>
       </label>
@@ -52,7 +50,7 @@ function Input2({ id, label, value, placeholder, error, handleChange }) {
 }
 
 //input 3
-function Input3({ id, label, value, placeholder, error, handleChange }) {
+function Input3({ id, label, placeholder, error, handleChange }) {
   return (
     <li className="set_details--input-3">
       <label className="set_input--label" htmlFor={id}>
@@ -64,9 +62,8 @@ function Input3({ id, label, value, placeholder, error, handleChange }) {
           id={id}
           name={id}
           placeholder={placeholder}
-          value={value}
           spellCheck={false}
-          required
+          // required
         />
         <p className="error-text">{error}</p>
       </label>

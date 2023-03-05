@@ -12,7 +12,7 @@ function FormNavBtn({ btnText, name, handleClick, type, submit }) {
           ? "kyc--nav-btn bold-text yes--btn"
           : "kyc--nav-btn bold-text cancel--btn"
       }
-      disabled={submit && true}
+      disabled={submit}
     >
       {btnText}
     </button>

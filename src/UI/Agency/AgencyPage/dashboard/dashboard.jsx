@@ -36,7 +36,7 @@ const AgencyDashboard = () => {
     return () => {
       unsubscribed = true;
     };
-  }, []);
+  }, [setMessage]);
 
   // Visitor Stats Graph Data -> (VisitorStats Component) --> [STRAT]
   const data = {
@@ -292,7 +292,7 @@ const AgencyDashboard = () => {
               </header>
               <div id="body">
                 {message?.map((item) => (
-                  <ModelCard item={item} id={item?._id} />
+                  <ModelCard model={item} id={item?._id} />
                 ))}
               </div>
             </div>

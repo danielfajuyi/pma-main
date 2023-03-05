@@ -5,7 +5,7 @@ import AgencyKycForm2 from "./Agency-Kyc-Form-2";
 import "./Agency-Kyc-Forms.css";
 
 function AgencyForms() {
-  const [activeForm, setActiveForm] = useState(1);
+  const [activeForm, setActiveForm] = useState(2);
 
   function handleNavigation(text) {
     if (text === "Next") {
