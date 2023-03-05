@@ -100,7 +100,7 @@ function Photos({ resetDiscard }) {
   function handleSubmit() {
     update(dispatch, "/agency/", { ...inputs }, setModalTxt);
   }
-  console.log(inputs);
+  // console.log(inputs);
 
   //Setting state and viewing photos
   function handleClick(action, id) {
