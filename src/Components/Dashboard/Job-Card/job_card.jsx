@@ -21,9 +21,11 @@ const JobCard = (props) => {
     };
   }, [dispatch]);
 
+  const reversed  = [...message].reverse()
+
   return (
     <div>
-      {message?.slice(0, 5).map((item) => (
+      {reversed?.slice(0, 5).map((item) => (
         <div className="job_card" key={item._id}>
           <div className="note">{item.title}</div>
 
@@ -37,7 +39,7 @@ const JobCard = (props) => {
             </div>
           )}
 
-          <div className="time">{moment(item.createdAt).format("mm-d-yy")}</div>
+          <div className="time">{moment(item.createdAt).format("DD-MM-YYYY")}</div>
         </div>
       ))}
     </div>

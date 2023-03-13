@@ -1,11 +1,12 @@
 import { useCallback, useState } from "react";
 import AgencyKycForm1 from "./Agency-Kyc-Form-1";
 import AgencyKycForm2 from "./Agency-Kyc-Form-2";
-
 import "./Agency-Kyc-Forms.css";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function AgencyForms() {
-  const [activeForm, setActiveForm] = useState(2);
+  const [activeForm, setActiveForm] = useState(1);
 
   function handleNavigation(text) {
     if (text === "Next") {
@@ -33,6 +34,7 @@ function AgencyForms() {
 
   return (
     <div style={{ backgroundColor: "white" }}>
+      <ToastContainer />
       {activeForm === 1 && (
         <AgencyKycForm1
           handleNavigation={handleNavigation}
