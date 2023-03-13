@@ -8,6 +8,8 @@ import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { storage } from "../../../../firebase";
 import { update } from "../../../../redux/apiCalls";
 import { AlertModal } from "../../../../Pages/LoginSignup/Sign-Up/signUpForm/Modal";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function AgencyKycForm2({ handleNavigation, inputs, setInputs }) {
   const { isFetching } = useSelector((state) => state.user);
@@ -21,7 +23,6 @@ function AgencyKycForm2({ handleNavigation, inputs, setInputs }) {
   const [progress, setProgress] = useState(0);
   const [modalTxt, setModalTxt] = useState("");
 
-  const [submit, setSubmit] = useState(false);
 
   const handlePhotos = (e) => {
     const img = URL.createObjectURL(e.target.files[0]);
@@ -114,7 +115,7 @@ function AgencyKycForm2({ handleNavigation, inputs, setInputs }) {
 
   //handling submit
   function handleSubmit() {
-    if (jobPhotos.length < 6) {
+    if (jobPhotos.length < 5) {
       setModalTxt("add-photo");
     } else {
       update(dispatch, "/agency/", { ...inputs }, setModalTxt);
@@ -124,6 +125,7 @@ function AgencyKycForm2({ handleNavigation, inputs, setInputs }) {
   return (
     <form className="kyc--form" onSubmit={(e) => e.preventDefault()}>
       <AlertModal modalTxt={modalTxt} setModalTxt={setModalTxt} />
+      <ToastContainer />
 
       <section className="kyc--hero">
         <img src="/images/agent_3.jpg" alt="" />
