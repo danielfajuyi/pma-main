@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { storage } from "../../../firebase";
 import { toast, ToastContainer } from "react-toastify";
-import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
 import "./JobPostForm.scss";
 import Footer from "../../Home/Layout/FooterSection/Footer/footer";
@@ -34,7 +32,7 @@ const JobPostForm = () => {
       return { ...prev, [e.target.name]: e.target.value };
     });
   };
-  console.log(inputs);
+  // console.log(inputs);
 
   const handlePhotos = (e) => {
     const img = URL.createObjectURL(e.target.files[0]);
@@ -368,7 +366,7 @@ const JobPostForm = () => {
               >
                 {isFetching ? "Please wait..." : "Post"}
               </button>
-              <p>{message ? "Job has been posted successfully!": ""}</p>
+              {/* <p>{success ? "Job has been posted successfully!": ""}</p> */}
             </div>
           </div>
         </form>

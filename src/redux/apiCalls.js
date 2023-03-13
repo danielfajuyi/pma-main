@@ -42,7 +42,7 @@ export const update = async (dispatch, url, user, setMessage, setModalTxt) => {
     const res = await userRequest.put(url, user);
     dispatch(updateSuccess(res.data));
     setModalTxt("save");
-    return toast.success("Data updated successfully, kindly referesh.");
+    toast.success("Data updated successfully, kindly referesh.");
   } catch (err) {
     dispatch(updateFailure());
     return setMessage(err.response.data);
@@ -85,6 +85,7 @@ export const makePost = async (dispatch, url, data, setMessage) => {
     const res = await userRequest.post(url, data);
     dispatch(processSuccess());
     setMessage(res.data);
+    toast.success("Data uploaded successfully.");
     // console.log(res.data);
   } catch (err) {
     dispatch(processFailure());
@@ -101,7 +102,7 @@ export const makeGet = async (dispatch, url, setMessage) => {
     // toast.success("Job has been posted successfully!");
   } catch (err) {
     dispatch(processFailure());
-    return toast.error(err?.response?.data);
+    toast.error(err?.response?.data);
   }
 };
 
@@ -111,6 +112,7 @@ export const makeEdit = async (dispatch, url, setMessage, inputs) => {
     const res = await userRequest.put(url, inputs);
     dispatch(processSuccess());
     setMessage(res.data);
+    toast.success("Data uploaded successfully.");
     // console.log(res.data);
   } catch (err) {
     dispatch(processFailure());

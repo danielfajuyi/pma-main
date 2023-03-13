@@ -2,7 +2,7 @@ function FormNavBtn({ btnText, name, handleClick, type, submit }) {
   return (
     <button
       style={{
-        opacity: submit && 0.4,
+        opacity: submit && 0.4, cursor: "pointer"
       }}
       onClick={() => handleClick(btnText)}
       type={type}
