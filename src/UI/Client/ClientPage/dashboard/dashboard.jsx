@@ -164,12 +164,7 @@ const ClientDashboard = () => {
               </button>
             </div>
             <div id="status">
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-              Dignissimos doloremque velit nobis et qui, deserunt soluta
-              delectus quas officia inventore odio sequi porro alias ullam ipsam
-              eaque nam dolores dicta hic impedit libero atque quaerat. Id iusto
-              quae ipsum, at qui, commodi, molestias maiores est in dolor
-              ratione ipsa alias soluta sit. Accusantium culpa.
+              {user?.client?.bio}
             </div>
             {/* <div id="follow">
               <span>Following {772}</span>

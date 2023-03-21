@@ -79,17 +79,16 @@ export const userLogout = async (dispatch) => {
   dispatch(logout());
 };
 
-export const makePost = async (dispatch, url, data, setMessage) => {
+export const makePost = async (dispatch, url, data) => {
   dispatch(processStart());
   try {
     const res = await userRequest.post(url, data);
     dispatch(processSuccess());
-    setMessage(res.data);
-    toast.success("Data uploaded successfully.");
+    toast.success(res.data);
     // console.log(res.data);
   } catch (err) {
     dispatch(processFailure());
-    return setMessage(err.response.data);
+    toast.error(err?.response?.data)
   }
 };
 

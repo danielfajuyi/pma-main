@@ -100,7 +100,7 @@ const AgencyPage = ({ showNavbar, setShowNavbar }) => {
           <DashboardSidebar top={topList} bottom={bottomList} />
         ) : sidebarVisibility ? (
           <Background childState={setSidebarVisibility}>
-            <DashboardSidebar top={topList} bottom={bottomList} />
+            <DashboardSidebar top={topList} bottom={bottomList} setSidebarVisibility={setSidebarVisibility} />
           </Background>
         ) : null}
         {/*[END] */}

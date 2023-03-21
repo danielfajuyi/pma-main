@@ -5,6 +5,7 @@ import { useRef } from "react";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { userLogout } from "../../../redux/apiCalls";
+import { FaBars } from "react-icons/fa";
 
 const DashboardSidebar = (props) => {
   const dispatch = useDispatch();
@@ -99,6 +100,11 @@ const DashboardSidebar = (props) => {
     <nav id="dashboard_sidebar">
       <div id="logo_holder">
         <img src={logo} alt="Premium Model" />
+        <FaBars
+          id="bars"
+          size={26}
+          onClick={() => props.setSidebarVisibility(false)}
+        />
       </div>
       <ul id="nav_list" ref={ulRef}>
         {topList}
