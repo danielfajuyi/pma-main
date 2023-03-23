@@ -1,56 +1,38 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { makePost } from "../../../redux/apiCalls";
+import { useDispatch, useSelector } from "react-redux";
+import { useLocation } from "react-router";
 
-function BookingForm({ toggleForm, handleForm, profileId, postMsg }) {
-  const [name, setName] = useState("");
-  const [stateName, setStateName] = useState("");
-  const [countryName, setCountryName] = useState("");
-  const [dateFrom, setDateFrom] = useState("");
-  const [dateTo, setDateTo] = useState("");
-  const [price, setPrice] = useState("");
-  const [description, setDescription] = useState("");
+function BookingForm({ toggleForm, handleForm }) {
+  const { isFetching } = useSelector((state) => state.process);
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const path = location.pathname.split("/")[3];
+  // console.log(path)
+  const [inputs, setInputs] = useState({});
 
-  function sendForm() {
-    if (description && price && dateTo && dateFrom && countryName && stateName && name) {
-      let jobMsg = {
-        id: profileId,
-        clientName: name,
-        state: stateName,
-        country: countryName,
-        dateFrom: dateFrom,
-        dateTo: dateTo,
-        jobPrice: price,
-        jobDescription: description,
-      };
+  const handleChange = useCallback(
+    (e) => {
+      setInputs((prev) => {
+        return { ...prev, [e.target.name]: e.target.value };
+      });
+    },
+    [setInputs]
+  );
+  // console.log(inputs);
 
-      postMsg(jobMsg);
-
-      handleForm();
-      setName("");
-      setStateName("");
-      setCountryName("");
-      setDateFrom("");
-      setDateTo("");
-      setPrice("");
-      setDescription("");
-    }
-  }
-
-  function handleChange(e) {
-    const { name, value } = e.target;
-
-    name === "name" && setName(value);
-    name === "state" && setStateName(value);
-    name === "country" && setCountryName(value);
-    name === "date-from" && setDateFrom(value);
-    name === "date-to" && setDateTo(value);
-    name === "price" && setPrice(value);
-    name === "description" && setDescription(value);
-  }
+  const handleSubmit = () => {
+    makePost(dispatch, `/model/${path}`, { ...inputs });
+  };
 
   return (
     <section
       style={{ transform: !toggleForm && `translateX(${100}%)` }}
-      className="booking-section">
+      className="booking-section"
+    >
+      <ToastContainer />
       <form className="book-form" onSubmit={(e) => e.preventDefault()}>
         <i onClick={handleForm} className="fa-solid fa-xmark close-icon"></i>
         <h3>Book Model</h3>
@@ -64,7 +46,6 @@ function BookingForm({ toggleForm, handleForm, profileId, postMsg }) {
             id="name"
             name="name"
             placeholder="Enter your name..."
-            value={name}
             spellCheck="false"
             required
           />
@@ -79,7 +60,6 @@ function BookingForm({ toggleForm, handleForm, profileId, postMsg }) {
               id="state"
               name="state"
               placeholder="State name..."
-              value={stateName}
               spellCheck="false"
               required
             />
@@ -94,7 +74,6 @@ function BookingForm({ toggleForm, handleForm, profileId, postMsg }) {
               id="country"
               name="country"
               placeholder="Country name..."
-              value={countryName}
               spellCheck="false"
               required
             />
@@ -107,8 +86,7 @@ function BookingForm({ toggleForm, handleForm, profileId, postMsg }) {
               type="date"
               className="bookform-text"
               id="date-from"
-              name="date-from"
-              value={dateFrom}
+              name="from"
               required
             />
           </div>
@@ -120,8 +98,7 @@ function BookingForm({ toggleForm, handleForm, profileId, postMsg }) {
               type="date"
               className="bookform-text"
               id="date-to"
-              name="date-to"
-              value={dateTo}
+              name="to"
               required
             />
           </div>
@@ -135,7 +112,6 @@ function BookingForm({ toggleForm, handleForm, profileId, postMsg }) {
               className="bookform-text"
               name="price"
               placeholder="Amount..."
-              value={price}
               spellCheck="false"
               required
             />
@@ -146,18 +122,22 @@ function BookingForm({ toggleForm, handleForm, profileId, postMsg }) {
           <label htmlFor="description">Job Description</label>
           <textarea
             onChange={handleChange}
-            name="description"
+            name="jobDescription"
             id="description"
             className="bookform-textarea"
             cols="30"
             rows="5"
             placeholder="Job description"
-            value={description}
             spellCheck="false"
-            required></textarea>
+            required
+          ></textarea>
         </div>
-        <button onClick={sendForm} type="submit" className="dark--btn send-btn">
-          Send
+        <button
+          onClick={handleSubmit}
+          type="submit"
+          className="dark--btn send-btn"
+        >
+          {isFetching ? "Please wait..." : "Send"}
         </button>
       </form>
     </section>

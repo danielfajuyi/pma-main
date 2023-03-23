@@ -20,6 +20,7 @@
     @include d_flex;
     padding-block: 0.8em;
     border-bottom: 1px solid;
+    justify-content: space-around !important;
     img {
       width: 60px;
     }

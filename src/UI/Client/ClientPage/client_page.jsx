@@ -30,6 +30,7 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Outlet, useLocation, useNavigate } from "react-router";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 //[END]
 
 const ClientPage = ({ showNavbar, setShowNavbar }) => {
@@ -57,7 +58,7 @@ const ClientPage = ({ showNavbar, setShowNavbar }) => {
   // Array For Composing Sidebar Navigation -> (Sidebar Componet) --> [START]
   const topList = [
     { name: "Dashboard", icon: <MdOutlineDashboard />, path: "dashboard" },
-    { name: "Profile", icon: <CgUserList />, path: "profile/"+user._id },
+    { name: "Profile", icon: <CgUserList />, path: "profile/" + user._id },
     { name: "Post Job", icon: <MdOutlinePostAdd />, path: "post-a-job" },
     { name: "Find Models", icon: <RiUserSearchLine />, path: "/find-model" },
     {
@@ -73,8 +74,8 @@ const ClientPage = ({ showNavbar, setShowNavbar }) => {
   ];
 
   const bottomList = [
-    { name: "Help", icon: <MdOutlineLiveHelp />, path: "help" },
-    { name: "Contact us", icon: <MdOutlineContactPhone />, path: "contactus" },
+    { name: "Help", icon: <MdOutlineLiveHelp />, path: "/faqs" },
+    { name: "Contact us", icon: <MdOutlineContactPhone />, path: "/contact" },
     { name: "Log out", icon: <BiLogOut />, path: "" },
   ];
   //[END]
@@ -82,7 +83,9 @@ const ClientPage = ({ showNavbar, setShowNavbar }) => {
   // Button Component -> (Topbar Component) --> [START]
   const button = (
     <motion.div whileTap={{ scale: 0.94 }}>
-      <button id="nav_button">Post Job</button>
+      <Link to='/clientpage/post-a-job'>
+        <button id="nav_button">Post Job</button>
+      </Link>
     </motion.div>
   );
   //[END]
@@ -96,7 +99,11 @@ const ClientPage = ({ showNavbar, setShowNavbar }) => {
             <DashboardSidebar top={topList} bottom={bottomList} />
           ) : sidebarVisibility ? (
             <Background childState={setSidebarVisibility}>
-              <DashboardSidebar top={topList} bottom={bottomList} />
+              <DashboardSidebar
+                top={topList}
+                bottom={bottomList}
+                setSidebarVisibility={setSidebarVisibility}
+              />
             </Background>
           ) : null}
           {/* [END] */}

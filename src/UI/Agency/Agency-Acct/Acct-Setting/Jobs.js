@@ -14,7 +14,6 @@ function Photos({ resetDiscard }) {
   const [inputs, setInputs] = useState({});
   const [jobPhotos, setJobPhotos] = useState([]);
   const [jobPhoto, setJobPhoto] = useState(undefined);
-  const [previewPhotos, setPreviewPhotos] = useState([]);
   const [coverPhoto, setCoverPhoto] = useState(undefined);
   const [progress, setProgress] = useState(0);
   const [modalTxt, setModalTxt] = useState("");

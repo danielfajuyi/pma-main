@@ -18,7 +18,6 @@ function ModelInfo({ item, handleForm, setEditPortfolio }) {
   const user = useSelector((state) => state.user.currentUser);
   const location = useLocation();
   const path = location.pathname.split("/")[3];
-  console.log(user);
 
   const handleEditProfile = () => {
     setEditPortfolio(true);

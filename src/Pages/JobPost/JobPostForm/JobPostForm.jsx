@@ -25,7 +25,6 @@ const JobPostForm = () => {
   const [photo, setPhoto] = useState(undefined);
   const [previewPhotos, setPreviewPhotos] = useState([]);
   const [progress, setProgress] = useState(0);
-  const [message, setMessage] = useState({});
 
   const handleChange = (e) => {
     setInputs((prev) => {
@@ -105,7 +104,7 @@ const JobPostForm = () => {
     ) {
       toast.error("Please fill all input feild");
     } else {
-      makePost(dispatch, "/job/post-job/", {...inputs}, setMessage);
+      makePost(dispatch, "/job/post-job/", { ...inputs });
     }
   };
 
@@ -358,7 +357,10 @@ const JobPostForm = () => {
                 />
               ))}
             </div>
-            <div className="form-mtop button-wrapper " style={{paddingBottom:'10px'}}>
+            <div
+              className="form-mtop button-wrapper "
+              style={{ paddingBottom: "10px" }}
+            >
               <button
                 type="submit"
                 className="btn-shadow"

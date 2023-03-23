@@ -17,6 +17,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { makeGet } from "../../../../redux/apiCalls";
 import AgencyForms from "../../Agency-Acct/Kyc-Section/Agency-Kyc-Forms";
+import { Link } from "react-router-dom";
 
 const AgencyDashboard = () => {
   const user = useSelector((state) => state.user.currentUser);
@@ -168,11 +169,11 @@ const AgencyDashboard = () => {
             {/* PROFILE PANEL --> [START] */}
             <div id="profile_panel">
               <div id="cover">
-                <img src={coverImg} alt="cover-pic" />
+                <img src={user?.agency?.coverPhoto} alt="cover-pic" />
               </div>
               <div id="profile">
                 <div id="img_holder">
-                  <img src={profileImg} alt="profile-pic" />
+                  <img src={user?.agency?.photo} alt="profile-pic" />
                 </div>
                 <div>
                   <div id="name">
@@ -182,10 +183,12 @@ const AgencyDashboard = () => {
                     {user?.username ? `@${user.username}` : "@username"}
                   </div> */}
                 </div>
+                <Link to='/agencypage/settings'>
                 <button>
                   <MdEdit size={14} />
                   <span>Edit Portfolio</span>
                 </button>
+                </Link>
               </div>
               <div id="follow">
                 <span>
