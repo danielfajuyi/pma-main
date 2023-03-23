@@ -41,8 +41,8 @@ export const update = async (dispatch, url, user, setMessage, setModalTxt) => {
   try {
     const res = await userRequest.put(url, user);
     dispatch(updateSuccess(res.data));
-    setModalTxt("save");
     toast.success("Data updated successfully, kindly referesh.");
+    setModalTxt("save");
   } catch (err) {
     dispatch(updateFailure());
     return setMessage(err.response.data);

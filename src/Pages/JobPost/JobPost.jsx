@@ -9,12 +9,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { makeGet } from "../../redux/apiCalls";
 
 const JobPost = () => {
+  const user = useSelector((state) => state.user.currentUser);
   const dispatch = useDispatch();
   const [message, setMessage] = useState([]);
   const [toggleForm, setToggleForm] = useState(false);
 
   const fetchJob = useCallback(() => {
-    makeGet(dispatch, "/job/jobs/all", setMessage);
+    makeGet(dispatch, user && user?.role === 'client' ? '/job/jobs': "/job/jobs/all", setMessage);
   }, [dispatch]);
 
   useEffect(() => {

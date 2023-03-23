@@ -78,8 +78,8 @@ const AgencyPage = ({ showNavbar, setShowNavbar }) => {
     { name: "Settings", icon: <IoSettingsOutline />, path: "settings" },
   ];
   const bottomList = [
-    { name: "Help", icon: <MdOutlineLiveHelp />, path: "help" },
-    { name: "Contact us", icon: <MdOutlineContactPhone />, path: "contactus" },
+    { name: "Help", icon: <MdOutlineLiveHelp />, path: "/faqs" },
+    { name: "Contact us", icon: <MdOutlineContactPhone />, path: "/contact" },
     { name: "Log out", icon: <BiLogOut />, path: "" },
   ];
   // [END]

@@ -14,6 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { makeGet } from "../../../redux/apiCalls";
 
 function Details({ job }) {
+  const user = useSelector((state) => state.user.currentUser);
   const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
@@ -92,7 +93,9 @@ function Details({ job }) {
             </div>
 
             <div className="button-wrapper">
-              <button className="btn-shadow ">Apply Now</button>
+              {user && user?.role !== "client" && (
+                <button className="btn-shadow ">Apply Now</button>
+              )}
             </div>
           </header>
 
@@ -158,7 +161,9 @@ function Details({ job }) {
           </main>
 
           <div className="button-section mtop-2 ">
-            <button className="btn-shadow">Apply Now</button>
+            {user && user?.role !== "client" && (
+              <button className="btn-shadow ">Apply Now</button>
+            )}
           </div>
         </div>
         <footer className="mtop-3">
