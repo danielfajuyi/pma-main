@@ -70,12 +70,11 @@ function About({
     },
     [setInputs]
   );
-  console.log(inputs);
+  // console.log(inputs);
 
   //handle save
   const handleSave = () => {
     update(dispatch, `/agency`, { ...inputs }, setMessage);
-    setModalTxt("save");
   };
 
   return (

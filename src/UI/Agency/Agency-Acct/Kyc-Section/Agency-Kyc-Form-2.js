@@ -23,7 +23,6 @@ function AgencyKycForm2({ handleNavigation, inputs, setInputs }) {
   const [progress, setProgress] = useState(0);
   const [modalTxt, setModalTxt] = useState("");
 
-
   const handlePhotos = (e) => {
     const img = URL.createObjectURL(e.target.files[0]);
     setPreviewPhotos((prevData) => ({ ...prevData, [e.target.id]: img }));
@@ -115,10 +114,10 @@ function AgencyKycForm2({ handleNavigation, inputs, setInputs }) {
 
   //handling submit
   function handleSubmit() {
-    if (jobPhotos.length < 5) {
-      setModalTxt("add-photo");
-    } else {
+    if (jobPhotos.length > 3) {
       update(dispatch, "/agency/", { ...inputs }, setModalTxt);
+    } else {
+      setModalTxt("add-photo");
     }
   }
 

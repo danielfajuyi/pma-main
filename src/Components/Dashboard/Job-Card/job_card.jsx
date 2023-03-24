@@ -2,10 +2,12 @@ import "./job_card.scss";
 import { FiEye } from "react-icons/fi";
 import { useEffect, useState } from "react";
 import { makeGet } from "../../../redux/apiCalls";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
+import { Link } from "react-router-dom";
 
 const JobCard = (props) => {
+  const user = useSelector((state) => state.user.currentUser);
   const [message, setMessage] = useState([]);
   const dispatch = useDispatch();
 
@@ -13,7 +15,7 @@ const JobCard = (props) => {
     let unsubsribed = false;
     if (!unsubsribed) {
       const fetchJob = () => {};
-      makeGet(dispatch, "/job/jobs/all", setMessage);
+      makeGet(dispatch, user && user?.role === 'client' ? '/job/jobs': "/job/jobs/all", setMessage);
       fetchJob();
     }
     return () => {
@@ -26,7 +28,7 @@ const JobCard = (props) => {
   return (
     <div>
       {reversed?.slice(0, 5).map((item) => (
-        <div className="job_card" key={item._id}>
+        <Link  to={`/jobpost/post/${item._id}`} className="job_card" key={item._id}>
           <div className="note">{item.title}</div>
 
           {props.views && props.applied && (
@@ -40,7 +42,7 @@ const JobCard = (props) => {
           )}
 
           <div className="time">{moment(item.createdAt).format("DD-MM-YYYY")}</div>
-        </div>
+        </Link>
       ))}
     </div>
   );

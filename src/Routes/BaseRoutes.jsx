@@ -22,7 +22,6 @@ import Review from "../UI/Model/ModelPage/review/review";
 import WriteReview from "../UI/Model/ModelPage/review/write_review";
 import Reviews from "../UI/Model/ModelPage/review/view_reviews";
 import ModelSubscription from "../UI/Model/ModelPage/subscription/subscription";
-import ClientPage from "../UI/Client/ClientPage/client_page";
 import ClientDashboard from "../UI/Client/ClientPage/dashboard/dashboard";
 import {
   createBrowserRouter,
@@ -32,15 +31,14 @@ import {
 } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { userLogout } from "../redux/apiCalls";
-import ModelsForms from "../UI/Model/Models-Acct/Kyc-Section/Models-Kyc-Forms";
 import ProfilePage from "../Pages/FindModel/Models-Profile-page/Profile-Page";
 import ModelPortfolio from "../UI/Model/ModelPortfolio/ModelPortfolio";
-import SeeModels from "../Components/SeeModels/see_models";
 import ClientProfile from "../UI/Client/ClientProfile/ClientProfile";
 import AcctSetting from "../UI/Client/Client-Acct/Acct-Setting/Client-Acct-Setting";
 import AgencyProfile from "../UI/Agency/AgencyProfile/agency_profile";
 import JobPostForm from "../Pages/JobPost/JobPostForm/JobPostForm";
 import AgencyAcctSetting from "../UI/Agency/Agency-Acct/Acct-Setting/Agency-Acct-Setting";
+import ClientPage from "../UI/Client/ClientPage/client_page";
 
 export const BaseRoutes = () => {
   const [showNavbar, setShowNavbar] = useState(true);

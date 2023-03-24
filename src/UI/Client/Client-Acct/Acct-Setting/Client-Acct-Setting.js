@@ -4,7 +4,7 @@ import EmailAndPassword from "./Email-and-password";
 import PaymentInfo from "./Payment-info";
 import Jobs from "./Jobs";
 import DiscardAlert from "./DiscardAlert";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { navList1, navList2 } from "../utils";
 
 function AcctSetting({ DomItems, handleModal, userData }) {
@@ -15,6 +15,7 @@ function AcctSetting({ DomItems, handleModal, userData }) {
 
   const [discardFunc, setDiscardFunc] = useState("");
   const [toggleDiscard, setToggleDiscard] = useState(false);
+
 
   function handleActiveSet(set) {
     setActiveSet(set);
@@ -48,131 +49,126 @@ function AcctSetting({ DomItems, handleModal, userData }) {
   }
 
   return (
-    <>
-      <div className="--set_sections">
-        {/* displaying discard alert */}
+    <div className="--set_sections" style={{ backgroundColor: "white" }}>
+      {/* displaying discard alert */}
 
-        <DiscardAlert
-          toggleDiscard={toggleDiscard}
-          handleDiscard={handleDiscard}
-        />
+      <DiscardAlert
+        toggleDiscard={toggleDiscard}
+        handleDiscard={handleDiscard}
+      />
 
-        {/* nav section */}
+      {/* nav section */}
 
-        <section
-          style={{ transform: toggleSetMenu && `translateX(${0}%)` }}
-          className="--Acct-set-menu"
-        >
-          <div className="--set-nav_title">
-            <h2>
-              Acct-<span className="--mobile-nav-text">Settings</span>
-            </h2>
-            <i className="fa-solid fa-gear"></i>
-          </div>
+      <section
+        style={{ transform: toggleSetMenu && `translateX(${0}%)` }}
+        className="--Acct-set-menu"
+      >
+        <div className="--set-nav_title">
+          <h2>
+            Acct-<span className="--mobile-nav-text">Settings</span>
+          </h2>
+          <i className="fa-solid fa-gear"></i>
+        </div>
 
-          <nav className="--set-nav">
-            <i
-              className="fa-solid fa-xmark --close-set --colored-hover"
-              onClick={handleToggleSetMenu}
-            ></i>
-            <ul className="--set-nav_list --list-1">
-              {navList1.map((item) => {
-                return (
-                  <li
-                    key={item}
-                    className="--set-nav_item --colored-hover"
-                    onClick={() => handleActiveSet(item)}
-                    role="button"
-                  >
-                    {item === "about" ? (
-                      <i className="fa-solid fa-address-book"></i>
-                    ) : item === "jobs" ? (
-                      <i className="fa-solid fa-image"></i>
-                    ) : item === "email/pass" ? (
-                      <i className="fa-solid fa-envelope-circle-check"></i>
-                    ) : null}
-                    {item}
-                  </li>
-                );
-              })}
-            </ul>
-            <ul className="--set-nav_list">
-              {navList2.map((item) => {
-                return (
-                  <li
-                    key={item}
-                    className="--set-nav_item --colored-hover"
-                    onClick={() => handleActiveSet(item)}
-                    role="button"
-                  >
-                    {item === "payment" ? (
-                      <i className="fa-solid fa-landmark"></i>
-                    ) : item === "dash board" ? (
-                      <i className="fa-solid fa-house"></i>
-                    ) : null}
-                    {item}
-                  </li>
-                );
-              })}
-            </ul>
-          </nav>
-        </section>
+        <nav className="--set-nav">
+          <i
+            className="fa-solid fa-xmark --close-set --colored-hover"
+            onClick={handleToggleSetMenu}
+          ></i>
+          <ul className="--set-nav_list --list-1">
+            {navList1.map((item) => {
+              return (
+                <li
+                  key={item}
+                  className="--set-nav_item --colored-hover"
+                  onClick={() => handleActiveSet(item)}
+                  role="button"
+                >
+                  {item === "about" ? (
+                    <i className="fa-solid fa-address-book"></i>
+                  ) : item === "jobs" ? (
+                    <i className="fa-solid fa-image"></i>
+                  ) : item === "email/pass" ? (
+                    <i className="fa-solid fa-envelope-circle-check"></i>
+                  ) : null}
+                  {item}
+                </li>
+              );
+            })}
+          </ul>
+          <ul className="--set-nav_list">
+            {navList2.map((item) => {
+              return (
+                <li
+                  key={item}
+                  className="--set-nav_item --colored-hover"
+                  onClick={() => handleActiveSet(item)}
+                  role="button"
+                >
+                  {item === "payment" ? (
+                    <i className="fa-solid fa-landmark"></i>
+                  ) : item === "dash board" ? (
+                    <i className="fa-solid fa-house"></i>
+                  ) : null}
+                  {item}
+                </li>
+              );
+            })}
+          </ul>
+        </nav>
+      </section>
 
-        {/* main section */}
+      {/* main section */}
 
-        <section className="--Acct-set-main">
-          {/* settings header */}
-          <div className="--set_mobile-nav">
-            <h2>
-              Acct-<span className="--mobile-nav-text">Settings</span>
-            </h2>
-            <i
-              className="fa-solid fa-gear --colored-hover"
-              onClick={handleToggleSetMenu}
-            ></i>
-          </div>
+      <section className="--Acct-set-main">
+        {/* settings header */}
+        <div className="--set_mobile-nav">
+          <h2>
+            Acct-<span className="--mobile-nav-text">Settings</span>
+          </h2>
+          <i
+            className="fa-solid fa-gear --colored-hover"
+            onClick={handleToggleSetMenu}
+          ></i>
+        </div>
 
-          {/* about section */}
+        {/* about section */}
 
-          {activeSet === "about" && (
-            <About
-              DomItems={DomItems}
-              handleActiveEdit={handleActiveEdit}
-              activeEdit={activeEdit}
-              userData={userData}
-              handleModal={handleModal}
-              resetDiscard={resetDiscard}
-            />
-          )}
+        {activeSet === "about" && (
+          <About
+            handleActiveEdit={handleActiveEdit}
+            activeEdit={activeEdit}
+            resetDiscard={resetDiscard}
+          />
+        )}
 
-          {/* Jobs photo section */}
+        {/* Jobs photo section */}
 
-          {activeSet === "jobs" && (
-            <Jobs
-              userData={userData}
-              handleModal={handleModal}
-              resetDiscard={resetDiscard}
-            />
-          )}
+        {activeSet === "jobs" && (
+          <Jobs
+            userData={userData}
+            handleModal={handleModal}
+            resetDiscard={resetDiscard}
+          />
+        )}
 
-          {/* email and password section */}
+        {/* email and password section */}
 
-          {activeSet === "email/pass" && (
-            <EmailAndPassword
-              handleActiveEdit={handleActiveEdit}
-              activeEdit={activeEdit}
-              userData={userData}
-              handleModal={handleModal}
-              resetDiscard={resetDiscard}
-            />
-          )}
+        {activeSet === "email/pass" && (
+          <EmailAndPassword
+            handleActiveEdit={handleActiveEdit}
+            activeEdit={activeEdit}
+            userData={userData}
+            handleModal={handleModal}
+            resetDiscard={resetDiscard}
+          />
+        )}
 
-          {/* payment info section */}
+        {/* payment info section */}
 
-          {activeSet === "payment" && <PaymentInfo userData={userData} />}
-        </section>
-      </div>
-    </>
+        {activeSet === "payment" && <PaymentInfo userData={userData} />}
+      </section>
+    </div>
   );
 }
 

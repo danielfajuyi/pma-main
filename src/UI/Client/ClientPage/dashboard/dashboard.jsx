@@ -13,9 +13,10 @@ import _ from "lodash";
 import { Chart } from "chart.js/auto"; //Registering Charts ("Do not remove this import")
 import { useSelector } from "react-redux";
 import ClientsForms from "../../Client-Acct/Kyc-Section/Client-Kyc-Forms";
+import { Link } from "react-router-dom";
 
 const ClientDashboard = () => {
-  const user = useSelector((state)=> state.user.currentUser)
+  const user = useSelector((state) => state.user.currentUser);
   // console.log(user)
 
   // Visitor Stats Graph Data -> (VisitorStats Component) --> [STRAT]
@@ -112,158 +113,162 @@ const ClientDashboard = () => {
   return (
     <FadeIn>
       {!user?.isUpdated && <ClientsForms />}
-      {user.isUpdated && !user?.isVerified && <h1 style={{color:'white', textAlign:'center', margin:'40px'}}>Your account is undergoing verification, please hang-on awhile for us to finish the process, thanks.</h1> }
-      {user?.isVerified && <div id="client_dashboard">
-        {/* GRID  --> [START]*/}
-        <div id="pane">
-          {/* Grid Area 1 --> [START]*/}
-          <div id="area_one">
-            <VisitorStats data={data} options={options} />
-            <div id="bookings">
-              <BookingsCard
-                data={lineData1}
-                options={lineOptions}
-                type="All Bookings"
-                total="16"
-                percent="87.34%"
-              />
-              <BookingsCard
-                data={lineData2}
-                options={lineOptions}
-                type="Completed"
-                total="11"
-                percent="48%"
-              />
-              <BookingsCard
-                data={lineData3}
-                options={lineOptions}
-                type="Cancelled"
-                total="5"
-                percent="17%"
-              />
+      {user.isUpdated && !user?.isVerified && (
+        <h1 style={{ color: "white", textAlign: "center", margin: "40px" }}>
+          Your account is undergoing verification, please hang-on awhile for us
+          to finish the process, thanks.
+        </h1>
+      )}
+      {user?.isVerified && (
+        <div id="client_dashboard">
+          {/* GRID  --> [START]*/}
+          <div id="pane">
+            {/* Grid Area 1 --> [START]*/}
+            <div id="area_one">
+              <VisitorStats data={data} options={options} />
+              <div id="bookings">
+                <BookingsCard
+                  data={lineData1}
+                  options={lineOptions}
+                  type="All Bookings"
+                  total="16"
+                  percent="87.34%"
+                />
+                <BookingsCard
+                  data={lineData2}
+                  options={lineOptions}
+                  type="Completed"
+                  total="11"
+                  percent="48%"
+                />
+                <BookingsCard
+                  data={lineData3}
+                  options={lineOptions}
+                  type="Cancelled"
+                  total="5"
+                  percent="17%"
+                />
+              </div>
             </div>
-          </div>
-          {/* Grid Area 1 <-- [END] */}
+            {/* Grid Area 1 <-- [END] */}
 
-          {/* PROFILE PANEL --> [START] */}
-          <div id="profile_panel">
-            <div id="cover">
-              <img src={coverImg} alt="cover-pic" />
-            </div>
-            <div id="profile">
-              <div id="img_holder">
-                <img src={profileImg} alt="profile-pic" />
+            {/* PROFILE PANEL --> [START] */}
+            <div id="profile_panel">
+              <div id="cover">
+                <img src={user?.client?.coverPicture} alt="cover-pic" />
               </div>
-              <div>
-                <div id="name">Hello, {user?.firstName} {user?.lastName}</div>
-                {/* <div id="handle">{`@${user?.username}`}</div> */}
+              <div id="profile">
+                <div id="img_holder">
+                  <img src={user?.picture} alt="profile-pic" />
+                </div>
+                <div>
+                  <div id="name">
+                    Hello, {user?.firstName} {user?.lastName}
+                  </div>
+                  {/* <div id="handle">{`@${user?.username}`}</div> */}
+                </div>
+                <Link to="/clientpage/settings">
+                  <button>
+                    <MdEdit size={14} />
+                    <span>Edit Profile</span>
+                  </button>
+                </Link>
               </div>
-              <button>
-                <MdEdit size={14} />
-                <span>Edit Profile</span>
-              </button>
-            </div>
-            <div id="status">
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-              Dignissimos doloremque velit nobis et qui, deserunt soluta
-              delectus quas officia inventore odio sequi porro alias ullam ipsam
-              eaque nam dolores dicta hic impedit libero atque quaerat. Id iusto
-              quae ipsum, at qui, commodi, molestias maiores est in dolor
-              ratione ipsa alias soluta sit. Accusantium culpa.
-            </div>
-            {/* <div id="follow">
+              <div id="status">{user?.client?.bio}</div>
+              {/* <div id="follow">
               <span>Following {772}</span>
               <span>Followers {772}</span>
             </div> */}
-          </div>
-          {/* PROFILE PANEL <-- [END] */}
+            </div>
+            {/* PROFILE PANEL <-- [END] */}
 
-          {/* Grid Area 2 --> [START]*/}
-          <div id="area_two">
-            <div id="top_rated">
-              <header>
-                <h4>Top Rated</h4>
+            {/* Grid Area 2 --> [START]*/}
+            <div id="area_two">
+              <div id="top_rated">
+                <header>
+                  <h4>Top Rated</h4>
 
-                <a href="./seeall"> See all</a>
-              </header>
-              <div id="body">
-                <ClientCard
-                  img={profileImg}
-                  name="Eke Kara"
-                  location="Lagos, Nigeria"
-                />
+                  <a href="./seeall"> See all</a>
+                </header>
+                <div id="body">
+                  <ClientCard
+                    img={profileImg}
+                    name="Eke Kara"
+                    location="Lagos, Nigeria"
+                  />
+                </div>
+              </div>
+
+              <div id="newly_posted">
+                <header>
+                  <h4>Newly Posted</h4>
+                  <a href="./seeall"> See all</a>
+                </header>
+                <div id="body">
+                  <ClientCard
+                    img={profileImg}
+                    name="Eke Kara"
+                    location="Lagos, Nigeria"
+                  />
+                </div>
+              </div>
+
+              <div id="job_posted">
+                <header>
+                  <h4>Job Posted</h4>
+                  <a href="/jobpost">See all</a>
+                </header>
+                <div id="body">
+                  <JobCard
+                    note="Female model needed for shoot"
+                    views="12.6k"
+                    applied="26"
+                  />
+                </div>
               </div>
             </div>
+            {/* Grid Area 2 <-- [END] */}
 
-            <div id="newly_posted">
+            {/*Inbox --> [START]  */}
+            <div id="inbox">
               <header>
-                <h4>Newly Posted</h4>
-                <a href="./seeall"> See all</a>
+                <h4>Inbox</h4>
+                <span className="msg">
+                  <div className="notification">25</div>
+                  <RiMessage2Fill size={28} />
+                  <span>Messages</span>
+                </span>
               </header>
-              <div id="body">
-                <ClientCard
-                  img={profileImg}
-                  name="Eke Kara"
-                  location="Lagos, Nigeria"
-                />
-              </div>
+              <MessagePreviewCard
+                img={profileImg}
+                online={true}
+                sender="Micheal B"
+                title="Project manager"
+                msg="see you tomorrow"
+                count="5"
+              />
+              <MessagePreviewCard
+                img={profileImg}
+                online={true}
+                sender="Micheal B"
+                title="Project manager"
+                msg="see you tomorrow"
+                count="10"
+              />
+              <MessagePreviewCard
+                img={profileImg}
+                online={false}
+                sender="Sarah Jay"
+                title="Model"
+                msg="I wanna work with you"
+                count="2"
+              />
             </div>
-
-            <div id="job_posted">
-              <header>
-                <h4>Job Posted</h4>
-                <a href="./seeall">See all</a>
-              </header>
-              <div id="body">
-                <JobCard
-                  note="Female model needed for shoot"
-                  views="12.6k"
-                  applied="26"
-                />
-              </div>
-            </div>
+            {/*Inbox <-- [END]  */}
           </div>
-          {/* Grid Area 2 <-- [END] */}
-
-          {/*Inbox --> [START]  */}
-          <div id="inbox">
-            <header>
-              <h4>Inbox</h4>
-              <span className="msg">
-                <div className="notification">25</div>
-                <RiMessage2Fill size={28} />
-                <span>Messages</span>
-              </span>
-            </header>
-            <MessagePreviewCard
-              img={profileImg}
-              online={true}
-              sender="Micheal B"
-              title="Project manager"
-              msg="see you tomorrow"
-              count="5"
-            />
-            <MessagePreviewCard
-              img={profileImg}
-              online={true}
-              sender="Micheal B"
-              title="Project manager"
-              msg="see you tomorrow"
-              count="10"
-            />
-            <MessagePreviewCard
-              img={profileImg}
-              online={false}
-              sender="Sarah Jay"
-              title="Model"
-              msg="I wanna work with you"
-              count="2"
-            />
-          </div>
-          {/*Inbox <-- [END]  */}
+          {/* [GRID <-- END] */}
         </div>
-        {/* [GRID <-- END] */}
-      </div>}
+      )}
     </FadeIn>
   );
 };
