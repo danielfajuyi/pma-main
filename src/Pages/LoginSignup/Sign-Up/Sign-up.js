@@ -41,7 +41,12 @@ function SignUp() {
     <section className="sign-up-container">
       <AlertModal />
       <section className="sign-up-info">
-        <h2 className="info-title">Sign up</h2>
+        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+          <a href="/" style={{ textAlign: "center" }}>
+            <span className="material-icons">arrow_back</span>
+          </a>
+          <h2 className="info-title">Sign up</h2>
+        </div>
         <p className="info-text">I want to sign up</p>
         <SignupBtn
           btnText={"As a model"}

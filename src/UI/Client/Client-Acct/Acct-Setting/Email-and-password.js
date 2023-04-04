@@ -23,7 +23,7 @@ function EmailAndPassword({ handleActiveEdit, activeEdit, resetDiscard }) {
     },
     [setInputs]
   );
-  console.log(inputs);
+  // console.log(inputs);
 
   //toggling switch
   function handleSwitch(key) {

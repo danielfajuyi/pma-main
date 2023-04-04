@@ -1,12 +1,11 @@
 {
   "files": {
-    "main.css": "/static/css/main.fa191737.css",
-    "main.js": "/static/js/main.2e8882b0.js",
+    "main.css": "/static/css/main.354dbdae.css",
+    "main.js": "/static/js/main.fa17dbbc.js",
     "static/media/color-splash.png": "/static/media/color-splash.7a9562f6115f27c0287a.png",
     "static/media/team4.png": "/static/media/team4.6023223d35c5670854af.png",
     "static/media/post.jpg": "/static/media/post.077dfb734b18952342f9.jpg",
     "static/media/img3-cut.png": "/static/media/img3-cut.ccd228bfaa2502a8fe8b.png",
-    "static/media/bg-1.jpg": "/static/media/bg-1.f5af935a40c49f4827e5.jpg",
     "static/media/slider9.jpg": "/static/media/slider9.f5af935a40c49f4827e5.jpg",
     "static/media/slider3.jpg": "/static/media/slider3.fb8983cf393b94da56ee.jpg",
     "static/media/contact.png": "/static/media/contact.b3ba80cc2319f3a8b426.png",
@@ -22,6 +21,7 @@
     "static/media/portfolio3.jpg": "/static/media/portfolio3.a47d05aa79086de99bcc.jpg",
     "static/media/portfolio2.jpg": "/static/media/portfolio2.d0b6bfc52a85dc4a0713.jpg",
     "static/media/portfolio4.jpg": "/static/media/portfolio4.c4a3c9f7f793f23536e3.jpg",
+    "static/media/lg_bg.jpeg": "/static/media/lg_bg.a080aed33c48fb5c51c0.jpeg",
     "static/media/portfolio5.jpg": "/static/media/portfolio5.95edc1a1df17c8c64fff.jpg",
     "static/media/portfolio6.jpg": "/static/media/portfolio6.95edc1a1df17c8c64fff.jpg",
     "static/media/img2.jpg": "/static/media/img2.01d046c60e3eb6630aea.jpg",
@@ -46,11 +46,11 @@
     "static/media/slick.woff": "/static/media/slick.295183786cd8a1389865.woff",
     "index.html": "/index.html",
     "static/media/earning.svg": "/static/media/earning.6e213feff4f1ba8ccfb5e0dbd8e58f20.svg",
-    "main.fa191737.css.map": "/static/css/main.fa191737.css.map",
-    "main.2e8882b0.js.map": "/static/js/main.2e8882b0.js.map"
+    "main.354dbdae.css.map": "/static/css/main.354dbdae.css.map",
+    "main.fa17dbbc.js.map": "/static/js/main.fa17dbbc.js.map"
   },
   "entrypoints": [
-    "static/css/main.fa191737.css",
-    "static/js/main.2e8882b0.js"
+    "static/css/main.354dbdae.css",
+    "static/js/main.fa17dbbc.js"
   ]
 }

@@ -8,8 +8,8 @@ function EditBtn({
   function handleClick() {
     handleActiveEdit(section, btnText);
 
-    section === "update-email" && handleEmail(btnText);
-    section === "reset-password" && handlePassword(btnText);
+    // section === "update-email" && handleEmail(btnText);
+    // section === "reset-password" && handlePassword(btnText);
   }
 
   return (

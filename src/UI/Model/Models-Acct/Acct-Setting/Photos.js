@@ -1,25 +1,126 @@
-import { useState } from "react";
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { storage } from "../../../../firebase";
+import { update } from "../../../../redux/apiCalls";
 import "./Photos.css";
+import { ToastContainer } from "react-toastify";
+import { AlertModal } from "../../../../Pages/LoginSignup/Sign-Up/signUpForm/Modal";
 
-function Photos({ userData, handleModal, resetDiscard }) {
-  // const { photos, polaroids, compCard } = userData[0].profile;
+function Photos({ handleModal, resetDiscard }) {
+  const dispatch = useDispatch();
 
-  const [photo, setPhoto] = useState([]);
-  const [polaroid, setPolaroid] = useState([]);
-  const [card, setCard] = useState();
+  const [photos, setPhotos] = useState([]);
+  const [photo, setPhoto] = useState(undefined);
+  const [polaroids, setPolaroids] = useState([]);
+  const [polaroid, setPolaroid] = useState(undefined);
+  const [compCard, setCompCard] = useState(undefined);
+  const [modalTxt, setModalTxt] = useState("");
+  const [progress, setProgress] = useState(0);
+  const [inputs, setInputs] = useState({});
   const [viewAll, setViewAll] = useState({ photo: false, polaroid: false });
-
   const [image, setImage] = useState("");
   const [activeModal, setActiveModal] = useState("");
   const [toggleModal, setToggleModal] = useState(false);
   const [trash, setTrash] = useState({ section: "", id: "" });
 
+  const handlePhotos = (e) => {
+    setPhoto(e.target.files[0]);
+  };
+
+  const handlePolaroids = (e) => {
+    setPolaroid(e.target.files[0]);
+  };
+
+  const uploadFile = (file, urlType) => {
+    const fileName = new Date().getTime() + file.name;
+    const storageRef = ref(storage, `/models/${fileName}`);
+    const uploadTask = uploadBytesResumable(storageRef, file);
+
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        if (urlType === "photos") {
+          setProgress(Math.round(progress));
+        }
+        if (urlType === "polaroids") {
+          setProgress(Math.round(progress));
+        }
+        if (urlType === "compCard") {
+          setProgress(Math.round(progress));
+        }
+        switch (snapshot.state) {
+          case "paused":
+            console.log("Upload is paused");
+            break;
+          case "running":
+            console.log("Upload is running");
+            break;
+          default:
+            break;
+        }
+      },
+      (error) => {},
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          if (urlType === "photos") {
+            setPhotos((prev) => [...prev, downloadURL]);
+          }
+          if (urlType === "polaroids") {
+            setPolaroids((prev) => [...prev, downloadURL]);
+          }
+          if (urlType === "compCard") {
+            setInputs((prev) => {
+              return { ...prev, [urlType]: downloadURL };
+            });
+          }
+        });
+      }
+    );
+  };
+
+  useEffect(() => {
+    const sendPhoto = (urlType) => {
+      urlType = "photos";
+      setInputs((prev) => {
+        return { ...prev, [urlType]: photos };
+      });
+      if (photo) {
+        uploadFile(photo, "photos");
+        setPhoto(undefined);
+      }
+    };
+    sendPhoto();
+
+    const sendPolaroid = (urlType) => {
+      urlType = "polaroids";
+      setInputs((prev) => {
+        return { ...prev, [urlType]: polaroids };
+      });
+      if (polaroid) {
+        uploadFile(polaroid, "polaroids");
+        setPolaroid(undefined);
+      }
+    };
+    sendPolaroid();
+
+    const sendCompCard = (urlType) => {
+      urlType = "compCard";
+      if (compCard) {
+        uploadFile(compCard, "compCard");
+      }
+    };
+    sendCompCard();
+  }, [photos, polaroids, photo, polaroid, compCard, setInputs]);
+
   //Setting state and viewing photos
   function handleClick(action, id, section) {
-    if (section === "photo") {
+    if (section === "photos") {
       //viewing photos
       if (action === "view") {
-        let selected = photo.filter((item, index) =>
+        let selected = photos.filter((item, index) =>
           index === id ? item : null
         );
         setActiveModal("display");
@@ -29,7 +130,7 @@ function Photos({ userData, handleModal, resetDiscard }) {
         setImage(selected[0]);
       } else if (action === "trash") {
         //checking if photo delete limit has been exceeded
-        if (photo.length <= 6) {
+        if (photos.length <= 6) {
           handleModal("trash-photo");
         } else {
           setActiveModal("alert");
@@ -39,10 +140,10 @@ function Photos({ userData, handleModal, resetDiscard }) {
           setTrash({ section: section, id: id });
         }
       }
-    } else if (section === "polaroid") {
+    } else if (section === "polaroids") {
       //viewing polaroid photos
       if (action === "view") {
-        let selected = polaroid.filter((item, index) =>
+        let selected = polaroids.filter((item, index) =>
           index === id ? item : null
         );
 
@@ -53,7 +154,7 @@ function Photos({ userData, handleModal, resetDiscard }) {
         setImage(selected[0]);
       } else if (action === "trash") {
         //checking if delete limit has been exceeded
-        if (polaroid.length <= 3) {
+        if (polaroids.length <= 3) {
           handleModal("trash-polaroid");
         } else {
           setActiveModal("alert");
@@ -69,14 +170,14 @@ function Photos({ userData, handleModal, resetDiscard }) {
   //deleting photo from the list
   function handleTrash(response) {
     if (response === "Yes") {
-      if (trash.section === "photo") {
-        setPhoto(
-          photo.filter((item, index) => (index !== trash.id ? item : null))
+      if (trash.section === "photos") {
+        setPhotos(
+          photos.filter((item, index) => (index !== trash.id ? item : null))
         );
         setToggleModal((prev) => !prev);
-      } else if (trash.section === "polaroid") {
-        setPolaroid(
-          polaroid.filter((item, index) => (index !== trash.id ? item : null))
+      } else if (trash.section === "polaroids") {
+        setPolaroids(
+          polaroids.filter((item, index) => (index !== trash.id ? item : null))
         );
         setToggleModal((prev) => !prev);
       }
@@ -85,43 +186,16 @@ function Photos({ userData, handleModal, resetDiscard }) {
     }
   }
 
-  //handle change and adding photos
-
-  function handleChange(e) {
-    const { name, files } = e.target;
-    let img = URL.createObjectURL(files[0]);
-
-    if (name === "photo") {
-      setPhoto((prev) => [...prev, img]);
-    } else if (name === "polaroid") {
-      setPolaroid((prev) => [...prev, img]);
-    } else if (name === "card") {
-      setCard(img);
-    }
-  }
-
   //handle save
-  function handleSave(btn) {
-    // let x = {
-    //   ...userData[0].profile,
-    //   photos: photo,
-    //   polaroids: polaroid,
-    //   compCard: card,
-    // };
-
-    // if (btn === "save") {
-    //   console.log((userData[0].profile = x));
-    //   handleModal("save");
-    // } else {
-    //   setPhoto();
-    //   setPolaroid();
-    //   setCard();
-    //   console.log();
-    // }
+  function handleSubmit(text) {
+    update(dispatch, "/model/", { ...inputs }, setModalTxt);
   }
 
   return (
     <form onSubmit={(e) => e.preventDefault()}>
+      <AlertModal modalTxt={modalTxt} setModalTxt={setModalTxt} />
+      <ToastContainer position="top-center" />
+
       <section
         style={{ transform: toggleModal && `translateX(${0}%)` }}
         className="modal-section"
@@ -185,27 +259,27 @@ function Photos({ userData, handleModal, resetDiscard }) {
             </label>
 
             <input
-              onChange={handleChange}
+              onChange={handlePhotos}
               type="file"
-              name="photo"
+              name="photos"
               id="add-photo"
               className="file-input"
             />
 
-            <span className="num-photo bold-text">{photo.length}/18 pics</span>
+            <span className="num-photo bold-text">{photos.length}/18 pics</span>
           </div>
           <ul className="set_photo-list">
-            {photo?.map((item, index) =>
+            {photos?.map((item, index) =>
               viewAll.photo ? (
                 <li className="set_photo-item on-hover" key={index}>
                   <img src={item} alt="" />
                   <div className="photo-icons">
                     <i
-                      onClick={() => handleClick("view", index, "photo")}
+                      onClick={() => handleClick("view", index, "photos")}
                       className="fa-solid fa-arrow-up-right-from-square view-icon"
                     ></i>
                     <i
-                      onClick={() => handleClick("trash", index, "photo")}
+                      onClick={() => handleClick("trash", index, "photos")}
                       className="fa-regular fa-trash-can trash-icon"
                     ></i>
                   </div>
@@ -216,11 +290,11 @@ function Photos({ userData, handleModal, resetDiscard }) {
                     <img src={item} alt="" />
                     <div className="photo-icons">
                       <i
-                        onClick={() => handleClick("view", index, "photo")}
+                        onClick={() => handleClick("view", index, "photos")}
                         className="fa-solid fa-arrow-up-right-from-square view-icon"
                       ></i>
                       <i
-                        onClick={() => handleClick("trash", index, "photo")}
+                        onClick={() => handleClick("trash", index, "photos")}
                         className="fa-regular fa-trash-can trash-icon"
                       ></i>
                     </div>
@@ -263,29 +337,29 @@ function Photos({ userData, handleModal, resetDiscard }) {
             </label>
 
             <input
-              onChange={handleChange}
+              onChange={handlePolaroids}
               type="file"
-              name="polaroid"
+              name="polaroids"
               id="add-polaroid"
               className="file-input"
             />
 
-            <span className="bold-text">{polaroid?.length}/18 pics</span>
+            <span className="bold-text">{polaroids?.length}/18 pics</span>
           </div>
           <ul className="set_polaroid-list">
-            {polaroid?.map((item, index) =>
+            {polaroids?.map((item, index) =>
               viewAll.polaroid
                 ? item && (
                     <li className="set_polaroid-item on-hover" key={index}>
                       <img src={item} alt="" />
                       <div className="photo-icons">
                         <i
-                          onClick={() => handleClick("view", index, "polaroid")}
+                          onClick={() => handleClick("view", index, "polaroids")}
                           className="fa-solid fa-arrow-up-right-from-square view-icon"
                         ></i>
                         <i
                           onClick={() =>
-                            handleClick("trash", index, "polaroid")
+                            handleClick("trash", index, "polaroids")
                           }
                           className="fa-regular fa-trash-can trash-icon"
                         ></i>
@@ -298,12 +372,12 @@ function Photos({ userData, handleModal, resetDiscard }) {
                       <img src={item} alt="" />
                       <div className="photo-icons">
                         <i
-                          onClick={() => handleClick("view", index, "polaroid")}
+                          onClick={() => handleClick("view", index, "polaroids")}
                           className="fa-solid fa-arrow-up-right-from-square view-icon"
                         ></i>
                         <i
                           onClick={() =>
-                            handleClick("trash", index, "polaroid")
+                            handleClick("trash", index, "polaroids")
                           }
                           className="fa-regular fa-trash-can trash-icon"
                         ></i>
@@ -324,10 +398,17 @@ function Photos({ userData, handleModal, resetDiscard }) {
 
         <div className="set_sections-container ">
           <h2 className="set_sections-title">Comp Card</h2>
-          {card && <img className="card-img" src={card} alt="" />}
+          {compCard && (
+            <img
+              className="card-img"
+              src={URL.createObjectURL(compCard)}
+              alt=""
+            />
+          )}
+          {console.log(compCard)}
           <input
             className="colored-hover"
-            onChange={handleChange}
+            onChange={(e) => setCompCard(e.target.files[0])}
             type="file"
             id=""
             name="card"
@@ -337,13 +418,13 @@ function Photos({ userData, handleModal, resetDiscard }) {
 
         <section className="setting_btn-container">
           <button
-            onClick={() => resetDiscard(() => handleSave)}
+            onClick={() => resetDiscard(() => handleSubmit)}
             className="discard-btn dark--btn bold-text cancel-btn"
           >
             Discard
           </button>
           <button
-            onClick={() => handleSave("save")}
+            onClick={() => handleSubmit("save")}
             className="save-btn  bold-text yes-btn"
           >
             Save
