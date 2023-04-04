@@ -39,6 +39,7 @@ import AgencyProfile from "../UI/Agency/AgencyProfile/agency_profile";
 import JobPostForm from "../Pages/JobPost/JobPostForm/JobPostForm";
 import AgencyAcctSetting from "../UI/Agency/Agency-Acct/Acct-Setting/Agency-Acct-Setting";
 import ClientPage from "../UI/Client/ClientPage/client_page";
+import ModelAcctSetting from "../UI/Model/Models-Acct/Acct-Setting/Models-Acct-Setting";
 
 export const BaseRoutes = () => {
   const [showNavbar, setShowNavbar] = useState(true);
@@ -196,6 +197,10 @@ export const BaseRoutes = () => {
             {
               path: "subscription",
               element: <ModelSubscription />,
+            },
+            {
+              path: "settings",
+              element: <ModelAcctSetting />,
             },
           ],
         },

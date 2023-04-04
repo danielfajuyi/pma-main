@@ -6,7 +6,7 @@
   justify-content: center;
   align-items: center;
   gap: 2rem;
-  background: url(/public/images/bg-1.jpg);
+  background: url('/public/images/bg-image/lg_bg.jpeg');
   background-size: cover;
   background-position: 50% 50%;
   background-blend-mode: overlay;

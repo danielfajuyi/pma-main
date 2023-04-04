@@ -369,4 +369,4 @@ export const Polaroid = [
 ];
 
 export const navList1 = ["about", "stats", "photos", "videos"];
-export const navList2 = ["email/pass", "payment", "dash board"];
+export const navList2 = ["email/pass", "payment"];
