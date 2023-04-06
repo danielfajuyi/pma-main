@@ -46,7 +46,7 @@ function ModelsForms() {
     if (interestedJob) {
       handleCheckboxChange2(interestedJob, "interestedJob");
     }
-  }, [category, interestedJob]);
+  }, [category, interestedJob, handleCheckboxChange, handleCheckboxChange2]);
 
   function handleNavigation(text) {
     if (text === "Next") {

@@ -13,7 +13,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 function ModelsKycForm3({ handleNavigation, inputs, setInputs }) {
   const { isFetching } = useSelector((state) => state.user);
-  const user = useSelector((state) => state.user.currentUser);
+  // const user = useSelector((state) => state.user.currentUser);
   const dispatch = useDispatch();
 
   const [photos, setPhotos] = useState([]);
@@ -25,9 +25,6 @@ function ModelsKycForm3({ handleNavigation, inputs, setInputs }) {
   const [compCard, setCompCard] = useState(undefined);
   const [modalTxt, setModalTxt] = useState("");
   const [progress, setProgress] = useState(0);
-
-  const [submit, setSubmit] = useState(false);
-  const [isError, setIsError] = useState(false);
 
   const handlePhotos = (e) => {
     const img = URL.createObjectURL(e.target.files[0]);
@@ -124,18 +121,6 @@ function ModelsKycForm3({ handleNavigation, inputs, setInputs }) {
     };
     sendCompCard();
   }, [photos, polaroids, photo, polaroid, compCard, setInputs]);
-
-  //setting empty input
-  useEffect(() => {
-    let err = false;
-    if (!photos && photos.length < 6) {
-      err = true;
-    } else {
-      err = false;
-    }
-
-    !user.isUpdated && setIsError(err);
-  }, [inputs, photos, user]);
 
   //handling submit
   function handleSubmit(text) {
@@ -270,6 +255,7 @@ function ModelsKycForm3({ handleNavigation, inputs, setInputs }) {
               name="form3"
               handleClick={handleSubmit}
               type="submit"
+              progress={progress}
             />
           </div>
         </div>
