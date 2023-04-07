@@ -28,7 +28,12 @@ function LoginForm() {
     <section className="login-container">
       <form className="login-form" onSubmit={handleLogin}>
         {/* login title */}
-        <h2 className="login-title">welcome Back!</h2>
+        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+          <a href="/" style={{textAlign:'center'}}>
+            <span className="material-icons">arrow_back</span>
+          </a>
+          <h2 className="login-title">welcome Back!</h2>
+        </div>
         {message && <p className="login-error">{message}</p>}
 
         {/* email input section  */}

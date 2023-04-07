@@ -8,7 +8,7 @@ import Videos from "./Videos";
 import { useState } from "react";
 import { navList1, navList2 } from "../utils";
 
-function AcctSetting({  handleModal, userData }) {
+function ModelAcctSetting({  handleModal, userData }) {
   // const { navList1, navList2 } = DomItems[0];
   const [activeSet, setActiveSet] = useState("about");
   const [toggleSetMenu, setToggleSetMenu] = useState(false);
@@ -52,7 +52,7 @@ function AcctSetting({  handleModal, userData }) {
   function discardAlert() {
     return (
       <section
-        style={{ transform: toggleDiscard && `translateX(${0}%)` }}
+        style={{ transform: toggleDiscard && `translateX(${0}%)`,  }}
         className="modal-section"
       >
         <div className="alert-box">
@@ -154,7 +154,7 @@ function AcctSetting({  handleModal, userData }) {
 
         {/* main section */}
 
-        <section className="Acct-set-main">
+        <section className="Acct-set-main" style={{backgroundColor:'white'}}>
           {/* settings header */}
           <div className="set_mobile-nav">
             <h2>
@@ -233,4 +233,4 @@ function AcctSetting({  handleModal, userData }) {
   );
 }
 
-export default AcctSetting;
+export default ModelAcctSetting;
