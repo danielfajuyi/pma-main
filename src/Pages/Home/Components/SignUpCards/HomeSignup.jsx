@@ -15,13 +15,14 @@ const HomeSignup = () => {
             <h2>01</h2>
             <h3 id="modelhover">Models</h3>
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Labore,
-              provident. Deleniti distinctio optio cupiditate molestiae numquam,
-              temporibus excepturi dolor vitae!
+              Sign up and create your portfolio that includes your bio, stats,
+              and photos. Be discovered by new clients wherever your location.
+              You’re in charge of your time – and you pick the jobs you want to
+              do.
             </p>
-            <Link onClick={() => handleSignup("model")} className="btn_shadow">
+            <a href="/sign-up" className="btn_shadow">
               Signup Now
-            </Link>
+            </a>
           </div>
         </div>
       </div>
@@ -32,13 +33,14 @@ const HomeSignup = () => {
             <h2>02</h2>
             <h3 id="clienthover">Client</h3>
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Labore,
-              provident. Deleniti distinctio optio cupiditate molestiae numquam,
-              temporibus excepturi dolor vitae!
+              Are you looking for suitable models for your job? Our portal
+              offers a high number of models of different types across all
+              relevant age groups. The process of finding and booking models is
+              quick and simple. In fact, it is tailored to clients' demands.
             </p>
-            <Link onClick={() => handleSignup("client")} className="btn_shadow">
+            <a href="/sign-up" className="btn_shadow">
               Signup Now
-            </Link>
+            </a>
           </div>
         </div>
       </div>
@@ -49,13 +51,14 @@ const HomeSignup = () => {
             <h2>03</h2>
             <h3 id="agencyhover">Agency</h3>
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Labore,
-              provident. Deleniti distinctio optio cupiditate molestiae numquam,
-              temporibus excepturi dolor vitae!
+              Create professional portfolios for your models under one account,
+              quickly and easily. Don't get left behind. Enjoy benefits when you
+              register your agency with us. Easier booking processes,
+              commissions and quick payouts.
             </p>
-            <Link onClick={() => handleSignup("agency")} className="btn_shadow">
+            <a href="/sign-up" className="btn_shadow">
               Signup Now
-            </Link>
+            </a>
           </div>
         </div>
       </div>

@@ -25,8 +25,8 @@ const Main = () => {
         <SectionHead title="Community " description="Join Model " />
         <div className="join-model-wrapper overlay">
           <div className="join-model-text">
-            Become part of a growing community and connect with other models
-            around the world
+            Become part of our model community and connect with other models
+            around the world.
           </div>
 
           <div className="join-model-icon">

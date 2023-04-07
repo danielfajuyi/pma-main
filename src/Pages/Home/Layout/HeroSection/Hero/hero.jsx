@@ -67,7 +67,7 @@ const Hero = () => {
                   <p>Fast Model responses</p>
                 </span>
                 <div className="hero-btn">
-                  <button className="btn btn2">Signup</button>
+                  <a href="/sign-up" className="btn btn2">Start now</a>
                 </div>
               </div>
             </article>
