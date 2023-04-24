@@ -40,6 +40,10 @@ import JobPostForm from "../Pages/JobPost/JobPostForm/JobPostForm";
 import AgencyAcctSetting from "../UI/Agency/Agency-Acct/Acct-Setting/Agency-Acct-Setting";
 import ClientPage from "../UI/Client/ClientPage/client_page";
 import ModelAcctSetting from "../UI/Model/Models-Acct/Acct-Setting/Models-Acct-Setting";
+import ModelsForms from "../UI/Model/Models-Acct/Kyc-Section/Models-Kyc-Forms";
+import AgencyModels from "../UI/Agency/AgencyListing/AgencyModels";
+import Blogs from "../Pages/Blog/Blogs";
+import Single from "../Pages/Blog/Single";
 
 export const BaseRoutes = () => {
   const [showNavbar, setShowNavbar] = useState(true);
@@ -108,6 +112,14 @@ export const BaseRoutes = () => {
           element: <JobPost />,
         },
         {
+          path: "blog/",
+          element: <Blogs />,
+        },
+        {
+          path: "post/:id",
+          element: <Single />,
+        },
+        {
           path: "find-model/profile/:id",
           element: <ProfilePage />,
         },
@@ -150,6 +162,19 @@ export const BaseRoutes = () => {
             {
               path: "profile",
               element: <AgencyProfile />,
+            },
+            {
+              path: "listing/",
+              children: [
+                {
+                  path: "add",
+                  element: <ModelsForms />,
+                },
+                {
+                  path: "manage",
+                  element: <AgencyModels />,
+                },
+              ],
             },
             {
               path: "settings",

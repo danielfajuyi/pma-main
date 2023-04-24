@@ -9,9 +9,7 @@ import BlogPreviewCard from "../../../../Components/Dashboard/Blog-Preview-Card/
 import BookingsCard from "../../../../Components/Dashboard/Bookings-Card/bookings_card";
 import VisitorStats from "../../../../Components/Dashboard/Visitor-Stats/visitor_stats";
 import profileImg from "../../../../Images/model-profile/model.png";
-import coverImg from "../../../../Images/model/model-large.jpg";
 import _ from "lodash";
-import { Chart } from "chart.js/auto"; //Registering Charts ("Do not remove this import")
 import FadeIn from "../../../../Components/FadeIn/fade_in";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
@@ -21,16 +19,15 @@ import { Link } from "react-router-dom";
 
 const AgencyDashboard = () => {
   const user = useSelector((state) => state.user.currentUser);
-  // console.log(user)
-
+  
   const [message, setMessage] = useState([]);
   const dispatch = useDispatch();
-
+  
   useEffect(() => {
     let unsubscribed = false;
     if (!unsubscribed) {
       const fetchData = () => {
-        makeGet(dispatch, "/agency/", setMessage);
+        makeGet(dispatch, "/agency/models/all", setMessage);
       };
       fetchData();
     }
@@ -291,10 +288,10 @@ const AgencyDashboard = () => {
             <div id="our_models">
               <header>
                 <h4>Our Models</h4>
-                <a href="./seeall">See all</a>
+                <a href="./listing/manage">See all</a>
               </header>
               <div id="body">
-                {message?.map((item) => (
+                {message?.slice(0, 5).map((item) => (
                   <ModelCard model={item} id={item?._id} />
                 ))}
               </div>
