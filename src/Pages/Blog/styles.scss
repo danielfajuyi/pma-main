@@ -1,0 +1,279 @@
+$lightGreen: #b9e7e7;
+
+$tabWidth: 768px;
+$mobWidth: 480px;
+
+@mixin tab {
+  @media (max-width: #{$tabWidth}) {
+    @content;
+  }
+}
+@mixin mobile {
+  @media (max-width: #{$mobWidth}) {
+    @content;
+  }
+}
+
+//HOME
+.home {
+  .posts {
+    padding: 0px 50px 50px 50px;
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    gap: 150px;
+    @include tab {
+      gap: 50px;
+      padding: 0;
+    }
+    @include mobile {
+      gap: 50px;
+    }
+
+    .post {
+      display: flex;
+      gap: 100px;
+      @include tab {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 20px 40px;
+        grid-template: 50px;
+      }
+      @include mobile {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 20px 40px;
+        grid-template: 50px;
+      }
+
+      &:nth-child(2n + 1) {
+        flex-direction: row-reverse;
+        @include tab {
+          flex-direction: column;
+        }
+      }
+
+      .img {
+        flex: 2;
+        position: relative;
+        @include tab {
+          flex: 0;
+        }
+        @include mobile {
+          flex: 0;
+        }
+
+        &::after {
+          content: "";
+          width: 80%;
+          height: 300px;
+          background-color: $lightGreen;
+          position: absolute;
+          top: 20px;
+          left: -20px;
+          z-index: -1;
+          @include tab {
+            width: 100%;
+            height: 250px;
+          }
+        }
+
+        img {
+          width: 80%;
+          height: 300px;
+          object-fit: cover;
+          @include tab {
+            width: 100%;
+            height: 250px;
+          }
+        }
+      }
+
+      .content {
+        flex: 3;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        @include tab {
+          flex: 0;
+          width: 100%;
+        }
+        @include mobile {
+          flex: 0;
+          width: 100%;
+        }
+
+        h1 {
+          font-size: 48px;
+          @include tab {
+            font-size: 30px;
+          }
+          @include mobile {
+            font-size: 20px;
+          }
+        }
+
+        p {
+          font-size: 18px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-line-clamp: 3; /* number of lines to show */
+          -webkit-box-orient: vertical;
+          @include tab {
+            font-size: 18px;
+            margin-top: 8px;
+          }
+          @include mobile {
+            font-size: 16px;
+            margin-top: 8px;
+          }
+        }
+
+        button {
+          width: max-content;
+          padding: 10px 20px;
+          border: none;
+          cursor: pointer;
+          background-color: white;
+          border: 1px solid teal;
+          color: teal;
+          @include tab {
+            padding: 8px 16px;
+            margin-top: 10px;
+          }
+          @include mobile {
+            padding: 6px 10px;
+            margin-top: 10px;
+          }
+
+          &:hover {
+            border: 1px solid white;
+            background-color: $lightGreen;
+            color: black;
+          }
+        }
+      }
+    }
+  }
+}
+
+//SINGLE
+
+.single {
+  display: flex;
+  gap: 50px;
+  padding: 50px;
+  @include tab {
+    flex-direction: column;
+    padding: 40px;
+  }
+  @include mobile {
+    flex-direction: column;
+    padding: 30px;
+    gap: 20px;
+  }
+
+  .content {
+    flex: 5;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+
+    img {
+      width: 100%;
+      height: 300px;
+      object-fit: contain;
+    }
+
+    .user {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+      img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+
+      span {
+        font-weight: bold;
+      }
+    }
+
+    .edit {
+      display: flex;
+      gap: 5px;
+
+      img {
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+      }
+    }
+
+    h1 {
+      font-size: 42px;
+      color: #333;
+      @include mobile {
+        font-size: 30px;
+      }
+    }
+
+    p {
+      text-align: justify;
+      line-height: 30px;
+    }
+  }
+  .menu {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+
+    h1 {
+      font-size: 20px;
+      color: #000;
+      text-transform: uppercase;
+      @include tab {
+        text-decoration: underline;
+      }
+    }
+
+    .post {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+
+      img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+      }
+
+      h2 {
+        color: #555;
+      }
+
+      button {
+        width: max-content;
+        padding: 7.5px 15px;
+        border: none;
+        cursor: pointer;
+        color: teal;
+        background-color: white;
+        border: 1px solid teal;
+
+        &:hover {
+          border: 1px solid white;
+          background-color: $lightGreen;
+          color: black;
+        }
+      }
+    }
+  }
+}
