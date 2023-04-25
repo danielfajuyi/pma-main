@@ -8,7 +8,7 @@ import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { makeGet } from "../../../redux/apiCalls";
 
-function ListingPage({ handleProfile }) {
+function ListingPage() {
   const dispatch = useDispatch();
   const [message, setMessage] = useState([]);
   const [query, setQuery] = useState("");
@@ -234,7 +234,6 @@ function ListingPage({ handleProfile }) {
 
       <List
         data={data}
-        handleProfile={handleProfile}
         currentPage={currentPage}
       />
       {message.length !== 0 && (

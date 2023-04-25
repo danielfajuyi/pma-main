@@ -3,15 +3,7 @@ import { InteractiveBtn } from "./Buttons";
 import { useLocation } from "react-router";
 import { BiCategoryAlt } from "react-icons/bi";
 import { BsPatchCheckFill } from "react-icons/bs";
-import {
-  FaEnvelope,
-  FaEnvelopeOpen,
-  FaHome,
-  FaRegEnvelope,
-  FaRegStar,
-  FaStar,
-  FaUser,
-} from "react-icons/fa";
+import { FaEnvelope, FaHome, FaRegStar, FaStar } from "react-icons/fa";
 import { MdLocationPin } from "react-icons/md";
 
 function ModelInfo({ item, handleForm, setEditPortfolio }) {
@@ -29,7 +21,7 @@ function ModelInfo({ item, handleForm, setEditPortfolio }) {
         <div className="model__img-container">
           <img
             className="model__img"
-            src={item?.picture}
+            src={item?.picture ? item?.picture : item?.model?.picture}
             alt=""
             width="400"
             height="400"
@@ -73,7 +65,8 @@ function ModelInfo({ item, handleForm, setEditPortfolio }) {
           <div className="text4 model__locations">
             <MdLocationPin />
             <span>
-              {item?.state}, {item?.country}
+              {item?.state ? item?.state : item?.model?.state},{" "}
+              {item?.country ? item?.country : item?.model?.country}
             </span>
           </div>
 

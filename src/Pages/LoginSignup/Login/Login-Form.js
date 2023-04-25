@@ -21,7 +21,6 @@ function LoginForm() {
   const handleLogin = (e) => {
     e.preventDefault();
     loginRegister(dispatch, "/auth/login", { ...inputs }, setMessage);
-    // window.location.reload();
   };
 
   return (
@@ -84,7 +83,6 @@ function LoginForm() {
         </div>
 
         {/* button section  */}
-
         <button
           disabled={isFetching}
           className="btn-login dark--btn btn--Login"

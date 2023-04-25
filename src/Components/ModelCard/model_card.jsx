@@ -5,12 +5,16 @@ import { GoVerified, GoStar } from "react-icons/go";
 import { IconContext } from "react-icons";
 import { motion } from "framer-motion";
 
-const ModelCard = (props,{model}) => {
+const ModelCard = (props) => {
+  const uuid = props?.model?._id;
+
   return (
-    <div id="model_card" style={{ height: props.ch }} key={props.id} >
+    <div id="model_card" style={{ height: props.ch }} key={props.id}>
       <div id="img_holder">
         <img
-          src={model?.picture ? model?.picture : "/images/avatar.jpg"}
+          src={
+            props?.model?.picture ? props?.model?.picture : "/images/avatar.jpg"
+          }
           alt="proilepic"
         />
       </div>
@@ -18,10 +22,8 @@ const ModelCard = (props,{model}) => {
       <motion.div id="card_body">
         <div id="title">MODEL</div>
         <div>
-          <span id="name">
-            {model?.fullName}
-          </span>
-          {model?.isVerified && <GoVerified color="green" size={14} />}
+          <span id="name">{props?.model?.fullName}</span>
+          {props?.model?.isVerified && <GoVerified color="green" size={14} />}
         </div>
         <div id="rating">
           <IconContext.Provider value={{ size: 18, color: "seagreen" }}>
@@ -32,12 +34,20 @@ const ModelCard = (props,{model}) => {
             <GoStar />
           </IconContext.Provider>
         </div>
-        <div id="categories">{model?.category[0]}, {model?.category[1]}</div>
+        <div id="categories">
+          {props?.model?.category[0]}, {props?.model?.category[1]}
+        </div>
         <div id="address">
           <FaMapMarkerAlt size={12} />
-          {model?.country && <span>{model?.state}, {model?.country}</span>}
+          {props?.model?.country && (
+            <span>
+              {props?.model?.state}, {props?.model?.country}
+            </span>
+          )}
         </div>
-        <button id="card_btn">See Portfolio</button>
+        <a href={`/find-model/profile/${uuid}`}>
+          <button id="card_btn">See Portfolio</button>
+        </a>
       </motion.div>
     </div>
   );
