@@ -102,7 +102,7 @@
   border: none;
   outline: none;
 }
-.sign-up-btn:disabled{
+.sign-up-btn:disabled {
   cursor: not-allowed !important;
   font-size: 14px;
   background-color: #808080 !important;

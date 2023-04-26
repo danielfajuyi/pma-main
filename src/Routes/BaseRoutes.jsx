@@ -13,16 +13,13 @@ import SignUp from "../Pages/LoginSignup/Sign-Up/Sign-up";
 import NotFound from "../Pages/NotFound/notfound";
 import AdminPage from "../UI/Admin-UI/AdminPage/admin_page";
 import AdminDashboard from "../UI/Admin-UI/AdminPage/dashboard/dashboard";
-import AgencyPage from "../UI/Agency/AgencyPage/agency_page";
-import AgencyDashboard from "../UI/Agency/AgencyPage/dashboard/dashboard";
-import ModelPage from "../UI/Model/ModelPage/model_page";
-import ModelDashboard from "../UI/Model/ModelPage/dashboard/dashboard";
-import MyWallet from "../UI/Model/ModelPage/wallet/my_wallet";
-import Review from "../UI/Model/ModelPage/review/review";
-import WriteReview from "../UI/Model/ModelPage/review/write_review";
-import Reviews from "../UI/Model/ModelPage/review/view_reviews";
-import ModelSubscription from "../UI/Model/ModelPage/subscription/subscription";
-import ClientDashboard from "../UI/Client/ClientPage/dashboard/dashboard";
+
+import MyWallet from "../UI/Model/Models-Acct/Model-Page/wallet/my_wallet";
+import Review from "../UI/Model/Models-Acct/Model-Page/review/review";
+import WriteReview from "../UI/Model/Models-Acct/Model-Page/review/write_review";
+import Reviews from "../UI/Model/Models-Acct/Model-Page/review/view_reviews";
+import ModelSubscription from "../UI/Model/Models-Acct/Model-Page/subscription/subscription";
+import ClientDashboard from "../UI/Client/Client-Acct/Client-Page/dashboard/dashboard";
 import {
   createBrowserRouter,
   RouterProvider,
@@ -32,29 +29,39 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { userLogout } from "../redux/apiCalls";
 import ProfilePage from "../Pages/FindModel/Models-Profile-page/Profile-Page";
+
+//importing models components
+import ModelDashboard from "../UI/Model/Models-Acct/Model-Page/dashboard/dashboard";
+import ModelsAcct from "../UI/Model/Models-Acct/Models-Acct";
 import ModelPortfolio from "../UI/Model/ModelPortfolio/ModelPortfolio";
+
+//importing clients components
+import ClientsAcct from "../UI/Client/Client-Acct/Client-Acct";
 import ClientProfile from "../UI/Client/ClientProfile/ClientProfile";
-import AcctSetting from "../UI/Client/Client-Acct/Acct-Setting/Client-Acct-Setting";
-import AgencyProfile from "../UI/Agency/AgencyProfile/agency_profile";
 import JobPostForm from "../Pages/JobPost/JobPostForm/JobPostForm";
-import AgencyAcctSetting from "../UI/Agency/Agency-Acct/Acct-Setting/Agency-Acct-Setting";
-import ClientPage from "../UI/Client/ClientPage/client_page";
-import ModelAcctSetting from "../UI/Model/Models-Acct/Acct-Setting/Models-Acct-Setting";
-import ModelsForms from "../UI/Model/Models-Acct/Kyc-Section/Models-Kyc-Forms";
-import AgencyModels from "../UI/Agency/AgencyListing/AgencyModels";
-import Blogs from "../Pages/Blog/Blogs";
-import Single from "../Pages/Blog/Single";
+
+//importing agency components
+import AgencyAcct from "../UI/Agency/Agency-Acct/Agency-Acct";
+import AgencyDashboard from "../UI/Agency/Agency-Acct/Agency-Page/dashboard/dashboard";
+import AgencyProfile from "../UI/Agency/AgencyProfile/agency_profile";
+
+import Notice from "../Data/Data-db.json";
 
 export const BaseRoutes = () => {
   const [showNavbar, setShowNavbar] = useState(true);
   const user = useSelector((state) => state.user.currentUser);
   const dispatch = useDispatch();
 
+  const [notice, setNotice] = useState(Notice.notification); //--> notification data state
+
+  const [modelPage, setModelPage] = useState("dashboard");
+
   // automatically logout a user when session expires
   const handleLogout = () => {
     userLogout(dispatch);
   };
 
+  console.log(user);
   useEffect(() => {
     if (user) {
       const token = user.accessToken;
@@ -112,14 +119,6 @@ export const BaseRoutes = () => {
           element: <JobPost />,
         },
         {
-          path: "blog/",
-          element: <Blogs />,
-        },
-        {
-          path: "post/:id",
-          element: <Single />,
-        },
-        {
           path: "find-model/profile/:id",
           element: <ProfilePage />,
         },
@@ -148,9 +147,12 @@ export const BaseRoutes = () => {
           path: "agencypage/",
           element: (
             <ProtectedRoute>
-              <AgencyPage
+              <AgencyAcct
+                user={user}
                 showNavbar={showNavbar}
                 setShowNavbar={setShowNavbar}
+                setNotice={setNotice}
+                notice={notice}
               />
             </ProtectedRoute>
           ),
@@ -163,32 +165,18 @@ export const BaseRoutes = () => {
               path: "profile",
               element: <AgencyProfile />,
             },
-            {
-              path: "listing/",
-              children: [
-                {
-                  path: "add",
-                  element: <ModelsForms />,
-                },
-                {
-                  path: "manage",
-                  element: <AgencyModels />,
-                },
-              ],
-            },
-            {
-              path: "settings",
-              element: <AgencyAcctSetting />,
-            },
           ],
         },
         {
           path: "modelpage/",
           element: (
             <ProtectedRoute>
-              <ModelPage
+              <ModelsAcct
+                user={user}
                 showNavbar={showNavbar}
                 setShowNavbar={setShowNavbar}
+                setNotice={setNotice}
+                notice={notice}
               />
             </ProtectedRoute>
           ),
@@ -199,7 +187,7 @@ export const BaseRoutes = () => {
             },
             {
               path: "profile/:id",
-              element: <ModelPortfolio />,
+              element: <ModelPortfolio setModelPage={setModelPage} />,
             },
             {
               path: "mywallet",
@@ -223,19 +211,18 @@ export const BaseRoutes = () => {
               path: "subscription",
               element: <ModelSubscription />,
             },
-            {
-              path: "settings",
-              element: <ModelAcctSetting />,
-            },
           ],
         },
         {
           path: "clientpage/",
           element: (
             <ProtectedRoute>
-              <ClientPage
+              <ClientsAcct
+                user={user}
                 showNavbar={showNavbar}
                 setShowNavbar={setShowNavbar}
+                setNotice={setNotice}
+                notice={notice}
               />
             </ProtectedRoute>
           ),
@@ -273,10 +260,6 @@ export const BaseRoutes = () => {
                   element: <Reviews />,
                 },
               ],
-            },
-            {
-              path: "settings",
-              element: <AcctSetting />,
             },
             {
               path: "subscription",

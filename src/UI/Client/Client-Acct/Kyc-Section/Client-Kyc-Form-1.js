@@ -83,7 +83,7 @@ function ClientsKycForm1({ handleNavigation, handleChange, inputs }) {
     }
 
     setIsError(err);
-  }, [error]);
+  }, [inputs]);
 
   //submit and go to the next page
   function handleSubmit(text) {
@@ -97,7 +97,7 @@ function ClientsKycForm1({ handleNavigation, handleChange, inputs }) {
   return (
     <form className="--kyc-form" onSubmit={(e) => e.preventDefault()}>
       <section className="--kyc-hero">
-        <img src="/images/client_1.jpg" alt="" />
+        <img src="/images/kyc/client-1.jpg" alt="" />
         <div className="--kyc-hero__text-rapper">
           <h2 className="--kyc-hero__title">Step-1</h2>
           <p className="--kyc-hero__text">Setting Up Your Portfolio.</p>
@@ -123,6 +123,7 @@ function ClientsKycForm1({ handleNavigation, handleChange, inputs }) {
               {/* name input */}
               <Input1
                 id="brandName"
+                label="Brand Name"
                 placeholder="Your Brand Name..."
                 error={error.brandName}
                 handleChange={handleChange}

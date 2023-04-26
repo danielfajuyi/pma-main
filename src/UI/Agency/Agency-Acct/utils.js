@@ -1,5 +1,5 @@
 export const navList1 = ["about", "jobs", "email/pass"];
-export const navList2 = ["payment"];
+export const navList2 = ["payment", "dashboard"];
 export const SocialMedia = [
   //   {
   //     "type": "text",

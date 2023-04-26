@@ -5,6 +5,12 @@ export const info = [
   //     placeholder: "Enter FirstName...",
   //     label: "First Name",
   //   },
+  //   {
+  //     type: "text",
+  //     id: "lastName",
+  //     placeholder: "Enter LastName...",
+  //     label: "Last Name",
+  //   },
   {
     type: "text",
     id: "username",
@@ -28,12 +34,6 @@ export const info = [
     id: "state",
     placeholder: "State Name...",
     label: "State",
-  },
-  {
-    type: "text",
-    id: "fullName",
-    placeholder: "Enter Model's Full Name...",
-    label: "Full Name",
   },
 ];
 
@@ -369,4 +369,4 @@ export const Polaroid = [
 ];
 
 export const navList1 = ["about", "stats", "photos", "videos"];
-export const navList2 = ["email/pass", "payment"];
+export const navList2 = ["email/pass", "payment", "dashboard"];

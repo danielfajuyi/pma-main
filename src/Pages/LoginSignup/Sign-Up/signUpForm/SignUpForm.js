@@ -39,8 +39,7 @@ const SignUpForm = ({ activeSignup, setActiveSignup, userRole }) => {
   };
 
   //paystack payment config
-  const amount =
-    userRole === "model" ? 2000 : userRole === "agency" ? 50000 : null;
+  const amount = 2000;
   const config = {
     email: inputs.email,
 
@@ -51,7 +50,7 @@ const SignUpForm = ({ activeSignup, setActiveSignup, userRole }) => {
       phone: inputs.mobileNo,
     },
 
-    publicKey: process.env.REACT_APP_PAYSTACK_KEY,
+    publicKey: "pk_test_2738ea7b83386afd8897e7092bbe084d785adc92",
 
     channels: ["card", "bank", "ussd", "qr", "mobile_money", "bank_transfer"],
   };
@@ -67,13 +66,14 @@ const SignUpForm = ({ activeSignup, setActiveSignup, userRole }) => {
 
   const initializePayment = usePaystackPayment(config);
   const handlePayment = () => {
-    const onSuccess = () => {
+    const onSuccess = (reference) => {
       handleInvoice();
+      // console.log(reference);
       setTimeout(() => {
         setModalTxt("confirm-payment");
       }, 2000);
-      window.location.reload();
     };
+
     const onClose = () => {
       setModalTxt("close-payment");
     };
@@ -210,161 +210,168 @@ const SignUpForm = ({ activeSignup, setActiveSignup, userRole }) => {
       { ...inputs, role: userRole },
       setMessage,
       userRole,
+      setModalTxt,
       handlePayment
     );
+    setModalTxt(message);
   };
-  useEffect(() => {
-    let unsubscribed = false;
-    if (!unsubscribed) {
-      setModalTxt(message);
-    }
-    return () => (unsubscribed = true);
-  }, [message]);
 
   return (
-    <section
-      style={{
-        transform: activeSignup && `translateX(${0}%)`,
-      }}
-      className="sign-up"
-    >
-      <ToastContainer position="top-center" reverseOrder={false} />
+    <>
+      <section
+        style={{
+          transform: activeSignup && `translateX(${0}%)`,
+        }}
+        className="sign-up"
+      >
+        <ToastContainer position="top-center" reverseOrder={false} />
+
+        <form className="model-sign-up" onSubmit={handleCreateAccount}>
+          <div className="sign-up-img">
+            <img
+              src={
+                userRole === "model"
+                  ? "/images/sign-up/model.jpg"
+                  : userRole === "client"
+                  ? "/images/sign-up/client.jpg"
+                  : userRole === "agency"
+                  ? "/images/sign-up/agent.jpg"
+                  : null
+              }
+              alt={`${userRole} img`}
+            />
+            <div className="image-text-rapper">
+              <h4 className="image-title">Almost there!</h4>
+              <p className="image-text">
+                You are moments away from Awesomeness!!
+              </p>
+            </div>
+          </div>
+
+          <section className="sign-up-section">
+            <i
+              onClick={() => setActiveSignup(false)}
+              className="fa-solid fa-xmark close-sign-up"
+            ></i>
+            <h2 className="sign-up-text">Sign-up</h2>
+            <div className="input-sections">
+              <div className="name-section">
+                <div className="input-container">
+                  <SignUpInput
+                    type="text"
+                    id="firstName"
+                    placeholder="Enter FirstName..."
+                    label="FirstName"
+                    handleChange={handleChange}
+                    error={error.fNameErr}
+                  />
+                </div>
+                <div className="input-container">
+                  <SignUpInput
+                    type="text"
+                    id="lastName"
+                    placeholder="Enter LastName..."
+                    label="LastName"
+                    handleChange={handleChange}
+                    error={error.lNameErr}
+                  />
+                </div>
+              </div>
+
+              <div className="email-section">
+                <SignUpInput
+                  type="email"
+                  id="email"
+                  placeholder="Enter your email..."
+                  label="Email"
+                  handleChange={handleChange}
+                  error={error.emailErr}
+                />
+              </div>
+              <div className="other-section">
+                <div className="input-container">
+                  <SignUpInput
+                    type="password"
+                    id="password"
+                    placeholder="Enter password..."
+                    label="Password"
+                    handleChange={handleChange}
+                    error={error.passErr}
+                  />
+                </div>
+                <div className="input-container">
+                  <SignUpInput
+                    type="password"
+                    id="confirm"
+                    placeholder="Confirm password..."
+                    label="Confirm"
+                    handleChange={handleChange}
+                    error={error.confirmErr}
+                  />
+                </div>
+                <div className="input-container">
+                  <SignUpInput
+                    type="tel"
+                    id="mobileNo"
+                    placeholder="Mobile Num..."
+                    label="Mobile-No"
+                    handleChange={handleChange}
+                    error={error.mobileErr}
+                  />
+                </div>
+                <div className="input-container">
+                  <SignUpInput
+                    type="tel"
+                    id="referral"
+                    placeholder="Enter referral..."
+                    label="Referral"
+                    handleChange={handleChange}
+                  />
+                </div>
+              </div>
+
+              <div className="other-container">
+                <div>
+                  <input
+                    className="terms-check"
+                    onChange={() => setIschecked(!isChecked)}
+                    type="checkbox"
+                    id="model"
+                    name="terms"
+                    checked={inputs.terms}
+                  />
+                  <label className="colored-hover" htmlFor="model">
+                    I Agree to the Policy & Terms of Service
+                  </label>
+                  <p className="error-text">{error.termsErr}</p>
+                </div>
+
+                <button
+                  style={{
+                    backgroundColor: !isError ? "#ff007a" : "#808080",
+                    color: "#fff",
+                  }}
+                  onClick={() => {
+                    isError && setModalTxt("sign-up-Err");
+                  }}
+                  className="sign-up-btn bold-text colored-hover"
+                  type="submit"
+                  disabled={isFetching}
+                >
+                  {isFetching ? "please wait..." : "Continue"}
+                </button>
+              </div>
+            </div>
+          </section>
+        </form>
+      </section>
       <AlertModal
         modalTxt={modalTxt}
         setModalTxt={setModalTxt}
         userRole={userRole}
         message={message}
       />
-
-      <form className="model-sign-up" onSubmit={handleCreateAccount}>
-        <div className="sign-up-img">
-          <img src="/images/sign-up (2).jpg" alt="" />
-          <div className="image-text-rapper">
-            <h4 className="image-title">Almost there!</h4>
-            <p className="image-text">
-              You are moments away from Awesomeness!!
-            </p>
-          </div>
-        </div>
-
-        <section className="sign-up-section">
-          <i
-            onClick={() => setActiveSignup(false)}
-            className="fa-solid fa-xmark close-sign-up"
-          ></i>
-          <h2 className="sign-up-text">Sign-up</h2>
-          <div className="input-sections">
-            <div className="name-section">
-              <div className="input-container">
-                <SignUpInput
-                  type="text"
-                  id="firstName"
-                  placeholder="Enter FirstName..."
-                  label="FirstName"
-                  handleChange={handleChange}
-                  error={error.fNameErr}
-                />
-              </div>
-              <div className="input-container">
-                <SignUpInput
-                  type="text"
-                  id="lastName"
-                  placeholder="Enter LastName..."
-                  label="LastName"
-                  handleChange={handleChange}
-                  error={error.lNameErr}
-                />
-              </div>
-            </div>
-
-            <div className="email-section">
-              <SignUpInput
-                type="email"
-                id="email"
-                placeholder="Enter your email..."
-                label="Email"
-                handleChange={handleChange}
-                error={error.emailErr}
-              />
-            </div>
-            <div className="other-section">
-              <div className="input-container">
-                <SignUpInput
-                  type="password"
-                  id="password"
-                  placeholder="Enter password..."
-                  label="Password"
-                  handleChange={handleChange}
-                  error={error.passErr}
-                />
-              </div>
-              <div className="input-container">
-                <SignUpInput
-                  type="password"
-                  id="confirm"
-                  placeholder="Confirm password..."
-                  label="Confirm"
-                  handleChange={handleChange}
-                  error={error.confirmErr}
-                />
-              </div>
-              <div className="input-container">
-                <SignUpInput
-                  type="tel"
-                  id="mobileNo"
-                  placeholder="Mobile Num..."
-                  label="Mobile-No"
-                  handleChange={handleChange}
-                  error={error.mobileErr}
-                />
-              </div>
-              <div className="input-container">
-                <SignUpInput
-                  type="tel"
-                  id="referral"
-                  placeholder="Enter referral..."
-                  label="Referral"
-                  handleChange={handleChange}
-                />
-              </div>
-            </div>
-
-            <div className="other-container">
-              <div>
-                <input
-                  className="terms-check"
-                  onChange={() => setIschecked(!isChecked)}
-                  type="checkbox"
-                  id="model"
-                  name="terms"
-                  checked={inputs.terms}
-                />
-                <label className="colored-hover" htmlFor="model">
-                  {" "}
-                  I Agree to the Policy & Terms of Service
-                </label>
-                <p className="error-text">{error.termsErr}</p>
-              </div>
-
-              <button
-                style={{
-                  backgroundColor: !isError ? "#ff007a" : "#808080",
-                  color: "#fff",
-                }}
-                onClick={() => {
-                  isError && setModalTxt("sign-up-Err");
-                }}
-                className="sign-up-btn bold-text colored-hover"
-                type="submit"
-                disabled={isFetching}
-              >
-                {isFetching ? "please wait..." : "Continue"}
-              </button>
-            </div>
-          </div>
-        </section>
-      </form>
-    </section>
+    </>
   );
 };
 export default SignUpForm;

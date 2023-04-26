@@ -146,7 +146,7 @@ function ClientsKycForm2({
       <AlertModal modalTxt={modalTxt} setModalTxt={setModalTxt} />
 
       <section className="--kyc-hero">
-        <img src="/images/client_4.jpg" alt="" />
+        <img src="/images/kyc/client-3.jpg" alt="" />
         <div className="--kyc-hero__text-rapper">
           <h2 className="--kyc-hero__title">Finally</h2>
           <p className="--kyc-hero__text">
