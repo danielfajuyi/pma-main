@@ -1,59 +1,36 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { makeGet } from "../../redux/apiCalls";
+import { useDispatch } from "react-redux";
+import { useLocation } from "react-router-dom";
 
 const Menu = ({ cat }) => {
-  // const [posts, setPosts] = useState([]);
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const postId = location.pathname.split("/")[2];
 
-  const PF = process.env.REACT_APP_PUBLIC_FILE_FOLDER;
+  const [posts, setPosts] = useState([]);
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const res = await axios.get(`/posts/?cat=${cat}`);
-  //       setPosts(res.data);
-  //     } catch (err) {
-  //       console.log(err);
-  //     }
-  //   };
-  //   fetchData();
-  // }, [cat]);
-
-  const posts = [
-    {
-      id: 1,
-      title: "Lorem ipsum dolor sit amet consectetur adipisicing elit",
-      desc: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. A possimus excepturi aliquid nihil cumque ipsam facere aperiam at! Ea dolorem ratione sit debitis deserunt repellendus numquam ab vel perspiciatis corporis!",
-      img: "https://images.pexels.com/photos/7008010/pexels-photo-7008010.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-    },
-    {
-      id: 2,
-      title: "Lorem ipsum dolor sit amet consectetur adipisicing elit",
-      desc: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. A possimus excepturi aliquid nihil cumque ipsam facere aperiam at! Ea dolorem ratione sit debitis deserunt repellendus numquam ab vel perspiciatis corporis!",
-      img: "https://images.pexels.com/photos/6489663/pexels-photo-6489663.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-    },
-    {
-      id: 3,
-      title: "Lorem ipsum dolor sit amet consectetur adipisicing elit",
-      desc: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. A possimus excepturi aliquid nihil cumque ipsam facere aperiam at! Ea dolorem ratione sit debitis deserunt repellendus numquam ab vel perspiciatis corporis!",
-      img: "https://images.pexels.com/photos/4230630/pexels-photo-4230630.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-    },
-    {
-      id: 4,
-      title: "Lorem ipsum dolor sit amet consectetur adipisicing elit",
-      desc: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. A possimus excepturi aliquid nihil cumque ipsam facere aperiam at! Ea dolorem ratione sit debitis deserunt repellendus numquam ab vel perspiciatis corporis!",
-      img: "https://images.pexels.com/photos/6157049/pexels-photo-6157049.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-    },
-  ];
-  const reversed = [...posts].reverse();
+  useEffect(() => {
+    const fetchData = () => {
+      makeGet(dispatch, `/blog/blogs/query?cat=${cat}`, setPosts);
+    };
+    fetchData();
+  }, [cat]);
 
   return (
     <div className="menu">
       <h1>Other posts you may like</h1>
-      {reversed.map((post) => (
-        <div className="post" key={post.id}>
-          <img src={post?.img} alt="" />
-          <h2>{post.title}</h2>
-          <button>Read More</button>
+      {posts?.map((post) => (
+        <div key={post._id}>
+          {post._id !== postId && (
+            <div className="post" key={post._id}>
+              <img src={post?.photo} alt="" />
+              <h2>{post.title}</h2>
+              <a className="link" href={`/post/${post._id}`}>
+                <button>Read More</button>
+              </a>
+            </div>
+          )}
         </div>
       ))}
     </div>

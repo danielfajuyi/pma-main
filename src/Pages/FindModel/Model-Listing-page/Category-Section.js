@@ -9,25 +9,25 @@ const CategoryItems = [
 
   {
     id: 2,
-    img: "./images/model-category/child.jpg",
+    img: "./images/model-category/child1.jpeg",
     category: "Child",
   },
 
   {
     id: 3,
-    img: "./images/model-category/fashion.jpg",
+    img: "./images/model-category/fashion3.jpeg",
     category: "Fashion",
   },
 
   {
     id: 4,
-    img: "./images/model-category/commercial.jpg",
+    img: "./images/model-category/commercial2.jpeg",
     category: "Commercial",
   },
 
   {
     id: 5,
-    img: "./images/model-category/plus-size.jpg",
+    img: "./images/model-category/commercial.jpg",
     category: "Plus Size",
   },
 ];
