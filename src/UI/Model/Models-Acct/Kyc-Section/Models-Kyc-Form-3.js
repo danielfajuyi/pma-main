@@ -224,7 +224,7 @@ function ModelsKycForm3({ handleNavigation, inputs, setInputs }) {
             </ul>
           </div>
 
-          <div className="sections-container">
+          {/* <div className="sections-container">
             <h2 className="sections-title">Comp Card</h2>
             {compCard && (
               <img
@@ -240,7 +240,7 @@ function ModelsKycForm3({ handleNavigation, inputs, setInputs }) {
               name="compCard"
               className="colored-hover"
             />
-          </div>
+          </div> */}
 
           <div className="kyc-btn-container">
             <FormNavBtn

@@ -113,31 +113,10 @@ function ModelStats({ item }) {
         </ul>
       )}
 
-      {/* job interest section */}
-      {/* <h2 className="stat__title">Model Category</h2>
-      {!item?.model && (
-        <ul className="job__list">
-          {item?.category?.map((job) => (
-            <li className="job__item" key={job}>
-              {job}
-            </li>
-          ))}
-        </ul>
-      )}
-      {item?.model && (
-        <ul className="job__list">
-          {item?.model?.category?.map((job) => (
-            <li className="job__item" key={job}>
-              {job}
-            </li>
-          ))}
-        </ul>
-      )} */}
-
       {/* compCard section */}
-      <button type="download" className="compCard-btn dark--btn bold-text">
+      {/* <button type="download" className="compCard-btn dark--btn bold-text">
         Download CompCard
-      </button>
+      </button> */}
     </section>
   );
 }

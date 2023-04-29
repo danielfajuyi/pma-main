@@ -39,7 +39,8 @@ const SignUpForm = ({ activeSignup, setActiveSignup, userRole }) => {
   };
 
   //paystack payment config
-  const amount = 2000;
+  const amount =
+    userRole === "model" ? 2000 : userRole === "agency" ? 49900 : null;
   const config = {
     email: inputs.email,
 
