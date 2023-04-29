@@ -78,7 +78,7 @@ function AgencyKycForm1({ handleNavigation, handleChange, inputs }) {
     }
 
     setIsError(err);
-  }, [error]);
+  }, [inputs]);
 
   //submit and go to the next page
   function handleSubmit(text) {
@@ -92,7 +92,7 @@ function AgencyKycForm1({ handleNavigation, handleChange, inputs }) {
   return (
     <form className="kyc--form" onSubmit={(e) => e.preventDefault()}>
       <section className="kyc--hero">
-        <img src="/images/agent_2.jpg" alt="" />
+        <img src="/images/kyc/agent-1.jpg" alt="" />
         <div className="kyc--hero__text-rapper">
           <h2 className="kyc--hero__dark-title">Step-1</h2>
           <p className="kyc--hero__dark-text">
@@ -121,7 +121,7 @@ function AgencyKycForm1({ handleNavigation, handleChange, inputs }) {
                 id="agencyName"
                 label=" Agency Name"
                 placeholder="Your Agency Name..."
-                error={error.name}
+                error={error.agencyName}
                 handleChange={handleChange}
                 showError={showError}
               />
@@ -131,7 +131,7 @@ function AgencyKycForm1({ handleNavigation, handleChange, inputs }) {
                 id="agencyUrl"
                 label=" Agency Url"
                 placeholder="Agency Url..."
-                error={error.url}
+                error={error.agencyUrl}
                 handleChange={handleChange}
                 showError={showError}
               />
@@ -193,7 +193,7 @@ function AgencyKycForm1({ handleNavigation, handleChange, inputs }) {
               ></textarea>
             </div>
 
-            {showError && <p className="error-text bio-error">{error.bio}</p>}
+            {showError && <p className="error-text bio-error">{error.about}</p>}
           </div>
 
           {/* social media section */}

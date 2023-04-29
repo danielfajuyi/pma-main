@@ -1,14 +1,13 @@
 import ListItem from "./ListItem";
 
-function List({ data, currentPage }) {
-  const reversed = [...data].reverse()
+function List({ data, handleProfile, currentPage }) {
   // setting page range
   function pageRange() {
     const pageLimit = 6;
     const rangeStart = (currentPage - 1) * pageLimit;
     const rangeEnd = currentPage * pageLimit;
 
-    return reversed.filter(
+    return data.filter(
       (item, index) => index >= rangeStart && index < rangeEnd && item
     );
   }
@@ -22,7 +21,6 @@ function List({ data, currentPage }) {
         {pageRange().map((item) => (
           <ListItem
             key={item._id}
-            id={item._id}
             uuid={item.uuid}
             img={item.picture}
             fullName={item.fullName}
@@ -31,6 +29,7 @@ function List({ data, currentPage }) {
             state={item.state}
             agency={item.agency}
             country={item.country}
+            handleProfile={() => handleProfile(item.id)}
           />
         ))}
       </div>

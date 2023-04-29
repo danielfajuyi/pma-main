@@ -1,11 +1,11 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import AgencyKycForm1 from "./Agency-Kyc-Form-1";
 import AgencyKycForm2 from "./Agency-Kyc-Form-2";
 import "./Agency-Kyc-Forms.css";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-function AgencyForms() {
+function AgencyForms({ showNavbar, setShowNavbar }) {
   const [activeForm, setActiveForm] = useState(1);
 
   function handleNavigation(text) {
@@ -30,28 +30,33 @@ function AgencyForms() {
     },
     [setInputs]
   );
-  console.log(inputs);
+
+  useEffect(() => {
+    setShowNavbar(false);
+  }, [setShowNavbar]); //--> Hides The Navbar
 
   return (
-    <div style={{ backgroundColor: "white" }}>
-      <ToastContainer />
-      {activeForm === 1 && (
-        <AgencyKycForm1
-          handleNavigation={handleNavigation}
-          handleChange={handleChange}
-          inputs={inputs}
-        />
-      )}
+    !showNavbar && (
+      <div style={{ backgroundColor: "white" }}>
+        <ToastContainer />
+        {activeForm === 1 && (
+          <AgencyKycForm1
+            handleNavigation={handleNavigation}
+            handleChange={handleChange}
+            inputs={inputs}
+          />
+        )}
 
-      {activeForm === 2 && (
-        <AgencyKycForm2
-          handleNavigation={handleNavigation}
-          handleChange={handleChange}
-          inputs={inputs}
-          setInputs={setInputs}
-        />
-      )}
-    </div>
+        {activeForm === 2 && (
+          <AgencyKycForm2
+            handleNavigation={handleNavigation}
+            handleChange={handleChange}
+            inputs={inputs}
+            setInputs={setInputs}
+          />
+        )}
+      </div>
+    )
   );
 }
 

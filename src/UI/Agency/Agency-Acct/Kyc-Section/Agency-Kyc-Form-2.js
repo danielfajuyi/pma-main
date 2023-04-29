@@ -127,7 +127,7 @@ function AgencyKycForm2({ handleNavigation, inputs, setInputs }) {
       <ToastContainer />
 
       <section className="kyc--hero">
-        <img src="/images/agent_3.jpg" alt="" />
+        <img src="/images/kyc/agent-2.jpg" alt="" />
         <div className="kyc--hero__text-rapper">
           <h2 className="kyc--hero__title">Finally</h2>
           <p className="kyc--hero__text">

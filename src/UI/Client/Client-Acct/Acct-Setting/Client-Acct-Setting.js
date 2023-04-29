@@ -7,15 +7,13 @@ import DiscardAlert from "./DiscardAlert";
 import { useCallback, useState } from "react";
 import { navList1, navList2 } from "../utils";
 
-function AcctSetting({ DomItems, handleModal, userData }) {
-  // const { navList1, navList2 } = DomItems[0];
+function AcctSetting({ handleModal, userData, setClientPage }) {
   const [activeSet, setActiveSet] = useState("about");
   const [toggleSetMenu, setToggleSetMenu] = useState(false);
   const [activeEdit, setActiveEdit] = useState("");
 
   const [discardFunc, setDiscardFunc] = useState("");
   const [toggleDiscard, setToggleDiscard] = useState(false);
-
 
   function handleActiveSet(set) {
     setActiveSet(set);
@@ -102,12 +100,16 @@ function AcctSetting({ DomItems, handleModal, userData }) {
                 <li
                   key={item}
                   className="--set-nav_item --colored-hover"
-                  onClick={() => handleActiveSet(item)}
+                  onClick={
+                    item === "dashboard"
+                      ? () => setClientPage(item)
+                      : () => handleActiveSet(item)
+                  }
                   role="button"
                 >
                   {item === "payment" ? (
                     <i className="fa-solid fa-landmark"></i>
-                  ) : item === "dash board" ? (
+                  ) : item === "dashboard" ? (
                     <i className="fa-solid fa-house"></i>
                   ) : null}
                   {item}

@@ -13,7 +13,8 @@ function ListItem({
   agency,
   state,
   country,
-  uuid,id
+  handleProfile,
+  uuid,
 }) {
   return (
     <div className=" modelportfolio__wrapper column">
@@ -76,8 +77,12 @@ function ListItem({
             </div>
 
             <div className="text5 model__viewprofiles">
-              <button type="button" className="viewprofile__btn shadow-fit">
-                <Link to={`/find-model/profile/${uuid? uuid : id}`}>View Portfolio</Link>
+              <button
+                onClick={handleProfile}
+                type="button"
+                className="viewprofile__btn shadow-fit"
+              >
+                <Link to={`/find-model/profile/${uuid}`}>View Portfolio</Link>
               </button>
             </div>
           </div>

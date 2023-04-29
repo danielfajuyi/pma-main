@@ -55,7 +55,9 @@
   background: var(--Light-color);
 }
 .bio--text-area {
+  width: 100%;
   border: none;
+  resize: none;
 }
 
 .bio-error {

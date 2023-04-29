@@ -41,7 +41,11 @@ const DashboardSidebar = (props) => {
   function createLinks(linkList) {
     const list = linkList.map((item) => {
       const navItem = (
-        <li key={item.name} className="nav_link__li">
+        <li
+          key={item.name}
+          className="nav_link__li"
+          onClick={item.func && (() => item.func("setting"))}
+        >
           <NavLink
             to={item.children ? "#" : item.path}
             style={{ color: "white" }}

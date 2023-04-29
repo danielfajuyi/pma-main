@@ -6,14 +6,9 @@ import { info } from "../utils";
 import { storage } from "../../../../firebase";
 import { useSelector } from "react-redux";
 
-function ModelsKycForm1({
-  handleNavigation,
-  inputs,
-  handleChange,
-  setInputs,
-  path,
-}) {
+function ModelsKycForm1({ handleNavigation, inputs, handleChange, setInputs }) {
   const user = useSelector((state) => state.user.currentUser);
+
   const [picture, setPicture] = useState(undefined);
   const [error, setError] = useState({
     username: inputs.username,
@@ -114,8 +109,7 @@ function ModelsKycForm1({
     }
 
     !user.isUpdated && setIsError(err);
-    path === "/agencypage/listing/add" && setIsError(err);
-  }, [error, inputs, picture]);
+  }, [error, inputs, picture, user]);
 
   //submit and go to the next page
   function handleSubmit(text) {
@@ -129,7 +123,7 @@ function ModelsKycForm1({
   return (
     <form className="kyc-form" onSubmit={(e) => e.preventDefault()}>
       <section className="kyc-hero">
-        <img src="/images/kyc (1).jpg" alt="" />
+        <img src="/images/kyc/model-1.jpg" alt="" />
         <div className="kyc-hero__text-rapper">
           <h2 className="kyc1-hero__title dark-text">Step-1</h2>
           <p className="kyc-hero__text dark-text">
@@ -186,47 +180,23 @@ function ModelsKycForm1({
                     return (
                       <li className="kyc1-input-container" key={item.id}>
                         <label className="kyc1-input-label" htmlFor={item.id}>
-                          {item.id !== "fullName" && (
-                            <span className="required-icon_rapper">
-                              {item.label}
-                              {error[name] === "" ? (
-                                <i className="fa-solid fa-circle-check valid-icon"></i>
-                              ) : (
-                                <i className="fa-solid fa-star required-icon"></i>
-                              )}
-                            </span>
-                          )}
-                          {path === "/agencypage/listing/add" &&
-                            item.id === "fullName" && (
-                              <span className="required-icon_rapper">
-                                {item.label}
-                                {error[name] === "" ? (
-                                  <i className="fa-solid fa-circle-check valid-icon"></i>
-                                ) : (
-                                  <i className="fa-solid fa-star required-icon"></i>
-                                )}
-                              </span>
+                          <span className="required-icon_rapper">
+                            {item.label}
+                            {error[name] === "" ? (
+                              <i className="fa-solid fa-circle-check valid-icon"></i>
+                            ) : (
+                              <i className="fa-solid fa-star required-icon"></i>
                             )}
+                          </span>
 
-                          {path === "/agencypage/listing/add" &&
-                            item.id === "fullName" && (
-                              <input
-                                onChange={handleChange}
-                                className="kyc1-input-field"
-                                type={item.type}
-                                id={item.id}
-                                name={item.id}
-                                placeholder={item.placeholder}
-                                required
-                              />
-                            )}
-                          {item.id !== "gender" && item.id !== "fullName" && (
+                          {item.id !== "gender" && (
                             <input
                               onChange={handleChange}
                               className="kyc1-input-field"
                               type={item.type}
                               id={item.id}
                               name={item.id}
+                              // defaultValue={user === item.id}
                               placeholder={item.placeholder}
                               required
                             />

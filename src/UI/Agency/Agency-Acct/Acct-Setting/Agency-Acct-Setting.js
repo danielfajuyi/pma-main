@@ -8,7 +8,7 @@ import { useState } from "react";
 import { navList1, navList2 } from "../utils";
 import { useSelector } from "react-redux";
 
-function AgencyAcctSetting({ DomItems, handleModal, userData }) {
+function AgencyAcctSetting({ handleModal, userData, setAgencyPage }) {
   const user = useSelector((state) => state.user.currentUser);
 
   // const { navList1, navList2 } = DomItems[0];
@@ -105,12 +105,16 @@ function AgencyAcctSetting({ DomItems, handleModal, userData }) {
                   <li
                     key={item}
                     className="set--nav_item colored-hover"
-                    onClick={() => handleActiveSet(item)}
+                    onClick={
+                      item === "dashboard"
+                        ? () => setAgencyPage(item)
+                        : () => handleActiveSet(item)
+                    }
                     role="button"
                   >
                     {item === "payment" ? (
                       <i className="fa-solid fa-landmark"></i>
-                    ) : item === "dash board" ? (
+                    ) : item === "dashboard" ? (
                       <i className="fa-solid fa-house"></i>
                     ) : null}
                     {item}
@@ -139,7 +143,6 @@ function AgencyAcctSetting({ DomItems, handleModal, userData }) {
 
           {activeSet === "about" && (
             <About
-              DomItems={DomItems}
               handleActiveEdit={handleActiveEdit}
               activeEdit={activeEdit}
               user={user}
