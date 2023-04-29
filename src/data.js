@@ -25,8 +25,8 @@ export const links = [
 
   {
     id: 5,
-    name: "Magazine",
-    path: "/magazine",
+    name: "Blog",
+    path: "/blog",
   },
 
   {

@@ -13,7 +13,7 @@ function ModelsKycForm2({
   setCategory,
   category,
   setInterestedJob,
-  interestedJob,
+  interestedJob,path
 }) {
   const user = useSelector((state) => state.user.currentUser);
 
@@ -39,8 +39,6 @@ function ModelsKycForm2({
     skinColor: inputs.skinColor,
     language: inputs.language,
     availableForTravel: inputs.availableForTravel,
-    // facebook: inputs.facebook,
-    // twitter: inputs.twitter,
     instagram: inputs.instagram,
   });
 
@@ -98,14 +96,6 @@ function ModelsKycForm2({
         ? setError((prev) => ({ ...prev, availableForTravel: errorText }))
         : setError((prev) => ({ ...prev, availableForTravel: "" }));
 
-      // !inputs.facebook
-      //   ? setError((prev) => ({ ...prev, facebook: socialErr }))
-      //   : setError((prev) => ({ ...prev, facebook: "" }));
-
-      // !inputs.twitter
-      //   ? setError((prev) => ({ ...prev, twitter: socialErr }))
-      //   : setError((prev) => ({ ...prev, twitter: "" }));
-
       !inputs.instagram
         ? setError((prev) => ({ ...prev, instagram: socialErr }))
         : setError((prev) => ({ ...prev, instagram: "" }));
@@ -153,8 +143,6 @@ function ModelsKycForm2({
       !inputs.skinColor ||
       !inputs.language ||
       !inputs.availableForTravel ||
-      // !inputs.facebook ||
-      // !inputs.twitter ||
       !inputs.instagram
     ) {
       err = true;
@@ -165,8 +153,8 @@ function ModelsKycForm2({
       }
     }
     !user.isUpdated && setIsError(err);
+    path === "/agencypage/listing/add" && setIsError(err);
   }, [error, inputs, user]);
-  console.log(error);
 
   //submit and go to the next page
   function handleSubmit(text) {
@@ -186,7 +174,7 @@ function ModelsKycForm2({
     <form className="kyc-form" onSubmit={(e) => e.preventDefault()}>
       <AlertModal modalTxt={modalTxt} setModalTxt={setModalTxt} />
       <section className="kyc-hero">
-        <img src="/images/kyc/model-2.jpg" alt="" />
+        <img src="/images/kyc (2).jpg" alt="" />
         <div className="kyc-hero__text-rapper">
           <h2 className="kyc-hero__title">Step-2</h2>
           <p className="kyc-hero__text">You Are Almost There!!</p>
