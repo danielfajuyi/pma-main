@@ -152,7 +152,7 @@ function ModelsKycForm3({ handleNavigation, inputs, setInputs, path }) {
       <AlertModal modalTxt={modalTxt} setModalTxt={setModalTxt} />
       <ToastContainer position="top-center" />
       <section className="kyc-hero">
-        <img src="/images/kyc (3).jpg" alt="" />
+        <img src="/images/kyc/model-3.jpg" alt="" />
         <div className="kyc-hero__text-rapper">
           <h2 className="kyc-hero__title">Finally</h2>
           <p className="kyc-hero__text" style={{ color: "#000" }}>

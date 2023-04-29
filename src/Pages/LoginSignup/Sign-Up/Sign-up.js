@@ -1,5 +1,5 @@
 import "./Sign-up.css";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import SignUpForm from "./signUpForm/SignUpForm";
 import { AlertModal } from "./signUpForm/Modal";

@@ -6,13 +6,13 @@ import { BsPatchCheckFill } from "react-icons/bs";
 import { FaEnvelope, FaHome, FaRegStar, FaStar } from "react-icons/fa";
 import { MdLocationPin } from "react-icons/md";
 
-function ModelInfo({ item, handleForm, setEditPortfolio }) {
+function ModelInfo({ item, handleForm, setModelPage }) {
   const user = useSelector((state) => state.user.currentUser);
   const location = useLocation();
   const path = location.pathname.split("/")[3];
 
   const handleEditProfile = () => {
-    setEditPortfolio(true);
+    setModelPage("setting");
   };
 
   return (
