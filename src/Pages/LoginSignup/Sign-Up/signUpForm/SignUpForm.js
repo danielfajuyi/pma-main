@@ -51,7 +51,7 @@ const SignUpForm = ({ activeSignup, setActiveSignup, userRole }) => {
       phone: inputs.mobileNo,
     },
 
-    publicKey: "pk_test_2738ea7b83386afd8897e7092bbe084d785adc92",
+    publicKey: process.env.REACT_APP_PAYSTACK_KEY,
 
     channels: ["card", "bank", "ussd", "qr", "mobile_money", "bank_transfer"],
   };
@@ -67,14 +67,13 @@ const SignUpForm = ({ activeSignup, setActiveSignup, userRole }) => {
 
   const initializePayment = usePaystackPayment(config);
   const handlePayment = () => {
-    const onSuccess = (reference) => {
+    const onSuccess = () => {
       handleInvoice();
-      // console.log(reference);
       setTimeout(() => {
         setModalTxt("confirm-payment");
       }, 2000);
+      window.location.reload();
     };
-
     const onClose = () => {
       setModalTxt("close-payment");
     };
@@ -211,11 +210,16 @@ const SignUpForm = ({ activeSignup, setActiveSignup, userRole }) => {
       { ...inputs, role: userRole },
       setMessage,
       userRole,
-      setModalTxt,
       handlePayment
     );
-    setModalTxt(message);
   };
+  useEffect(() => {
+    let unsubscribed = false;
+    if (!unsubscribed) {
+      setModalTxt(message);
+    }
+    return () => (unsubscribed = true);
+  }, [message]);
 
   return (
     <>
