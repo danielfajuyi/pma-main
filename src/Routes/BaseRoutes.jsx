@@ -15,40 +15,40 @@ import AdminPage from "../UI/Admin-UI/AdminPage/admin_page";
 import AdminDashboard from "../UI/Admin-UI/AdminPage/dashboard/dashboard";
 import AgencyPage from "../UI/Agency/AgencyPage/agency_page";
 import AgencyDashboard from "../UI/Agency/AgencyPage/dashboard/dashboard";
-import ModelPage from "../UI/Model/ModelPage/model_page";
-import ModelDashboard from "../UI/Model/ModelPage/dashboard/dashboard";
-import MyWallet from "../UI/Model/ModelPage/wallet/my_wallet";
-import Review from "../UI/Model/ModelPage/review/review";
-import WriteReview from "../UI/Model/ModelPage/review/write_review";
-import Reviews from "../UI/Model/ModelPage/review/view_reviews";
-import ModelSubscription from "../UI/Model/ModelPage/subscription/subscription";
 import ClientDashboard from "../UI/Client/ClientPage/dashboard/dashboard";
-import {
-  createBrowserRouter,
-  RouterProvider,
-  Navigate,
-  Outlet,
-} from "react-router-dom";
+import { createBrowserRouter, RouterProvider, Navigate, Outlet } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { userLogout } from "../redux/apiCalls";
-import ProfilePage from "../Pages/FindModel/Models-Profile-page/Profile-Page";
-import ModelPortfolio from "../UI/Model/ModelPortfolio/ModelPortfolio";
+
 import ClientProfile from "../UI/Client/ClientProfile/ClientProfile";
 import AcctSetting from "../UI/Client/Client-Acct/Acct-Setting/Client-Acct-Setting";
 import AgencyProfile from "../UI/Agency/AgencyProfile/agency_profile";
 import JobPostForm from "../Pages/JobPost/JobPostForm/JobPostForm";
 import AgencyAcctSetting from "../UI/Agency/Agency-Acct/Acct-Setting/Agency-Acct-Setting";
 import ClientPage from "../UI/Client/ClientPage/client_page";
-import ModelAcctSetting from "../UI/Model/Models-Acct/Acct-Setting/Models-Acct-Setting";
-import ModelsForms from "../UI/Model/Models-Acct/Kyc-Section/Models-Kyc-Forms";
 import AgencyModels from "../UI/Agency/AgencyListing/AgencyModels";
 import Blogs from "../Pages/Blog/Blogs";
 import Single from "../Pages/Blog/Single";
+import Notice from "../Data/Data-db.json";
+
+//importing models components
+import ModelDashboard from "../UI/Model/Models-Acct/Model-Page/dashboard/dashboard";
+import ModelsAcct from "../UI/Model/Models-Acct/Models-Acct";
+import ModelPortfolio from "../UI/Model/ModelPortfolio/ModelPortfolio";
+import ProfilePage from "../Pages/FindModel/Models-Profile-page/Profile-Page";
+import MyWallet from "../UI/Model/Models-Acct/Model-Page/wallet/my_wallet";
+import Review from "../UI/Model/Models-Acct/Model-Page/review/review";
+import WriteReview from "../UI/Model/Models-Acct/Model-Page/review/write_review";
+import Reviews from "../UI/Model/Models-Acct/Model-Page/review/view_reviews";
+import ModelSubscription from "../UI/Model/Models-Acct/Model-Page/subscription/subscription";
+import ModelsForms from "../UI/Model/Models-Acct/Kyc-Section/Models-Kyc-Forms";
 
 export const BaseRoutes = () => {
   const [showNavbar, setShowNavbar] = useState(true);
   const user = useSelector((state) => state.user.currentUser);
   const dispatch = useDispatch();
+
+  const [notice, setNotice] = useState(Notice.notification); //--> notification data state
 
   // automatically logout a user when session expires
   const handleLogout = () => {
@@ -134,9 +134,7 @@ export const BaseRoutes = () => {
         },
         {
           path: "adminpage/",
-          element: (
-            <AdminPage showNavbar={showNavbar} setShowNavbar={setShowNavbar} />
-          ),
+          element: <AdminPage showNavbar={showNavbar} setShowNavbar={setShowNavbar} />,
           children: [
             {
               path: "dashboard",
@@ -148,10 +146,7 @@ export const BaseRoutes = () => {
           path: "agencypage/",
           element: (
             <ProtectedRoute>
-              <AgencyPage
-                showNavbar={showNavbar}
-                setShowNavbar={setShowNavbar}
-              />
+              <AgencyPage showNavbar={showNavbar} setShowNavbar={setShowNavbar} />
             </ProtectedRoute>
           ),
           children: [
@@ -186,9 +181,12 @@ export const BaseRoutes = () => {
           path: "modelpage/",
           element: (
             <ProtectedRoute>
-              <ModelPage
+              <ModelsAcct
+                user={user}
                 showNavbar={showNavbar}
                 setShowNavbar={setShowNavbar}
+                setNotice={setNotice}
+                notice={notice}
               />
             </ProtectedRoute>
           ),
@@ -223,20 +221,13 @@ export const BaseRoutes = () => {
               path: "subscription",
               element: <ModelSubscription />,
             },
-            {
-              path: "settings",
-              element: <ModelAcctSetting />,
-            },
           ],
         },
         {
           path: "clientpage/",
           element: (
             <ProtectedRoute>
-              <ClientPage
-                showNavbar={showNavbar}
-                setShowNavbar={setShowNavbar}
-              />
+              <ClientPage showNavbar={showNavbar} setShowNavbar={setShowNavbar} />
             </ProtectedRoute>
           ),
           children: [
