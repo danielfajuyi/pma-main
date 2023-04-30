@@ -7,15 +7,14 @@ import { Photo, Polaroid } from "../utils";
 import { AlertModal } from "../../../../Pages/LoginSignup/Sign-Up/signUpForm/Modal";
 import { storage } from "../../../../firebase";
 import { useDispatch, useSelector } from "react-redux";
-import { makePost, update } from "../../../../redux/apiCalls";
+import { update } from "../../../../redux/apiCalls";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-function ModelsKycForm3({ handleNavigation, inputs, setInputs, path }) {
+function ModelsKycForm3({ handleNavigation, inputs, setInputs }) {
   const { isFetching } = useSelector((state) => state.user);
   // const user = useSelector((state) => state.user.currentUser);
   const dispatch = useDispatch();
-  // console.log(path)
 
   const [photos, setPhotos] = useState([]);
   const [previewPhotos, setPreviewPhotos] = useState([]);
@@ -123,25 +122,10 @@ function ModelsKycForm3({ handleNavigation, inputs, setInputs, path }) {
     sendCompCard();
   }, [photos, polaroids, photo, polaroid, compCard, setInputs]);
 
-  // handling automatic verification for model registered by an angency
-  useEffect(() => {
-    if (path === "/agencypage/listing/add") {
-      const updateIsVerified = (urlType) => {
-        urlType = "isVerified";
-        setInputs((prev) => {
-          return { ...prev, [urlType]: true };
-        });
-      };
-      updateIsVerified();
-    }
-  }, [path]);
-
   //handling submit
   function handleSubmit(text) {
     if (photos.length < 6) {
       setModalTxt("add-photo");
-    } else if (path === "/agencypage/listing/add") {
-      makePost(dispatch, "/agency/create", { ...inputs }, setInputs);
     } else {
       update(dispatch, "/model/", { ...inputs }, setModalTxt);
     }
@@ -240,7 +224,7 @@ function ModelsKycForm3({ handleNavigation, inputs, setInputs, path }) {
             </ul>
           </div>
 
-          {/* <div className="sections-container">
+          <div className="sections-container">
             <h2 className="sections-title">Comp Card</h2>
             {compCard && (
               <img
@@ -256,7 +240,7 @@ function ModelsKycForm3({ handleNavigation, inputs, setInputs, path }) {
               name="compCard"
               className="colored-hover"
             />
-          </div> */}
+          </div>
 
           <div className="kyc-btn-container">
             <FormNavBtn

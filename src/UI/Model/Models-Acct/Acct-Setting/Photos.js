@@ -396,7 +396,7 @@ function Photos({ handleModal, resetDiscard }) {
           </span>
         </div>
 
-        {/* <div className="set_sections-container ">
+        <div className="set_sections-container ">
           <h2 className="set_sections-title">Comp Card</h2>
           {compCard && (
             <img
@@ -405,6 +405,7 @@ function Photos({ handleModal, resetDiscard }) {
               alt=""
             />
           )}
+          {console.log(compCard)}
           <input
             className="colored-hover"
             onChange={(e) => setCompCard(e.target.files[0])}
@@ -412,7 +413,7 @@ function Photos({ handleModal, resetDiscard }) {
             id=""
             name="card"
           />
-        </div> */}
+        </div>
         {/* button section  */}
 
         <section className="setting_btn-container">
