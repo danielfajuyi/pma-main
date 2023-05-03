@@ -19,7 +19,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { userLogout } from "../redux/apiCalls";
 import Blogs from "../Pages/Blog/Blogs";
 import Single from "../Pages/Blog/Single";
-import Notice from "../Data/Data-db.json";
+import { Notice } from "../Data/Data-db.js";
 
 //importing agency components
 import AgencyAcct from "../UI/Agency/Agency-Acct/Agency-Acct";
