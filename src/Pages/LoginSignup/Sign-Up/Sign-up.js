@@ -2,7 +2,6 @@ import "./Sign-up.css";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import SignUpForm from "./signUpForm/SignUpForm";
-import { AlertModal } from "./signUpForm/Modal";
 
 export const SignupBtn = ({ btnText, setActiveSignup, setUserRole }) => {
   const handleUserRole = () => {
@@ -39,7 +38,6 @@ function SignUp() {
   //Jsx render section
   return (
     <section className="sign-up-container">
-      <AlertModal />
       <section className="sign-up-info">
         <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
           <a href="/" style={{ textAlign: "center" }}>

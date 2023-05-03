@@ -29,7 +29,7 @@ import ClientPage from "../UI/Client/ClientPage/client_page";
 import AgencyModels from "../UI/Agency/AgencyListing/AgencyModels";
 import Blogs from "../Pages/Blog/Blogs";
 import Single from "../Pages/Blog/Single";
-import Notice from "../Data/Data-db.json";
+// import Notice from "../Data/Data-db.json";
 
 //importing models components
 import ModelDashboard from "../UI/Model/Models-Acct/Model-Page/dashboard/dashboard";
@@ -42,6 +42,9 @@ import WriteReview from "../UI/Model/Models-Acct/Model-Page/review/write_review"
 import Reviews from "../UI/Model/Models-Acct/Model-Page/review/view_reviews";
 import ModelSubscription from "../UI/Model/Models-Acct/Model-Page/subscription/subscription";
 import ModelsForms from "../UI/Model/Models-Acct/Kyc-Section/Models-Kyc-Forms";
+import { Notice } from "../data/Data-db";
+import JobNotice from "../UI/Notification/Job-Notice-Items";
+import Chats from "../UI/Inbox/Chats/chats";
 
 export const BaseRoutes = () => {
   const [showNavbar, setShowNavbar] = useState(true);
@@ -152,7 +155,7 @@ export const BaseRoutes = () => {
           children: [
             {
               path: "dashboard",
-              element: <AgencyDashboard />,
+              element: <AgencyDashboard showNavbar={showNavbar} setShowNavbar={setShowNavbar}/>,
             },
             {
               path: "profile",
@@ -220,6 +223,14 @@ export const BaseRoutes = () => {
             {
               path: "subscription",
               element: <ModelSubscription />,
+            },
+            {
+              path: "notification/:id",
+              element: <JobNotice />,
+            },
+            {
+              path: "chat/:id",
+              element: <Chats />,
             },
           ],
         },

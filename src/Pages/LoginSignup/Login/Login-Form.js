@@ -1,8 +1,11 @@
 import "./Login-Form.css";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { loginRegister } from "../../../redux/apiCalls";
+import { login } from "../../../redux/apiCalls";
+import { usePaystackPayment } from "react-paystack";
+import axios from "axios";
+import { AlertModal } from "../Sign-Up/signUpForm/Modal";
 
 function LoginForm() {
   const { isFetching } = useSelector((state) => state.user);
@@ -11,6 +14,8 @@ function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [inputs, setInputs] = useState({});
   const [message, setMessage] = useState("");
+  const [modalTxt, setModalTxt] = useState("");
+  const [user, setUser] = useState({});
 
   const handleChange = (e) => {
     setInputs((prev) => {
@@ -20,20 +25,82 @@ function LoginForm() {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    loginRegister(dispatch, "/auth/login", { ...inputs }, setMessage);
+    login(dispatch, "/auth/login", { ...inputs }, setMessage, setUser);
   };
+
+  //paystack payment config
+  const userRole = user?.userRole;
+  const amount =
+    userRole === "model" ? 2000 : userRole === "agency" ? 49900 : null;
+  const config = {
+    email: inputs.email,
+
+    amount: amount * 100,
+
+    metadata: {
+      name: inputs?.firstName,
+      phone: inputs?.mobileNo,
+    },
+
+    publicKey: process.env.REACT_APP_PAYSTACK_KEY,
+
+    channels: ["card", "bank", "ussd", "qr", "mobile_money", "bank_transfer"],
+  };
+
+  const TOKEN = user?.accessToken;
+  const postRequest = axios.create({
+    baseURL: process.env.REACT_APP_API_URL,
+    headers: { token: `Bearer ${TOKEN}` },
+  });
+
+  const handleInvoice = async () => {
+    try {
+      const res = await postRequest.post("/payment/make-payment", { amount });
+      modalTxt(res.data);
+      alert(res.data);
+    } catch (error) {}
+  };
+
+  const initializePayment = usePaystackPayment(config);
+  const handlePayment = () => {
+    const onSuccess = () => {
+      handleInvoice();
+      setTimeout(() => {
+        setModalTxt("confirm-payment");
+      }, 2000);
+      window.location.reload();
+    };
+    const onClose = () => {
+      setModalTxt("close-payment");
+    };
+    initializePayment(onSuccess, onClose);
+  };
+
+  useEffect(() => {
+    if (user?.userRole) {
+      handlePayment();
+    }
+  }, [user]);
 
   return (
     <section className="login-container">
+      <AlertModal
+        modalTxt={modalTxt}
+        setModalTxt={setModalTxt}
+        message={message}
+      />
+
       <form className="login-form" onSubmit={handleLogin}>
         {/* login title */}
         <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-          <a href="/" style={{textAlign:'center'}}>
+          <a href="/" style={{ textAlign: "center" }}>
             <span className="material-icons">arrow_back</span>
           </a>
           <h2 className="login-title">welcome Back!</h2>
         </div>
-        {message && <p className="login-error">{message}</p>}
+        {message && (
+          <p className="login-error">{!message?.message && message}</p>
+        )}
 
         {/* email input section  */}
         <div className="input-wrapper">

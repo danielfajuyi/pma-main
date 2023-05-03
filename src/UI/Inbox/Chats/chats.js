@@ -1,104 +1,147 @@
 import { BsChevronCompactLeft, BsGear } from "react-icons/bs";
 import "./chats.css";
-
 import { UserChat, PartnerChat } from "./chat-item";
+import { useCallback, useEffect, useState, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { makeGet, makePost } from "../../../redux/apiCalls";
+import { useLocation } from "react-router";
+import moment from "moment";
+import { userRequest } from "../../../redux/requestMethod";
 
 function Chats({ setActive }) {
-  const chat = [
-    {
-      status: "user",
-      avatar: "/images/model (2).jpg",
-      text: "hello Bros",
-      time: "12:00.Am",
-    },
-    {
-      status: "user",
-      avatar: "/images/model (2).jpg",
-      text: "good morning Bro",
-      time: "10:01.Am",
-    },
-    {
-      status: "partner",
-      avatar: "/images/model (4).jpg",
-      text: "hi!",
-      time: "10:02.Am",
-    },
-    {
-      status: "partner",
-      avatar: "/images/model (4).jpg",
-      text: "good morning ",
-      time: "10:03.Am",
-    },
-    {
-      status: "user",
-      avatar: "/images/model (2).jpg",
-      text: "how are you doing? hope you,re doing good?",
-      time: "10:04.Am",
-    },
+  const user = useSelector((state) => state.user.currentUser);
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const path = location.pathname.split("/")[3];
+  const scrollRef = useRef(null);
 
-    {
-      status: "partner",
-      avatar: "/images/model (4).jpg",
-      text: "Am fine thank you.",
-      time: "10:05.Am",
-    },
-    {
-      status: "partner",
-      avatar: "/images/model (4).jpg",
-      text: "how is your side? hope you are ok?",
-      time: "10:06.Am",
-    },
-    {
-      status: "user",
-      avatar: "/images/model (2).jpg",
-      text: "yea... thank God!",
-      time: "10:07.Am",
-    },
-  ];
+  const [messages, setMessages] = useState([]);
+  const [conversation, setConversation] = useState({});
+  const [message, setMessage] = useState("");
+  const [senderItem, setSenderItem] = useState({});
+  const [receiverItem, setReceiverItem] = useState({});
+
+  // get conversation
+  const fetchConversation = useCallback(() => {
+    makeGet(dispatch, `/conversation/conversation/${path}`, setConversation);
+  }, [dispatch]);
+
+  useEffect(() => {
+    let unsubscribe = fetchConversation();
+    return () => unsubscribe;
+  }, []);
+
+  // get messages
+  const fetchMessages = useCallback(() => {
+    makeGet(dispatch, `/conversation/open/${path}`, setMessages);
+  }, [dispatch]);
+
+  useEffect(() => {
+    let unsubscribe = fetchMessages();
+    return () => unsubscribe;
+  }, []);
+
+  // fetch user item
+  const fetchUserItem = useCallback(() => {
+    const conversationId = conversation?.sender;
+    const receiverId = conversation?.receiver;
+    makeGet(dispatch, `/user/${conversationId}`, setSenderItem);
+    makeGet(dispatch, `/user/${receiverId}`, setReceiverItem);
+  }, [dispatch, messages, conversation]);
+
+  useEffect(() => {
+    let unsubscribe = fetchUserItem();
+    return () => unsubscribe;
+  }, [messages, conversation]);
+
+  // send a message
+  const handleSendMessage = async (e) => {
+    e.preventDefault();
+    try {
+      if (message) {
+        await userRequest.post(`/conversation/send/${path}`, { message });
+        fetchMessages();
+        setMessage("");
+      }
+    } catch {}
+  };
+
+  useEffect(() => {
+    if (messages.length > 0) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    }
+  }, [messages]);
 
   return (
-    <>
+    <div
+      ref={scrollRef}
+      style={{ backgroundColor: "white", height: "500px", overflowY: "scroll" }}
+    >
       <div className="chat-nav">
         <BsChevronCompactLeft onClick={() => setActive("message")} />
-        <span className="partner-name">Praise</span>
+        {user._id === conversation?.sender && <span className="partner-name">{receiverItem.firstName}</span>}
+        {user._id === conversation?.receiver && <span className="partner-name">{senderItem.firstName}</span>}
         <BsGear className="chat-set" />
       </div>
       <div className="chat-container">
-        <div className="current-day">Today</div>
+        {/* <div className="current-day">Today</div> */}
+        {messages.length < 1 && (
+          <p
+            style={{
+              fontSize: "2.5em",
+              textAlign: "center",
+              color: "lightgray",
+            }}
+          >
+            Start a new conversation...
+          </p>
+        )}
         <ul className="chat-wrapper">
-          {chat.map((item) =>
-            item.status === "user" ? (
+          {messages.map((item) =>
+            item.sender === user._id ? (
               <UserChat
-                avatar={item.avatar}
-                text={item.text}
-                time={item.time}
+                avatar={senderItem?.picture}
+                text={item.message}
+                time={moment(item.createdAt).format("LLL")}
+                key={item._id}
               />
             ) : (
               <PartnerChat
-                avatar={item.avatar}
-                text={item.text}
-                time={item.time}
+                avatar={receiverItem?.picture}
+                text={item.message}
+                time={moment(item.createdAt).format("LLL")}
+                key={item._id}
               />
             )
           )}
         </ul>
+        <br />
+        <br />
       </div>
-      <div className="chat-text-area">
+
+      <form className="chat-text-area" onSubmit={handleSendMessage}>
         <textarea
           className="chat-area"
-          name="chat"
+          name="message"
           id="chat"
           cols="10"
           rows="2"
-          placeholder="write your message..."
-          spellCheck="false"
-        ></textarea>
+          onChange={(e) => setMessage(e.target.value)}
+          placeholder={
+            conversation?.isClosed
+              ? "This conversation is closed"
+              : "write your message..."
+          }
+          // spellCheck="false"
+          disabled={conversation?.isClosed}
+          value={message}
+        />
 
-        <div className="chat-sent-icon">
-          <i class="fa-sharp fa-solid fa-paper-plane"></i>
-        </div>
-      </div>
-    </>
+        <button className="chat-sent-icon">
+          <i className="fa-sharp fa-solid fa-paper-plane"></i>
+        </button>
+      </form>
+    </div>
   );
 }
 export default Chats;

@@ -17,12 +17,12 @@ import { makeGet } from "../../../../redux/apiCalls";
 import AgencyForms from "../../Agency-Acct/Kyc-Section/Agency-Kyc-Forms";
 import { Link } from "react-router-dom";
 
-const AgencyDashboard = () => {
+const AgencyDashboard = ({ showNavbar, setShowNavbar }) => {
   const user = useSelector((state) => state.user.currentUser);
-  
+
   const [message, setMessage] = useState([]);
   const dispatch = useDispatch();
-  
+
   useEffect(() => {
     let unsubscribed = false;
     if (!unsubscribed) {
@@ -130,7 +130,9 @@ const AgencyDashboard = () => {
   return (
     <FadeIn>
       <div id="agency_dashboard">
-        {!user.isUpdated && <AgencyForms />}
+        {!user.isUpdated && (
+          <AgencyForms showNavbar={showNavbar} setShowNavbar={setShowNavbar} />
+        )}
         {/* GRID  --> [START]*/}
         {user.isUpdated && (
           <div id="pane">
@@ -180,11 +182,11 @@ const AgencyDashboard = () => {
                     {user?.username ? `@${user.username}` : "@username"}
                   </div> */}
                 </div>
-                <Link to='/agencypage/settings'>
-                <button>
-                  <MdEdit size={14} />
-                  <span>Edit Portfolio</span>
-                </button>
+                <Link to="/agencypage/settings">
+                  <button>
+                    <MdEdit size={14} />
+                    <span>Edit Portfolio</span>
+                  </button>
                 </Link>
               </div>
               <div id="follow">
