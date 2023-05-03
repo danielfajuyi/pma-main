@@ -88,24 +88,37 @@
 }
 .chat-text-area {
   position: fixed;
-  width: 100%;
+  width: 85%;
   bottom: 0px;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-evenly;
   align-items: center;
   background: rgb(214, 213, 213);
   color: #333;
   padding: 1rem;
+  padding-right: 2em;
 }
 .chat-sent-icon {
   font-size: 1.8rem;
   color: var(--Colored-color);
   cursor: pointer;
+  background-color: transparent;
+  border: none;
 }
+
+@media screen and (max-width: 1050px) {
+  .chat-text-area {
+    width: 100%;
+  }
+}
+
 @media screen and (min-width: 768px) {
   .chat-container {
     padding: 2rem;
     padding-bottom: 3.5rem;
+  }
+  .chat-text-area {
+    padding-right: 0;
   }
   .chat-nav {
     font-size: 3rem;

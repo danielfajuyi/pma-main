@@ -160,7 +160,7 @@ export const BaseRoutes = () => {
           children: [
             {
               path: "dashboard",
-              element: <AgencyDashboard />,
+              element: <AgencyDashboard showNavbar={showNavbar} setShowNavbar={setShowNavbar} />,
             },
             {
               path: "profile",
@@ -225,6 +225,14 @@ export const BaseRoutes = () => {
               path: "subscription",
               element: <ModelSubscription />,
             },
+            // {
+            //   path: "notification/:id",
+            //   element: <JobNotice />,
+            // },
+            // {
+            //   path: "chat/:id",
+            //   element: <Chats />,
+            // },
           ],
         },
         {

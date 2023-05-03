@@ -1,61 +1,51 @@
 import "./Notification.css";
 import NoticeItem from "./notice-item";
 import JobItem from "./Job-Notice";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import DeleteWarning from "./Notice-Delete-warning";
+import { useDispatch, useSelector } from "react-redux";
+import { makeGet } from "../../redux/apiCalls";
+import { userRequest } from "../../redux/requestMethod";
+import { notificationChange } from "../../redux/notificationRedux";
 
 function Notification({ toggleNotice, setToggleNotice, setNotice, notice }) {
+  const user = useSelector((state) => state.user.currentUser);
+  const dispatch = useDispatch();
+
   const [toggleDelete, setToggleDelete] = useState("");
   const [deleteId, setDeleteId] = useState("");
+  const [notifications, setNotifications] = useState([]);
 
-  function handleDelete(id) {
+  const fetchNotifications = useCallback(() => {
+    makeGet(dispatch, `/notification/${user._id}`, setNotifications);
+  }, [dispatch]);
+
+  useEffect(() => {
+    let unsubscribe = fetchNotifications();
+    return () => unsubscribe;
+  }, []);
+
+  useEffect(() => {
+    const notRead = notifications.filter((item) => !item.isRead);
+    dispatch(notificationChange(notRead?.length));
+  }, [notifications]);
+
+  const reversed = [...notifications].reverse();
+
+  const handleDelete = async () => {
+    try {
+      await userRequest.delete(`/notification/delete/${deleteId}`);
+      fetchNotifications();
+      setToggleDelete("");
+    } catch (error) {
+      setToggleDelete("error");
+    }
+  };
+
+  const deleteNotice = (id) => {
     setToggleDelete((prev) => (id === "" ? "" : "warning"));
     setDeleteId(id);
-  }
-
-  function deleteNotice() {
-    notice.map((item) => {
-      if (item.id === deleteId) {
-        if (
-          item.type === "job request" &&
-          item.status !== "pending" &&
-          item.status !== "read"
-        ) {
-          setNotice((prevNotice) =>
-            prevNotice.filter((item) => item.id !== deleteId && item)
-          );
-          setToggleDelete("");
-          setDeleteId("");
-        } else if (item.type !== "job request" && item.status !== "pending") {
-          setNotice((prevNotice) =>
-            prevNotice.filter((item) => item.id !== deleteId && item)
-          );
-          setToggleDelete("");
-          setDeleteId("");
-        } else {
-          setToggleDelete("error");
-        }
-      }
-      return item;
-    });
-  }
-
-  function handleStatus(id) {
-    setNotice((prevNotice) =>
-      prevNotice.map((item) => {
-        let newStatus = item;
-        if (newStatus.id === id) {
-          if (
-            newStatus.status === "not-read" ||
-            newStatus.status === "pending"
-          ) {
-            newStatus.status = "read";
-          }
-        }
-        return newStatus;
-      })
-    );
-  }
+  };
 
   return (
     <div
@@ -74,29 +64,16 @@ function Notification({ toggleNotice, setToggleNotice, setNotice, notice }) {
         <ul className="noti-wrapper">
           {/* list of notifications */}
 
-          {notice.length === 0 ? (
+          {notice?.length === 0 ? (
             <li className="no-noti">No Notification!</li>
           ) : (
-            notice.map((item) =>
-              item.type === "job request" ||
-              item.type === "accepted request" ||
-              item.type === "declined request" ? (
-                <JobItem
-                  key={item.id}
-                  item={item}
-                  setNotice={setNotice}
-                  handleDelete={() => handleDelete(item.id)}
-                  handleStatus={() => handleStatus(item.id)}
-                />
-              ) : (
-                <NoticeItem
-                  key={item.id}
-                  item={item}
-                  handleStatus={() => handleStatus(item.id)}
-                  handleDelete={() => handleDelete(item.id)}
-                />
-              )
-            )
+            reversed?.map((item, index) => (
+              <NoticeItem
+                key={index}
+                item={item}
+                deleteNotice={() => deleteNotice(item._id)}
+              />
+            ))
           )}
 
           <li
@@ -105,15 +82,15 @@ function Notification({ toggleNotice, setToggleNotice, setNotice, notice }) {
             <DeleteWarning
               title="Delete?"
               text="Are you sure you want delete this notification?"
-              deleteNotice={deleteNotice}
+              setToggleDelete={setToggleDelete}
               handleDelete={handleDelete}
             />
           </li>
           <li style={{ display: toggleDelete === "error" ? "block" : "none" }}>
             <DeleteWarning
               title="Error!"
-              text=" Accept or Decline this job request before carrying out this action"
-              handleDelete={handleDelete}
+              text=" Accept or decline job request before you proceed with this action"
+              setToggleDelete={setToggleDelete}
             />
           </li>
         </ul>

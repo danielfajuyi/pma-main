@@ -6,6 +6,8 @@ const forgetPassword = user && JSON.parse(user).forgetPassword;
 const TOKEN = currentUser?.accessToken;
 const FORGOTTOKEN = forgetPassword?.forgotToken;
 
+export const baseURL = process.env.REACT_APP_API_URL
+
 export const userRequest = axios.create({
   baseURL: process.env.REACT_APP_API_URL,
   headers: { token: `Bearer ${TOKEN}` },

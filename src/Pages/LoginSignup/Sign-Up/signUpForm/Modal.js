@@ -1,6 +1,7 @@
-export const AlertBox = ({ title, note, icon, setModalTxt }) => {
+export const AlertBox = ({ title, note, icon, setModalTxt, setMessage }) => {
   const handleModalTxt = () => {
     setModalTxt((prev) => !prev);
+    setMessage("");
   };
 
   return (
@@ -28,7 +29,6 @@ export const AlertBox = ({ title, note, icon, setModalTxt }) => {
 export const AlertBox2 = ({ title, note, icon, setModalTxt }) => {
   const handleModalTxt = () => {
     setModalTxt((prev) => !prev);
-    // window.location.reload();
   };
 
   return (
@@ -53,7 +53,48 @@ export const AlertBox2 = ({ title, note, icon, setModalTxt }) => {
   );
 };
 
-export const AlertModal = ({ modalTxt, setModalTxt, userRole, message }) => {
+export const GeneralAlertBox = ({
+  title,
+  note,
+  icon,
+  setModalTxt,
+  setMessage,
+}) => {
+  const handleModalTxt = () => {
+    setModalTxt((prev) => !prev);
+    setMessage("");
+  };
+
+  return (
+    <div className="alert-box">
+      <h2 className="alert-title">
+        {title}
+        {icon && <i className="fa-solid fa-circle-check success-icon"></i>}
+      </h2>
+      <p className="alert-text">
+        {/* {<span className="bold-text colored-text">Note: </span>} */}
+        {note}
+      </p>
+      <div className="alert-btn">
+        <button
+          onClick={handleModalTxt}
+          className="del-alert-btn bold-text yes-btn"
+        >
+          Got it
+        </button>
+      </div>
+    </div>
+  );
+};
+
+export const AlertModal = ({
+  modalTxt,
+  setModalTxt,
+  userRole,
+  message,
+  setMessage,
+  note,
+}) => {
   /* modal section */
   return (
     <section
@@ -113,6 +154,7 @@ export const AlertModal = ({ modalTxt, setModalTxt, userRole, message }) => {
           note="User with that email address already exists, kindly try another email address"
           icon={false}
           setModalTxt={setModalTxt}
+          setMessage={setMessage}
         />
       )}
 
@@ -121,7 +163,7 @@ export const AlertModal = ({ modalTxt, setModalTxt, userRole, message }) => {
           title={modalTxt}
           note={
             userRole === "client"
-              ? "Continue to your account"
+              ? "Proceed to login into your account"
               : "Continue to make your payment"
           }
           icon={true}
@@ -202,13 +244,22 @@ export const AlertModal = ({ modalTxt, setModalTxt, userRole, message }) => {
       )}
 
       {/* job interest modal text */}
-
       {modalTxt === "job" && (
         <AlertBox
           title="Choose the type of job you will be interest in!"
           note="You can make as many choices as you can from the list of job."
           icon={false}
           setModalTxt={setModalTxt}
+        />
+      )}
+
+      {/* general alert box */}
+      {modalTxt === "general" && (
+        <GeneralAlertBox
+          note={note}
+          icon={false}
+          setModalTxt={setModalTxt}
+          setMessage={setMessage}
         />
       )}
     </section>
