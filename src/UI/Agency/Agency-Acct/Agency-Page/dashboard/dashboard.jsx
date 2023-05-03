@@ -191,29 +191,15 @@ const AgencyDashboard = () => {
               </div>
               <div id="follow">
                 <span>
-                  Following{" "}
-                  {user?.agency?.followings.length < 1
-                    ? 0
-                    : user?.agency?.followings}
+                  Following {user?.agency?.followings.length < 1 ? 0 : user?.agency?.followings}
                 </span>
                 <span>
-                  Followers{" "}
-                  {user?.agency?.followers.length < 1
-                    ? 0
-                    : user?.agency?.followers}
+                  Followers {user?.agency?.followers.length < 1 ? 0 : user?.agency?.followers}
                 </span>
               </div>
               <div id="top_models">
-                <TopModelHighlight
-                  img={profileImg}
-                  name="Emilly Okoro"
-                  views="13.6k"
-                />
-                <TopModelHighlight
-                  img={profileImg}
-                  name="Ikegwuru Ndiuwa"
-                  views="12.4k"
-                />
+                <TopModelHighlight img={profileImg} name="Emilly Okoro" views="13.6k" />
+                <TopModelHighlight img={profileImg} name="Ikegwuru Ndiuwa" views="12.4k" />
               </div>
             </div>
             {/* PROFILE PANEL <-- [END] */}

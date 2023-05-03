@@ -13,7 +13,7 @@ function AgencyAcct({ showNavbar, setShowNavbar, user, setNotice, notice }) {
 
   return (
     <>
-      {/* {!user?.isUpdated ? (
+      {!user?.isUpdated ? (
         <AgencyForms showNavbar={showNavbar} setShowNavbar={setShowNavbar} />
       ) : (
         <>
@@ -31,15 +31,21 @@ function AgencyAcct({ showNavbar, setShowNavbar, user, setNotice, notice }) {
               setShowNavbar={setShowNavbar}
               setAgencyPage={setAgencyPage}
             />
+          ) : agencyPage === "add-model" ? (
+            <ModelsForms
+              showNavbar={showNavbar}
+              setShowNavbar={setShowNavbar}
+              setAgencyPage={setAgencyPage}
+            />
           ) : agencyPage === "inbox" ? (
             <Inbox setPage={setAgencyPage} />
           ) : null}
         </>
-      )} */}
+      )}
 
       {/*---> this is used for testing  */}
 
-      <>
+      {/* <>
         {agencyPage === "dashboard" ? (
           <AgencyPage
             showNavbar={showNavbar}
@@ -63,7 +69,7 @@ function AgencyAcct({ showNavbar, setShowNavbar, user, setNotice, notice }) {
         ) : agencyPage === "inbox" ? (
           <Inbox setPage={setAgencyPage} />
         ) : null}
-      </>
+      </> */}
     </>
   );
 }
