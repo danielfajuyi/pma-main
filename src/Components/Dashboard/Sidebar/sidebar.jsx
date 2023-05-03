@@ -26,11 +26,7 @@ const DashboardSidebar = (props) => {
     els.forEach((el) => {
       if (
         loc.pathname.includes(
-          el.childNodes[0].childNodes[1].textContent
-            .toLowerCase()
-            .trim()
-            .split(" ")
-            .join("")
+          el.childNodes[0].childNodes[1].textContent.toLowerCase().trim().split(" ").join("")
         )
       ) {
         el.childNodes[0].classList.add("active");
@@ -44,8 +40,7 @@ const DashboardSidebar = (props) => {
         <li
           key={item.name}
           className="nav_link__li"
-          onClick={item.func && (() => item.func("setting"))}
-        >
+          onClick={item.func && (() => item.func("setting"))}>
           <NavLink
             to={item.children ? "#" : item.path}
             style={{ color: "white" }}
@@ -56,36 +51,28 @@ const DashboardSidebar = (props) => {
               const els = Array.from(ulRef.current.childNodes);
               els.forEach((el) => {
                 const link = el.childNodes[0];
-                if (
-                  e.currentTarget.childNodes[1].textContent ===
-                  link.childNodes[1].textContent
-                )
+                if (e.currentTarget.childNodes[1].textContent === link.childNodes[1].textContent)
                   link.classList.add("active");
                 else link.classList.remove("active");
                 if (item.name === "Log out") {
                   handleLogout();
                 }
               });
-            }}
-          >
+            }}>
             {item.icon}
             <span>{item.name}</span>
           </NavLink>
-          <ul
-            className="sublink_list"
-            style={{ marginBottom: item.children ? ".5em" : "0" }}
-          >
+          <ul className="sublink_list" style={{ marginBottom: item.children ? ".5em" : "0" }}>
             {item.children &&
               item.children.map((child) => (
                 <li
                   key={child.name}
                   className="sublink"
                   onClick={(e) => {
-                    e.currentTarget.parentElement.previousElementSibling.classList.add(
-                      "active"
-                    );
-                  }}
-                >
+                    e.currentTarget.parentElement.previousElementSibling.classList.add("active");
+
+                    child.func && child.func("add-model");
+                  }}>
                   <NavLink to={child.path} end={true}>
                     {child.name}
                   </NavLink>
@@ -104,11 +91,7 @@ const DashboardSidebar = (props) => {
     <nav id="dashboard_sidebar">
       <div id="logo_holder">
         <img src={logo} alt="Premium Model" />
-        <FaBars
-          id="bars"
-          size={26}
-          onClick={() => props.setSidebarVisibility(false)}
-        />
+        <FaBars id="bars" size={26} onClick={() => props.setSidebarVisibility(false)} />
       </div>
       <ul id="nav_list" ref={ulRef}>
         {topList}
