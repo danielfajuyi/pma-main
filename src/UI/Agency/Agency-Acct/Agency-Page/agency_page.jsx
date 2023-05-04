@@ -34,13 +34,7 @@ import { motion } from "framer-motion";
 //--> importing notification component
 import Notification from "../../../Notification/Notification";
 
-const AgencyPage = ({
-  showNavbar,
-  setShowNavbar,
-  setAgencyPage,
-  setNotice,
-  notice,
-}) => {
+const AgencyPage = ({ showNavbar, setShowNavbar, setAgencyPage, setNotice, notice }) => {
   // Using Hooks  --> [START]
   const [toggleNotice, setToggleNotice] = useState(false); //--> toggle Notification open or close
 
@@ -70,7 +64,7 @@ const AgencyPage = ({
       name: "Listing",
       icon: <IoListOutline />,
       children: [
-        { name: "Add model", path: "listing/add" },
+        { name: "Add model", func: setAgencyPage },
         { name: "Manage models", path: "listing/manage" },
       ],
     },

@@ -1,4 +1,4 @@
-import "../AgencyPage/dashboard/dashboard.scss";
+import "../Agency-Acct/Agency-Page/dashboard/dashboard.scss";
 import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { makeGet } from "../../../redux/apiCalls";
@@ -30,7 +30,14 @@ const AgencyModels = () => {
             <header>
               <h4>Our Models</h4>
             </header>
-            <div id="body" style={{overflow: 'hidden', flexWrap: 'wrap', alignItems: 'center', justifyContent:'center'}}>
+            <div
+              id="body"
+              style={{
+                overflow: "hidden",
+                flexWrap: "wrap",
+                alignItems: "center",
+                justifyContent: "center",
+              }}>
               {message?.map((item) => (
                 <ModelCard model={item} id={item?._id} />
               ))}

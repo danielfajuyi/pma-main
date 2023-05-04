@@ -1,4 +1,4 @@
- export const Notice ={
+{
   "notification": [
     {
       "id": 1,

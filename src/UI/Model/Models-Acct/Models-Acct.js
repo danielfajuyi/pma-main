@@ -12,7 +12,7 @@ function ModelsAcct({ showNavbar, setShowNavbar, user, setNotice, notice }) {
 
   return (
     <>
-      {!user?.isUpdated ? (
+      {/* {!user?.isUpdated ? (
         <ModelsForms showNavbar={showNavbar} setShowNavbar={setShowNavbar} />
       ) : (
         <>
@@ -34,7 +34,29 @@ function ModelsAcct({ showNavbar, setShowNavbar, user, setNotice, notice }) {
             <Inbox setPage={setModelPage} />
           ) : null}
         </>
-      )}
+      )} */}
+
+      {/*---> this is used for testing  */}
+
+      <>
+        {modelPage === "dashboard" ? (
+          <ModelPage
+            showNavbar={showNavbar}
+            setShowNavbar={setShowNavbar}
+            setModelPage={setModelPage}
+            setNotice={setNotice}
+            notice={notice}
+          />
+        ) : modelPage === "setting" ? (
+          <AcctSetting
+            showNavbar={showNavbar}
+            setShowNavbar={setShowNavbar}
+            setModelPage={setModelPage}
+          />
+        ) : modelPage === "inbox" ? (
+          <Inbox setPage={setModelPage} />
+        ) : null}
+      </>
     </>
   );
 }

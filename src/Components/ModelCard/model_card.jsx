@@ -12,9 +12,7 @@ const ModelCard = (props) => {
     <div id="model_card" style={{ height: props.ch }} key={props.id}>
       <div id="img_holder">
         <img
-          src={
-            props?.model?.picture ? props?.model?.picture : "/images/avatar.jpg"
-          }
+          src={props?.model?.picture ? props?.model?.picture : "/images/avatar.jpg"}
           alt="proilepic"
         />
       </div>
