@@ -53,9 +53,9 @@ function ClientsAcct({ showNavbar, setShowNavbar, user, setNotice, notice }) {
             setShowNavbar={setShowNavbar}
             setClientPage={setClientPage}
           />
-      ) : clientPage === "inbox" ? (
-        <Inbox setPage={setClientPage} />
-          ) : null}
+        ) : clientPage === "inbox" ? (
+          <Inbox setPage={setClientPage} />
+        ) : null}
       </> */}
     </>
   );

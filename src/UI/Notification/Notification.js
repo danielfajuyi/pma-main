@@ -48,37 +48,27 @@ function Notification({ toggleNotice, setToggleNotice, setNotice, notice }) {
   };
 
   return (
-    <div
-      style={{ transform: toggleNotice && `translateX(${0}%)` }}
-      className="noti-container"
-    >
+    <div style={{ transform: toggleNotice && `translateX(${0}%)` }} className="noti-container">
       <div className="notification">
         <div className="noti-top-text">
           <h3>Notifications</h3>
           <i
             onClick={() => setToggleNotice((prev) => !prev)}
-            className="fa-solid fa-xmark noti-close colored-hover"
-          ></i>
+            className="fa-solid fa-xmark noti-close colored-hover"></i>
         </div>
 
         <ul className="noti-wrapper">
           {/* list of notifications */}
 
-          {notice?.length === 0 ? (
+          {notifications?.length === 0 ? (
             <li className="no-noti">No Notification!</li>
           ) : (
             reversed?.map((item, index) => (
-              <NoticeItem
-                key={index}
-                item={item}
-                deleteNotice={() => deleteNotice(item._id)}
-              />
+              <NoticeItem key={index} item={item} deleteNotice={() => deleteNotice(item._id)} />
             ))
           )}
 
-          <li
-            style={{ display: toggleDelete === "warning" ? "block" : "none" }}
-          >
+          <li style={{ display: toggleDelete === "warning" ? "block" : "none" }}>
             <DeleteWarning
               title="Delete?"
               text="Are you sure you want delete this notification?"
