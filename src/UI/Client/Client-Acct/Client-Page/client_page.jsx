@@ -72,6 +72,7 @@ const ClientPage = ({
     { name: "Profile", icon: <CgUserList />, path: "profile/" + user._id },
     { name: "Post Job", icon: <MdOutlinePostAdd />, path: "post-a-job" },
     { name: "Find Models", icon: <RiUserSearchLine />, path: "/find-model" },
+    { name: "Wallet", icon: <RiUserSearchLine />, path: "wallet" },
     {
       name: "Review",
       icon: <MdOutlineReviews />,

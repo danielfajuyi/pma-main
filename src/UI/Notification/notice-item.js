@@ -1,8 +1,16 @@
+import { useDispatch, useSelector } from "react-redux";
+
 function NoticeItem({ item, deleteNotice }) {
+  const user = useSelector((state) => state.user.currentUser);
+
   return (
     <li className="noti">
       <a
-        href={`/modelpage/notification/${item._id}`}
+        href={ user.role === "model"
+          ? `/modelpage/notification/${item._id}`
+          : user.role === "agency"
+          ? `/agencypage/notification/${item._id}`
+          : `/clientpage/notification/${item._id}`}
         style={{ display: "flex", alignItems: "center", gap: "10px" }}
       >
         <div>

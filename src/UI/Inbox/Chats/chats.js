@@ -20,6 +20,7 @@ function Chats({ setActive }) {
   const [message, setMessage] = useState("");
   const [senderItem, setSenderItem] = useState({});
   const [receiverItem, setReceiverItem] = useState({});
+  console.log(senderItem)
 
   // get conversation
   const fetchConversation = useCallback(() => {

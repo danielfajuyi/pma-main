@@ -172,7 +172,7 @@ const AgencyDashboard = () => {
               </div>
               <div id="profile">
                 <div id="img_holder">
-                  <img src={user?.agency?.photo} alt="profile-pic" />
+                  <img src={user?.agency?.picture} alt="profile-pic" />
                 </div>
                 <div>
                   <div id="name">

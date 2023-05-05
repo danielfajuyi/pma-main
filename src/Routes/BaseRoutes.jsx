@@ -43,6 +43,9 @@ import ModelSubscription from "../UI/Model/Models-Acct/Model-Page/subscription/s
 import ClientDashboard from "../UI/Client/Client-Acct/Client-Page/dashboard/dashboard";
 import ClientsAcct from "../UI/Client/Client-Acct/Client-Acct";
 import ClientProfile from "../UI/Client/ClientProfile/ClientProfile";
+import Chats from "../UI/Inbox/Chats/chats";
+import JobNotice from "../UI/Notification/Job-Notice-Items";
+import Wallet from "../Pages/wallet/Wallet"
 
 export const BaseRoutes = () => {
   const [showNavbar, setShowNavbar] = useState(true);
@@ -179,6 +182,14 @@ export const BaseRoutes = () => {
                 },
               ],
             },
+            {
+              path: "chat/:id",
+              element: <Chats />,
+            },
+            {
+              path: "notification/:id",
+              element: <JobNotice />,
+            },
           ],
         },
         {
@@ -225,14 +236,14 @@ export const BaseRoutes = () => {
               path: "subscription",
               element: <ModelSubscription />,
             },
-            // {
-            //   path: "notification/:id",
-            //   element: <JobNotice />,
-            // },
-            // {
-            //   path: "chat/:id",
-            //   element: <Chats />,
-            // },
+            {
+              path: "notification/:id",
+              element: <JobNotice />,
+            },
+            {
+              path: "chat/:id",
+              element: <Chats />,
+            },
           ],
         },
         {
@@ -286,6 +297,18 @@ export const BaseRoutes = () => {
             {
               path: "subscription",
               element: <ModelSubscription />,
+            },
+            {
+              path: "chat/:id",
+              element: <Chats />,
+            },
+            {
+              path: "notification/:id",
+              element: <JobNotice />,
+            },
+            {
+              path: "wallet",
+              element: <Wallet />,
             },
           ],
         },

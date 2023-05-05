@@ -19,7 +19,16 @@ function MsgItem({ item, setActive }) {
   }, []);
 
   return (
-    <a href={`/modelpage/chat/${item._id}`} className="message">
+    <a
+      href={
+        user.role === "model"
+          ? `/modelpage/chat/${item._id}`
+          : user.role === "agency"
+          ? `/agencypage/chat/${item._id}`
+          : `/clientpage/chat/${item._id}`
+      }
+      className="message"
+    >
       {/* <li onClick={() => setActive("chat")}> */}
       <div>
         <img className="msg-avater" src={conversation?.picture} alt="" />
@@ -33,7 +42,12 @@ function MsgItem({ item, setActive }) {
           className="msg-text"
           style={{
             fontSize: "12px",
-            color: item?.isRead ? "lightgray" : "ff007a",
+            color:
+              user._id === item.sender && item.isSenderRead
+                ? "lightgray"
+                : user._id === item.receiver && item.isReceiverRead
+                ? "lightgray"
+                : "ff007a",
           }}
         >
           {item?.lastMessage

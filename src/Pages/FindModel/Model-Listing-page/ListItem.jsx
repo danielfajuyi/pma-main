@@ -4,6 +4,7 @@ import { BsPatchCheckFill } from "react-icons/bs";
 import { MdLocationPin } from "react-icons/md";
 import { BiCategoryAlt } from "react-icons/bi";
 import "./Items.css";
+import { useSelector } from "react-redux";
 
 function ListItem({
   img,
@@ -13,8 +14,11 @@ function ListItem({
   agency,
   state,
   country,
-  uuid,id
+  uuid,
+  id,
 }) {
+  const user = useSelector((state) => state.user.currentUser);
+
   return (
     <div className=" modelportfolio__wrapper column">
       <div className=" single-card single-property">
@@ -77,7 +81,16 @@ function ListItem({
 
             <div className="text5 model__viewprofiles">
               <button type="button" className="viewprofile__btn shadow-fit">
-                <Link to={`/find-model/profile/${uuid? uuid : id}`}>View Portfolio</Link>
+                <Link
+                  to={user && `/find-model/profile/${uuid ? uuid : id}`}
+                  onClick={() => {
+                    if (!user) {
+                      alert("Please login to view model's portfolio");
+                    }
+                  }}
+                >
+                  View Portfolio
+                </Link>
               </button>
             </div>
           </div>

@@ -67,7 +67,7 @@ const AgencyProfile = ({ showNavbar, setShowNavbar }) => {
       <div id="agency_profile">
         <div id="hero">
           <div id="image_holder">
-            <img src={profileImg} alt="profile-img" />
+            <img src={user?.picture ? user?.picture : "./images/avatar2.png"} alt="profile-img" />
           </div>
           <nav id="navbar">
             <span id="left">
