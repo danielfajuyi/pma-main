@@ -5,14 +5,14 @@ import { GoVerified, GoStar } from "react-icons/go";
 import { IconContext } from "react-icons";
 import { motion } from "framer-motion";
 
-const ModelCard = (props) => {
-  const uuid = props?.model?._id;
+const ModelCard = ({model}) => {
+  const uuid = model?._id;
 
   return (
-    <div id="model_card" style={{ height: props.ch }} key={props.id}>
+    <div id="model_card" style={{ }}>
       <div id="img_holder">
         <img
-          src={props?.model?.picture ? props?.model?.picture : "/images/avatar.jpg"}
+          src={model?.picture ? model?.picture : "/images/avatar.jpg"}
           alt="proilepic"
         />
       </div>
@@ -20,8 +20,8 @@ const ModelCard = (props) => {
       <motion.div id="card_body">
         <div id="title">MODEL</div>
         <div>
-          <span id="name">{props?.model?.fullName}</span>
-          {props?.model?.isVerified && <GoVerified color="green" size={14} />}
+          <span id="name">{model?.fullName}</span>
+          {model?.isVerified && <GoVerified color="green" size={14} />}
         </div>
         <div id="rating">
           <IconContext.Provider value={{ size: 18, color: "seagreen" }}>
@@ -33,13 +33,13 @@ const ModelCard = (props) => {
           </IconContext.Provider>
         </div>
         <div id="categories">
-          {props?.model?.category[0]}, {props?.model?.category[1]}
+          {model?.category[0]}, {model?.category[1]}
         </div>
         <div id="address">
           <FaMapMarkerAlt size={12} />
-          {props?.model?.country && (
+          {model?.country && (
             <span>
-              {props?.model?.state}, {props?.model?.country}
+              {model?.state}, {model?.country}
             </span>
           )}
         </div>

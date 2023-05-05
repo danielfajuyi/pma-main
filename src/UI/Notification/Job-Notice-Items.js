@@ -85,21 +85,25 @@ function JobNotice({ setToggle }) {
             </div>
           )}
 
-          <div>
-            <p className="job-item-label">Job Description:</p>
-            <p className="noti-job-description">
-              {notification?.notification?.jobDescription}
-            </p>
-          </div>
+          {notification?.notification && (
+            <div>
+              <p className="job-item-label">Job Description:</p>
+              <p className="noti-job-description">
+                {notification?.notification?.jobDescription}
+              </p>
+            </div>
+          )}
 
-          <div className="noti-job-btn">
-            <button onClick={handleAcceptRequest} className="accept-btn">
-              Accept
-            </button>
-            <button onClick={handleDeclineRequest} className="decline-btn">
-              Decline
-            </button>
-          </div>
+          {notification?.notification && (
+            <div className="noti-job-btn">
+              <button onClick={handleAcceptRequest} className="accept-btn">
+                Accept
+              </button>
+              <button onClick={handleDeclineRequest} className="decline-btn">
+                Decline
+              </button>
+            </div>
+          )}
         </>
       )}
 
