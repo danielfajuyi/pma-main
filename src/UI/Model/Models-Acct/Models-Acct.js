@@ -3,16 +3,20 @@ import "./Models-Acct.css";
 import ModelPage from "../Models-Acct/Model-Page/model_page";
 import AcctSetting from "./Acct-Setting/Models-Acct-Setting";
 import ModelsForms from "./Kyc-Section/Models-Kyc-Forms";
-import { useState } from "react";
-
 import Inbox from "../../Inbox/Inbox";
 
-function ModelsAcct({ showNavbar, setShowNavbar, user, setNotice, notice }) {
-  const [modelPage, setModelPage] = useState("dashboard");
-
+function ModelsAcct({
+  showNavbar,
+  setShowNavbar,
+  user,
+  setNotice,
+  notice,
+  setModelPage,
+  modelPage,
+}) {
   return (
     <>
-      {/* {!user?.isUpdated ? (
+      {!user?.isUpdated ? (
         <ModelsForms showNavbar={showNavbar} setShowNavbar={setShowNavbar} />
       ) : (
         <>
@@ -34,11 +38,11 @@ function ModelsAcct({ showNavbar, setShowNavbar, user, setNotice, notice }) {
             <Inbox setPage={setModelPage} />
           ) : null}
         </>
-      )} */}
+      )}
 
       {/*---> this is used for testing  */}
 
-      <>
+      {/* <>
         {modelPage === "dashboard" ? (
           <ModelPage
             showNavbar={showNavbar}
@@ -56,7 +60,7 @@ function ModelsAcct({ showNavbar, setShowNavbar, user, setNotice, notice }) {
         ) : modelPage === "inbox" ? (
           <Inbox setPage={setModelPage} />
         ) : null}
-      </>
+      </> */}
     </>
   );
 }

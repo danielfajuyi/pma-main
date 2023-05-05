@@ -30,8 +30,7 @@ function LoginForm() {
 
   //paystack payment config
   const userRole = user?.userRole;
-  const amount =
-    userRole === "model" ? 2000 : userRole === "agency" ? 49900 : null;
+  const amount = userRole === "model" ? 2000 : userRole === "agency" ? 49900 : null;
   const config = {
     email: inputs.email,
 
@@ -84,11 +83,7 @@ function LoginForm() {
 
   return (
     <section className="login-container">
-      <AlertModal
-        modalTxt={modalTxt}
-        setModalTxt={setModalTxt}
-        message={message}
-      />
+      <AlertModal modalTxt={modalTxt} setModalTxt={setModalTxt} message={message} />
 
       <form className="login-form" onSubmit={handleLogin}>
         {/* login title */}
@@ -98,9 +93,7 @@ function LoginForm() {
           </a>
           <h2 className="login-title">welcome Back!</h2>
         </div>
-        {message && (
-          <p className="login-error">{!message?.message && message}</p>
-        )}
+        {message && <p className="login-error">{!message?.message && message}</p>}
 
         {/* email input section  */}
         <div className="input-wrapper">
@@ -138,22 +131,17 @@ function LoginForm() {
             {showPassword ? (
               <i
                 onClick={() => setShowPassword((prev) => !prev)}
-                className="fa-solid fa-eye viewPwd"
-              ></i>
+                className="fa-solid fa-eye viewPwd"></i>
             ) : (
               <i
                 onClick={() => setShowPassword((prev) => !prev)}
-                className="fa-solid fa-eye-slash viewPwd"
-              ></i>
+                className="fa-solid fa-eye-slash viewPwd"></i>
             )}
           </div>
         </div>
 
         {/* button section  */}
-        <button
-          disabled={isFetching}
-          className="btn-login dark--btn btn--Login"
-        >
+        <button disabled={isFetching} className="btn-login dark--btn btn--Login">
           {isFetching ? "Please wait..." : "Log in"}
         </button>
         <span>Forgot your password?</span>

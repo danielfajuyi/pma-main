@@ -45,7 +45,7 @@ import ClientsAcct from "../UI/Client/Client-Acct/Client-Acct";
 import ClientProfile from "../UI/Client/ClientProfile/ClientProfile";
 import Chats from "../UI/Inbox/Chats/chats";
 import JobNotice from "../UI/Notification/Job-Notice-Items";
-import Wallet from "../Pages/wallet/Wallet"
+import Wallet from "../Pages/wallet/Wallet";
 
 export const BaseRoutes = () => {
   const [showNavbar, setShowNavbar] = useState(true);
@@ -202,6 +202,8 @@ export const BaseRoutes = () => {
                 setShowNavbar={setShowNavbar}
                 setNotice={setNotice}
                 notice={notice}
+                setModelPage={setModelPage}
+                modelPage={modelPage}
               />
             </ProtectedRoute>
           ),
