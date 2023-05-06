@@ -135,7 +135,7 @@ function Photos({ handleModal, resetDiscard }) {
 
   //handling submit
   function handleSubmit() {
-    update(dispatch, "/client/", { ...inputs }, setModalTxt);
+    update(dispatch, "/client/upload-photo", { ...inputs }, setModalTxt);
   }
   // console.log(inputs);
 

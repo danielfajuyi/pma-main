@@ -2,10 +2,16 @@ import { useCallback, useEffect, useState } from "react";
 import ModelsKycForm1 from "./Models-Kyc-Form-1";
 import ModelsKycForm2 from "./Models-Kyc-Form-2";
 import ModelsKycForm3 from "./Models-Kyc-Form-3";
+import { useLocation } from "react-router";
 
 import "./Models-Kyc-Forms.css";
+import { useSelector } from "react-redux";
 
 function ModelsForms({ showNavbar, setShowNavbar }) {
+  const user = useSelector((state) => state.user.currentUser);
+  const location = useLocation();
+  const path = location.pathname;
+
   const [activeForm, setActiveForm] = useState(1);
   const [inputs, setInputs] = useState({});
   const [category, setCategory] = useState([]);
@@ -73,6 +79,8 @@ function ModelsForms({ showNavbar, setShowNavbar }) {
             handleNavigation={handleNavigation}
             handleChange={handleChange}
             setInputs={setInputs}
+            path={path}
+            user={user}
           />
         )}
         {activeForm === 2 && (
@@ -84,6 +92,8 @@ function ModelsForms({ showNavbar, setShowNavbar }) {
             category={category}
             setInterestedJob={setInterestedJob}
             interestedJob={interestedJob}
+            path={path}
+            user={user}
           />
         )}
         {activeForm === 3 && (
@@ -92,6 +102,8 @@ function ModelsForms({ showNavbar, setShowNavbar }) {
             handleNavigation={handleNavigation}
             handleChange={handleChange}
             setInputs={setInputs}
+            path={path}
+            user={user}
           />
         )}
       </div>

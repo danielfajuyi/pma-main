@@ -121,23 +121,12 @@ function ClientsKycForm2({
     sendCoverPicture();
   }, [setInputs, coverPicture, jobPhoto, jobPhotos, picture]);
 
-  //setting error
-  useEffect(() => {
-    let err = false;
-    if (jobPhotos.length < 6 && !picture) {
-      err = true;
-    } else {
-      err = false;
-    }
-    setIsError(err);
-  }, []);
-
   //handling submit
   function handleSubmit() {
-    if (isError) {
+    if (jobPhotos.length < 6 && !picture) {
       setModalTxt("add-photo");
     } else {
-      update(dispatch, "/client/", { ...inputs }, setModalTxt);
+      update(dispatch, "/client/", { ...inputs, isUpdated: true }, setModalTxt);
     }
   }
 

@@ -115,7 +115,7 @@ const ClientDashboard = () => {
       {user.isUpdated && !user?.isVerified && (
         <h1 style={{ color: "white", textAlign: "center", margin: "40px" }}>
           Your account is undergoing verification, please hang-on awhile for us
-          to finish the process, thanks.
+          to finish the verification process, thanks.
         </h1>
       )}
       {user?.isVerified && (

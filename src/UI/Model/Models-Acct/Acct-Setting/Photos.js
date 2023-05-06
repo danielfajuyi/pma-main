@@ -188,7 +188,7 @@ function Photos({ handleModal, resetDiscard }) {
 
   //handle save
   function handleSubmit(text) {
-    update(dispatch, "/model/", { ...inputs }, setModalTxt);
+    update(dispatch, "/model/upload-photo", { ...inputs }, setModalTxt);
   }
 
   return (

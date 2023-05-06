@@ -30,7 +30,7 @@ const AgencyDashboard = () => {
     let unsubscribed = false;
     if (!unsubscribed) {
       const fetchData = () => {
-        makeGet(dispatch, "/agency/", setMessage);
+        makeGet(dispatch, "/agency/models/all", setMessage);
       };
       fetchData();
     }
@@ -167,8 +167,12 @@ const AgencyDashboard = () => {
 
             {/* PROFILE PANEL --> [START] */}
             <div id="profile_panel">
-              <div id="cover">
-                <img src={user?.agency?.coverPhoto} alt="cover-pic" />
+              <div id="cover" style={{ height: "220px", width:'400px' }}>
+                <img
+                  src={user?.agency?.coverPhoto}
+                  alt="cover-pic"
+                  style={{ height: "100%", width:'100%', objectFit:'fill' }}
+                />
               </div>
               <div id="profile">
                 <div id="img_holder">
@@ -191,15 +195,29 @@ const AgencyDashboard = () => {
               </div>
               <div id="follow">
                 <span>
-                  Following {user?.agency?.followings.length < 1 ? 0 : user?.agency?.followings}
+                  Following{" "}
+                  {user?.agency?.followings.length < 1
+                    ? 0
+                    : user?.agency?.followings}
                 </span>
                 <span>
-                  Followers {user?.agency?.followers.length < 1 ? 0 : user?.agency?.followers}
+                  Followers{" "}
+                  {user?.agency?.followers.length < 1
+                    ? 0
+                    : user?.agency?.followers}
                 </span>
               </div>
               <div id="top_models">
-                <TopModelHighlight img={profileImg} name="Emilly Okoro" views="13.6k" />
-                <TopModelHighlight img={profileImg} name="Ikegwuru Ndiuwa" views="12.4k" />
+                <TopModelHighlight
+                  img={profileImg}
+                  name="Emilly Okoro"
+                  views="13.6k"
+                />
+                <TopModelHighlight
+                  img={profileImg}
+                  name="Ikegwuru Ndiuwa"
+                  views="12.4k"
+                />
               </div>
             </div>
             {/* PROFILE PANEL <-- [END] */}
@@ -229,7 +247,7 @@ const AgencyDashboard = () => {
             {/* Grid Area 2 <-- [END] */}
 
             {/*Inbox --> [START]  */}
-            <div id="inbox">
+            {/* <div id="inbox">
               <header>
                 <h4>Inbox</h4>
                 <span className="msg">
@@ -269,7 +287,7 @@ const AgencyDashboard = () => {
                 msg="I wanna work with you"
                 count="5"
               />
-            </div>
+            </div> */}
             {/*Inbox <-- [END]  */}
 
             {/*Our Models --> [START]  */}
@@ -279,7 +297,7 @@ const AgencyDashboard = () => {
                 <a href="./seeall">See all</a>
               </header>
               <div id="body">
-                {message?.map((item) => (
+                {message?.slice(0,5).map((item) => (
                   <ModelCard model={item} id={item?._id} />
                 ))}
               </div>

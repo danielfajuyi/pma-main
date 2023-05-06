@@ -35,6 +35,12 @@ export const info = [
     placeholder: "State Name...",
     label: "State",
   },
+  {
+    type: "text",
+    id: "fullName",
+    placeholder: "Enter Model Full Name...",
+    label: "Last Name",
+  },
 ];
 
 export const statsInput = [
@@ -139,6 +145,18 @@ export const statsInput = [
     id: "availableForTravel",
     placeholder: "Yes or No...",
     label: "Available for travel",
+  },
+  {
+    type: "number",
+    id: "minPrice",
+    placeholder: "Enter minimum booking price",
+    label: "Minimum booking price",
+  },
+  {
+    type: "number",
+    id: "maxPrice",
+    placeholder: "Enter maximum booking price",
+    label: "Maximum booking price",
   },
 ];
 

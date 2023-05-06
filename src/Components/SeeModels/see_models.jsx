@@ -10,7 +10,7 @@ const SeeModels = () => {
 
   useEffect(() => {
     const fetchModels = () => {
-      makeGet(dispatch, "/agency/", setMessage);
+      makeGet(dispatch, "/agency/models/all", setMessage);
     };
     fetchModels();
   }, []);
