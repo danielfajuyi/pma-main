@@ -16,7 +16,7 @@ const JobPost = () => {
 
   const fetchJob = useCallback(() => {
     makeGet(dispatch, user && user?.role === 'client' ? '/job/jobs': "/job/jobs/all", setMessage);
-  }, [dispatch]);
+  }, [dispatch]); 
 
   useEffect(() => {
     let unsubscribed = false;

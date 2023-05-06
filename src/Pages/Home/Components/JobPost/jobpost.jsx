@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 import "./jobpost.css";
 import { Jobpostcard2 } from "./jobpostApl";
@@ -9,6 +9,8 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import SectionHead from "../../../../Components/SectionHead/sectionhead";
+import { useDispatch } from "react-redux";
+import { makeGet } from "../../../../redux/apiCalls";
 
 const Jobpost2 = () => {
   let settings = {
@@ -36,35 +38,54 @@ const Jobpost2 = () => {
       },
     ],
   };
+
+  const dispatch = useDispatch();
+  const [message, setMessage] = useState([]);
+
+  const fetchJob = useCallback(() => {
+    makeGet(dispatch, "/job/jobs/all", setMessage);
+  }, [dispatch]);
+
+  useEffect(() => {
+    let unsubscribed = false;
+    if (!unsubscribed) {
+      fetchJob();
+    }
+    return () => {
+      unsubscribed = true;
+    };
+  }, [setMessage]);
+  const reverse = [...message].reverse();
+
   return (
     <article className="job-container container">
       <Slider {...settings}>
-        {Jobpostcard2.map(({ id, img, category, title, price, Star }) => {
+        {reverse?.slice(0,5).map((item, index) => {
           return (
-            <div className="job-wrapper" key={id}>
+            <div className="job-wrapper" key={index}>
               <div className="job-card">
                 <div className="job-content1">
                   <div className="job-content1-img-wrapper">
-                    <img src={img} alt="job1"></img>
+                    <img src={item?.photos?.length > 0 && item?.photos[0]} alt="job1"></img>
                   </div>
-                  <CategoryLable lable={category} id="featured-lable" />
+                  <CategoryLable lable={item?.type} id="featured-lable" />
                 </div>
 
                 <div className="job-content2">
                   <div className="job-content-title">
-                    <span>{title} </span>
+                    <span>{item?.title} </span>
                   </div>
 
-                  <div className="jobratings">
+                  {/* <div className="jobratings">
                     <span>
                       <Star />
                       <Star />
                       <Star />
                     </span>
-                  </div>
+                  </div> */}
 
                   <div className="jobprice">
-                    <span>{price}</span>
+                    <span>#{item?.price}</span>
                   </div>
                 </div>
               </div>

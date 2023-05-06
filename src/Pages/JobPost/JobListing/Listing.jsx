@@ -8,8 +8,11 @@ import Line from "../../../Components/Line/line";
 import "./Topbar.scss";
 import "./Listing.scss";
 import Footer from "../../Home/Layout/FooterSection/Footer/footer";
+import { useSelector } from "react-redux";
 
 const Listing = ({ job }) => {
+  const user = useSelector((state) => state.user.currentUser);
+
   return (
     <>
       <Line className="jobs-line" />
@@ -107,7 +110,14 @@ const Listing = ({ job }) => {
                     </div>
                   </div>
                 </div>
-                <Link to={`/jobpost/post/${item?._id}`}>
+                <Link
+                  to={user ? `/jobpost/post/${item?._id}` : ""}
+                  onClick={() => {
+                    if (!user) {
+                      alert("Please login to see job details");
+                    }
+                  }}
+                >
                   <button className="more-btn  linkBtn btn-shadow">
                     More Details
                   </button>
