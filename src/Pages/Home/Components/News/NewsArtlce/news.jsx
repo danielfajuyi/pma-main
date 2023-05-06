@@ -1,18 +1,36 @@
-import React from "react";
+import React, { useEffect } from "react";
 import SectionHead from "../../../../../Components/SectionHead/sectionhead";
 import "./news.css";
 import SearchBar from "../SearchBar/SearchBar";
 import NewsList from "../NewsList/NewsList";
 import { LatestNews } from "../NewsApI";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Adverts from "../../Adverts/Adverts";
+import { useDispatch } from "react-redux";
+import { makeGet } from "../../../../../redux/apiCalls";
 
 const News = () => {
   const [news, setNews] = useState(LatestNews);
   const [searchkey, setSearchKey] = useState("");
-
   console.log(searchkey);
+
+  const dispatch = useDispatch();
+  const [posts, setPosts] = useState([]);
+
+  const cat = useLocation().search;
+  // console.log(cat);
+
+  useEffect(() => {
+    const fetchData = () => {
+      makeGet(dispatch, "/blog/blogs", setPosts);
+    };
+    fetchData();
+  }, [cat]);
+
+  const reversed = [...posts].reverse();
+  // console.log(reversed)
+
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
@@ -49,9 +67,9 @@ const News = () => {
         />
 
         {/* NewsList & Empty Search*/}
-        <NewsList news={news} />
+        <NewsList news={reversed} />
 
-        <Link to="/magazine" className="featured-model-btn news-btn btn_shadow">
+        <Link to="/blog" className="featured-model-btn news-btn btn_shadow">
           Visit Blog
         </Link>
 
