@@ -35,7 +35,7 @@ function About({
       (snapshot) => {
         const progress =
           (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        urlType === "photo" && setProgress(Math.round(progress));
+        urlType === "picture" && setProgress(Math.round(progress));
         switch (snapshot.state) {
           case "paused":
             console.log("Upload is paused");
@@ -59,7 +59,7 @@ function About({
   };
 
   useEffect(() => {
-    photo && uploadFile(photo, "photo");
+    photo && uploadFile(photo, "picture");
   }, [photo]);
 
   const handleChange = useCallback(
@@ -126,7 +126,7 @@ function About({
               <input
                 onChange={(e) => setphoto(e.target.files[0])}
                 type="file"
-                name="photo"
+                name="picture"
                 id="set_profile-img"
                 className="file--input"
               />

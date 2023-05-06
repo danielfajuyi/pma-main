@@ -5,9 +5,17 @@ import { useEffect, useState } from "react";
 import { info } from "../utils";
 import { storage } from "../../../../firebase";
 import { useSelector } from "react-redux";
+import { useLocation } from "react-router";
 
-function ModelsKycForm1({ handleNavigation, inputs, handleChange, setInputs }) {
+function ModelsKycForm1({
+  handleNavigation,
+  inputs,
+  handleChange,
+  setInputs,
+  path,
+}) {
   const user = useSelector((state) => state.user.currentUser);
+  // console.log(user)
 
   const [picture, setPicture] = useState(undefined);
   const [error, setError] = useState({
@@ -109,6 +117,7 @@ function ModelsKycForm1({ handleNavigation, inputs, handleChange, setInputs }) {
     }
 
     !user.isUpdated && setIsError(err);
+    path !== "/modelpage" && setIsError(err);
   }, [error, inputs, picture, user]);
 
   //submit and go to the next page
@@ -180,23 +189,45 @@ function ModelsKycForm1({ handleNavigation, inputs, handleChange, setInputs }) {
                     return (
                       <li className="kyc1-input-container" key={item.id}>
                         <label className="kyc1-input-label" htmlFor={item.id}>
-                          <span className="required-icon_rapper">
-                            {item.label}
-                            {error[name] === "" ? (
-                              <i className="fa-solid fa-circle-check valid-icon"></i>
-                            ) : (
-                              <i className="fa-solid fa-star required-icon"></i>
-                            )}
-                          </span>
+                          {item.id !== "fullName" && (
+                            <span className="required-icon_rapper">
+                              {item.label}
+                              {error[name] === "" ? (
+                                <i className="fa-solid fa-circle-check valid-icon"></i>
+                              ) : (
+                                <i className="fa-solid fa-star required-icon"></i>
+                              )}
+                            </span>
+                          )}
+                          {path !== "/modelpage" && item.id === "fullName" && (
+                            <span className="required-icon_rapper">
+                              {item.label}
+                              {error[name] === "" ? (
+                                <i className="fa-solid fa-circle-check valid-icon"></i>
+                              ) : (
+                                <i className="fa-solid fa-star required-icon"></i>
+                              )}
+                            </span>
+                          )}
 
-                          {item.id !== "gender" && (
+                          {path !== "/modelpage" && item.id === "fullName" && (
                             <input
                               onChange={handleChange}
                               className="kyc1-input-field"
                               type={item.type}
                               id={item.id}
                               name={item.id}
-                              // defaultValue={user === item.id}
+                              placeholder={item.placeholder}
+                              required
+                            />
+                          )}
+                          {item.id !== "gender" && item.id !== "fullName" && (
+                            <input
+                              onChange={handleChange}
+                              className="kyc1-input-field"
+                              type={item.type}
+                              id={item.id}
+                              name={item.id}
                               placeholder={item.placeholder}
                               required
                             />

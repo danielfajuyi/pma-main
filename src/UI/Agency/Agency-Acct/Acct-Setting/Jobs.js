@@ -8,6 +8,7 @@ import { update } from "../../../../redux/apiCalls";
 import { AlertModal } from "../../../../Pages/LoginSignup/Sign-Up/signUpForm/Modal";
 
 function Photos({ resetDiscard }) {
+  const user = useSelector((state)=> state.user.currentUser)
   const { isFetching } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
@@ -97,7 +98,7 @@ function Photos({ resetDiscard }) {
 
   //handling submit
   function handleSubmit() {
-    update(dispatch, "/agency/", { ...inputs }, setModalTxt);
+    update(dispatch, `/agency/add_job_photo/${user.uuid}`, { ...inputs }, setModalTxt);
   }
   // console.log(inputs);
 
