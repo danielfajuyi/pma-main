@@ -45,6 +45,7 @@
   text-transform: capitalize;
   border-bottom: 1px solid gray;
   padding: 1.5rem 0;
+  color: var(--Light-color);
 }
 
 .set--nav_list li:last-child {

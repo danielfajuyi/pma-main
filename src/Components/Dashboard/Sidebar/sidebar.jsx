@@ -37,10 +37,7 @@ const DashboardSidebar = (props) => {
   function createLinks(linkList) {
     const list = linkList.map((item) => {
       const navItem = (
-        <li
-          key={item.name}
-          className="nav_link__li"
-          onClick={item.func && (() => item.func("setting"))}>
+        <li key={item.name} className="nav_link__li">
           <NavLink
             to={item.children ? "#" : item.path}
             style={{ color: "white" }}
@@ -70,8 +67,6 @@ const DashboardSidebar = (props) => {
                   className="sublink"
                   onClick={(e) => {
                     e.currentTarget.parentElement.previousElementSibling.classList.add("active");
-
-                    child.func && child.func("add-model");
                   }}>
                   <NavLink to={child.path} end={true}>
                     {child.name}

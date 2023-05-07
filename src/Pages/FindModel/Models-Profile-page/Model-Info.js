@@ -5,15 +5,12 @@ import { BiCategoryAlt } from "react-icons/bi";
 import { BsPatchCheckFill } from "react-icons/bs";
 import { FaEnvelope, FaHome, FaRegStar, FaStar } from "react-icons/fa";
 import { MdLocationPin } from "react-icons/md";
+import { NavLink } from "react-router-dom";
 
-function ModelInfo({ item, handleForm, setModelPage }) {
+function ModelInfo({ item, handleForm }) {
   const user = useSelector((state) => state.user.currentUser);
   const location = useLocation();
   const path = location.pathname.split("/")[3];
-
-  const handleEditProfile = () => {
-    setModelPage("setting");
-  };
 
   return (
     <>
@@ -72,10 +69,7 @@ function ModelInfo({ item, handleForm, setModelPage }) {
 
           {!user && (
             <div className="interactive-section">
-              <InteractiveBtn
-                btnIcon="fa-solid fa-user-plus follow-icon Icon"
-                btnText="Follow"
-              />
+              <InteractiveBtn btnIcon="fa-solid fa-user-plus follow-icon Icon" btnText="Follow" />
               <InteractiveBtn
                 btnIcon="fa-regular fa-heart heart-icon Icon"
                 //btnIcon="fa-solid fa-heart heart-icon Icon"
@@ -85,10 +79,7 @@ function ModelInfo({ item, handleForm, setModelPage }) {
                 btnIcon="fa-brands fa-instagram insta-icon Icon"
                 btnText="Instagram"
               />
-              <InteractiveBtn
-                btnIcon="fa-solid fa-share-nodes share-icon Icon"
-                btnText="Share"
-              />
+              <InteractiveBtn btnIcon="fa-solid fa-share-nodes share-icon Icon" btnText="Share" />
             </div>
           )}
           <div className="model__activities">
@@ -107,23 +98,22 @@ function ModelInfo({ item, handleForm, setModelPage }) {
           </div>
 
           <div className="profile-btn btn-shadow">
-            <button
-              onClick={
-                user && user._id === path ? handleEditProfile : handleForm
-              }
-              className="model-profilebtn  btn-shadow"
-            >
-              <FaEnvelope />
-              {!user || user._id !== path ? (
-                <>
-                  <span>Book</span> <span>Model</span>
-                </>
-              ) : (
-                <>
-                  <span>Edit</span> <span>Portfolio</span>
-                </>
-              )}
-            </button>
+            <NavLink to={user && user._id === path && "/model-Acct-setting"}>
+              <button
+                onClick={!user && user._id !== path && handleForm}
+                className="model-profilebtn  btn-shadow">
+                <FaEnvelope />
+                {!user || user._id !== path ? (
+                  <>
+                    <span>Book</span> <span>Model</span>
+                  </>
+                ) : (
+                  <>
+                    <span>Edit</span> <span>Portfolio</span>
+                  </>
+                )}
+              </button>
+            </NavLink>
           </div>
         </div>
       </section>

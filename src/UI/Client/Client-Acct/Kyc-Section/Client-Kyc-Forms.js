@@ -1,10 +1,10 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import ClientKycForm1 from "./Client-Kyc-Form-1";
 import ClientKycForm2 from "./Client-Kyc-Form-2";
 
 import "./Client-Kyc-Forms.css";
 
-function ClientsForms({ DomItems, userData, accountId, handleModal }) {
+function ClientsForms({ showNavbar, setShowNavbar }) {
   const [activeForm, setActiveForm] = useState(1);
   const [inputs, setInputs] = useState({});
 
@@ -16,6 +16,11 @@ function ClientsForms({ DomItems, userData, accountId, handleModal }) {
     },
     [setInputs]
   );
+
+  useEffect(() => {
+    setShowNavbar(false);
+  }, [setShowNavbar]); //--> Hides The Navbar
+
   // console.log(inputs)
 
   function handleNavigation(text) {
@@ -30,7 +35,7 @@ function ClientsForms({ DomItems, userData, accountId, handleModal }) {
     }
   }
 
-  return (
+  return !showNavbar(
     <div style={{ backgroundColor: "white" }}>
       {activeForm === 1 && (
         <ClientKycForm1

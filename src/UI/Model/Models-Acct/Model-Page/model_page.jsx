@@ -30,13 +30,7 @@ import { useSelector } from "react-redux";
 //--> importing notification component
 import Notification from "../../../Notification/Notification";
 
-const ModelPage = ({
-  showNavbar,
-  setShowNavbar,
-  setModelPage,
-  setNotice,
-  notice,
-}) => {
+const ModelPage = ({ showNavbar, setShowNavbar, setModelPage, setNotice, notice }) => {
   const user = useSelector((state) => state.user.currentUser);
   // Using Hooks  --> [START]
 
@@ -83,7 +77,7 @@ const ModelPage = ({
       icon: <HiOutlineUserGroup />,
       path: "community",
     },
-    { name: "Settings", icon: <IoSettingsOutline />, func: setModelPage },
+    { name: "Settings", icon: <IoSettingsOutline />, path: "/model-Acct-setting" },
   ];
   const bottomList = [
     { name: "Help", icon: <MdOutlineLiveHelp />, path: "/faqs" },

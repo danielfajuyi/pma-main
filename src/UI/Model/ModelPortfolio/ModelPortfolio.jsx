@@ -12,7 +12,7 @@ import Links from "../../../Pages/FindModel/Models-Profile-page/Links";
 import ModelsForms from "../Models-Acct/Kyc-Section/Models-Kyc-Forms";
 import AcctSetting from "../Models-Acct/Acct-Setting/Models-Acct-Setting";
 
-function ModelPortfolio({ item, postMsg, setModelPage }) {
+function ModelPortfolio({ item, postMsg }) {
   const user = useSelector((state) => state.user.currentUser);
 
   const [activeSection, setActiveSection] = useState("Photos");
@@ -57,11 +57,7 @@ function ModelPortfolio({ item, postMsg, setModelPage }) {
   return (
     <div style={{ backgroundColor: "white" }}>
       <>
-        <ModelInfo
-          item={user}
-          handleForm={handleForm}
-          setModelPage={setModelPage}
-        />
+        <ModelInfo item={user} handleForm={handleForm} />
         <Links handleSection={handleSection} activeSection={activeSection} />
         {activeSection === "Photos" && (
           <ModelPhoto

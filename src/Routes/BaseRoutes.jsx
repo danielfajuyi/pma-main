@@ -20,9 +20,11 @@ import { userLogout } from "../redux/apiCalls";
 import Blogs from "../Pages/Blog/Blogs";
 import Single from "../Pages/Blog/Single";
 import Notice from "../Data/Data-db.json";
+import Inbox from "../UI/Inbox/Inbox";
 
 //importing agency components
 import AgencyAcct from "../UI/Agency/Agency-Acct/Agency-Acct";
+import AgencyAcctSetting from "../UI/Agency/Agency-Acct/Acct-Setting/Agency-Acct-Setting";
 import AgencyDashboard from "../UI/Agency/Agency-Acct/Agency-Page/dashboard/dashboard";
 import AgencyProfile from "../UI/Agency/AgencyProfile/agency_profile";
 import AgencyModels from "../UI/Agency/AgencyListing/AgencyModels";
@@ -30,6 +32,7 @@ import AgencyModels from "../UI/Agency/AgencyListing/AgencyModels";
 //importing models components
 import ModelDashboard from "../UI/Model/Models-Acct/Model-Page/dashboard/dashboard";
 import ModelsAcct from "../UI/Model/Models-Acct/Models-Acct";
+import ModelAcctSetting from "../UI/Model/Models-Acct/Acct-Setting/Models-Acct-Setting";
 import ModelPortfolio from "../UI/Model/ModelPortfolio/ModelPortfolio";
 import ProfilePage from "../Pages/FindModel/Models-Profile-page/Profile-Page";
 import MyWallet from "../UI/Model/Models-Acct/Model-Page/wallet/my_wallet";
@@ -37,11 +40,12 @@ import Review from "../UI/Model/Models-Acct/Model-Page/review/review";
 import WriteReview from "../UI/Model/Models-Acct/Model-Page/review/write_review";
 import Reviews from "../UI/Model/Models-Acct/Model-Page/review/view_reviews";
 import ModelSubscription from "../UI/Model/Models-Acct/Model-Page/subscription/subscription";
-//import ModelsForms from "../UI/Model/Models-Acct/Kyc-Section/Models-Kyc-Forms";
+import ModelsForms from "../UI/Model/Models-Acct/Kyc-Section/Models-Kyc-Forms";
 
 //importing clients components
 import ClientDashboard from "../UI/Client/Client-Acct/Client-Page/dashboard/dashboard";
 import ClientsAcct from "../UI/Client/Client-Acct/Client-Acct";
+import ClientAcctSetting from "../UI/Client/Client-Acct/Acct-Setting/Client-Acct-Setting";
 import ClientProfile from "../UI/Client/ClientProfile/ClientProfile";
 import Chats from "../UI/Inbox/Chats/chats";
 import JobNotice from "../UI/Notification/Job-Notice-Items";
@@ -53,7 +57,6 @@ export const BaseRoutes = () => {
   const dispatch = useDispatch();
 
   const [notice, setNotice] = useState(Notice.notification); //--> notification data state
-  const [modelPage, setModelPage] = useState("dashboard");
 
   // automatically logout a user when session expires
   const handleLogout = () => {
@@ -132,7 +135,6 @@ export const BaseRoutes = () => {
           path: "faqs",
           element: <FAQs />,
         },
-
         {
           path: "howitworks",
           element: <HowItWorks />,
@@ -147,6 +149,7 @@ export const BaseRoutes = () => {
             },
           ],
         },
+        { path: "inbox", element: <Inbox showNavbar={showNavbar} setShowNavbar={setShowNavbar} /> },
         {
           path: "agencypage/",
           element: (
@@ -193,6 +196,10 @@ export const BaseRoutes = () => {
           ],
         },
         {
+          path: "Agency-Acct-setting",
+          element: <AgencyAcctSetting showNavbar={showNavbar} setShowNavbar={setShowNavbar} />,
+        },
+        {
           path: "modelpage/",
           element: (
             <ProtectedRoute>
@@ -202,8 +209,6 @@ export const BaseRoutes = () => {
                 setShowNavbar={setShowNavbar}
                 setNotice={setNotice}
                 notice={notice}
-                setModelPage={setModelPage}
-                modelPage={modelPage}
               />
             </ProtectedRoute>
           ),
@@ -214,7 +219,7 @@ export const BaseRoutes = () => {
             },
             {
               path: "profile/:id",
-              element: <ModelPortfolio setModelPage={setModelPage} />,
+              element: <ModelPortfolio />,
             },
             {
               path: "mywallet",
@@ -247,6 +252,14 @@ export const BaseRoutes = () => {
               element: <Chats />,
             },
           ],
+        },
+        {
+          path: "model-kyc",
+          element: <ModelsForms showNavbar={showNavbar} setShowNavbar={setShowNavbar} />,
+        },
+        {
+          path: "model-Acct-setting",
+          element: <ModelAcctSetting showNavbar={showNavbar} setShowNavbar={setShowNavbar} />,
         },
         {
           path: "clientpage/",
@@ -313,6 +326,10 @@ export const BaseRoutes = () => {
               element: <Wallet />,
             },
           ],
+        },
+        {
+          path: "Client-Acct-setting",
+          element: <ClientAcctSetting showNavbar={showNavbar} setShowNavbar={setShowNavbar} />,
         },
         // {
         //   path: "profile/:id",

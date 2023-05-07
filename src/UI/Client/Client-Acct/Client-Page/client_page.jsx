@@ -36,13 +36,7 @@ import { Link } from "react-router-dom";
 //--> importing notification component
 import Notification from "../../../Notification/Notification";
 
-const ClientPage = ({
-  showNavbar,
-  setShowNavbar,
-  setClientPage,
-  setNotice,
-  notice,
-}) => {
+const ClientPage = ({ showNavbar, setShowNavbar, setClientPage, setNotice, notice }) => {
   const user = useSelector((state) => state.user.currentUser);
 
   const [toggleNotice, setToggleNotice] = useState(false); //--> toggle Notification open or close
@@ -82,7 +76,7 @@ const ClientPage = ({
         { name: "Report", path: "review/report" },
       ],
     },
-    { name: "Settings", icon: <IoSettingsOutline />, func: setClientPage },
+    { name: "Settings", icon: <IoSettingsOutline />, path: "/client-Acct-setting" },
   ];
 
   const bottomList = [
