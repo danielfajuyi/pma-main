@@ -5,22 +5,27 @@ const Models = ({ modelItems }) => {
   return (
     <>
       <div className="featured-model-slider">
+        {modelItems.length === 0 && (
+          <p style={{ textAlign: "center" }}>Not found!</p>
+        )}
         {modelItems.map((models) => {
-          const { id, name, image, desc, alt } = models;
-
           return (
-            id <= 8 && (
-              <div className="featured-model-item" key={id}>
-                <div className="featured-img">
-                  <img src={image} alt={alt}></img>
+            <>
+              {models.isFeatured && (
+                <div className="featured-model-item" key={models?._id}>
+                  <div className="featured-img">
+                    <img src={models?.picture} alt={models?.picture}></img>
 
-                  <div className="featured-model-text">
-                    <h2>{name}</h2>
-                    <h4>{desc}</h4>
+                    <div className="featured-model-text">
+                      <h2>{models?.fullName}</h2>
+                      <h4>
+                        {models?.state}, {models?.country}
+                      </h4>
+                    </div>
                   </div>
                 </div>
-              </div>
-            )
+              )}
+            </>
           );
         })}
       </div>

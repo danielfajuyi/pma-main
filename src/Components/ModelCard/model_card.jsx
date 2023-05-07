@@ -33,7 +33,7 @@ const ModelCard = ({model}) => {
           </IconContext.Provider>
         </div>
         <div id="categories">
-          {model?.category[0]}, {model?.category[1]}
+          {model?.category}
         </div>
         <div id="address">
           <FaMapMarkerAlt size={12} />

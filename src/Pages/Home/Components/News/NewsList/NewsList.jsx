@@ -6,10 +6,8 @@ import "./NewsList.css";
 const NewsList = ({ news }) => {
   return (
     <div className="NewsList-wrapper">
-      {news.map((Newsitem) => {
-        return (
-          Newsitem.id <= 3 && <NewsItem Newsitem={Newsitem} key={Newsitem.id} />
-        );
+      {news?.slice(0,6).map((Newsitem) => {
+        return <NewsItem Newsitem={Newsitem} key={Newsitem.id} />;
       })}
     </div>
   );

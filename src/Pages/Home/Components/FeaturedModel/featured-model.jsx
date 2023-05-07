@@ -1,18 +1,21 @@
-import React from "react";
+import React, { useCallback, useEffect } from "react";
 import { featuredmodel } from "./featuredmodelAPI";
 import Categories from "./categories";
 import Models from "./model";
-
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import SectionHead from "../../../../Components/SectionHead/sectionhead";
+import { useDispatch } from "react-redux";
+import { makeGet } from "../../../../redux/apiCalls";
 
 const items = featuredmodel;
-
 const allCategories = ["All", ...new Set(items.map((item) => item.category))];
 
 const FeaturedModel = () => {
-  const [modelItems, setModelsItems] = useState(items);
+  const dispatch = useDispatch();
+
+  const [models, setModels] = useState([]);
+  const [modelItems, setModelsItems] = useState(models);
   const [
     categories,
 
@@ -21,13 +24,26 @@ const FeaturedModel = () => {
 
   const filterItems = (category) => {
     if (category === "All") {
-      setModelsItems(items);
+      setModelsItems(models);
       return;
     }
 
-    const newItem = items.filter((item) => item.category === category);
+    const newItem = models.filter((item) => item.category.includes(category));
     setModelsItems(newItem);
   };
+
+  const fetchModels = useCallback(() => {
+    makeGet(dispatch, "model/find/models", setModels);
+  }, [dispatch]);
+
+  useEffect(() => {
+    let unsubscribe = fetchModels();
+    return () => unsubscribe;
+  }, []);
+
+  useEffect(() => {
+    setModelsItems(models);
+  }, [models]);
 
   return (
     <>
