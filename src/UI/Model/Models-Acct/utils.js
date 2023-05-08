@@ -152,12 +152,6 @@ export const statsInput = [
     placeholder: "Enter minimum booking price",
     label: "Minimum booking price",
   },
-  {
-    type: "number",
-    id: "maxPrice",
-    placeholder: "Enter maximum booking price",
-    label: "Maximum booking price",
-  },
 ];
 
 export const categoryInput = [

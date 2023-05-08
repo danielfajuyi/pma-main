@@ -12,7 +12,7 @@ import profileImg from "../../../../../Images/model-profile/model.png";
 import _ from "lodash";
 import FadeIn from "../../../../../Components/FadeIn/fade_in";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { makeGet, update } from "../../../../../redux/apiCalls";
 import { storage } from "../../../../../firebase";
 
@@ -25,6 +25,7 @@ const ModelDashboard = () => {
   const [picture, setPicture] = useState(undefined);
   const [progress, setProgress] = useState(0);
   const [message, setMessage] = useState([]);
+  const [booking, setBooking] = useState([]);
 
   // update profile
   const handleChange = (e) => {
@@ -76,18 +77,32 @@ const ModelDashboard = () => {
   };
 
   // get top rated models
-  useEffect(() => {
-    let unsubscribed = false;
-    if (!unsubscribed) {
-      const fetchData = () => {
-        makeGet(dispatch, "/model/", setMessage);
-      };
-      fetchData();
-    }
-    return () => {
-      unsubscribed = true;
-    };
+  const fetchData = useCallback(() => {
+    makeGet(dispatch, "/model/", setMessage);
   }, [dispatch]);
+
+  useEffect(() => {
+    let unsubscribed = fetchData();
+    return () => unsubscribed;
+  }, []);
+  const ratedReversed = [...message].reverse();
+
+  // get model booking
+  const fetchModelBooking = useCallback(() => {
+    makeGet(dispatch, `/book/model-booking/${user._id}`, setBooking);
+  }, [dispatch]);
+
+  useEffect(() => {
+    let unsubscribed = fetchModelBooking();
+    return () => unsubscribed;
+  }, []);
+  const totalBooking = booking?.filter((item) => item);
+  const rejectedBooking = booking?.filter((item) => item?.isRejected);
+  const jobDone = booking?.filter((item) => item?.isJobDone);
+  const rejectedPer = Math.round(
+    (rejectedBooking?.length * 100) / totalBooking?.length
+  );
+  const donePer = Math.round((jobDone?.length * 100) / totalBooking?.length);
 
   // Visitor Stats Graph Data -> (VisitorStats Component) --> [STRAT]
   const data = {
@@ -277,7 +292,7 @@ const ModelDashboard = () => {
               <div id="latest_post">
                 <header>
                   <h4>Latest Blog Post</h4>
-                  <a href="./seeall"> See all</a>
+                  {/* <a href="./seeall"> See all</a> */}
                 </header>
                 <div id="body">
                   <ClientCard img={profileImg} />
@@ -292,22 +307,22 @@ const ModelDashboard = () => {
                   data={lineData1}
                   options={lineOptions}
                   type="All Bookings"
-                  total="16"
-                  percent="87.34%"
+                  total={totalBooking?.length}
+                  // percent="87.34%"
                 />
                 <BookingsCard
                   data={lineData2}
                   options={lineOptions}
                   type="Completed"
-                  total="11"
-                  percent="48%"
+                  total={jobDone?.length}
+                  percent={`${donePer ? donePer : 0}%`}
                 />
                 <BookingsCard
                   data={lineData3}
                   options={lineOptions}
                   type="Cancelled"
-                  total="5"
-                  percent="17%"
+                  total={rejectedBooking?.length}
+                  percent={`${rejectedPer ? rejectedPer : 0}%`}
                 />
               </div>
               <div className="earnings">
@@ -325,8 +340,8 @@ const ModelDashboard = () => {
                   amount={`#${user?.model?.wallet}`}
                 />
               </div>
-              <VisitorStats data={data} options={options} />
-              <div className="top_rated one">
+              <VisitorStats data={data} options={options} user={user} />
+              {/* <div className="top_rated one">
                 <header>
                   <h4>Top Rated</h4>
                   <a href="./seeall">See all</a>
@@ -405,7 +420,7 @@ const ModelDashboard = () => {
                     <div className="name">Eke Kara</div>
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
             {/* [END] */}
             {/* Grid Area 3  --> [START] */}
@@ -413,29 +428,31 @@ const ModelDashboard = () => {
               <div className="top_rated two">
                 <header>
                   <h4>Top Rated</h4>
-                  <a href="./seeall">See all</a>
+                  {/* <a href="./seeall">See all</a> */}
                 </header>
                 <div className="body">
-                  {message?.map((item) => (
-                    <div key={item._id}>
+                  {ratedReversed?.slice(0, 5).map((item) => (
+                    <>
+                    {item.isFeatured && <div key={item._id}>
                       <div className="img_holder">
-                        <img src={profileImg} alt="model-img" />
+                        <img src={item?.picture} alt="model-img" />
                       </div>
                       <div className="name">{item.firstName}</div>
-                    </div>
+                    </div>}
+                    </>
                   ))}
                 </div>
               </div>
               <div id="job_posted">
                 <header>
                   <h4>Latest Job Posts</h4>
-                  <a href="./seeall">See all</a>
+                  {/* <a href="./seeall">See all</a> */}
                 </header>
                 <div id="body">
                   <JobCard />
                 </div>
               </div>
-              <div id="inbox">
+              {/* <div id="inbox">
                 <header>
                   <h4>Inbox</h4>
                   <span className="msg">
@@ -468,7 +485,7 @@ const ModelDashboard = () => {
                   msg="I wanna work with you"
                   count="2"
                 />
-              </div>
+              </div> */}
             </div>
             {/* [END] */}
           </div>

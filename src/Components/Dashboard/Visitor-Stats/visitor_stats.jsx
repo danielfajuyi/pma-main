@@ -19,7 +19,7 @@ const VisitorStats = (props) => {
         <span>
           <FiEye size={18} />
           <span id="views">VIEWS</span>
-          1.5k
+          {props?.user?.model?.visitors}
         </span>
         <span>
           VISITS
@@ -33,12 +33,12 @@ const VisitorStats = (props) => {
           options={props.options}
         />
       </div>
-      <div id="bottom">
+      {/* <div id="bottom">
         <BsSuitHeartFill color="red" size={18} />
         <span>1,895</span>
         <BsPeople size={18} />
         <span>2,567</span>
-      </div>
+      </div> */}
     </div>
   );
 };

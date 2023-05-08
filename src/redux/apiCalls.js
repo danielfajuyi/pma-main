@@ -54,6 +54,7 @@ export const update = async (dispatch, url, user, setMessage, setModalTxt) => {
 
 export const userLogout = async (dispatch) => {
   dispatch(logout());
+  window.location.reload();
 };
 
 export const makePost = async (dispatch, url, data, setInputs) => {

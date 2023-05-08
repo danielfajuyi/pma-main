@@ -7,10 +7,10 @@ function Messages({ setActive, reversed }) {
     <>
       <div className="inbox-container">
         <div className="inbox-nav">
-          <BsChevronCompactLeft className="nav-icon" />
+          {/* <BsChevronCompactLeft className="nav-icon" /> */}
 
-          <div>Inbox</div>
-          <BsSearch className="nav-icon" />
+          <div style={{textAlign: 'center', width:'100%'}}>Inbox</div>
+          {/* <BsSearch className="nav-icon" /> */}
         </div>
 
         <div className="inbox-title">

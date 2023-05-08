@@ -24,13 +24,9 @@ function List({ data, currentPage }) {
             key={item._id}
             id={item._id}
             uuid={item.uuid}
-            img={item.picture}
-            fullName={item.fullName}
-            firstCategory={item.category[0]}
-            secondCategory={item.category[1]}
-            state={item.state}
-            agency={item.agency}
-            country={item.country}
+            firstCategory={item?.category[0]}
+            secondCategory={item?.category[1]}
+            item={item}
           />
         ))}
       </div>

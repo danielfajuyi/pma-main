@@ -7,15 +7,11 @@ import "./Items.css";
 import { useSelector } from "react-redux";
 
 function ListItem({
-  img,
-  fullName,
   firstCategory,
   secondCategory,
-  agency,
-  state,
-  country,
   uuid,
   id,
+  item
 }) {
   const user = useSelector((state) => state.user.currentUser);
 
@@ -26,15 +22,15 @@ function ListItem({
           <div className=" modelportfolio__imgwrapper property-thumb">
             <img
               className="model__imgs"
-              src={img ? img : "/images/avatar2.png"}
+              src={item?.picture ? item?.picture : "/images/avatar2.png"}
               alt="./model-img"
             />
           </div>
 
           <div className="modelportfolio__textwrapper ">
             <div className="text1 model__namewrap">
-              <span className="model__names">{fullName}</span>
-              <BsPatchCheckFill />
+              <span className="model__names">{item?.fullName}</span>
+             {item?.isVerified && <BsPatchCheckFill />}
             </div>
 
             <div className="text2 model__ratings">
@@ -55,7 +51,7 @@ function ListItem({
             <div className="text3 model__categorys">
               <div id="agencylable">
                 <FaHome />
-                <span className="value">{agency}</span>
+                <span className="value">{item?.agency}</span>
               </div>
               {secondCategory ? (
                 <div id="categorylable">
@@ -75,7 +71,7 @@ function ListItem({
             <div className="text4 model__locations">
               <MdLocationPin />
               <span>
-                {state}, {country}
+                {item?.state}, {item?.country}
               </span>
             </div>
 
@@ -86,6 +82,7 @@ function ListItem({
                   onClick={() => {
                     if (!user) {
                       alert("Please login to view model's portfolio");
+                      window.location.replace('/login')
                     }
                   }}
                 >

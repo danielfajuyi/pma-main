@@ -14,18 +14,36 @@ import _ from "lodash";
 import { Chart } from "chart.js/auto"; //Registering Charts ("Do not remove this import")
 import FadeIn from "../../../../../Components/FadeIn/fade_in";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { makeGet } from "../../../../../redux/apiCalls";
 import AgencyForms from "../../../Agency-Acct/Kyc-Section/Agency-Kyc-Forms";
 import { Link } from "react-router-dom";
 
 const AgencyDashboard = () => {
   const user = useSelector((state) => state.user.currentUser);
-  // console.log(user)
-
-  const [message, setMessage] = useState([]);
   const dispatch = useDispatch();
 
+  const [message, setMessage] = useState([]); // get model booking
+  const [booking, setBooking] = useState([]);
+
+  // get model booking
+  const fetchModelBooking = useCallback(() => {
+    makeGet(dispatch, `/book/model-booking/${user._id}`, setBooking);
+  }, [dispatch]);
+
+  useEffect(() => {
+    let unsubscribed = fetchModelBooking();
+    return () => unsubscribed;
+  }, []);
+  const totalBooking = booking?.filter((item) => item);
+  const rejectedBooking = booking?.filter((item) => item?.isRejected);
+  const jobDone = booking?.filter((item) => item?.isJobDone);
+  const rejectedPer = Math.round(
+    (rejectedBooking?.length * 100) / totalBooking?.length
+  );
+  const donePer = Math.round((jobDone?.length * 100) / totalBooking?.length);
+
+  // agency models
   useEffect(() => {
     let unsubscribed = false;
     if (!unsubscribed) {
@@ -38,6 +56,8 @@ const AgencyDashboard = () => {
       unsubscribed = true;
     };
   }, [setMessage]);
+  const reverse = [...message].reverse()
+  console.log(message)
 
   // Visitor Stats Graph Data -> (VisitorStats Component) --> [STRAT]
   const data = {
@@ -144,22 +164,22 @@ const AgencyDashboard = () => {
                   data={lineData1}
                   options={lineOptions}
                   type="All Bookings"
-                  total="16"
-                  percent="87.34%"
+                  total={totalBooking?.length}
+                  // percent="87.34%"
                 />
                 <BookingsCard
                   data={lineData2}
                   options={lineOptions}
                   type="Completed"
-                  total="11"
-                  percent="48%"
+                  total={jobDone?.length}
+                  percent={`${donePer ? donePer : 0}%`}
                 />
                 <BookingsCard
                   data={lineData3}
                   options={lineOptions}
                   type="Cancelled"
-                  total="5"
-                  percent="17%"
+                  total={rejectedBooking?.length}
+                  percent={`${rejectedPer ? rejectedPer : 0}%`}
                 />
               </div>
             </div>
@@ -167,16 +187,16 @@ const AgencyDashboard = () => {
 
             {/* PROFILE PANEL --> [START] */}
             <div id="profile_panel">
-              <div id="cover" style={{ height: "220px", width:'400px' }}>
+              <div id="cover" style={{ height: "220px", width: "400px" }}>
                 <img
                   src={user?.agency?.coverPhoto}
                   alt="cover-pic"
-                  style={{ height: "100%", width:'100%', objectFit:'fill' }}
+                  style={{ height: "100%", width: "100%", objectFit: "fill" }}
                 />
               </div>
               <div id="profile">
                 <div id="img_holder">
-                  <img src={user?.agency?.picture} alt="profile-pic" />
+                  <img src={user?.picture} alt="profile-pic" />
                 </div>
                 <div>
                   <div id="name">
@@ -193,7 +213,7 @@ const AgencyDashboard = () => {
                   </button>
                 </Link>
               </div>
-              <div id="follow">
+              {/* <div id="follow">
                 <span>
                   Following{" "}
                   {user?.agency?.followings.length < 1
@@ -218,7 +238,7 @@ const AgencyDashboard = () => {
                   name="Ikegwuru Ndiuwa"
                   views="12.4k"
                 />
-              </div>
+              </div> */}
             </div>
             {/* PROFILE PANEL <-- [END] */}
 
@@ -227,7 +247,7 @@ const AgencyDashboard = () => {
               <div id="latest_offers">
                 <header>
                   <h4>Latest Job Offer</h4>
-                  <a href="./seeall">See all</a>
+                  {/* <a href="./seeall">See all</a> */}
                 </header>
                 <div id="body">
                   <JobCard />
@@ -237,7 +257,7 @@ const AgencyDashboard = () => {
               <div id="latest_blogs">
                 <header>
                   <h4>Latest Blog News</h4>
-                  <a href="./seeall">See all</a>
+                  <a href="/blog">See all</a>
                 </header>
                 <div id="body">
                   <BlogPreviewCard img={profileImg} model="Premium Models" />
@@ -294,10 +314,10 @@ const AgencyDashboard = () => {
             <div id="our_models">
               <header>
                 <h4>Our Models</h4>
-                <a href="./seeall">See all</a>
+                {/* <a href="./seeall">See all</a> */}
               </header>
               <div id="body">
-                {message?.slice(0,5).map((item) => (
+                {reverse?.slice(0, 5).map((item) => (
                   <ModelCard model={item} id={item?._id} />
                 ))}
               </div>
