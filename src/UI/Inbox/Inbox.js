@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { makeGet } from "../../redux/apiCalls";
 import { messageChange } from "../../redux/messageRedux";
 
-function Inbox({ setPage }) {
+function Inbox() {
   const user = useSelector((state) => state.user.currentUser);
   const dispatch = useDispatch();
 
@@ -13,11 +13,7 @@ function Inbox({ setPage }) {
   const [conversations, setConversations] = useState([]);
 
   const fetchConversations = useCallback(() => {
-    makeGet(
-      dispatch,
-      `/conversation/conversations/${user._id}`,
-      setConversations
-    );
+    makeGet(dispatch, `/conversation/conversations/${user._id}`, setConversations);
   }, [dispatch]);
 
   useEffect(() => {
@@ -35,7 +31,7 @@ function Inbox({ setPage }) {
   return (
     <>
       {active === "message" ? (
-        <Messages setActive={setActive} setPage={setPage} reversed={reversed} />
+        <Messages setActive={setActive} reversed={reversed} />
       ) : active === "chat" ? (
         <Chats setActive={setActive} />
       ) : null}

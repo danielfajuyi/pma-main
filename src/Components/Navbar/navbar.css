@@ -53,6 +53,10 @@ a {
   text-align: left;
   font-size: 1.2rem;
 }
+.mobile-nav__item:hover {
+  cursor: pointer;
+  color: rgba(255, 0, 122, 1);
+}
 .mobile-nav__btn {
   display: flex;
   justify-content: space-evenly;

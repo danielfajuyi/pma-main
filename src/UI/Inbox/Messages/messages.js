@@ -1,20 +1,14 @@
 import "./Inbox.css";
-import {
-  BsFillTriangleFill,
-  BsChevronCompactLeft,
-  BsSearch,
-} from "react-icons/bs";
+import { BsFillTriangleFill, BsChevronCompactLeft, BsSearch } from "react-icons/bs";
 import MsgItem from "./msg-item";
 
-function Messages({ setActive, setPage, reversed }) {
+function Messages({ setActive, reversed }) {
   return (
     <>
       <div className="inbox-container">
         <div className="inbox-nav">
-          <BsChevronCompactLeft
-            className="nav-icon"
-            onClick={() => setPage("dashboard")}
-          />
+          <BsChevronCompactLeft className="nav-icon" />
+
           <div>Inbox</div>
           <BsSearch className="nav-icon" />
         </div>

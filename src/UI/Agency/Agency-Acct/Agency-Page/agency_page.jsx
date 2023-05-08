@@ -64,7 +64,7 @@ const AgencyPage = ({ showNavbar, setShowNavbar, setAgencyPage, setNotice, notic
       name: "Listing",
       icon: <IoListOutline />,
       children: [
-        { name: "Add model", func: setAgencyPage },
+        { name: "Add model", path: "/model-kyc" },
         { name: "Manage models", path: "listing/manage" },
       ],
     },
@@ -78,8 +78,8 @@ const AgencyPage = ({ showNavbar, setShowNavbar, setAgencyPage, setNotice, notic
         { name: "Report", path: "review/report" },
       ],
     },
-    { name: "Community", icon: <HiOutlineUserGroup />, path: "community" },
-    { name: "Settings", icon: <IoSettingsOutline />, func: setAgencyPage },
+    { name: "Community", icon: <HiOutlineUserGroup />, path: "/community" },
+    { name: "Settings", icon: <IoSettingsOutline />, path: "/agency-Acct-setting" },
   ];
   const bottomList = [
     { name: "Help", icon: <MdOutlineLiveHelp />, path: "/faqs" },

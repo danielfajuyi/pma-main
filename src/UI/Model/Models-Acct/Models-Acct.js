@@ -1,66 +1,32 @@
 import "./Models-Acct.css";
-
 import ModelPage from "../Models-Acct/Model-Page/model_page";
-import AcctSetting from "./Acct-Setting/Models-Acct-Setting";
 import ModelsForms from "./Kyc-Section/Models-Kyc-Forms";
-import Inbox from "../../Inbox/Inbox";
+import KycNotice from "../../Notification/kyc-notice";
 
-function ModelsAcct({
-  showNavbar,
-  setShowNavbar,
-  user,
-  setNotice,
-  notice,
-  setModelPage,
-  modelPage,
-}) {
+function ModelsAcct({ showNavbar, setShowNavbar, user, setNotice, notice }) {
   return (
     <>
+      {!user?.isUpdated && <KycNotice />}
+
       {!user?.isUpdated ? (
         <ModelsForms showNavbar={showNavbar} setShowNavbar={setShowNavbar} />
       ) : (
-        <>
-          {modelPage === "dashboard" ? (
-            <ModelPage
-              showNavbar={showNavbar}
-              setShowNavbar={setShowNavbar}
-              setModelPage={setModelPage}
-              setNotice={setNotice}
-              notice={notice}
-            />
-          ) : modelPage === "setting" ? (
-            <AcctSetting
-              showNavbar={showNavbar}
-              setShowNavbar={setShowNavbar}
-              setModelPage={setModelPage}
-            />
-          ) : modelPage === "inbox" ? (
-            <Inbox setPage={setModelPage} />
-          ) : null}
-        </>
+        <ModelPage
+          showNavbar={showNavbar}
+          setShowNavbar={setShowNavbar}
+          setNotice={setNotice}
+          notice={notice}
+        />
       )}
 
       {/*---> this is used for testing  */}
 
-      {/* <>
-        {modelPage === "dashboard" ? (
-          <ModelPage
-            showNavbar={showNavbar}
-            setShowNavbar={setShowNavbar}
-            setModelPage={setModelPage}
-            setNotice={setNotice}
-            notice={notice}
-          />
-        ) : modelPage === "setting" ? (
-          <AcctSetting
-            showNavbar={showNavbar}
-            setShowNavbar={setShowNavbar}
-            setModelPage={setModelPage}
-          />
-        ) : modelPage === "inbox" ? (
-          <Inbox setPage={setModelPage} />
-        ) : null}
-      </> */}
+      {/* <ModelPage
+        showNavbar={showNavbar}
+        setShowNavbar={setShowNavbar}
+        setNotice={setNotice}
+        notice={notice}
+      /> */}
     </>
   );
 }

@@ -91,11 +91,14 @@ const Navbar = () => {
           <ul className="mobile-nav__list">
             {links.map(({ name, path, id }) => {
               return (
-                <li onClick={handleMenu} key={id} className="mobile-nav__item">
-                  <NavLink to={path} className={({ isActive }) => (isActive ? "active-nav" : "")}>
+                <NavLink
+                  to={path}
+                  style={{ color: "white" }}
+                  className={({ isActive }) => (isActive ? "active-nav" : "")}>
+                  <li onClick={handleMenu} key={id} className="mobile-nav__item">
                     {name}
-                  </NavLink>
-                </li>
+                  </li>
+                </NavLink>
               );
             })}
           </ul>

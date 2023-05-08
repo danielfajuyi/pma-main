@@ -4,7 +4,7 @@ import ClientKycForm2 from "./Client-Kyc-Form-2";
 
 import "./Client-Kyc-Forms.css";
 
-function ClientsForms({ DomItems, userData, accountId, handleModal , setShowNavbar, showNavbar}) {
+function ClientsForms({ setShowNavbar, showNavbar }) {
   const [activeForm, setActiveForm] = useState(1);
   const [inputs, setInputs] = useState({});
 
@@ -16,6 +16,11 @@ function ClientsForms({ DomItems, userData, accountId, handleModal , setShowNavb
     },
     [setInputs]
   );
+
+  useEffect(() => {
+    setShowNavbar(false);
+  }, [setShowNavbar]); //--> Hides The Navbar
+
   // console.log(inputs)
 
   function handleNavigation(text) {
@@ -36,25 +41,26 @@ function ClientsForms({ DomItems, userData, accountId, handleModal , setShowNavb
 
   return (
     !showNavbar && (
-    <div style={{ backgroundColor: "white" }}>
-      {activeForm === 1 && (
-        <ClientKycForm1
-          handleNavigation={handleNavigation}
-          handleChange={handleChange}
-          setInputs={setInputs}
-          inputs={inputs}
-        />
-      )}
+      <div style={{ backgroundColor: "white" }}>
+        {activeForm === 1 && (
+          <ClientKycForm1
+            handleNavigation={handleNavigation}
+            handleChange={handleChange}
+            setInputs={setInputs}
+            inputs={inputs}
+          />
+        )}
 
-      {activeForm === 2 && (
-        <ClientKycForm2
-          handleNavigation={handleNavigation}
-          handleChange={handleChange}
-          setInputs={setInputs}
-          inputs={inputs}
-        />
-      )}
-    </div>)
+        {activeForm === 2 && (
+          <ClientKycForm2
+            handleNavigation={handleNavigation}
+            handleChange={handleChange}
+            setInputs={setInputs}
+            inputs={inputs}
+          />
+        )}
+      </div>
+    )
   );
 }
 

@@ -6,12 +6,13 @@ import useMediaQuery from "../../../custom_hooks/useMediaQuery";
 import { motion } from "framer-motion";
 import { IconContext } from "react-icons";
 import { useSelector } from "react-redux";
+import { NavLink } from "react-router-dom";
 
 const DashboardTopbar = ({
   setSidebarVisibility,
   sidebarVisibility,
   lastItem,
-  setPage,
+
   setToggleNotice,
 }) => {
   const { notification } = useSelector((state) => state.notification);
@@ -22,19 +23,10 @@ const DashboardTopbar = ({
   return (
     <nav id="topbar">
       <div id="left">
-        <FaBars
-          id="bars"
-          size={26}
-          onClick={() => setSidebarVisibility(!sidebarVisibility)}
-        />
+        <FaBars id="bars" size={26} onClick={() => setSidebarVisibility(!sidebarVisibility)} />
         <div id="search_bar">
           <BiSearch id="search_icon" size={18} />
-          <input
-            type="text"
-            name="topbar_search"
-            id="topbar_search"
-            placeholder="Search"
-          />
+          <input type="text" name="topbar_search" id="topbar_search" placeholder="Search" />
         </div>
       </div>
 
@@ -43,19 +35,18 @@ const DashboardTopbar = ({
           <motion.div whileTap={{ scale: 0.8 }}>
             <BiSearch color="white" display={mQ ? "none" : "inline"} />
           </motion.div>
+
+          <NavLink to={"/inbox"}>
+            <motion.div id="notification" whileTap={{ scale: 0.8 }}>
+              <BiEnvelope color="white" />
+              {message > 0 && <span id="data">{message}</span>}
+            </motion.div>
+          </NavLink>
+
           <motion.div
             id="notification"
             whileTap={{ scale: 0.8 }}
-            onClick={() => setPage("inbox")}
-          >
-            <BiEnvelope color="white" />
-            {message > 0 && <span id="data">{message}</span>}
-          </motion.div>
-          <motion.div
-            id="notification"
-            whileTap={{ scale: 0.8 }}
-            onClick={() => setToggleNotice((prev) => !prev)}
-          >
+            onClick={() => setToggleNotice((prev) => !prev)}>
             <IoNotifications id="icon" color="white" />
             {notification > 0 && <span id="data">{notification}</span>}
           </motion.div>
