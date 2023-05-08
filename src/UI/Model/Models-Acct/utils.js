@@ -35,6 +35,12 @@ export const info = [
     placeholder: "State Name...",
     label: "State",
   },
+  {
+    type: "text",
+    id: "fullName",
+    placeholder: "Enter Model Full Name...",
+    label: "Last Name",
+  },
 ];
 
 export const statsInput = [
@@ -139,6 +145,12 @@ export const statsInput = [
     id: "availableForTravel",
     placeholder: "Yes or No...",
     label: "Available for travel",
+  },
+  {
+    type: "number",
+    id: "minPrice",
+    placeholder: "Enter minimum booking price",
+    label: "Minimum booking price",
   },
 ];
 
@@ -369,4 +381,4 @@ export const Polaroid = [
 ];
 
 export const navList1 = ["about", "stats", "photos", "videos"];
-export const navList2 = ["email/pass", "payment"];
+export const navList2 = ["email/pass", "payment", "dashboard"];

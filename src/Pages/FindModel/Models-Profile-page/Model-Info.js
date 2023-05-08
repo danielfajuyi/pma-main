@@ -3,25 +3,14 @@ import { InteractiveBtn } from "./Buttons";
 import { useLocation } from "react-router";
 import { BiCategoryAlt } from "react-icons/bi";
 import { BsPatchCheckFill } from "react-icons/bs";
-import {
-  FaEnvelope,
-  FaEnvelopeOpen,
-  FaHome,
-  FaRegEnvelope,
-  FaRegStar,
-  FaStar,
-  FaUser,
-} from "react-icons/fa";
+import { FaEnvelope, FaHome, FaRegStar, FaStar } from "react-icons/fa";
 import { MdLocationPin } from "react-icons/md";
+import { NavLink } from "react-router-dom";
 
-function ModelInfo({ item, handleForm, setEditPortfolio }) {
+function ModelInfo({ item, handleForm }) {
   const user = useSelector((state) => state.user.currentUser);
   const location = useLocation();
   const path = location.pathname.split("/")[3];
-
-  const handleEditProfile = () => {
-    setEditPortfolio(true);
-  };
 
   return (
     <>
@@ -29,7 +18,7 @@ function ModelInfo({ item, handleForm, setEditPortfolio }) {
         <div className="model__img-container">
           <img
             className="model__img"
-            src={item?.picture}
+            src={item?.picture ? item?.picture : item?.model?.picture}
             alt=""
             width="400"
             height="400"
@@ -38,7 +27,7 @@ function ModelInfo({ item, handleForm, setEditPortfolio }) {
         <div className="model-Info__text-content">
           <span className="top-text model__namewrap">
             <span className="model__names">{`${item?.model?.fullName}`}</span>
-            <BsPatchCheckFill />
+            {item?.model?.isVerified && <BsPatchCheckFill />}
           </span>
           <div className="text2 model__ratings">
             <span>
@@ -73,7 +62,8 @@ function ModelInfo({ item, handleForm, setEditPortfolio }) {
           <div className="text4 model__locations">
             <MdLocationPin />
             <span>
-              {item?.state}, {item?.country}
+              {item?.state ? item?.state : item?.model?.state},{" "}
+              {item?.country ? item?.country : item?.model?.country}
             </span>
           </div>
 
@@ -112,25 +102,28 @@ function ModelInfo({ item, handleForm, setEditPortfolio }) {
               <span className="semi-bold">Active: </span> 2 weeks ago
             </p>
           </div>
+          <p>
+            <span className="semi-bold">Minimum booking price: </span> #{item?.model?.minPrice}
+          </p>
 
           <div className="profile-btn btn-shadow">
-            <button
-              onClick={
-                user && user._id === path ? handleEditProfile : handleForm
-              }
-              className="model-profilebtn  btn-shadow"
-            >
-              <FaEnvelope />
-              {!user || user._id !== path ? (
-                <>
-                  <span>Book</span> <span>Model</span>
-                </>
-              ) : (
-                <>
-                  <span>Edit</span> <span>Portfolio</span>
-                </>
-              )}
-            </button>
+            <NavLink to={user && user._id === path && "/model-Acct-setting"}>
+              <button
+                onClick={!user && user._id !== path && handleForm}
+                className="model-profilebtn  btn-shadow"
+              >
+                <FaEnvelope />
+                {!user || user._id !== path ? (
+                  <>
+                    <span>Book</span> <span>Model</span>
+                  </>
+                ) : (
+                  <>
+                    <span>Edit</span> <span>Portfolio</span>
+                  </>
+                )}
+              </button>
+            </NavLink>
           </div>
         </div>
       </section>

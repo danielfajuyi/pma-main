@@ -7,15 +7,25 @@ import Photos from "./Photos";
 import Videos from "./Videos";
 import { useState } from "react";
 import { navList1, navList2 } from "../utils";
+import { NavLink } from "react-router-dom";
+import { useEffect } from "react";
 
-function ModelAcctSetting({  handleModal, userData }) {
-  // const { navList1, navList2 } = DomItems[0];
+function ModelAcctSetting({
+  handleModal,
+  userData,
+  showNavbar,
+  setShowNavbar,
+}) {
   const [activeSet, setActiveSet] = useState("about");
   const [toggleSetMenu, setToggleSetMenu] = useState(false);
   const [activeEdit, setActiveEdit] = useState("");
 
   const [discardFunc, setDiscardFunc] = useState("");
   const [toggleDiscard, setToggleDiscard] = useState(false);
+
+  useEffect(() => {
+    setShowNavbar(false);
+  }, [setShowNavbar]); //--> Hides The Navbar
 
   function handleActiveSet(set) {
     setActiveSet(set);
@@ -52,7 +62,7 @@ function ModelAcctSetting({  handleModal, userData }) {
   function discardAlert() {
     return (
       <section
-        style={{ transform: toggleDiscard && `translateX(${0}%)`,  }}
+        style={{ transform: toggleDiscard && `translateX(${0}%)` }}
         className="modal-section"
       >
         <div className="alert-box">
@@ -82,153 +92,162 @@ function ModelAcctSetting({  handleModal, userData }) {
       </section>
     );
   }
+
   return (
     <>
-      <div className="set_sections">
-        {discardAlert()}
+      {!showNavbar && (
+        <div className="set_sections">
+          {discardAlert()}
 
-        {/* nav section */}
+          {/* nav section */}
 
-        <section
-          style={{ transform: toggleSetMenu && `translateX(${0}%)` }}
-          className="Acct-set-menu"
-        >
-          <div className="set-nav_title">
-            <h2>
-              Acct-<span className="mobile-nav-text">Settings</span>
-            </h2>
-            <i className="fa-solid fa-gear"></i>
-          </div>
+          <section
+            style={{ transform: toggleSetMenu && `translateX(${0}%)` }}
+            className="Acct-set-menu"
+          >
+            <div className="set-nav_title">
+              <h2>
+                Acct-<span className="mobile-nav-text">Settings</span>
+              </h2>
+              <i className="fa-solid fa-gear"></i>
+            </div>
 
-          <nav className="set-nav">
-            <i
-              className="fa-solid fa-xmark close-set colored-hover"
-              onClick={handleToggleSetMenu}
-            ></i>
-            <ul className="set-nav_list">
-              {navList1.map((item) => {
-                return (
-                  <li
-                    key={item}
-                    className="set-nav_item colored-hover"
-                    onClick={() => handleActiveSet(item)}
-                    role="button"
-                  >
-                    {item === "about" ? (
-                      <i className="fa-solid fa-address-book"></i>
-                    ) : item === "stats" ? (
-                      <i className="fa-solid fa-chart-simple"></i>
-                    ) : item === "photos" ? (
-                      <i className="fa-solid fa-image"></i>
-                    ) : (
-                      <i className="fa-brands fa-youtube"></i>
-                    )}
-                    {item}
-                  </li>
-                );
-              })}
-            </ul>
-            <ul className="set-nav_list">
-              {navList2.map((item) => {
-                return (
-                  <li
-                    key={item}
-                    className="set-nav_item colored-hover"
-                    onClick={() => handleActiveSet(item)}
-                    role="button"
-                  >
-                    {item === "email/pass" ? (
-                      <i className="fa-solid fa-envelope-circle-check"></i>
-                    ) : item === "payment" ? (
-                      <i className="fa-solid fa-landmark"></i>
-                    ) : (
-                      <i className="fa-solid fa-house"></i>
-                    )}
-                    {item}
-                  </li>
-                );
-              })}
-            </ul>
-          </nav>
-        </section>
+            <nav className="set-nav">
+              <i
+                className="fa-solid fa-xmark close-set colored-hover"
+                onClick={handleToggleSetMenu}
+              ></i>
+              <ul className="set-nav_list">
+                {navList1.map((item) => {
+                  return (
+                    <li
+                      key={item}
+                      className="set-nav_item colored-hover"
+                      onClick={() => handleActiveSet(item)}
+                      role="button"
+                    >
+                      {item === "about" ? (
+                        <i className="fa-solid fa-address-book"></i>
+                      ) : item === "stats" ? (
+                        <i className="fa-solid fa-chart-simple"></i>
+                      ) : item === "photos" ? (
+                        <i className="fa-solid fa-image"></i>
+                      ) : (
+                        <i className="fa-brands fa-youtube"></i>
+                      )}
+                      {item}
+                    </li>
+                  );
+                })}
+              </ul>
+              <ul className="set-nav_list">
+                {navList2.map((item) => {
+                  return (
+                    <NavLink
+                      to={item === "dashboard" && "/modelPage/dashboard"}
+                    >
+                      <li
+                        key={item}
+                        className="set-nav_item colored-hover"
+                        onClick={() => handleActiveSet(item)}
+                        role="button"
+                      >
+                        {item === "email/pass" ? (
+                          <i className="fa-solid fa-envelope-circle-check"></i>
+                        ) : item === "payment" ? (
+                          <i className="fa-solid fa-landmark"></i>
+                        ) : (
+                          <i className="fa-solid fa-house"></i>
+                        )}
+                        {item}
+                      </li>
+                    </NavLink>
+                  );
+                })}
+              </ul>
+            </nav>
+          </section>
 
-        {/* main section */}
+          {/* main section */}
 
-        <section className="Acct-set-main" style={{backgroundColor:'white'}}>
-          {/* settings header */}
-          <div className="set_mobile-nav">
-            <h2>
-              Acct-<span className="mobile-nav-text">Settings</span>
-            </h2>
-            <i
-              className="fa-solid fa-gear colored-hover"
-              onClick={handleToggleSetMenu}
-            ></i>
-          </div>
+          <section
+            className="Acct-set-main"
+            style={{ backgroundColor: "white" }}
+          >
+            {/* settings header */}
+            <div className="set_mobile-nav">
+              <h2>
+                Acct-<span className="mobile-nav-text">Settings</span>
+              </h2>
+              <i
+                className="fa-solid fa-gear colored-hover"
+                onClick={handleToggleSetMenu}
+              ></i>
+            </div>
 
-          {/* About section */}
+            {/* About section */}
 
-          {activeSet === "about" && (
-            <About
-              // DomItems={DomItems}
-              handleActiveEdit={handleActiveEdit}
-              activeEdit={activeEdit}
-              userData={userData}
-              handleModal={handleModal}
-              resetDiscard={resetDiscard}
-            />
-          )}
+            {activeSet === "about" && (
+              <About
+                handleActiveEdit={handleActiveEdit}
+                activeEdit={activeEdit}
+                userData={userData}
+                handleModal={handleModal}
+                resetDiscard={resetDiscard}
+              />
+            )}
 
-          {/* stats section */}
+            {/* stats section */}
 
-          {activeSet === "stats" && (
-            <Stats
-              // DomItems={DomItems}
-              handleActiveEdit={handleActiveEdit}
-              activeEdit={activeEdit}
-              userData={userData}
-              handleModal={handleModal}
-              resetDiscard={resetDiscard}
-            />
-          )}
+            {activeSet === "stats" && (
+              <Stats
+                // DomItems={DomItems}
+                handleActiveEdit={handleActiveEdit}
+                activeEdit={activeEdit}
+                userData={userData}
+                handleModal={handleModal}
+                resetDiscard={resetDiscard}
+              />
+            )}
 
-          {/* photo section */}
+            {/* photo section */}
 
-          {activeSet === "photos" && (
-            <Photos
-              userData={userData}
-              handleModal={handleModal}
-              resetDiscard={resetDiscard}
-            />
-          )}
+            {activeSet === "photos" && (
+              <Photos
+                userData={userData}
+                handleModal={handleModal}
+                resetDiscard={resetDiscard}
+              />
+            )}
 
-          {/* video section */}
+            {/* video section */}
 
-          {activeSet === "videos" && (
-            <Videos
-              userData={userData}
-              handleModal={handleModal}
-              resetDiscard={resetDiscard}
-            />
-          )}
+            {activeSet === "videos" && (
+              <Videos
+                userData={userData}
+                handleModal={handleModal}
+                resetDiscard={resetDiscard}
+              />
+            )}
 
-          {/* email and password section */}
+            {/* email and password section */}
 
-          {activeSet === "email/pass" && (
-            <EmailAndPassword
-              handleActiveEdit={handleActiveEdit}
-              activeEdit={activeEdit}
-              userData={userData}
-              handleModal={handleModal}
-              resetDiscard={resetDiscard}
-            />
-          )}
+            {activeSet === "email/pass" && (
+              <EmailAndPassword
+                handleActiveEdit={handleActiveEdit}
+                activeEdit={activeEdit}
+                userData={userData}
+                handleModal={handleModal}
+                resetDiscard={resetDiscard}
+              />
+            )}
 
-          {/* payment info section */}
+            {/* payment info section */}
 
-          {activeSet === "payment" && <PaymentInfo userData={userData} />}
-        </section>
-      </div>
+            {activeSet === "payment" && <PaymentInfo userData={userData} />}
+          </section>
+        </div>
+      )}
     </>
   );
 }

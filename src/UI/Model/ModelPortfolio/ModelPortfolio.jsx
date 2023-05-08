@@ -21,7 +21,7 @@ function ModelPortfolio({ item, postMsg }) {
   const [deviceSize, setDeviceSize] = useState(window.innerWidth);
   const [activeDisplay, setActiveDisplay] = useState("");
   const [viewAll, setViewAll] = useState(false);
-  const [editPortfolio, setEditPortfolio] = useState(false);
+  //const [editPortfolio, setEditPortfolio] = useState(false);
 
   // setting device size
   function handleResize() {
@@ -56,52 +56,46 @@ function ModelPortfolio({ item, postMsg }) {
 
   return (
     <div style={{ backgroundColor: "white" }}>
-      {editPortfolio && <AcctSetting />}
-      {!editPortfolio && (
-        <>
-          <ModelInfo
-            item={user}
-            handleForm={handleForm}
-            setEditPortfolio={setEditPortfolio}
+      <>
+        <ModelInfo item={user} handleForm={handleForm} />
+        <Links handleSection={handleSection} activeSection={activeSection} />
+        {activeSection === "Photos" && (
+          <ModelPhoto
+            photos={user?.model?.photos}
+            activeDisplay={activeDisplay}
+            displayLimit={displayLimit}
+            handleDisplay={handleDisplay}
+            viewAll={viewAll}
           />
-          <Links handleSection={handleSection} activeSection={activeSection} />
-          {activeSection === "Photos" && (
-            <ModelPhoto
-              photos={user?.model?.photos}
-              activeDisplay={activeDisplay}
-              displayLimit={displayLimit}
-              handleDisplay={handleDisplay}
-              viewAll={viewAll}
-            />
-          )}
-          {activeSection === "Stats" && <ModelStats item={user?.model} />}
-          {activeSection === "Bio" && <ModelBio item={user?.model} />}
-          {activeSection === "Videos" && (
-            <ModelVideo
-              videos={user?.model?.videos}
-              activeDisplay={activeDisplay}
-              displayLimit={displayLimit}
-              handleDisplay={handleDisplay}
-              viewAll={viewAll}
-            />
-          )}
-          {activeSection === "Polaroids" && (
-            <ModelPolaroid
-              polaroids={user?.model?.polaroids}
-              activeDisplay={activeDisplay}
-              displayLimit={displayLimit}
-              handleDisplay={handleDisplay}
-              viewAll={viewAll}
-            />
-          )}
-          <BookingForm
-            handleForm={handleForm}
-            toggleForm={toggleForm}
-            profileId={item?.id}
-            postMsg={postMsg}
+        )}
+        {activeSection === "Stats" && <ModelStats item={user?.model} />}
+        {activeSection === "Bio" && <ModelBio item={user?.model} />}
+        {activeSection === "Videos" && (
+          <ModelVideo
+            videos={user?.model?.videos}
+            activeDisplay={activeDisplay}
+            displayLimit={displayLimit}
+            handleDisplay={handleDisplay}
+            viewAll={viewAll}
           />
-        </>
-      )}
+        )}
+        {activeSection === "Polaroids" && (
+          <ModelPolaroid
+            polaroids={user?.model?.polaroids}
+            activeDisplay={activeDisplay}
+            displayLimit={displayLimit}
+            handleDisplay={handleDisplay}
+            viewAll={viewAll}
+          />
+        )}
+        <BookingForm
+          handleForm={handleForm}
+          toggleForm={toggleForm}
+          profileId={item?.id}
+          postMsg={postMsg}
+        />
+      </>
+
       <div className="profile-footer">
         <small>Copyright &copy; 2022 PREMIUM MODEL</small>
         <span>{`(${deviceSize})`}</span>

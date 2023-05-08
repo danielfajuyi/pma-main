@@ -269,6 +269,15 @@ function Stats({ handleActiveEdit, activeEdit, resetDiscard }) {
               <option value="false">No</option>
             </select>
           </li>
+          <li className="stats-item" style={{ width: "48%" }}>
+            <span className="stats-item-text">Mininum booking price: </span>
+            <input
+              defaultValue={`#${user?.model?.minPrice}`}
+              readOnly={activeEdit === "model-statistic" ? false : true}
+              name="minPrice"
+              onChange={handleChange}
+            />
+          </li>
         </ul>
 
         {/* category section*/}
@@ -399,7 +408,7 @@ function Stats({ handleActiveEdit, activeEdit, resetDiscard }) {
         )}
         {/* social media section */}
         <div className="set_sections-title-rapper">
-          <h2 className="set_sections-title">Social Media Handles</h2>
+          <h2 className="set_sections-title">Instagram Handle</h2>
           <EditBtn
             btnText={activeEdit === "social-media" ? "Done" : "Edit"}
             section="social-media"

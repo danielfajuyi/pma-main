@@ -373,7 +373,7 @@ const JobPostForm = () => {
           </div>
         </form>
       </section>
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 };

@@ -7,11 +7,12 @@ import { Photo, Polaroid } from "../utils";
 import { AlertModal } from "../../../../Pages/LoginSignup/Sign-Up/signUpForm/Modal";
 import { storage } from "../../../../firebase";
 import { useDispatch, useSelector } from "react-redux";
-import { update } from "../../../../redux/apiCalls";
+import { makePost, update } from "../../../../redux/apiCalls";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useLocation } from "react-router";
 
-function ModelsKycForm3({ handleNavigation, inputs, setInputs }) {
+function ModelsKycForm3({ handleNavigation, inputs, setInputs, path }) {
   const { isFetching } = useSelector((state) => state.user);
   // const user = useSelector((state) => state.user.currentUser);
   const dispatch = useDispatch();
@@ -126,8 +127,10 @@ function ModelsKycForm3({ handleNavigation, inputs, setInputs }) {
   function handleSubmit(text) {
     if (photos.length < 6) {
       setModalTxt("add-photo");
+    } else if (path !== "/modelpage" ) {
+      makePost(dispatch, "/agency/create", { ...inputs }, setInputs);
     } else {
-      update(dispatch, "/model/", { ...inputs }, setModalTxt);
+      update(dispatch, "/model/", { ...inputs, isUpdated: true }, setModalTxt);
     }
   }
 
@@ -136,7 +139,7 @@ function ModelsKycForm3({ handleNavigation, inputs, setInputs }) {
       <AlertModal modalTxt={modalTxt} setModalTxt={setModalTxt} />
       <ToastContainer position="top-center" />
       <section className="kyc-hero">
-        <img src="/images/kyc (3).jpg" alt="" />
+        <img src="/images/kyc/model-3.jpg" alt="" />
         <div className="kyc-hero__text-rapper">
           <h2 className="kyc-hero__title">Finally</h2>
           <p className="kyc-hero__text" style={{ color: "#000" }}>
@@ -224,7 +227,7 @@ function ModelsKycForm3({ handleNavigation, inputs, setInputs }) {
             </ul>
           </div>
 
-          <div className="sections-container">
+          {/* <div className="sections-container">
             <h2 className="sections-title">Comp Card</h2>
             {compCard && (
               <img
@@ -240,7 +243,7 @@ function ModelsKycForm3({ handleNavigation, inputs, setInputs }) {
               name="compCard"
               className="colored-hover"
             />
-          </div>
+          </div> */}
 
           <div className="kyc-btn-container">
             <FormNavBtn

@@ -19,13 +19,14 @@ const BlogPreviewCard = (props) => {
       unsubsribed = true;
     };
   }, [dispatch]);
+  const reverse = [...message].reverse();
 
   return (
-    <div>
-      {message.map((item) => (
+    <div style={{ display: "flex", flexWrap: "wrap" }}>
+      {reverse?.slice(0, 5).map((item) => (
         <div className="blog_preview_card" key={item._id}>
           <div className="author_img">
-            <img src={props.img} alt="author-img" />
+            <img src={item?.photo} alt="author-img" />
           </div>
           <div className="body">
             <div className="blog_title">{item.title}</div>

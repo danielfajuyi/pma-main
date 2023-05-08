@@ -2,10 +2,16 @@ import { useCallback, useEffect, useState } from "react";
 import ModelsKycForm1 from "./Models-Kyc-Form-1";
 import ModelsKycForm2 from "./Models-Kyc-Form-2";
 import ModelsKycForm3 from "./Models-Kyc-Form-3";
+import { useLocation } from "react-router";
 
 import "./Models-Kyc-Forms.css";
+import { useSelector } from "react-redux";
 
-function ModelsForms() {
+function ModelsForms({ showNavbar, setShowNavbar }) {
+  const user = useSelector((state) => state.user.currentUser);
+  const location = useLocation();
+  const path = location.pathname;
+
   const [activeForm, setActiveForm] = useState(1);
   const [inputs, setInputs] = useState({});
   const [category, setCategory] = useState([]);
@@ -60,36 +66,48 @@ function ModelsForms() {
     }
   }
 
+  useEffect(() => {
+    setShowNavbar(false);
+  }, [setShowNavbar]); //--> Hides The Navbar
+
   return (
-    <div className="kyc">
-      {activeForm === 1 && (
-        <ModelsKycForm1
-          inputs={inputs}
-          handleNavigation={handleNavigation}
-          handleChange={handleChange}
-          setInputs={setInputs}
-        />
-      )}
-      {activeForm === 2 && (
-        <ModelsKycForm2
-          inputs={inputs}
-          handleNavigation={handleNavigation}
-          handleChange={handleChange}
-          setCategory={setCategory}
-          category={category}
-          setInterestedJob={setInterestedJob}
-          interestedJob={interestedJob}
-        />
-      )}
-      {activeForm === 3 && (
-        <ModelsKycForm3
-          inputs={inputs}
-          handleNavigation={handleNavigation}
-          handleChange={handleChange}
-          setInputs={setInputs}
-        />
-      )}
-    </div>
+    !showNavbar && (
+      <div className="kyc">
+        {activeForm === 1 && (
+          <ModelsKycForm1
+            inputs={inputs}
+            handleNavigation={handleNavigation}
+            handleChange={handleChange}
+            setInputs={setInputs}
+            path={path}
+            user={user}
+          />
+        )}
+        {activeForm === 2 && (
+          <ModelsKycForm2
+            inputs={inputs}
+            handleNavigation={handleNavigation}
+            handleChange={handleChange}
+            setCategory={setCategory}
+            category={category}
+            setInterestedJob={setInterestedJob}
+            interestedJob={interestedJob}
+            path={path}
+            user={user}
+          />
+        )}
+        {activeForm === 3 && (
+          <ModelsKycForm3
+            inputs={inputs}
+            handleNavigation={handleNavigation}
+            handleChange={handleChange}
+            setInputs={setInputs}
+            path={path}
+            user={user}
+          />
+        )}
+      </div>
+    )
   );
 }
 

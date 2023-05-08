@@ -16,7 +16,7 @@ const NotFound = () => {
       <SectionHead title="Sorry this page is notfound" />
       <img src="./assets/empty.gif" alt="" />
 
-      <Link to="/" className="btn_shadow">
+      <Link to="/" className="btn_shadow">a
         Go back
       </Link>
     </div>

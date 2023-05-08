@@ -5,9 +5,11 @@ import { GoVerified, GoStar } from "react-icons/go";
 import { IconContext } from "react-icons";
 import { motion } from "framer-motion";
 
-const ModelCard = (props,{model}) => {
+const ModelCard = ({model}) => {
+  const uuid = model?._id;
+
   return (
-    <div id="model_card" style={{ height: props.ch }} key={props.id} >
+    <div id="model_card" style={{ }}>
       <div id="img_holder">
         <img
           src={model?.picture ? model?.picture : "/images/avatar.jpg"}
@@ -18,9 +20,7 @@ const ModelCard = (props,{model}) => {
       <motion.div id="card_body">
         <div id="title">MODEL</div>
         <div>
-          <span id="name">
-            {model?.fullName}
-          </span>
+          <span id="name">{model?.fullName}</span>
           {model?.isVerified && <GoVerified color="green" size={14} />}
         </div>
         <div id="rating">
@@ -32,12 +32,20 @@ const ModelCard = (props,{model}) => {
             <GoStar />
           </IconContext.Provider>
         </div>
-        <div id="categories">{model?.category[0]}, {model?.category[1]}</div>
+        <div id="categories">
+          {model?.category}
+        </div>
         <div id="address">
           <FaMapMarkerAlt size={12} />
-          {model?.country && <span>{model?.state}, {model?.country}</span>}
+          {model?.country && (
+            <span>
+              {model?.state}, {model?.country}
+            </span>
+          )}
         </div>
-        <button id="card_btn">See Portfolio</button>
+        <a href={`/find-model/profile/${uuid}`}>
+          <button id="card_btn">See Portfolio</button>
+        </a>
       </motion.div>
     </div>
   );

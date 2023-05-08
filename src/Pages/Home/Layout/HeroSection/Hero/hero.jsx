@@ -20,7 +20,7 @@ const Hero = () => {
               className="hero-img"
               alt="hero-img"></img>
             <img
-              src="./images/home/hero/hero-img3new.jpg"
+              src="./images/home/hero/hero-img4.jpeg"
               className="hero-img"
               alt="hero-img"></img>
             <img

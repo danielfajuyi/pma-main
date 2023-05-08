@@ -121,23 +121,12 @@ function ClientsKycForm2({
     sendCoverPicture();
   }, [setInputs, coverPicture, jobPhoto, jobPhotos, picture]);
 
-  //setting error
-  useEffect(() => {
-    let err = false;
-    if (jobPhotos.length < 6 && !picture) {
-      err = true;
-    } else {
-      err = false;
-    }
-    setIsError(err);
-  }, []);
-
   //handling submit
   function handleSubmit() {
-    if (isError) {
+    if (jobPhotos.length < 6 && !picture) {
       setModalTxt("add-photo");
     } else {
-      update(dispatch, "/client/", { ...inputs }, setModalTxt);
+      update(dispatch, "/client/", { ...inputs, isUpdated: true }, setModalTxt);
     }
   }
 
@@ -146,7 +135,7 @@ function ClientsKycForm2({
       <AlertModal modalTxt={modalTxt} setModalTxt={setModalTxt} />
 
       <section className="--kyc-hero">
-        <img src="/images/client_4.jpg" alt="" />
+        <img src="/images/kyc/client-3.jpg" alt="" />
         <div className="--kyc-hero__text-rapper">
           <h2 className="--kyc-hero__title">Finally</h2>
           <p className="--kyc-hero__text">

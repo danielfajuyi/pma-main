@@ -40,14 +40,13 @@ const ImageSlider = () => {
         <div className="slidercard">
           <div className="slidercard-image overlay-2">
             <img
-              src="./images/team/teamslider/team1.jpg"
+              src="./images/team/teamslider/emma.jpeg"
               alt="team1"
               className="slider-img"
             />
             <div className="featured-model-text slider-overlay">
               <h2>
-                Stella <br />
-                Chukwuemeka
+                Emmanuel<br /> Abazuella 
               </h2>
             </div>
           </div>
@@ -75,8 +74,8 @@ const ImageSlider = () => {
           </ul>
           <div className="slider-details">
             <h2>
-              Stella Chukwuemeka
-              <span className="sliderjob-title">Graphic Designer</span>
+            Emmanuel Abazu
+              <span className="sliderjob-title">Founder</span>
             </h2>
           </div>
         </div>
@@ -85,11 +84,11 @@ const ImageSlider = () => {
       <div className="slidercard-wrapper">
         <div className="slidercard">
           <div className="slidercard-image">
-            <img src="./images/team/teamslider/team2.jpg" alt="team2" />
+            <img src="./images/team/teamslider/folake.jpeg" alt="team2" />
             <div className="featured-model-text slider-overlay">
               <h2>
                 Folakemi
-                <br /> Daniels
+                <br /> Orekoya
               </h2>
             </div>
           </div>
@@ -117,7 +116,7 @@ const ImageSlider = () => {
           </ul>
           <div className="slider-details">
             <h2>
-              Folakemi Daniels
+              Folakemi Orekoya
               <span className="sliderjob-title">UI/UX Designer</span>
             </h2>
           </div>
@@ -127,13 +126,13 @@ const ImageSlider = () => {
       <div className="slidercard-wrapper">
         <div className="slidercard">
           <div className="slidercard-image">
-            <img src="./images/team/teamslider/team3.jpg" alt="team3" />
+            <img src="./images/team/teamslider/praise.jpeg" alt="team3" />
 
             <div className="featured-model-text slider-overlay">
               <h2>
-                Issabella
+                Praise
                 <br />
-                Moner
+                Chibuzor
               </h2>
             </div>
           </div>
@@ -161,7 +160,7 @@ const ImageSlider = () => {
           </ul>
           <div className="slider-details">
             <h2>
-              Issabella Moner <span className="sliderjob-title">Model</span>
+              Praise Chibuzor <span className="sliderjob-title">Frontend Developer</span>
             </h2>
           </div>
         </div>
@@ -170,11 +169,11 @@ const ImageSlider = () => {
       <div className="slidercard-wrapper">
         <div className="slidercard">
           <div className="slidercard-image">
-            <img src="./images/team/teamslider/team4.jpg" alt="team4" />
+            <img src="./images/team/teamslider/chioma.jpeg" alt="team4" />
             <div className="featured-model-text slider-overlay">
               <h2>
-                Omotola <br />
-                Adeleke
+                Chioma <br />
+                Okeke
               </h2>
             </div>
           </div>
@@ -202,8 +201,8 @@ const ImageSlider = () => {
           </ul>
           <div className="slider-details">
             <h2>
-              Omotola Adeleke
-              <span className="sliderjob-title">Brand Ambassador</span>
+              Chioma Okeke
+              <span className="sliderjob-title">Frontend Developer</span>
             </h2>
           </div>
         </div>
@@ -212,12 +211,12 @@ const ImageSlider = () => {
       <div className="slidercard-wrapper">
         <div className="slidercard">
           <div className="slidercard-image">
-            <img src="./images/team/teamslider/team5.jpg" alt="team5" />
+            <img src="./images/team/teamslider/vic.jpeg" alt="team5" />
             <div className="featured-model-text slider-overlay">
               <h2>
-                James
+                Victor
                 <br />
-                Handerson
+                Oluwatosin
               </h2>
             </div>
           </div>
@@ -245,8 +244,8 @@ const ImageSlider = () => {
           </ul>
           <div className="slider-details">
             <h2>
-              James Handerson
-              <span className="sliderjob-title">Web Developer</span>
+              Victor Oluwatosin
+              <span className="sliderjob-title">Backend Developer/Project Manager</span>
             </h2>
           </div>
         </div>
@@ -255,13 +254,13 @@ const ImageSlider = () => {
       <div className="slidercard-wrapper">
         <div className="slidercard">
           <div className="slidercard-image">
-            <img src="./images/team/teamslider/team6.jpg" alt="team6" />
+            <img src="./images/team/teamslider/evans.jpeg" alt="team6" />
 
             <div className="featured-model-text slider-overlay">
               <h2>
-                Chioma
+              Anugwo
                 <br />
-                Williams
+                Evans
               </h2>
             </div>
           </div>
@@ -289,8 +288,52 @@ const ImageSlider = () => {
           </ul>
           <div className="slider-details">
             <h2>
-              Chioma Willams
-              <span className="sliderjob-title">Chioma Willams </span>
+            Anugwo Evans
+              <span className="sliderjob-title">UI/UX Designer</span>
+            </h2>
+          </div>
+        </div>
+      </div>
+
+      <div className="slidercard-wrapper">
+        <div className="slidercard">
+          <div className="slidercard-image">
+            <img src="./images/team/teamslider/dan.jpeg" alt="team6" />
+
+            <div className="featured-model-text slider-overlay">
+              <h2>
+              Daniel
+                <br />
+                Fajuyi
+              </h2>
+            </div>
+          </div>
+          <ul className="slidersocial-icons">
+            <li>
+              <a href="/about">
+                <UilFacebook />
+              </a>
+            </li>
+            <li>
+              <a href="/about">
+                <UilWhatsapp />
+              </a>
+            </li>
+            <li>
+              <a href="/about">
+                <UilInstagram />
+              </a>
+            </li>
+            <li>
+              <a href="/about">
+                <UilTwitter />
+              </a>
+            </li>
+          </ul>
+          <div className="slider-details">
+            <h2>
+            Daniel Fajuyi
+              <span className="sliderjob-title">Frontend Developer</span>
             </h2>
           </div>
         </div>

@@ -240,7 +240,7 @@ const Footer = () => {
           </div>
 
           <div className="footer-copyright">
-            <small>Copyright &copy; 2022 PREMIUM MODEL</small>
+            <small>Copyright &copy; 2023 PM Networks.</small>
           </div>
         </article>
       </footer>

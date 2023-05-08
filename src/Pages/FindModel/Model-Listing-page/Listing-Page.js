@@ -8,7 +8,7 @@ import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { makeGet } from "../../../redux/apiCalls";
 
-function ListingPage({ handleProfile }) {
+function ListingPage() {
   const dispatch = useDispatch();
   const [message, setMessage] = useState([]);
   const [query, setQuery] = useState("");
@@ -24,7 +24,7 @@ function ListingPage({ handleProfile }) {
     return () => {
       unsubscribed = true;
     };
-  }, [dispatch, query]);
+  }, [query]);
 
   const [gender, setGender] = useState("");
   const [category, setCategory] = useState("");
@@ -232,11 +232,7 @@ function ListingPage({ handleProfile }) {
         data={message}
       />
 
-      <List
-        data={data}
-        handleProfile={handleProfile}
-        currentPage={currentPage}
-      />
+      <List data={data} currentPage={currentPage} />
       {message.length !== 0 && (
         <PageNation
           pageNumber={pageNumber}

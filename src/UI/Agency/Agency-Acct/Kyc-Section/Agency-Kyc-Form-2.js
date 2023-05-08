@@ -42,7 +42,7 @@ function AgencyKycForm2({ handleNavigation, inputs, setInputs }) {
         if (urlType === "jobPhotos") {
           setProgress(Math.round(progress));
         }
-        if (urlType === "photo") {
+        if (urlType === "picture") {
           setProgress(Math.round(progress));
         }
         if (urlType === "coverPhoto") {
@@ -65,7 +65,7 @@ function AgencyKycForm2({ handleNavigation, inputs, setInputs }) {
           if (urlType === "jobPhotos") {
             setJobPhotos((prev) => [...prev, downloadURL]);
           }
-          if (urlType === "photo") {
+          if (urlType === "picture") {
             setInputs((prev) => {
               return { ...prev, [urlType]: downloadURL };
             });
@@ -94,9 +94,9 @@ function AgencyKycForm2({ handleNavigation, inputs, setInputs }) {
     sendJobPhoto();
 
     const sendPicture = (urlType) => {
-      urlType = "photo";
+      urlType = "picture";
       if (photo) {
-        uploadFile(photo, "photo");
+        uploadFile(photo, "picture");
         // setPicture(undefined);
       }
     };
@@ -115,7 +115,7 @@ function AgencyKycForm2({ handleNavigation, inputs, setInputs }) {
   //handling submit
   function handleSubmit() {
     if (jobPhotos.length > 3) {
-      update(dispatch, "/agency/", { ...inputs }, setModalTxt);
+      update(dispatch, "/agency/", { ...inputs, isUpdated: true }, setModalTxt);
     } else {
       setModalTxt("add-photo");
     }
@@ -127,7 +127,7 @@ function AgencyKycForm2({ handleNavigation, inputs, setInputs }) {
       <ToastContainer />
 
       <section className="kyc--hero">
-        <img src="/images/agent_3.jpg" alt="" />
+        <img src="/images/kyc/agent-2.jpg" alt="" />
         <div className="kyc--hero__text-rapper">
           <h2 className="kyc--hero__title">Finally</h2>
           <p className="kyc--hero__text">
@@ -169,7 +169,7 @@ function AgencyKycForm2({ handleNavigation, inputs, setInputs }) {
               <input
                 onChange={(e) => setPhoto(e.target.files[0])}
                 type="file"
-                name="photo"
+                name="picture"
                 id="profile-img"
                 className="file--input"
               />

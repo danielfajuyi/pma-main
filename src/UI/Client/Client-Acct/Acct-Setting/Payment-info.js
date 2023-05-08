@@ -1,11 +1,9 @@
-import "./Email-and-password.css";
+import "./Payment-info.css";
 
 function PaymentInfo() {
   return (
-    <section className="notice">
-      <div className="notice-box">
-        <h2 className="notice-text">Coming Soon...!</h2>
-      </div>
+    <section className="payment--section">
+      <h2>Coming Soon...!</h2>
     </section>
   );
 }

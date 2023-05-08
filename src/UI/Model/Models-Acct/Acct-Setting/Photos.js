@@ -188,7 +188,7 @@ function Photos({ handleModal, resetDiscard }) {
 
   //handle save
   function handleSubmit(text) {
-    update(dispatch, "/model/", { ...inputs }, setModalTxt);
+    update(dispatch, "/model/upload-photo", { ...inputs }, setModalTxt);
   }
 
   return (
@@ -396,7 +396,7 @@ function Photos({ handleModal, resetDiscard }) {
           </span>
         </div>
 
-        <div className="set_sections-container ">
+        {/* <div className="set_sections-container ">
           <h2 className="set_sections-title">Comp Card</h2>
           {compCard && (
             <img
@@ -413,7 +413,7 @@ function Photos({ handleModal, resetDiscard }) {
             id=""
             name="card"
           />
-        </div>
+        </div> */}
         {/* button section  */}
 
         <section className="setting_btn-container">

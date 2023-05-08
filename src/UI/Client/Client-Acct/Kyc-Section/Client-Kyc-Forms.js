@@ -1,10 +1,10 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import ClientKycForm1 from "./Client-Kyc-Form-1";
 import ClientKycForm2 from "./Client-Kyc-Form-2";
 
 import "./Client-Kyc-Forms.css";
 
-function ClientsForms({ DomItems, userData, accountId, handleModal }) {
+function ClientsForms({ setShowNavbar, showNavbar }) {
   const [activeForm, setActiveForm] = useState(1);
   const [inputs, setInputs] = useState({});
 
@@ -16,6 +16,11 @@ function ClientsForms({ DomItems, userData, accountId, handleModal }) {
     },
     [setInputs]
   );
+
+  useEffect(() => {
+    setShowNavbar(false);
+  }, [setShowNavbar]); //--> Hides The Navbar
+
   // console.log(inputs)
 
   function handleNavigation(text) {
@@ -30,26 +35,32 @@ function ClientsForms({ DomItems, userData, accountId, handleModal }) {
     }
   }
 
-  return (
-    <div style={{ backgroundColor: "white" }}>
-      {activeForm === 1 && (
-        <ClientKycForm1
-          handleNavigation={handleNavigation}
-          handleChange={handleChange}
-          setInputs={setInputs}
-          inputs={inputs}
-        />
-      )}
+  useEffect(() => {
+    setShowNavbar(false);
+  }, [setShowNavbar]); //--> Hides The Navbar
 
-      {activeForm === 2 && (
-        <ClientKycForm2
-          handleNavigation={handleNavigation}
-          handleChange={handleChange}
-          setInputs={setInputs}
-          inputs={inputs}
-        />
-      )}
-    </div>
+  return (
+    !showNavbar && (
+      <div style={{ backgroundColor: "white" }}>
+        {activeForm === 1 && (
+          <ClientKycForm1
+            handleNavigation={handleNavigation}
+            handleChange={handleChange}
+            setInputs={setInputs}
+            inputs={inputs}
+          />
+        )}
+
+        {activeForm === 2 && (
+          <ClientKycForm2
+            handleNavigation={handleNavigation}
+            handleChange={handleChange}
+            setInputs={setInputs}
+            inputs={inputs}
+          />
+        )}
+      </div>
+    )
   );
 }
 
