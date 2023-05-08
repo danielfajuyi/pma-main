@@ -24,7 +24,7 @@ function ListingPage() {
     return () => {
       unsubscribed = true;
     };
-  }, [dispatch, query]);
+  }, [query]);
 
   const [gender, setGender] = useState("");
   const [category, setCategory] = useState("");
@@ -232,10 +232,7 @@ function ListingPage() {
         data={message}
       />
 
-      <List
-        data={data}
-        currentPage={currentPage}
-      />
+      <List data={data} currentPage={currentPage} />
       {message.length !== 0 && (
         <PageNation
           pageNumber={pageNumber}

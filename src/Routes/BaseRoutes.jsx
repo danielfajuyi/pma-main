@@ -14,7 +14,12 @@ import SignUp from "../Pages/LoginSignup/Sign-Up/Sign-up";
 import NotFound from "../Pages/NotFound/notfound";
 import AdminPage from "../UI/Admin-UI/AdminPage/admin_page";
 import AdminDashboard from "../UI/Admin-UI/AdminPage/dashboard/dashboard";
-import { createBrowserRouter, RouterProvider, Navigate, Outlet } from "react-router-dom";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  Navigate,
+  Outlet,
+} from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { userLogout } from "../redux/apiCalls";
 import Blogs from "../Pages/Blog/Blogs";
@@ -74,7 +79,7 @@ export const BaseRoutes = () => {
         }
       }
     }
-  });
+  }, []);
 
   const ProtectedRoute = ({ children }) => {
     if (!user) {
@@ -141,7 +146,9 @@ export const BaseRoutes = () => {
         },
         {
           path: "adminpage/",
-          element: <AdminPage showNavbar={showNavbar} setShowNavbar={setShowNavbar} />,
+          element: (
+            <AdminPage showNavbar={showNavbar} setShowNavbar={setShowNavbar} />
+          ),
           children: [
             {
               path: "dashboard",
@@ -149,7 +156,14 @@ export const BaseRoutes = () => {
             },
           ],
         },
-        { path: "inbox", element: <Inbox showNavbar={showNavbar} setShowNavbar={setShowNavbar} /> },
+        {
+          path: "inbox",
+          element: (
+            <ProtectedRoute>
+              <Inbox showNavbar={showNavbar} setShowNavbar={setShowNavbar} />
+            </ProtectedRoute>
+          ),
+        },
         {
           path: "agencypage/",
           element: (
@@ -166,7 +180,12 @@ export const BaseRoutes = () => {
           children: [
             {
               path: "dashboard",
-              element: <AgencyDashboard showNavbar={showNavbar} setShowNavbar={setShowNavbar} />,
+              element: (
+                <AgencyDashboard
+                  showNavbar={showNavbar}
+                  setShowNavbar={setShowNavbar}
+                />
+              ),
             },
             {
               path: "profile",
@@ -197,7 +216,12 @@ export const BaseRoutes = () => {
         },
         {
           path: "Agency-Acct-setting",
-          element: <AgencyAcctSetting showNavbar={showNavbar} setShowNavbar={setShowNavbar} />,
+          element: (
+            <AgencyAcctSetting
+              showNavbar={showNavbar}
+              setShowNavbar={setShowNavbar}
+            />
+          ),
         },
         {
           path: "modelpage/",
@@ -255,11 +279,21 @@ export const BaseRoutes = () => {
         },
         {
           path: "model-kyc",
-          element: <ModelsForms showNavbar={showNavbar} setShowNavbar={setShowNavbar} />,
+          element: (
+            <ModelsForms
+              showNavbar={showNavbar}
+              setShowNavbar={setShowNavbar}
+            />
+          ),
         },
         {
           path: "model-Acct-setting",
-          element: <ModelAcctSetting showNavbar={showNavbar} setShowNavbar={setShowNavbar} />,
+          element: (
+            <ModelAcctSetting
+              showNavbar={showNavbar}
+              setShowNavbar={setShowNavbar}
+            />
+          ),
         },
         {
           path: "clientpage/",
@@ -329,7 +363,12 @@ export const BaseRoutes = () => {
         },
         {
           path: "Client-Acct-setting",
-          element: <ClientAcctSetting showNavbar={showNavbar} setShowNavbar={setShowNavbar} />,
+          element: (
+            <ClientAcctSetting
+              showNavbar={showNavbar}
+              setShowNavbar={setShowNavbar}
+            />
+          ),
         },
         // {
         //   path: "profile/:id",

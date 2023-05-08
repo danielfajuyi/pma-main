@@ -27,7 +27,7 @@ function ModelInfo({ item, handleForm }) {
         <div className="model-Info__text-content">
           <span className="top-text model__namewrap">
             <span className="model__names">{`${item?.model?.fullName}`}</span>
-            <BsPatchCheckFill />
+            {item?.model?.isVerified && <BsPatchCheckFill />}
           </span>
           <div className="text2 model__ratings">
             <span>
@@ -69,7 +69,10 @@ function ModelInfo({ item, handleForm }) {
 
           {!user && (
             <div className="interactive-section">
-              <InteractiveBtn btnIcon="fa-solid fa-user-plus follow-icon Icon" btnText="Follow" />
+              <InteractiveBtn
+                btnIcon="fa-solid fa-user-plus follow-icon Icon"
+                btnText="Follow"
+              />
               <InteractiveBtn
                 btnIcon="fa-regular fa-heart heart-icon Icon"
                 //btnIcon="fa-solid fa-heart heart-icon Icon"
@@ -79,7 +82,10 @@ function ModelInfo({ item, handleForm }) {
                 btnIcon="fa-brands fa-instagram insta-icon Icon"
                 btnText="Instagram"
               />
-              <InteractiveBtn btnIcon="fa-solid fa-share-nodes share-icon Icon" btnText="Share" />
+              <InteractiveBtn
+                btnIcon="fa-solid fa-share-nodes share-icon Icon"
+                btnText="Share"
+              />
             </div>
           )}
           <div className="model__activities">
@@ -96,12 +102,16 @@ function ModelInfo({ item, handleForm }) {
               <span className="semi-bold">Active: </span> 2 weeks ago
             </p>
           </div>
+          <p>
+            <span className="semi-bold">Minimum booking price: </span> #{item?.model?.minPrice}
+          </p>
 
           <div className="profile-btn btn-shadow">
             <NavLink to={user && user._id === path && "/model-Acct-setting"}>
               <button
                 onClick={!user && user._id !== path && handleForm}
-                className="model-profilebtn  btn-shadow">
+                className="model-profilebtn  btn-shadow"
+              >
                 <FaEnvelope />
                 {!user || user._id !== path ? (
                   <>

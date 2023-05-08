@@ -11,13 +11,34 @@ import profileImg from "../../../../../Images/model-profile/model.png";
 import coverImg from "../../../../../Images/model/model-large.jpg";
 import _ from "lodash";
 import { Chart } from "chart.js/auto"; //Registering Charts ("Do not remove this import")
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 //import ClientsForms from "../../Client-Acct/Kyc-Section/Client-Kyc-Forms";
 import { Link } from "react-router-dom";
+import { useCallback, useEffect, useState } from "react";
+import { makeGet } from "../../../../../redux/apiCalls";
 
 const ClientDashboard = () => {
   const user = useSelector((state) => state.user.currentUser);
-  // console.log(user)
+  const dispatch = useDispatch();
+
+  const [booking, setBooking] = useState([]);
+
+  // get model booking
+  const fetchModelBooking = useCallback(() => {
+    makeGet(dispatch, `/book/model-booking/${user._id}`, setBooking);
+  }, [dispatch]);
+
+  useEffect(() => {
+    let unsubscribed = fetchModelBooking();
+    return () => unsubscribed;
+  }, []);
+  const totalBooking = booking?.filter((item) => item);
+  const rejectedBooking = booking?.filter((item) => item?.isRejected);
+  const jobDone = booking?.filter((item) => item?.isJobDone);
+  const rejectedPer = Math.round(
+    (rejectedBooking?.length * 100) / totalBooking?.length
+  );
+  const donePer = Math.round((jobDone?.length * 100) / totalBooking?.length);
 
   // Visitor Stats Graph Data -> (VisitorStats Component) --> [STRAT]
   const data = {
@@ -130,22 +151,22 @@ const ClientDashboard = () => {
                   data={lineData1}
                   options={lineOptions}
                   type="All Bookings"
-                  total="16"
-                  percent="87.34%"
+                  total={totalBooking?.length}
+                  // percent="87.34%"
                 />
                 <BookingsCard
                   data={lineData2}
                   options={lineOptions}
                   type="Completed"
-                  total="11"
-                  percent="48%"
+                  total={jobDone?.length}
+                  percent={`${donePer ? donePer : 0}%`}
                 />
                 <BookingsCard
                   data={lineData3}
                   options={lineOptions}
                   type="Cancelled"
-                  total="5"
-                  percent="17%"
+                  total={rejectedBooking?.length}
+                  percent={`${rejectedPer ? rejectedPer : 0}%`}
                 />
               </div>
             </div>
@@ -187,18 +208,14 @@ const ClientDashboard = () => {
                 <header>
                   <h4>Top Rated</h4>
 
-                  <a href="./seeall"> See all</a>
+                  {/* <a href="./seeall"> See all</a> */}
                 </header>
                 <div id="body">
-                  <ClientCard
-                    img={profileImg}
-                    name="Eke Kara"
-                    location="Lagos, Nigeria"
-                  />
+                  <ClientCard />
                 </div>
               </div>
 
-              <div id="newly_posted">
+              {/* <div id="newly_posted">
                 <header>
                   <h4>Newly Posted</h4>
                   <a href="./seeall"> See all</a>
@@ -210,7 +227,7 @@ const ClientDashboard = () => {
                     location="Lagos, Nigeria"
                   />
                 </div>
-              </div>
+              </div> */}
 
               <div id="job_posted">
                 <header>
@@ -220,8 +237,8 @@ const ClientDashboard = () => {
                 <div id="body">
                   <JobCard
                     note="Female model needed for shoot"
-                    views="12.6k"
-                    applied="26"
+                    // views="12.6k"
+                    // applied="26"
                   />
                 </div>
               </div>
@@ -229,7 +246,7 @@ const ClientDashboard = () => {
             {/* Grid Area 2 <-- [END] */}
 
             {/*Inbox --> [START]  */}
-            <div id="inbox">
+            {/* <div id="inbox">
               <header>
                 <h4>Inbox</h4>
                 <span className="msg">
@@ -262,7 +279,7 @@ const ClientDashboard = () => {
                 msg="I wanna work with you"
                 count="2"
               />
-            </div>
+            </div> */}
             {/*Inbox <-- [END]  */}
           </div>
           {/* [GRID <-- END] */}

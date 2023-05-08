@@ -195,7 +195,8 @@
 
     @include mq($width: 1050px) {
       @include box_header($x: 0.5em);
-      width: 33%;
+      // victor changed the width here
+      width: 49%;
     }
   }
 
