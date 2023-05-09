@@ -108,7 +108,7 @@ export const statsInput = [
     type: "number",
     id: "size",
     placeholder: "Your size...",
-    label: "Size",
+    label: "Dress size",
   },
   {
     type: "number",

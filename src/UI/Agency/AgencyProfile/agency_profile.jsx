@@ -33,18 +33,12 @@ import { useSelector } from "react-redux";
 //[END];
 
 // About Section (Gets rendered when 'page state' is 'about')
-const ABOUT = ({user}) => {
+const ABOUT = ({ user }) => {
   return (
     <section id="about">
       <div>
         <h2>About Agency</h2>
-        <p>
-          {user?.agency?.about}
-        </p>
-        {/* <p>
-          We deliver the best professional models in all kind of categories and
-          our models are the best.
-        </p> */}
+        <p>{user?.agency?.about}</p>
       </div>
     </section>
   );
@@ -53,12 +47,6 @@ const ABOUT = ({user}) => {
 const AgencyProfile = ({ showNavbar, setShowNavbar }) => {
   const user = useSelector((state) => state.user.currentUser);
 
-
-  // Using Hooks
-  // useEffect(() => {
-  //   setShowNavbar(false);
-  // }, [setShowNavbar]);
-
   const [page, setPage] = useState("about");
   //   [END]
 
@@ -66,8 +54,18 @@ const AgencyProfile = ({ showNavbar, setShowNavbar }) => {
     <IconContext.Provider value={{ size: 24 }}>
       <div id="agency_profile">
         <div id="hero">
+          <img
+            src={
+              user?.agency?.coverPhoto && user?.agency?.coverPhoto
+            }
+            alt="profile-img"
+            style={{ height: "100%", width: "100%", objectFit: "cover" }}
+          />
           <div id="image_holder">
-            <img src={user?.picture ? user?.picture : "./images/avatar2.png"} alt="profile-img" />
+            <img
+              src={user?.picture ? user?.picture : "./images/avatar2.png"}
+              alt="profile-img"
+            />
           </div>
           <nav id="navbar">
             <span id="left">
@@ -107,7 +105,9 @@ const AgencyProfile = ({ showNavbar, setShowNavbar }) => {
               <h1>{user?.agency?.agencyName}</h1>
               <div id="location">
                 <FaMapMarkerAlt color="#ff007a" size={16} />
-                <span>{user?.agency?.state}, {user?.agency?.country}</span>
+                <span>
+                  {user?.agency?.state}, {user?.agency?.country}
+                </span>
               </div>
               <div id="link">
                 <RiGlobalLine size={16} />
