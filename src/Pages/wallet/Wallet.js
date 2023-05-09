@@ -5,12 +5,11 @@ import TransactionPage from "./component/transact.jsx";
 
 function Wallet() {
   return (
-    <div className="App">
-      <div className="Appdiv">
-        <WalletCard />
-        <TransactionPage />
+      <div className="Appdiv" style={{backgroundColor: 'white'}}>
+        coming soon...
+        {/* <WalletCard />
+        <TransactionPage /> */}
       </div>
-    </div>
   );
 }
 

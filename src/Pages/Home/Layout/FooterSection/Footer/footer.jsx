@@ -220,9 +220,8 @@ const Footer = () => {
                 <div className="text">
                   <h3>Email</h3>
                   <p>
-                    premiummodelsng
-                    <br />
-                    @gmail.com
+                    premiummodelsapp
+                    <br /> @gmail.com
                   </p>
                 </div>
               </div>

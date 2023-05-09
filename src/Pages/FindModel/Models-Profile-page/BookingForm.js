@@ -24,7 +24,7 @@ function BookingForm({ toggleForm, handleForm }) {
   // console.log(inputs);
 
   const handleSubmit = () => {
-    makePost(dispatch, `/model/${path}`, { ...inputs });
+    makePost(dispatch, `/book/book/${path}`, { ...inputs });
   };
 
   return (

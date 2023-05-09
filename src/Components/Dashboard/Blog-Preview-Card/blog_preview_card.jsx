@@ -22,9 +22,9 @@ const BlogPreviewCard = (props) => {
   const reverse = [...message].reverse();
 
   return (
-    <div style={{ display: "flex", flexWrap: "wrap" }}>
-      {reverse?.slice(0, 5).map((item) => (
-        <div className="blog_preview_card" key={item._id}>
+    <div style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}>
+      {reverse?.slice(0, 3).map((item) => (
+        <a href={`/post/${item._id}`} className="blog_preview_card" key={item._id}>
           <div className="author_img">
             <img src={item?.photo} alt="author-img" />
           </div>
@@ -39,7 +39,7 @@ const BlogPreviewCard = (props) => {
               </span>
             </div>
           </div>
-        </div>
+        </a>
       ))}
     </div>
   );
