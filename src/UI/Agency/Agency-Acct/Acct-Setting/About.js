@@ -109,7 +109,7 @@ function About({
 
           {activeEdit !== "profile-details" && (
             <div className="set_img--rapper">
-              <img src={user?.agency?.photo} alt="" />
+              <img src={user?.agency?.picture} alt="" />
             </div>
           )}
 
@@ -287,7 +287,7 @@ function About({
 
       <div className="set__sections-container">
         <div className="set__sections-title-rapper">
-          <h2 className="set__sections-title">Social Media Handles</h2>
+          <h2 className="set__sections-title">Instagram Handle</h2>
           <EditBtn
             btnText={activeEdit === "social-media" ? "Done" : "Edit"}
             section="social-media"

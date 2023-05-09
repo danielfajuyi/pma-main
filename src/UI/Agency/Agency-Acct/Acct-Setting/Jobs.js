@@ -8,7 +8,7 @@ import { update } from "../../../../redux/apiCalls";
 import { AlertModal } from "../../../../Pages/LoginSignup/Sign-Up/signUpForm/Modal";
 
 function Photos({ resetDiscard }) {
-  const user = useSelector((state)=> state.user.currentUser)
+  const user = useSelector((state) => state.user.currentUser);
   const { isFetching } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
@@ -97,8 +97,18 @@ function Photos({ resetDiscard }) {
   }, [setInputs, coverPhoto, jobPhoto, jobPhotos]);
 
   //handling submit
+  console.log(user._id);
   function handleSubmit() {
-    update(dispatch, `/agency/add_job_photo/${user.uuid}`, { ...inputs }, setModalTxt);
+    if (inputs.coverPhoto) {
+      update(dispatch, `/agency/`, { ...inputs }, setModalTxt);
+    } else {
+      update(
+        dispatch,
+        `/agency/add_job_photo/${user._id}`,
+        { ...inputs },
+        setModalTxt
+      );
+    }
   }
   // console.log(inputs);
 

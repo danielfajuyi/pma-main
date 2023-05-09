@@ -47,7 +47,7 @@ const FAQs = () => {
           </ul>
         </article>
 
-        <article className="faq-article">
+        {/* <article className="faq-article">
           <h2>How to promote yourself using Premium Models.com</h2>
           <ul>
             <li>Network, network, network</li>
@@ -61,7 +61,7 @@ const FAQs = () => {
             </li>
             <li>Keep your portfolio updated with the best photos you have</li>
           </ul>
-        </article>
+        </article> */}
         <div
           className="blur-2-right"
           style={{

@@ -1,27 +1,22 @@
 import "./dashboard.scss";
 import { MdEdit } from "react-icons/md";
-import { RiMessage2Fill } from "react-icons/ri";
-import TopModelHighlight from "../../../../../Components/Dashboard/Top-Model-Highlight/top_model_highlight";
-import MessagePreviewCard from "../../../../../Components/Dashboard/Message-Preview-Card/message_preview_card";
 import JobCard from "../../../../../Components/Dashboard/Job-Card/job_card";
 import ModelCard from "../../../../../Components/ModelCard/model_card.jsx";
 import BlogPreviewCard from "../../../../../Components/Dashboard/Blog-Preview-Card/blog_preview_card";
 import BookingsCard from "../../../../../Components/Dashboard/Bookings-Card/bookings_card";
 import VisitorStats from "../../../../../Components/Dashboard/Visitor-Stats/visitor_stats";
 import profileImg from "../../../../../Images/model-profile/model.png";
-import coverImg from "../../../../../Images/model/model-large.jpg";
 import _ from "lodash";
-import { Chart } from "chart.js/auto"; //Registering Charts ("Do not remove this import")
 import FadeIn from "../../../../../Components/FadeIn/fade_in";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState, useCallback } from "react";
 import { makeGet } from "../../../../../redux/apiCalls";
-import AgencyForms from "../../../Agency-Acct/Kyc-Section/Agency-Kyc-Forms";
 import { Link } from "react-router-dom";
 
 const AgencyDashboard = () => {
   const user = useSelector((state) => state.user.currentUser);
   const dispatch = useDispatch();
+  console.log(user)
 
   const [message, setMessage] = useState([]); // get model booking
   const [booking, setBooking] = useState([]);
@@ -57,7 +52,6 @@ const AgencyDashboard = () => {
     };
   }, [setMessage]);
   const reverse = [...message].reverse()
-  console.log(message)
 
   // Visitor Stats Graph Data -> (VisitorStats Component) --> [STRAT]
   const data = {
@@ -189,7 +183,7 @@ const AgencyDashboard = () => {
             <div id="profile_panel">
               <div id="cover" style={{ height: "220px", width: "400px" }}>
                 <img
-                  src={user?.agency?.coverPhoto}
+                  src={user?.agency?.coverPhoto ? user?.agency?.coverPhoto : user?.agency?.picture }
                   alt="cover-pic"
                   style={{ height: "100%", width: "100%", objectFit: "fill" }}
                 />

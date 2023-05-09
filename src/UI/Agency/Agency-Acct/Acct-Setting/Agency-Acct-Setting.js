@@ -56,7 +56,7 @@ function AgencyAcctSetting({ handleModal, userData, showNavbar, setShowNavbar })
     setDiscardFunc(fun);
   }
 
-  return !showNavbar(
+  return (
     <div className="set__sections" style={{ backgroundColor: "white" }}>
       {/* displaying discard alert */}
 

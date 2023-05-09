@@ -28,7 +28,7 @@ const JobCard = (props) => {
 
   return (
     <div>
-      {reversed?.slice(0, 5).map((item) => (
+      {reversed?.slice(0, 3).map((item) => (
         <Link
           to={`/jobpost/post/${item._id}`}
           className="job_card"

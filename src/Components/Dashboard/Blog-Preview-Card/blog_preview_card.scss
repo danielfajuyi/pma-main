@@ -6,12 +6,13 @@
   background-color: $light_gray;
   overflow: hidden;
   border-radius: $small_padding;
-  min-width: 40%;
-  height: 240px;
+  width: 30%;
+  height: 180px;
   border: 1px solid;
+  
 
   @include mq($width: 1050px) {
-    min-height: 320px;
+    height: 180px;
   }
 
   .author_img {
@@ -28,7 +29,7 @@
   .body {
     padding: $small_padding;
     @include d_flex(flex-start, space-between, $dir: column);
-    height: 46%;
+    height: 26%;
   }
   .blog_info {
     width: 100%;

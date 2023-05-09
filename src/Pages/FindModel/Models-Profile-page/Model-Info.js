@@ -18,7 +18,7 @@ function ModelInfo({ item, handleForm }) {
         <div className="model__img-container">
           <img
             className="model__img"
-            src={item?.picture ? item?.picture : item?.model?.picture}
+            src={user._id === item?.model?.uuid ? item?.picture : item?.model?.picture}
             alt=""
             width="400"
             height="400"
@@ -109,11 +109,11 @@ function ModelInfo({ item, handleForm }) {
           <div className="profile-btn btn-shadow">
             <NavLink to={user && user._id === path && "/model-Acct-setting"}>
               <button
-                onClick={!user && user._id !== path && handleForm}
+                onClick={user._id !== path && handleForm}
                 className="model-profilebtn  btn-shadow"
               >
                 <FaEnvelope />
-                {!user || user._id !== path ? (
+                {user?._id !== path || !user? (
                   <>
                     <span>Book</span> <span>Model</span>
                   </>
