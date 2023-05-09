@@ -6,12 +6,17 @@
   background-color: $light_gray;
   overflow: hidden;
   border-radius: $small_padding;
-  min-width: 40%;
-  height: 240px;
+  width: 95%;
+  height: 400px;
   border: 1px solid;
 
+  @include mq($width: 768px) {
+    width: 45%;
+  }
+
   @include mq($width: 1050px) {
-    min-height: 320px;
+    width: 31%;
+    height: 350px;
   }
 
   .author_img {

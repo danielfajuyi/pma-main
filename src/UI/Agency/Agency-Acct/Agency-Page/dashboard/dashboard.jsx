@@ -38,9 +38,7 @@ const AgencyDashboard = () => {
   const totalBooking = booking?.filter((item) => item);
   const rejectedBooking = booking?.filter((item) => item?.isRejected);
   const jobDone = booking?.filter((item) => item?.isJobDone);
-  const rejectedPer = Math.round(
-    (rejectedBooking?.length * 100) / totalBooking?.length
-  );
+  const rejectedPer = Math.round((rejectedBooking?.length * 100) / totalBooking?.length);
   const donePer = Math.round((jobDone?.length * 100) / totalBooking?.length);
 
   // agency models
@@ -56,8 +54,8 @@ const AgencyDashboard = () => {
       unsubscribed = true;
     };
   }, [setMessage]);
-  const reverse = [...message].reverse()
-  console.log(message)
+  const reverse = [...message].reverse();
+  console.log(message);
 
   // Visitor Stats Graph Data -> (VisitorStats Component) --> [STRAT]
   const data = {
@@ -206,39 +204,25 @@ const AgencyDashboard = () => {
                     {user?.username ? `@${user.username}` : "@username"}
                   </div> */}
                 </div>
-                <Link to="/agencypage/settings">
+                <Link to="/agency-Acct-setting">
                   <button>
                     <MdEdit size={14} />
                     <span>Edit Portfolio</span>
                   </button>
                 </Link>
               </div>
-              {/* <div id="follow">
+              <div id="follow">
                 <span>
-                  Following{" "}
-                  {user?.agency?.followings.length < 1
-                    ? 0
-                    : user?.agency?.followings}
+                  Following {user?.agency?.followings.length < 1 ? 0 : user?.agency?.followings}
                 </span>
                 <span>
-                  Followers{" "}
-                  {user?.agency?.followers.length < 1
-                    ? 0
-                    : user?.agency?.followers}
+                  Followers {user?.agency?.followers.length < 1 ? 0 : user?.agency?.followers}
                 </span>
               </div>
               <div id="top_models">
-                <TopModelHighlight
-                  img={profileImg}
-                  name="Emilly Okoro"
-                  views="13.6k"
-                />
-                <TopModelHighlight
-                  img={profileImg}
-                  name="Ikegwuru Ndiuwa"
-                  views="12.4k"
-                />
-              </div> */}
+                <TopModelHighlight img={profileImg} name="Emilly Okoro" views="13.6k" />
+                <TopModelHighlight img={profileImg} name="Ikegwuru Ndiuwa" views="12.4k" />
+              </div>
             </div>
             {/* PROFILE PANEL <-- [END] */}
 
