@@ -47,6 +47,8 @@ function ModelPortfolio({ item, postMsg }) {
 
   function handleForm() {
     setToggleForm((prevForm) => !prevForm);
+
+    console.log("toggle form");
   }
 
   function handleDisplay(id, text) {

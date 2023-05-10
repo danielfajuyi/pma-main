@@ -16,7 +16,7 @@ import { Link } from "react-router-dom";
 const AgencyDashboard = () => {
   const user = useSelector((state) => state.user.currentUser);
   const dispatch = useDispatch();
-  console.log(user)
+  console.log(user);
 
   const [message, setMessage] = useState([]); // get model booking
   const [booking, setBooking] = useState([]);
@@ -33,9 +33,7 @@ const AgencyDashboard = () => {
   const totalBooking = booking?.filter((item) => item);
   const rejectedBooking = booking?.filter((item) => item?.isRejected);
   const jobDone = booking?.filter((item) => item?.isJobDone);
-  const rejectedPer = Math.round(
-    (rejectedBooking?.length * 100) / totalBooking?.length
-  );
+  const rejectedPer = Math.round((rejectedBooking?.length * 100) / totalBooking?.length);
   const donePer = Math.round((jobDone?.length * 100) / totalBooking?.length);
 
   // agency models
@@ -51,7 +49,7 @@ const AgencyDashboard = () => {
       unsubscribed = true;
     };
   }, [setMessage]);
-  const reverse = [...message].reverse()
+  const reverse = [...message].reverse();
 
   // Visitor Stats Graph Data -> (VisitorStats Component) --> [STRAT]
   const data = {
@@ -183,7 +181,7 @@ const AgencyDashboard = () => {
             <div id="profile_panel">
               <div id="cover" style={{ height: "220px", width: "400px" }}>
                 <img
-                  src={user?.agency?.coverPhoto ? user?.agency?.coverPhoto : user?.agency?.picture }
+                  src={user?.agency?.coverPhoto ? user?.agency?.coverPhoto : user?.agency?.picture}
                   alt="cover-pic"
                   style={{ height: "100%", width: "100%", objectFit: "fill" }}
                 />
@@ -200,7 +198,7 @@ const AgencyDashboard = () => {
                     {user?.username ? `@${user.username}` : "@username"}
                   </div> */}
                 </div>
-                <Link to="/agencypage/settings">
+                <Link to="/agency-Acct-setting">
                   <button>
                     <MdEdit size={14} />
                     <span>Edit Portfolio</span>
@@ -209,29 +207,15 @@ const AgencyDashboard = () => {
               </div>
               {/* <div id="follow">
                 <span>
-                  Following{" "}
-                  {user?.agency?.followings.length < 1
-                    ? 0
-                    : user?.agency?.followings}
+                  Following {user?.agency?.followings.length < 1 ? 0 : user?.agency?.followings}
                 </span>
                 <span>
-                  Followers{" "}
-                  {user?.agency?.followers.length < 1
-                    ? 0
-                    : user?.agency?.followers}
+                  Followers {user?.agency?.followers.length < 1 ? 0 : user?.agency?.followers}
                 </span>
               </div>
               <div id="top_models">
-                <TopModelHighlight
-                  img={profileImg}
-                  name="Emilly Okoro"
-                  views="13.6k"
-                />
-                <TopModelHighlight
-                  img={profileImg}
-                  name="Ikegwuru Ndiuwa"
-                  views="12.4k"
-                />
+                <TopModelHighlight img={profileImg} name="Emilly Okoro" views="13.6k" />
+                <TopModelHighlight img={profileImg} name="Ikegwuru Ndiuwa" views="12.4k" />
               </div> */}
             </div>
             {/* PROFILE PANEL <-- [END] */}

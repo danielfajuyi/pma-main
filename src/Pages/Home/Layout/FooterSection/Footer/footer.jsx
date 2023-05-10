@@ -21,11 +21,7 @@ const Footer = () => {
             <div id="footer">
               <div className="footer">
                 <div className="footer-heading">
-                  <img
-                    src="./assets/main-assets/footer-icon.png"
-                    alt="footericon"
-                    height="42px"
-                  />
+                  <img src="./assets/main-assets/footer-icon.png" alt="footericon" height="42px" />
                   <h2>Company</h2>
                 </div>
                 <ul>
@@ -49,11 +45,7 @@ const Footer = () => {
 
               <div className="footer">
                 <div className="footer-heading">
-                  <img
-                    src="./assets/main-assets/footer-icon.png"
-                    alt="footericon"
-                    height="42px"
-                  />
+                  <img src="./assets/main-assets/footer-icon.png" alt="footericon" height="42px" />
                   <h2>Privacy</h2>
                 </div>
                 <ul>
@@ -71,11 +63,7 @@ const Footer = () => {
               </div>
               <div className="footer replaced-footer">
                 <div className="footer-heading">
-                  <img
-                    src="./assets/main-assets/footer-icon.png"
-                    alt="footericon"
-                    height="42px"
-                  />
+                  <img src="./assets/main-assets/footer-icon.png" alt="footericon" height="42px" />
                   <h2>Help</h2>
                 </div>
                 <ul>
@@ -104,10 +92,7 @@ const Footer = () => {
 
               <div className="footer replaced-footer">
                 <div className="footer-heading">
-                  <img
-                    src="./assets/main-assets/footer-icon.png"
-                    alt="footericon"
-                  />
+                  <img src="./assets/main-assets/footer-icon.png" alt="footericon" />
                   <h2>Download app</h2>
                 </div>
                 <ul>
@@ -136,11 +121,7 @@ const Footer = () => {
             <div id="footer">
               <div className="footer mobile-footer">
                 <div className="footer-heading">
-                  <img
-                    src="./assets/main-assets/footer-icon.png"
-                    alt="footericon"
-                    height="42px"
-                  />
+                  <img src="./assets/main-assets/footer-icon.png" alt="footericon" height="42px" />
                   <h2>Help</h2>
                 </div>
                 <ul>
@@ -160,11 +141,7 @@ const Footer = () => {
 
               <div className="footer mobile-footer">
                 <div className="footer-heading">
-                  <img
-                    src="./assets/main-assets/footer-icon.png"
-                    alt="footericon"
-                    height="42px"
-                  />
+                  <img src="./assets/main-assets/footer-icon.png" alt="footericon" height="42px" />
                   <h2>Download</h2>
                 </div>
                 <ul>
@@ -221,7 +198,8 @@ const Footer = () => {
                   <h3>Email</h3>
                   <p>
                     premiummodelsapp
-                    <br /> @gmail.com
+                    <br />
+                    @gmail.com
                   </p>
                 </div>
               </div>

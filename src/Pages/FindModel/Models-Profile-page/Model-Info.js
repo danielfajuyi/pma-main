@@ -69,10 +69,7 @@ function ModelInfo({ item, handleForm }) {
 
           {!user && (
             <div className="interactive-section">
-              <InteractiveBtn
-                btnIcon="fa-solid fa-user-plus follow-icon Icon"
-                btnText="Follow"
-              />
+              <InteractiveBtn btnIcon="fa-solid fa-user-plus follow-icon Icon" btnText="Follow" />
               <InteractiveBtn
                 btnIcon="fa-regular fa-heart heart-icon Icon"
                 //btnIcon="fa-solid fa-heart heart-icon Icon"
@@ -82,10 +79,7 @@ function ModelInfo({ item, handleForm }) {
                 btnIcon="fa-brands fa-instagram insta-icon Icon"
                 btnText="Instagram"
               />
-              <InteractiveBtn
-                btnIcon="fa-solid fa-share-nodes share-icon Icon"
-                btnText="Share"
-              />
+              <InteractiveBtn btnIcon="fa-solid fa-share-nodes share-icon Icon" btnText="Share" />
             </div>
           )}
           <div className="model__activities">
@@ -110,10 +104,9 @@ function ModelInfo({ item, handleForm }) {
             <NavLink to={user && user._id === path && "/model-Acct-setting"}>
               <button
                 onClick={user._id !== path && handleForm}
-                className="model-profilebtn  btn-shadow"
-              >
+                className="model-profilebtn  btn-shadow">
                 <FaEnvelope />
-                {user?._id !== path || !user? (
+                {user?._id !== path || !user ? (
                   <>
                     <span>Book</span> <span>Model</span>
                   </>
