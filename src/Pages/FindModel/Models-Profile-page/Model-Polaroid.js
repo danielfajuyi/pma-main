@@ -7,6 +7,8 @@ function ModelPolaroid({
   displayLimit,
   handleDisplay,
   viewAll,
+  fetchModel,
+  item,
 }) {
   return (
     <section className="section section-profile  polaroid-section">
@@ -14,11 +16,30 @@ function ModelPolaroid({
       <ul className="imgList">
         {polaroids.map((polaroid, index) =>
           activeDisplay !== "polaroids" ? (
-            index <= displayLimit - 1 && <ImgItem key={index} img={polaroid} />
+            index <= displayLimit - 1 && (
+              <ImgItem
+                key={index}
+                img={polaroid}
+                fetchModel={fetchModel}
+                item={item}
+              />
+            )
           ) : activeDisplay === "polaroids" && !viewAll ? (
-            index <= displayLimit - 1 && <ImgItem key={index} img={polaroid} />
+            index <= displayLimit - 1 && (
+              <ImgItem
+                key={index}
+                img={polaroid}
+                fetchModel={fetchModel}
+                item={item}
+              />
+            )
           ) : (
-            <ImgItem key={index} img={polaroid} />
+            <ImgItem
+              key={index}
+              img={polaroid}
+              fetchModel={fetchModel}
+              item={item}
+            />
           )
         )}
       </ul>
