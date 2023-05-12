@@ -7,6 +7,8 @@ function ModelPhoto({
   displayLimit,
   handleDisplay,
   viewAll,
+  fetchModel,
+  item
 }) {
   return (
     <section className="section  section-profile photo-section">
@@ -14,18 +16,22 @@ function ModelPhoto({
       <ul className="imgList">
         {photos?.map((photo, index) =>
           activeDisplay !== "photos" ? (
-            index <= displayLimit - 1 && <ImgItem key={index} img={photo} />
+            index <= displayLimit - 1 && (
+              <ImgItem key={index} img={photo} fetchModel={fetchModel} item={item} />
+            )
           ) : activeDisplay === "photos" && !viewAll ? (
-            index <= displayLimit - 1 && <ImgItem key={index} img={photo} />
+            index <= displayLimit - 1 && (
+              <ImgItem key={index} img={photo} fetchModel={fetchModel} item={item} />
+            )
           ) : (
-            <ImgItem key={index} img={photo} />
+            <ImgItem key={index} img={photo} fetchModel={fetchModel} item={item} />
           )
         )}
       </ul>
 
       {/* No photo posted yet */}
       <div
-        style={{ display: photos?.length > 1 && "none" }}
+        style={{ display: photos?.length > 0 && "none" }}
         className="empty-content-text"
       >
         Sorry, Model is yet to post a Photo.

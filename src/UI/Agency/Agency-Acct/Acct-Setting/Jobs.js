@@ -4,8 +4,10 @@ import JobItem from "./JobItem";
 import { useDispatch, useSelector } from "react-redux";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { storage } from "../../../../firebase";
-import { update } from "../../../../redux/apiCalls";
+import { makeEdit, update } from "../../../../redux/apiCalls";
 import { AlertModal } from "../../../../Pages/LoginSignup/Sign-Up/signUpForm/Modal";
+import { ToastContainer } from "react-toastify";
+import { userRequest } from "../../../../redux/requestMethod";
 
 function Photos({ resetDiscard }) {
   const user = useSelector((state) => state.user.currentUser);
@@ -97,20 +99,19 @@ function Photos({ resetDiscard }) {
   }, [setInputs, coverPhoto, jobPhoto, jobPhotos]);
 
   //handling submit
-  console.log(user._id);
-  function handleSubmit() {
+  const handleSubmit = async () => {
     if (inputs.coverPhoto) {
       update(dispatch, `/agency/`, { ...inputs }, setModalTxt);
     } else {
-      update(
-        dispatch,
-        `/agency/add_job_photo/${user._id}`,
-        { ...inputs },
-        setModalTxt
-      );
+      try {
+        await userRequest.put(`/agency/add_job_photo/${user._id}`, {
+          ...inputs,
+        });
+        setModalTxt("save");
+        setJobPhotos([]);
+      } catch (error) {}
     }
-  }
-  // console.log(inputs);
+  };
 
   //Setting state and viewing photos
   function handleClick(action, id) {
@@ -153,6 +154,7 @@ function Photos({ resetDiscard }) {
   return (
     <form onSubmit={(e) => e.preventDefault()}>
       <AlertModal modalTxt={modalTxt} setModalTxt={setModalTxt} />
+      <ToastContainer position="top" />
 
       <section
         style={{ transform: toggleModal && `translateX(${0}%)` }}

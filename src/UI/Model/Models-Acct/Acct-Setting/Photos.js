@@ -2,13 +2,13 @@ import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { storage } from "../../../../firebase";
-import { update } from "../../../../redux/apiCalls";
+import { makeEdit, update } from "../../../../redux/apiCalls";
 import "./Photos.css";
 import { ToastContainer } from "react-toastify";
 import { AlertModal } from "../../../../Pages/LoginSignup/Sign-Up/signUpForm/Modal";
+import { userRequest } from "../../../../redux/requestMethod";
 
 function Photos({ handleModal, resetDiscard }) {
-  const dispatch = useDispatch();
 
   const [photos, setPhotos] = useState([]);
   const [photo, setPhoto] = useState(undefined);
@@ -186,10 +186,15 @@ function Photos({ handleModal, resetDiscard }) {
     }
   }
 
-  //handle save
-  function handleSubmit(text) {
-    update(dispatch, "/model/upload-photo", { ...inputs }, setModalTxt);
-  }
+  //handle save photos
+  const handleSubmit = async () => {
+    try {
+      await userRequest.put("/model/upload-photo", { ...inputs });
+      setModalTxt("save");
+      setPhotos([])
+      setPolaroids([])
+    } catch (error) {}
+  };
 
   return (
     <form onSubmit={(e) => e.preventDefault()}>
@@ -354,7 +359,9 @@ function Photos({ handleModal, resetDiscard }) {
                       <img src={item} alt="" />
                       <div className="photo-icons">
                         <i
-                          onClick={() => handleClick("view", index, "polaroids")}
+                          onClick={() =>
+                            handleClick("view", index, "polaroids")
+                          }
                           className="fa-solid fa-arrow-up-right-from-square view-icon"
                         ></i>
                         <i
@@ -372,7 +379,9 @@ function Photos({ handleModal, resetDiscard }) {
                       <img src={item} alt="" />
                       <div className="photo-icons">
                         <i
-                          onClick={() => handleClick("view", index, "polaroids")}
+                          onClick={() =>
+                            handleClick("view", index, "polaroids")
+                          }
                           className="fa-solid fa-arrow-up-right-from-square view-icon"
                         ></i>
                         <i
