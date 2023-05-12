@@ -7,12 +7,13 @@ import ModelBio from "./Model-Bio";
 import ModelVideo from "./Model-Video";
 import ModelPolaroid from "./Model-Polaroid";
 import BookingForm from "./BookingForm";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { makeGet } from "../../../redux/apiCalls";
 import { useLocation } from "react-router";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 function ProfilePage({ item, postMsg }) {
+  const user = useSelector((state) => state.user.currentUser);
   const dispatch = useDispatch();
   const location = useLocation();
   const path = location.pathname.split("/")[3];
@@ -25,19 +26,22 @@ function ProfilePage({ item, postMsg }) {
   const [viewAll, setViewAll] = useState(false);
   const [message, setMessage] = useState("");
 
+  const fetchData = useCallback(() => {
+    makeGet(
+      dispatch,
+      user ? `/model/${path}` : `/model/model/${path}`,
+      setMessage
+    );
+  }, [dispatch]);
   useEffect(() => {
     let unsubscribed = false;
     if (!unsubscribed) {
-      const fetchData = () => {
-        makeGet(dispatch, `/model/${path}`, setMessage);
-      };
       fetchData();
     }
     return () => {
       unsubscribed = true;
     };
-  }, [path, dispatch]);
-  // console.log(message);
+  }, []);
 
   // setting device size
   function handleResize() {
@@ -62,7 +66,12 @@ function ProfilePage({ item, postMsg }) {
   }
 
   function handleForm() {
-    setToggleForm((prevForm) => !prevForm);
+    if (!user) {
+      alert("Please login to book this model");
+      window.location.replace("/login");
+    } else {
+      setToggleForm((prevForm) => !prevForm);
+    }
   }
 
   function handleDisplay(id, text) {
@@ -76,11 +85,12 @@ function ProfilePage({ item, postMsg }) {
       <Links handleSection={handleSection} activeSection={activeSection} />
       {activeSection === "Photos" && (
         <ModelPhoto
-          photos={message.model?.photos}
+          photos={message?.model?.photos}
           activeDisplay={activeDisplay}
           displayLimit={displayLimit}
           handleDisplay={handleDisplay}
           viewAll={viewAll}
+          item={message}
         />
       )}
       {activeSection === "Stats" && <ModelStats item={message} />}
@@ -92,15 +102,17 @@ function ProfilePage({ item, postMsg }) {
           displayLimit={displayLimit}
           handleDisplay={handleDisplay}
           viewAll={viewAll}
+          item={message}
         />
       )}
       {activeSection === "Polaroids" && (
         <ModelPolaroid
-          polaroids={message.model?.polaroids}
+          polaroids={message?.model?.polaroids}
           activeDisplay={activeDisplay}
           displayLimit={displayLimit}
           handleDisplay={handleDisplay}
           viewAll={viewAll}
+          item={message}
         />
       )}
       <BookingForm

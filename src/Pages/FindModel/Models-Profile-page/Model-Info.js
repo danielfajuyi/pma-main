@@ -18,7 +18,7 @@ function ModelInfo({ item, handleForm }) {
         <div className="model__img-container">
           <img
             className="model__img"
-            src={item?.picture ? item?.picture : item?.model?.picture}
+            src={user?._id === item?.model?.uuid ? item?.picture : item?.model?.picture}
             alt=""
             width="400"
             height="400"
@@ -69,10 +69,7 @@ function ModelInfo({ item, handleForm }) {
 
           {!user && (
             <div className="interactive-section">
-              <InteractiveBtn
-                btnIcon="fa-solid fa-user-plus follow-icon Icon"
-                btnText="Follow"
-              />
+              <InteractiveBtn btnIcon="fa-solid fa-user-plus follow-icon Icon" btnText="Follow" />
               <InteractiveBtn
                 btnIcon="fa-regular fa-heart heart-icon Icon"
                 //btnIcon="fa-solid fa-heart heart-icon Icon"
@@ -82,13 +79,10 @@ function ModelInfo({ item, handleForm }) {
                 btnIcon="fa-brands fa-instagram insta-icon Icon"
                 btnText="Instagram"
               />
-              <InteractiveBtn
-                btnIcon="fa-solid fa-share-nodes share-icon Icon"
-                btnText="Share"
-              />
+              <InteractiveBtn btnIcon="fa-solid fa-share-nodes share-icon Icon" btnText="Share" />
             </div>
           )}
-          <div className="model__activities">
+          {/* <div className="model__activities">
             <p>
               <span className="semi-bold">Favorite: </span>7.8k
             </p>
@@ -101,19 +95,18 @@ function ModelInfo({ item, handleForm }) {
             <p>
               <span className="semi-bold">Active: </span> 2 weeks ago
             </p>
-          </div>
+          </div> */}
           <p>
-            <span className="semi-bold">Minimum booking price: </span> #{item?.model?.minPrice}
+            <span className="semi-bold">Minimum booking price: </span> NGN {item?.model?.minPrice}
           </p>
 
           <div className="profile-btn btn-shadow">
             <NavLink to={user && user._id === path && "/model-Acct-setting"}>
               <button
-                onClick={!user && user._id !== path && handleForm}
-                className="model-profilebtn  btn-shadow"
-              >
+                onClick={user?._id !== path && handleForm}
+                className="model-profilebtn  btn-shadow">
                 <FaEnvelope />
-                {!user || user._id !== path ? (
+                {user?._id !== path || !user ? (
                   <>
                     <span>Book</span> <span>Model</span>
                   </>

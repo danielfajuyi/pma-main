@@ -108,7 +108,7 @@ export const statsInput = [
     type: "number",
     id: "size",
     placeholder: "Your size...",
-    label: "Size",
+    label: "Dress size",
   },
   {
     type: "number",
@@ -314,6 +314,42 @@ export const jobsInput = [
     id: "E-commerce",
     label: "E-commerce",
     value: "E-commerce",
+  },
+  {
+    type: "checkbox",
+    id: "Video Vixen",
+    label: "Video Vixen",
+    value: "Video Vixen",
+  },
+  {
+    type: "checkbox",
+    id: "Commercials",
+    label: "Commercials",
+    value: "Commercials",
+  },
+  {
+    type: "checkbox",
+    id: "Brand Influencing",
+    label: "Brand Influencing",
+    value: "Brand Influencing",
+  },
+  {
+    type: "checkbox",
+    id: "Ushering",
+    label: "Ushering",
+    value: "Ushering",
+  },
+  {
+    type: "checkbox",
+    id: "Fashion shoot",
+    label: "Fashion shoot",
+    value: "Fashion shoot",
+  },
+  {
+    type: "checkbox",
+    id: "Event Host",
+    label: "Event Host",
+    value: "Event Host",
   },
 ];
 

@@ -12,6 +12,7 @@ const DashboardSidebar = (props) => {
 
   const handleLogout = () => {
     userLogout(dispatch);
+    window.location.reload();
   };
 
   const topList = createLinks(props.top);

@@ -54,7 +54,6 @@ export const update = async (dispatch, url, user, setMessage, setModalTxt) => {
 
 export const userLogout = async (dispatch) => {
   dispatch(logout());
-  window.location.reload();
 };
 
 export const makePost = async (dispatch, url, data, setInputs) => {
@@ -63,6 +62,7 @@ export const makePost = async (dispatch, url, data, setInputs) => {
     const res = await userRequest.post(url, data);
     dispatch(processSuccess());
     toast.success(res.data);
+    window.location.reload();
     setInputs({});
   } catch (err) {
     toast.error(err?.response?.data);
@@ -83,7 +83,7 @@ export const makeGet = async (dispatch, url, setMessage) => {
   }
 };
 
-export const makeEdit = async (dispatch, url, setMessage, inputs) => {
+export const makeEdit = async (dispatch, url, inputs, setMessage) => {
   dispatch(processStart());
   try {
     const res = await userRequest.put(url, inputs);

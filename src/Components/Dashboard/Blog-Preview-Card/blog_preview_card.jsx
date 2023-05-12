@@ -22,7 +22,7 @@ const BlogPreviewCard = (props) => {
   const reverse = [...message].reverse();
 
   return (
-    <div style={{ display: "flex", flexWrap: "wrap" }}>
+    <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "1.3rem" }}>
       {reverse?.slice(0, 5).map((item) => (
         <div className="blog_preview_card" key={item._id}>
           <div className="author_img">
@@ -33,10 +33,7 @@ const BlogPreviewCard = (props) => {
             {/* <div className="blog_title">{item.text}</div> */}
             <div className="blog_info">
               <span className="model">{props.model}</span>
-              <span className="date">
-                {" "}
-                {moment(item.createdAt).format("D-MM-YYYY")}
-              </span>
+              <span className="date"> {moment(item.createdAt).format("D-MM-YYYY")}</span>
             </div>
           </div>
         </div>

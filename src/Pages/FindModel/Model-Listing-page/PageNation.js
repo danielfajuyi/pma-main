@@ -15,7 +15,6 @@ function PageNation({
     if (num === "prev") {
       currentPage > 1 && setCurrentPage(currentPage - 1);
       pageNumber[0] !== 1 && setPageNumber(pageNumber.map((item) => item - 1));
-      console.log(currentPage);
     } else if (num === "next") {
       currentPage < pageNumber.length && setCurrentPage(currentPage + 1);
       currentPage >= pageNumBtn &&

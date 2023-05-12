@@ -19,14 +19,8 @@ const Hero = () => {
               src="./images/home/hero/hero-img2new.jpg"
               className="hero-img"
               alt="hero-img"></img>
-            <img
-              src="./images/home/hero/hero-img4.jpeg"
-              className="hero-img"
-              alt="hero-img"></img>
-            <img
-              src="./images/home/hero/hero-img1new.jpg"
-              className="hero-img "
-              alt="hero-img"></img>
+            <img src="./images/home/hero/hero-img4.jpg" className="hero-img" alt="hero-img"></img>
+            <img src="./images/home/hero/hero-img.png" className="hero-img " alt="hero-img"></img>
           </div>
 
           <div className="hero-text">
@@ -36,9 +30,7 @@ const Hero = () => {
               </div>
 
               <div className="paragraph">
-                <span className="paragraph-head">
-                  Find The right Model Now!
-                </span>
+                <span className="paragraph-head">Find The right Model Now!</span>
 
                 <span>
                   <img
@@ -67,7 +59,9 @@ const Hero = () => {
                   <p>Fast Model responses</p>
                 </span>
                 <div className="hero-btn">
-                  <a href="/sign-up" className="btn btn2">Start now</a>
+                  <a href="/sign-up" className="btn btn2">
+                    Start now
+                  </a>
                 </div>
               </div>
             </article>

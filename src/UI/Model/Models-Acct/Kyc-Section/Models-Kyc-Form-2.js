@@ -43,7 +43,6 @@ function ModelsKycForm2({
     language: inputs.language,
     availableForTravel: inputs.availableForTravel,
     minPrice: inputs.minPrice,
-    maxPrice: inputs.maxPrice,
     instagram: inputs.instagram,
   });
 
@@ -105,19 +104,15 @@ function ModelsKycForm2({
         ? setError((prev) => ({ ...prev, minPrice: errorText }))
         : setError((prev) => ({ ...prev, minPrice: "" }));
 
-      !inputs.maxPrice
-        ? setError((prev) => ({ ...prev, maxPrice: errorText }))
-        : setError((prev) => ({ ...prev, maxPrice: "" }));
-
       !inputs.instagram
         ? setError((prev) => ({ ...prev, instagram: socialErr }))
         : setError((prev) => ({ ...prev, instagram: "" }));
 
-      if (inputs.gender === "m") {
-        !inputs.height
-          ? setError((prev) => ({ ...prev, height: errorText }))
-          : setError((prev) => ({ ...prev, height: "" }));
+      !inputs.height
+        ? setError((prev) => ({ ...prev, height: errorText }))
+        : setError((prev) => ({ ...prev, height: "" }));
 
+      if (inputs.gender === "m") {
         !inputs?.chest
           ? setError((prev) => ({ ...prev, chest: errorText }))
           : setError((prev) => ({ ...prev, chest: "" }));
@@ -157,11 +152,10 @@ function ModelsKycForm2({
       !inputs.language ||
       !inputs.availableForTravel ||
       !inputs.minPrice ||
-      !inputs.maxPrice ||
       !inputs.instagram
     ) {
       err = true;
-      if (!inputs?.height || !inputs?.chest || !inputs?.shoulder) {
+      if (!inputs?.chest || !inputs?.shoulder) {
         inputs.gender === "m" && (err = true);
       } else if (!inputs?.bust || !inputs?.hip) {
         err = true;
@@ -200,7 +194,7 @@ function ModelsKycForm2({
       {/* stats section */}
       <section className="kyc-content-section">
         <div className="list-container">
-          <h2 className="sections-title">Models statistic</h2>
+          <h2 className="sections-title">Models stats</h2>
           <ul className="model-statistic">
             {statsInput.map((item) => {
               let name = item.id;
@@ -268,8 +262,7 @@ function ModelsKycForm2({
                         </li>
                       )
                     : item.id !== "chest" &&
-                      item.id !== "shoulder" &&
-                      item.id !== "height" && (
+                      item.id !== "shoulder" && (
                         <li className="kyc-input-container" key={item.id}>
                           <label className="input-label" htmlFor={item.id}>
                             <span className="required-icon_rapper">

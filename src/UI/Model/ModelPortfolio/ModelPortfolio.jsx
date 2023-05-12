@@ -1,6 +1,6 @@
 import "./Profile.css";
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import ModelInfo from "../../../Pages/FindModel/Models-Profile-page/Model-Info";
 import ModelPhoto from "../../../Pages/FindModel/Models-Profile-page/Model-Photo";
 import ModelStats from "../../../Pages/FindModel/Models-Profile-page/Model-Stats";
@@ -9,11 +9,11 @@ import ModelVideo from "../../../Pages/FindModel/Models-Profile-page/Model-Video
 import ModelPolaroid from "../../../Pages/FindModel/Models-Profile-page/Model-Polaroid";
 import BookingForm from "../../../Pages/FindModel/Models-Profile-page/BookingForm";
 import Links from "../../../Pages/FindModel/Models-Profile-page/Links";
-import ModelsForms from "../Models-Acct/Kyc-Section/Models-Kyc-Forms";
-import AcctSetting from "../Models-Acct/Acct-Setting/Models-Acct-Setting";
+import { makeGet } from "../../../redux/apiCalls";
 
 function ModelPortfolio({ item, postMsg }) {
   const user = useSelector((state) => state.user.currentUser);
+  const dispatch = useDispatch();
 
   const [activeSection, setActiveSection] = useState("Photos");
   const [toggleForm, setToggleForm] = useState(false);
@@ -21,7 +21,7 @@ function ModelPortfolio({ item, postMsg }) {
   const [deviceSize, setDeviceSize] = useState(window.innerWidth);
   const [activeDisplay, setActiveDisplay] = useState("");
   const [viewAll, setViewAll] = useState(false);
-  //const [editPortfolio, setEditPortfolio] = useState(false);
+  const [model, setModel] = useState();
 
   // setting device size
   function handleResize() {
@@ -47,12 +47,23 @@ function ModelPortfolio({ item, postMsg }) {
 
   function handleForm() {
     setToggleForm((prevForm) => !prevForm);
+
+    console.log("toggle form");
   }
 
   function handleDisplay(id, text) {
     setActiveDisplay(id);
     text === "view All" ? setViewAll(true) : setViewAll(false);
   }
+
+  const fetchModel = () => {
+    makeGet(dispatch, `/model/${user._id}`, setModel);
+  };
+
+  useEffect(() => {
+    let unsubscribed = fetchModel();
+    return () => unsubscribed;
+  }, []);
 
   return (
     <div style={{ backgroundColor: "white" }}>
@@ -61,31 +72,34 @@ function ModelPortfolio({ item, postMsg }) {
         <Links handleSection={handleSection} activeSection={activeSection} />
         {activeSection === "Photos" && (
           <ModelPhoto
-            photos={user?.model?.photos}
+            photos={model?.model?.photos}
             activeDisplay={activeDisplay}
             displayLimit={displayLimit}
             handleDisplay={handleDisplay}
             viewAll={viewAll}
+            fetchModel={fetchModel}
           />
         )}
         {activeSection === "Stats" && <ModelStats item={user?.model} />}
         {activeSection === "Bio" && <ModelBio item={user?.model} />}
         {activeSection === "Videos" && (
           <ModelVideo
-            videos={user?.model?.videos}
+            videos={model?.model?.videos}
             activeDisplay={activeDisplay}
             displayLimit={displayLimit}
             handleDisplay={handleDisplay}
             viewAll={viewAll}
+            fetchModel={fetchModel}
           />
         )}
         {activeSection === "Polaroids" && (
           <ModelPolaroid
-            polaroids={user?.model?.polaroids}
+            polaroids={model?.model?.polaroids}
             activeDisplay={activeDisplay}
             displayLimit={displayLimit}
             handleDisplay={handleDisplay}
             viewAll={viewAll}
+            fetchModel={fetchModel}
           />
         )}
         <BookingForm

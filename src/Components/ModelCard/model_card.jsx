@@ -5,15 +5,17 @@ import { GoVerified, GoStar } from "react-icons/go";
 import { IconContext } from "react-icons";
 import { motion } from "framer-motion";
 
-const ModelCard = ({model}) => {
+const 
+ModelCard = ({model}) => {
   const uuid = model?._id;
+  // console.log(model.picture)
 
   return (
     <div id="model_card" style={{ }}>
       <div id="img_holder">
         <img
           src={model?.picture ? model?.picture : "/images/avatar.jpg"}
-          alt="proilepic"
+          alt=""
         />
       </div>
 
