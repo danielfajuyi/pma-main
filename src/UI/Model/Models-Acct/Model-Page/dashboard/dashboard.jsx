@@ -42,8 +42,7 @@ const ModelDashboard = () => {
     uploadTask.on(
       "state_changed",
       (snapshot) => {
-        const progress =
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
         urlType === "picture" && setProgress(Math.round(progress));
         switch (snapshot.state) {
           case "paused":
@@ -99,9 +98,7 @@ const ModelDashboard = () => {
   const totalBooking = booking?.filter((item) => item);
   const rejectedBooking = booking?.filter((item) => item?.isRejected);
   const jobDone = booking?.filter((item) => item?.isJobDone);
-  const rejectedPer = Math.round(
-    (rejectedBooking?.length * 100) / totalBooking?.length
-  );
+  const rejectedPer = Math.round((rejectedBooking?.length * 100) / totalBooking?.length);
   const donePer = Math.round((jobDone?.length * 100) / totalBooking?.length);
 
   // Visitor Stats Graph Data -> (VisitorStats Component) --> [STRAT]
@@ -225,9 +222,7 @@ const ModelDashboard = () => {
                     />
                     {isEdit && (
                       <label htmlFor="profilePic" className="ppLabel">
-                        <span className="material-icons photo_icon">
-                          add_a_photo
-                        </span>
+                        <span className="material-icons photo_icon">add_a_photo</span>
                       </label>
                     )}
                   </div>
@@ -245,22 +240,14 @@ const ModelDashboard = () => {
                   </div>
                   <div className="mDet">
                     <label htmlFor="email">Email</label>
-                    <input
-                      id="email"
-                      name="email"
-                      value={user?.email}
-                      readOnly
-                    />
+                    <input id="email" name="email" value={user?.email} readOnly />
                     <label htmlFor="gender">Gender</label>
                     <select
                       name="gender"
                       id="gender"
                       disabled={!isEdit && true}
-                      onChange={handleChange}
-                    >
-                      <option value="">
-                        {user?.model?.gender === "m" ? "MALE" : "FEMALE"}
-                      </option>
+                      onChange={handleChange}>
+                      <option value="">{user?.model?.gender === "m" ? "MALE" : "FEMALE"}</option>
                       <option value="m">Male</option>
                       <option value="f">Female</option>
                     </select>
@@ -268,21 +255,13 @@ const ModelDashboard = () => {
                     <input
                       id="bio"
                       name="bio"
-                      defaultValue={
-                        user?.model?.bio
-                          ? user?.model?.bio
-                          : "A little about myself"
-                      }
+                      defaultValue={user?.model?.bio ? user?.model?.bio : "A little about myself"}
                       readOnly={!isEdit && true}
                       autoFocus={isEdit}
                       onChange={handleChange}
                     />
                     {isEdit && (
-                      <button
-                        type="submit"
-                        className="update"
-                        onClick={handleUpdateProfile}
-                      >
+                      <button type="submit" className="update" onClick={handleUpdateProfile}>
                         Update
                       </button>
                     )}
@@ -327,18 +306,9 @@ const ModelDashboard = () => {
               </div>
               <div className="earnings">
                 <EarningCard type="total" amount={`#${user?.model?.total}`} />
-                <EarningCard
-                  type="pending"
-                  amount={`#${user?.model?.pending}`}
-                />
-                <EarningCard
-                  type="withdraw"
-                  amount={`#${user?.model?.withdrawn}`}
-                />
-                <EarningCard
-                  type="available"
-                  amount={`#${user?.model?.wallet}`}
-                />
+                <EarningCard type="pending" amount={`#${user?.model?.pending}`} />
+                <EarningCard type="withdraw" amount={`#${user?.model?.withdrawn}`} />
+                <EarningCard type="available" amount={`#${user?.model?.wallet}`} />
               </div>
               <VisitorStats data={data} options={options} user={user} />
               {/* <div className="top_rated one">
@@ -433,12 +403,14 @@ const ModelDashboard = () => {
                 <div className="body">
                   {ratedReversed?.slice(0, 5).map((item) => (
                     <>
-                    {item.isFeatured && <div key={item._id}>
-                      <div className="img_holder">
-                        <img src={item?.picture} alt="model-img" />
-                      </div>
-                      <div className="name">{item.firstName}</div>
-                    </div>}
+                      {item.isFeatured && (
+                        <div key={item._id}>
+                          <div className="img_holder">
+                            <img src={item?.picture} alt="model-img" />
+                          </div>
+                          <div className="name">{item.firstName}</div>
+                        </div>
+                      )}
                     </>
                   ))}
                 </div>
