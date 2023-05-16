@@ -45,7 +45,7 @@ export const info = [
 
 export const statsInput = [
   {
-    type: "number",
+    type: "text",
     id: "height",
     placeholder: "Your height...",
     label: "Height",

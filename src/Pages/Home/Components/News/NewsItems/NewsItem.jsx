@@ -18,7 +18,7 @@ const NewsItem = ({ Newsitem }) => {
 
       <div className="newsItem-footer">
         <div className="newsItem-author">
-          <img src={Newsitem?.photo} alt="avatar" style={{width: '50px', height:'50px'}}></img>
+          <img src="./images/logo.png" alt="avatar" style={{width: '50px', height:'50px'}}></img>
           <div>
             <h6>Admin</h6>
             <p>{Newsitem?.createdAt}</p>

@@ -286,7 +286,7 @@ const SignUpForm = ({ activeSignup, setActiveSignup, userRole }) => {
                     type="text"
                     id="firstName"
                     placeholder="Enter FirstName..."
-                    label="FirstName"
+                    label="First Name"
                     handleChange={handleChange}
                     error={error.fNameErr}
                   />
@@ -296,7 +296,7 @@ const SignUpForm = ({ activeSignup, setActiveSignup, userRole }) => {
                     type="text"
                     id="lastName"
                     placeholder="Enter LastName..."
-                    label="LastName"
+                    label="Last Name"
                     handleChange={handleChange}
                     error={error.lNameErr}
                   />
