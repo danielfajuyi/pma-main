@@ -20,6 +20,11 @@ const Single = () => {
     fetchData();
   }, [postId]);
 
+  const getText = (html) => {
+    const doc = new DOMParser().parseFromString(html, "text/html");
+    return doc.body.textContent;
+  };
+
   return (
     <div className="single">
       <div className="content">
@@ -33,6 +38,12 @@ const Single = () => {
         </div>
         <h1>{post.title}</h1>
         <p>{post.text}</p>
+        {post?.paragraphs?.map((item, index) => (
+          <div key={index}>
+            {item?.text && <p>{getText(item?.text)}</p>}
+            {item?.image && <img src={item?.image} alt="" />}
+          </div>
+        ))}
       </div>
       <Menu cat={post.cat} />
     </div>
