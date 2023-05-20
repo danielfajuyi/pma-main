@@ -12,6 +12,7 @@ import { useEffect, useState, useCallback } from "react";
 import { makeGet, update } from "../../../../../redux/apiCalls";
 import { storage } from "../../../../../firebase";
 import BlogCard from "../../../../../Components/Dashboard/Blog-Card/Blog_card";
+import { userRequest } from "../../../../../redux/requestMethod";
 
 const ModelDashboard = () => {
   const user = useSelector((state) => state.user.currentUser);
@@ -23,6 +24,8 @@ const ModelDashboard = () => {
   const [progress, setProgress] = useState(0);
   const [message, setMessage] = useState([]);
   const [booking, setBooking] = useState([]);
+  //  get user stat
+  const [stat, setStat] = useState([]);
 
   // update profile
   const handleChange = (e) => {
@@ -101,19 +104,42 @@ const ModelDashboard = () => {
   );
   const donePer = Math.round((jobDone?.length * 100) / totalBooking?.length);
 
+  useEffect(() => {
+    const fetchStat = async () => {
+      const res = await userRequest.get("/model/stats");
+      setStat(res.data);
+    };
+    fetchStat();
+  }, []);
+  
+  const dataList = Array(12).fill(null); // Initialize the array with default value "Dec"
+  stat.forEach((s) => {
+    if (s.month >= 1 && s.month <= 12) {
+      dataList[s.month - 1] = s.visitors;
+    }
+  });
+
   // Visitor Stats Graph Data -> (VisitorStats Component) --> [STRAT]
   const data = {
-    labels: ["Aug", "Sept", "Oct", "Nov", "Dec", "Jan", "Feb"],
+    labels: [
+      "Jan",
+      "Feb",
+      "Mar",
+      "April",
+      "May",
+      "June",
+      "July",
+      "Aug",
+      "Sept",
+      "Oct",
+      "Nov",
+      "Dec",
+    ],
     datasets: [
       {
+        label: "VISITORS",
         backgroundColor: "royalblue",
-        data: [1200, 1700, 1000, 1200, 1000, 1000, 1700],
-        barPercentage: 0.2,
-        borderRadius: 4,
-      },
-      {
-        backgroundColor: "lightgray",
-        data: [600, 800, 500, 600, 500, 600, 800],
+        data: dataList,
         barPercentage: 0.2,
         borderRadius: 4,
       },

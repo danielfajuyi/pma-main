@@ -67,7 +67,7 @@ function ModelInfo({ item, handleForm }) {
             </span>
           </div>
 
-          {!user && (
+          {/* {!user && (
             <div className="interactive-section">
               <InteractiveBtn btnIcon="fa-solid fa-user-plus follow-icon Icon" btnText="Follow" />
               <InteractiveBtn
@@ -81,7 +81,7 @@ function ModelInfo({ item, handleForm }) {
               />
               <InteractiveBtn btnIcon="fa-solid fa-share-nodes share-icon Icon" btnText="Share" />
             </div>
-          )}
+          )} */}
           {/* <div className="model__activities">
             <p>
               <span className="semi-bold">Favorite: </span>7.8k

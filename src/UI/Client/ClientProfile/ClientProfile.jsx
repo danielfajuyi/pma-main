@@ -45,7 +45,11 @@ const ClientProfile = () => {
     <div className="client-profile">
       <div className="top-nav">
         <img
-          src={user?.client?.coverPicture}
+          src={
+            user?.client?.coverPicture
+              ? user?.client?.coverPicture
+              : "https://media.sproutsocial.com/uploads/2018/04/Facebook-Cover-Photo-Size.png"
+          }
           alt=""
           className="nav-img"
           style={{ objectFit: "cover" }}
@@ -70,13 +74,13 @@ const ClientProfile = () => {
             <Link to="" onClick={handlePortfolio}>
               <p className="portfolio-nav">
                 <AiOutlineIdcard />
-                potfolio
+                Brand Photos
               </p>
             </Link>
           </div>
         </div>
       </div>
-      
+
       <div className="cbox">
         <div className="clientBox-1">
           <h2>{user?.client?.brandName}</h2>
@@ -87,12 +91,12 @@ const ClientProfile = () => {
             <SiWebauthn />
             {user?.client?.brandUrl}
           </p>
-          <Link>
+          {/* <Link>
             <button>
               <SlUserFollow /> Follow
             </button>
-          </Link>
-          <div className="followSection">
+          </Link> */}
+          {/* <div className="followSection">
             <div className="following">
               <p>Following</p>
               <p>106</p>
@@ -101,17 +105,17 @@ const ClientProfile = () => {
               <p>Followers</p>
               <p>547</p>
             </div>
-          </div>
+          </div> */}
           <div className="socialMediaButtons">
-            <Link>
+            <a href={`https://www.instagram.com/${user?.client?.instagram}`} target="_blanc" >
               <SlSocialInstagram />
-            </Link>
-            <Link>
+            </a>
+            {/* <Link>
               <AiFillFacebook />
             </Link>
             <Link>
               <AiFillTwitterCircle />
-            </Link>
+            </Link> */}
           </div>
         </div>
         <div className="clientBox-2">
