@@ -54,18 +54,20 @@ function ListingPage() {
     //searching base on the available data
     //searching base on gender
     if (gender && !category && !search) {
-      if (gender !== "all gender") {
-        newData = message.filter((item) => item.gender === gender && item);
+      if (gender !== "All Gender") {
+        if (gender === "Male") {
+          newData = message.filter((item) => item.gender === "m" && item);
+        } else if (gender === "Female") {
+          newData = message.filter((item) => item.gender === "f" && item);
+        }
       } else {
         newData = message.map((item) => item);
       }
 
       //searching base on category
     } else if (!gender && category && !search) {
-      if (category !== "all category") {
-        newData = message.filter(
-          (item) => item.category.find((str) => str === category) && item
-        );
+      if (category !== "All Category") {
+        newData = message.filter((item) => item.category.includes(category));
       } else {
         newData = message.map((item) => item);
       }
@@ -81,28 +83,35 @@ function ListingPage() {
 
       //searching base on gender and category
     } else if (gender && category && !search) {
-      if (gender === "all gender" && category !== "all category") {
-        newData = message.filter(
-          (item) => item.category.find((str) => str() === category) && item
-        );
-      } else if (gender !== "all gender" && category === "all category") {
-        newData = message.filter(
-          (item) => item.gender.toLowerCase() === gender && item
-        );
-      } else if (gender !== "all gender" && category !== "all category") {
-        newData = message.filter((item) =>
-          item.gender.toLowerCase() === gender &&
-          item.category.find((str) => str.toLowerCase() === category)
-            ? item
-            : null
-        );
+      if (gender === "All Gender" && category !== "All Category") {
+        newData = message.filter((item) => item.category.includes(category));
+      } else if (gender !== "All Gender" && category === "All Category") {
+        if (gender === "Male") {
+          newData = message.filter((item) => item.gender === "m" && item);
+        } else if (gender === "Female") {
+          newData = message.filter((item) => item.gender === "f" && item);
+        }
+      } else if (gender !== "All Gender" && category !== "All Category") {
+        if (gender === "Male") {
+          newData = message.filter((item) =>
+            item.gender === "m" && item.category.includes(category)
+              ? item
+              : null
+          );
+        } else if (gender === "Female") {
+          newData = message.filter((item) =>
+            item.gender === "f" && item.category.includes(category)
+              ? item
+              : null
+          );
+        }
       } else {
         newData = message.map((item) => item);
       }
 
       //searching base on gender and search input
     } else if (gender && !category && search) {
-      if (gender === "all gender") {
+      if (gender === "All Gender") {
         newData = message.filter((item) =>
           item.country.toLowerCase() === search.toLowerCase()
             ? item
@@ -111,20 +120,32 @@ function ListingPage() {
             : null
         );
       } else {
-        newData = message.filter((item) =>
-          item.gender.toLowerCase() === gender &&
-          item.country.toLowerCase() === search.toLowerCase()
-            ? item
-            : item.stats.gender.toLowerCase() === gender &&
-              item.state.toLowerCase() === search.toLowerCase()
-            ? item
-            : null
-        );
+        if (gender === "Male") {
+          newData = message.filter((item) =>
+            item.gender === "m" &&
+            item.country.toLowerCase() === search.toLowerCase()
+              ? item
+              : item.stats.gender.toLowerCase() === gender &&
+                item.state.toLowerCase() === search.toLowerCase()
+              ? item
+              : null
+          );
+        } else if (gender === "Female") {
+          newData = message.filter((item) =>
+            item.gender === "f" &&
+            item.country.toLowerCase() === search.toLowerCase()
+              ? item
+              : item.stats.gender.toLowerCase() === gender &&
+                item.state.toLowerCase() === search.toLowerCase()
+              ? item
+              : null
+          );
+        }
       }
 
       //searching base on category and search input
     } else if (!gender && category && search) {
-      if (category === "all category") {
+      if (category === "All Category") {
         newData = message.filter((item) =>
           item.country.toLowerCase() === search.toLowerCase()
             ? item
@@ -134,10 +155,10 @@ function ListingPage() {
         );
       } else {
         newData = message.filter((item) =>
-          item.category.find((str) => str.toLowerCase() === category) &&
+          item.category.includes(category) &&
           item.country.toLowerCase() === search.toLowerCase()
             ? item
-            : item.category.find((str) => str.toLowerCase() === category) &&
+            : item.category.includes(category) &&
               item.state.toLowerCase() === search.toLowerCase()
             ? item
             : null
@@ -146,7 +167,7 @@ function ListingPage() {
 
       //searching base on gender, category and search input
     } else if (gender && category && search) {
-      if (gender === "all gender" && category === "all category") {
+      if (gender === "All Gender" && category === "All Category") {
         newData = message.filter((item) =>
           item.country.toLowerCase() === search.toLowerCase()
             ? item
@@ -154,38 +175,64 @@ function ListingPage() {
             ? item
             : null
         );
-      } else if (gender !== "all gender" && category === "all category") {
+      } else if (gender !== "All Gender" && category === "All Category") {
+        if (gender === "Male") {
+          newData = message.filter((item) =>
+            item.gender === "m" &&
+            item.country.toLowerCase() === search.toLowerCase()
+              ? item
+              : item.gender.toLowerCase() === gender &&
+                item.state.toLowerCase() === search.toLowerCase()
+              ? item
+              : null
+          );
+        } else if (gender === "Female") {
+          newData = message.filter((item) =>
+            item.gender === "f" &&
+            item.country.toLowerCase() === search.toLowerCase()
+              ? item
+              : item.gender.toLowerCase() === gender &&
+                item.state.toLowerCase() === search.toLowerCase()
+              ? item
+              : null
+          );
+        }
+      } else if (gender === "All Gender" && category !== "All Category") {
         newData = message.filter((item) =>
-          item.gender.toLowerCase() === gender &&
+          item.category.includes(category) &&
           item.country.toLowerCase() === search.toLowerCase()
             ? item
-            : item.gender.toLowerCase() === gender &&
+            : item.category.includes(category) &&
               item.state.toLowerCase() === search.toLowerCase()
             ? item
             : null
         );
-      } else if (gender === "all gender" && category !== "all category") {
-        newData = message.filter((item) =>
-          item.category.find((str) => str.toLowerCase() === category) &&
-          item.country.toLowerCase() === search.toLowerCase()
-            ? item
-            : item.category.find((str) => str.toLowerCase() === category) &&
-              item.state.toLowerCase() === search.toLowerCase()
-            ? item
-            : null
-        );
-      } else if (gender !== "all gender" && category !== "all category") {
-        newData = message.filter((item) =>
-          item.gender.toLowerCase() === gender &&
-          item.category.find((str) => str.toLowerCase() === category) &&
-          item.country.toLowerCase() === search.toLowerCase()
-            ? item
-            : item.gender.toLowerCase() === gender &&
-              item.category.find((str) => str.toLowerCase() === category) &&
-              item.state.toLowerCase() === search.toLowerCase()
-            ? item
-            : null
-        );
+      } else if (gender !== "All Gender" && category !== "All Category") {
+        if (gender === "Male") {
+          newData = message.filter((item) =>
+            item.gender === "m" &&
+            item.category.includes(category) &&
+            item.country.toLowerCase() === search.toLowerCase()
+              ? item
+              : item.gender === "m" &&
+                item.category.includes(category) &&
+                item.state.toLowerCase() === search.toLowerCase()
+              ? item
+              : null
+          );
+        } else if (gender === "Female") {
+          newData = message.filter((item) =>
+            item.gender === "f" &&
+            item.category.includes(category) &&
+            item.country.toLowerCase() === search.toLowerCase()
+              ? item
+              : item.gender === "f" &&
+                item.category.includes(category) &&
+                item.state.toLowerCase() === search.toLowerCase()
+              ? item
+              : null
+          );
+        }
       }
 
       //if none of the above conditions are mate

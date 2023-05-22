@@ -39,7 +39,6 @@ function JobNotice({ setToggle }) {
     let unsubscribe = getNotFrom();
     return () => unsubscribe;
   }, []);
-  console.log(notification);
 
   const handleAcceptRequest = () => {
     makeEdit(dispatch, `/book/accept/${bookId}`, setMessage);

@@ -23,10 +23,19 @@ const DashboardTopbar = ({
   return (
     <nav id="topbar">
       <div id="left">
-        <FaBars id="bars" size={26} onClick={() => setSidebarVisibility(!sidebarVisibility)} />
+        <FaBars
+          id="bars"
+          size={26}
+          onClick={() => setSidebarVisibility(!sidebarVisibility)}
+        />
         <div id="search_bar">
           <BiSearch id="search_icon" size={18} />
-          <input type="text" name="topbar_search" id="topbar_search" placeholder="Search" />
+          <input
+            type="text"
+            name="topbar_search"
+            id="topbar_search"
+            placeholder="Search"
+          />
         </div>
       </div>
 
@@ -46,7 +55,8 @@ const DashboardTopbar = ({
           <motion.div
             id="notification"
             whileTap={{ scale: 0.8 }}
-            onClick={() => setToggleNotice((prev) => !prev)}>
+            onClick={() => setToggleNotice((prev) => !prev)}
+          >
             <IoNotifications id="icon" color="white" />
             {notification > 0 && <span id="data">{notification}</span>}
           </motion.div>

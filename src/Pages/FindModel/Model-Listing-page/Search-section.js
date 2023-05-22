@@ -17,20 +17,19 @@ function AllSearch({
   const [toggleCategory, setToggleCategory] = useState(false);
 
   const categoryList = [
-    "all category",
-    "child",
-    "petite",
-    "fashion",
-    "pageant",
-    "fitness",
-    "glamour",
-    "runway",
-    "editorial",
-    "swimsuit",
-    "plus size",
-    "body part",
-    "commercial",
-    "promotional",
+    "All Category",
+    "Commercial",
+    "Fitness",
+    "Promotional",
+    "Face",
+    "Plus-Size",
+    "Fashion",
+    "Runway",
+    "Child",
+    "Glamour",
+    "Editorial",
+    "Swimsuit",
+    "Petite",
   ];
 
   function handleGender() {
@@ -75,13 +74,13 @@ function AllSearch({
               </div>
 
               {toggleGender && (
-                <div className="dropdown-option active-bt">
+                <div className="dropdown-option active-bt" onClick={handleGender}>
                   <FilterItem
-                    itemText="all gender"
+                    itemText="All Gender"
                     handleFilter={filterGender}
                   />
-                  <FilterItem itemText="m" handleFilter={filterGender} />
-                  <FilterItem itemText="f" handleFilter={filterGender} />
+                  <FilterItem itemText="Male" handleFilter={filterGender} />
+                  <FilterItem itemText="Female" handleFilter={filterGender} />
                 </div>
               )}
             </div>
