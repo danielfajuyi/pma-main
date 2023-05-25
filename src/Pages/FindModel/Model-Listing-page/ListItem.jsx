@@ -6,13 +6,7 @@ import { BiCategoryAlt } from "react-icons/bi";
 import "./Items.css";
 import { useSelector } from "react-redux";
 
-function ListItem({
-  firstCategory,
-  secondCategory,
-  uuid,
-  id,
-  item
-}) {
+function ListItem({ firstCategory, secondCategory, uuid, id, item }) {
   const user = useSelector((state) => state.user.currentUser);
 
   return (
@@ -30,7 +24,7 @@ function ListItem({
           <div className="modelportfolio__textwrapper ">
             <div className="text1 model__namewrap">
               <span className="model__names">{item?.fullName}</span>
-             {item?.isVerified && <BsPatchCheckFill />}
+              {item?.isVerified && <BsPatchCheckFill />}
             </div>
 
             <div className="text2 model__ratings">
@@ -77,15 +71,7 @@ function ListItem({
 
             <div className="text5 model__viewprofiles">
               <button type="button" className="viewprofile__btn shadow-fit">
-                <Link
-                  to={user && `/find-model/profile/${uuid ? uuid : id}`}
-                  onClick={() => {
-                    if (!user) {
-                      alert("Please login to view model's portfolio");
-                      window.location.replace('/login')
-                    }
-                  }}
-                >
+                <Link to={`/find-model/profile/${uuid ? uuid : id}`}>
                   View Portfolio
                 </Link>
               </button>

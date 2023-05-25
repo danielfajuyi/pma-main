@@ -17,7 +17,6 @@ const ClientCard = () => {
     return () => unsubscribed;
   }, []);
   const ratedReversed = [...message].reverse();
-  console.log(ratedReversed);
 
   return (
     <div>

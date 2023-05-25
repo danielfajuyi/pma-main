@@ -10,7 +10,7 @@ import { navList1, navList2 } from "../utils";
 import { NavLink } from "react-router-dom";
 import { useEffect } from "react";
 
-function ModelAcctSetting({ handleModal, userData, showNavbar, setShowNavbar }) {
+function ModelAcctSetting({ AlertModal, handleModal, userData, showNavbar, setShowNavbar }) {
   const [activeSet, setActiveSet] = useState("about");
   const [toggleSetMenu, setToggleSetMenu] = useState(false);
   const [activeEdit, setActiveEdit] = useState("");
@@ -89,6 +89,7 @@ function ModelAcctSetting({ handleModal, userData, showNavbar, setShowNavbar }) 
       {!showNavbar && (
         <div className="set_sections">
           {discardAlert()}
+          {AlertModal()}
 
           {/* nav section */}
 

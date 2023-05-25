@@ -108,11 +108,11 @@ function ModelsKycForm2({
         ? setError((prev) => ({ ...prev, instagram: socialErr }))
         : setError((prev) => ({ ...prev, instagram: "" }));
 
-      if (inputs.gender === "m") {
-        !inputs.height
-          ? setError((prev) => ({ ...prev, height: errorText }))
-          : setError((prev) => ({ ...prev, height: "" }));
+      !inputs.height
+        ? setError((prev) => ({ ...prev, height: errorText }))
+        : setError((prev) => ({ ...prev, height: "" }));
 
+      if (inputs.gender === "m") {
         !inputs?.chest
           ? setError((prev) => ({ ...prev, chest: errorText }))
           : setError((prev) => ({ ...prev, chest: "" }));

@@ -1,20 +1,17 @@
 import "./dashboard.scss";
 import { getDownloadURL, ref, uploadBytesResumable } from "@firebase/storage";
 import { MdEdit } from "react-icons/md";
-import { RiMessage2Fill } from "react-icons/ri";
 import BookingsCard from "../../../../../Components/Dashboard/Bookings-Card/bookings_card";
-import MessagePreviewCard from "../../../../../Components/Dashboard/Message-Preview-Card/message_preview_card";
 import JobCard from "../../../../../Components/Dashboard/Job-Card/job_card";
-import ClientCard from "../../../../../Components/Dashboard/Client-Card/client_card";
 import EarningCard from "../../../../../Components/Dashboard/Earning-Card/earning_card";
 import VisitorStats from "../../../../../Components/Dashboard/Visitor-Stats/visitor_stats";
-import profileImg from "../../../../../Images/model-profile/model.png";
 import _ from "lodash";
 import FadeIn from "../../../../../Components/FadeIn/fade_in";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState, useCallback } from "react";
 import { makeGet, update } from "../../../../../redux/apiCalls";
 import { storage } from "../../../../../firebase";
+import BlogCard from "../../../../../Components/Dashboard/Blog-Card/Blog_card";
 
 const ModelDashboard = () => {
   const user = useSelector((state) => state.user.currentUser);
@@ -274,7 +271,7 @@ const ModelDashboard = () => {
                   {/* <a href="./seeall"> See all</a> */}
                 </header>
                 <div id="body">
-                  <ClientCard img={profileImg} />
+                  <BlogCard />
                 </div>
               </div>
             </div>
@@ -311,86 +308,6 @@ const ModelDashboard = () => {
                 <EarningCard type="available" amount={`#${user?.model?.wallet}`} />
               </div>
               <VisitorStats data={data} options={options} user={user} />
-              {/* <div className="top_rated one">
-                <header>
-                  <h4>Top Rated</h4>
-                  <a href="./seeall">See all</a>
-                </header>
-                <div className="body">
-                  <div>
-                    <div className="img_holder">
-                      <img src={profileImg} alt="model-img" />
-                    </div>
-                    <div className="name">Eke Kara</div>
-                  </div>
-                  <div>
-                    <div className="img_holder">
-                      <img src={profileImg} alt="model-img" />
-                    </div>
-                    <div className="name">Eke Kara</div>
-                  </div>
-                  <div>
-                    <div className="img_holder">
-                      <img src={profileImg} alt="model-img" />
-                    </div>
-                    <div className="name">Eke Kara</div>
-                  </div>
-                  <div>
-                    <div className="img_holder">
-                      <img src={profileImg} alt="model-img" />
-                    </div>
-                    <div className="name">Eke Kara</div>
-                  </div>
-                  <div>
-                    <div className="img_holder">
-                      <img src={profileImg} alt="model-img" />
-                    </div>
-                    <div className="name">Eke Kara</div>
-                  </div>
-                  <div>
-                    <div className="img_holder">
-                      <img src={profileImg} alt="model-img" />
-                    </div>
-                    <div className="name">Eke Kara</div>
-                  </div>
-                  <div>
-                    <div className="img_holder">
-                      <img src={profileImg} alt="model-img" />
-                    </div>
-                    <div className="name">Eke Kara</div>
-                  </div>
-                  <div>
-                    <div className="img_holder">
-                      <img src={profileImg} alt="model-img" />
-                    </div>
-                    <div className="name">Eke Kara</div>
-                  </div>
-                  <div>
-                    <div className="img_holder">
-                      <img src={profileImg} alt="model-img" />
-                    </div>
-                    <div className="name">Eke Kara</div>
-                  </div>
-                  <div>
-                    <div className="img_holder">
-                      <img src={profileImg} alt="model-img" />
-                    </div>
-                    <div className="name">Eke Kara</div>
-                  </div>
-                  <div>
-                    <div className="img_holder">
-                      <img src={profileImg} alt="model-img" />
-                    </div>
-                    <div className="name">Eke Kara</div>
-                  </div>
-                  <div>
-                    <div className="img_holder">
-                      <img src={profileImg} alt="model-img" />
-                    </div>
-                    <div className="name">Eke Kara</div>
-                  </div>
-                </div>
-              </div> */}
             </div>
             {/* [END] */}
             {/* Grid Area 3  --> [START] */}
@@ -405,10 +322,12 @@ const ModelDashboard = () => {
                     <>
                       {item.isFeatured && (
                         <div key={item._id}>
-                          <div className="img_holder">
-                            <img src={item?.picture} alt="model-img" />
-                          </div>
-                          <div className="name">{item.firstName}</div>
+                          <a href={`/find-model/profile/${item._id}`}>
+                            <div className="img_holder">
+                              <img src={item?.picture} alt="model-img" />
+                            </div>
+                            <div className="name">{item.firstName}</div>
+                          </a>
                         </div>
                       )}
                     </>
@@ -424,40 +343,6 @@ const ModelDashboard = () => {
                   <JobCard />
                 </div>
               </div>
-              {/* <div id="inbox">
-                <header>
-                  <h4>Inbox</h4>
-                  <span className="msg">
-                    <div className="notification">25</div>
-                    <RiMessage2Fill size={28} />
-                    <span>Messages</span>
-                  </span>
-                </header>
-                <MessagePreviewCard
-                  img={profileImg}
-                  online={true}
-                  sender="Micheal B"
-                  title="Project manager"
-                  msg="see you tomorrow"
-                  count="5"
-                />
-                <MessagePreviewCard
-                  img={profileImg}
-                  online={true}
-                  sender="Micheal B"
-                  title="Project manager"
-                  msg="see you tomorrow"
-                  count="10"
-                />
-                <MessagePreviewCard
-                  img={profileImg}
-                  online={false}
-                  sender="Sarah Jay"
-                  title="Model"
-                  msg="I wanna work with you"
-                  count="2"
-                />
-              </div> */}
             </div>
             {/* [END] */}
           </div>

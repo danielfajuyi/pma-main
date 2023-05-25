@@ -4,7 +4,7 @@ function List({ data, currentPage }) {
   const reversed = [...data].reverse()
   // setting page range
   function pageRange() {
-    const pageLimit = 6;
+    const pageLimit = 21;
     const rangeStart = (currentPage - 1) * pageLimit;
     const rangeEnd = currentPage * pageLimit;
 

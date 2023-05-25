@@ -201,7 +201,7 @@ function ListingPage() {
 
   function handlePageNum(data) {
     let pageNumList = [];
-    const pageLimit = 4;
+    const pageLimit = 21;
     const pageCount = Math.ceil(data.length / pageLimit);
     for (let i = 1; i <= pageCount; i++) {
       pageNumList.push(i);
