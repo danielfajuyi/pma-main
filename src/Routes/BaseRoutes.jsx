@@ -98,6 +98,8 @@ export const BaseRoutes = () => {
     );
   };
 
+  //Pls don't delete this code
+  //i want to use it for a correction----> Start
   function AlertModal() {
     /* modal section */
     return (
@@ -185,6 +187,7 @@ export const BaseRoutes = () => {
     setActiveModal(mode);
     setToggleModal((prev) => !prev);
   }
+  //---------------------------> end
 
   let allTransaction = [
     {
@@ -370,7 +373,19 @@ export const BaseRoutes = () => {
             },
             {
               path: "mywallet",
-              element: <MyWallet />,
+              element: (
+                <Wallet
+                  transactions={transactions}
+                  settings={"/Agency-Acct-setting"}
+                  currentUser={"/agencypage"}
+                />
+              ),
+            },
+            {
+              path: "transaction-history",
+              element: (
+                <TransactionHistory transactions={transactions} currentUser={"/agencypage"} />
+              ),
             },
           ],
         },
@@ -487,7 +502,19 @@ export const BaseRoutes = () => {
             },
             {
               path: "mywallet",
-              element: <MyWallet />,
+              element: (
+                <Wallet
+                  transactions={transactions}
+                  settings={"/Client-Acct-setting"}
+                  currentUser={"/clientpage"}
+                />
+              ),
+            },
+            {
+              path: "transaction-history",
+              element: (
+                <TransactionHistory transactions={transactions} currentUser={"/clientpage"} />
+              ),
             },
             {
               path: "findmodels",
@@ -518,10 +545,6 @@ export const BaseRoutes = () => {
             {
               path: "notification/:id",
               element: <JobNotice />,
-            },
-            {
-              path: "wallet",
-              element: <Wallet />,
             },
           ],
         },
