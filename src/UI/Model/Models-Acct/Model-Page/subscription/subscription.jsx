@@ -4,6 +4,7 @@ import "./subscription.scss";
 import SubscriptionDetail from "./subscription_detail";
 import { useDispatch } from "react-redux";
 import { makeGet } from "../../../../../redux/apiCalls";
+import moment from "moment";
 
 const ModelSubscription = () => {
   const dispatch = useDispatch();
@@ -51,20 +52,30 @@ const ModelSubscription = () => {
               {reverse?.length === 0 && (
                 <p style={{ textAlign: "center" }}>No subscription found!</p>
               )}
-              {reverse.map((item, index) => (
-                <tr key={index}>
-                  <td>
-                    #123 <span>model</span>
-                  </td>
-                  <td>Model Portfolio</td>
-                  <td>NGN {item.amount}</td>
-                  <td>365 Days</td>
-                  <td className="active">Active</td>
-                  <td>
-                    <button onClick={() => openDetails(item?._id)}>View</button>
-                  </td>
-                </tr>
-              ))}
+              {reverse.map((item, index) => {
+                const createdAt = new Date(item.createdAt);
+                const endDate = new Date(
+                  createdAt.getFullYear() + 1,
+                  createdAt.getMonth(),
+                  createdAt.getDate()
+                );
+                return (
+                  <tr key={index}>
+                    <td>
+                      #123 <span>model</span>
+                    </td>
+                    <td>{item?.desc}</td>
+                    <td>NGN {item?.amount}</td>
+                    <td>{moment(item?.endDate ? item?.endDate : endDate).format("DD-MM-YYYY")}</td>
+                    <td className="active">Active</td>
+                    <td>
+                      <button onClick={() => openDetails(item?._id)}>
+                        View
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
             <tfoot></tfoot>
           </table>

@@ -3,6 +3,7 @@ import "./subscription_detail.scss";
 import { getRemainingTimeUntilMsTimestamp } from "./utils/utils";
 import { useCallback, useEffect, useState } from "react";
 import { makeGet } from "../../../../../redux/apiCalls";
+import moment from "moment";
 
 const defaultRemainingTime = {
   seconds: "00",
@@ -29,8 +30,18 @@ const SubscriptionDetail = ({ paymentInvoiceId }) => {
   // get countdown
   const [remainingTimeToUnlock, setRemainingTimeToUnlock] =
     useState(defaultRemainingTime);
+
+  const currentDate = new Date();
+  const targetDate = new Date(paymentDet?.endDate);
+
+  const diffInMonths =
+    (targetDate.getFullYear() - currentDate.getFullYear()) * 12 +
+    (targetDate.getMonth() - currentDate.getMonth());
+
   let monthsToAdd = new Date(paymentDet?.createdAt);
-  const futureDate = monthsToAdd.setMonth(monthsToAdd.getMonth() + 12);
+  const futureDate = monthsToAdd.setMonth(
+    monthsToAdd.getMonth() + (paymentDet?.endDate ? diffInMonths : 12)
+  );
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -43,13 +54,20 @@ const SubscriptionDetail = ({ paymentInvoiceId }) => {
     setRemainingTimeToUnlock(getRemainingTimeUntilMsTimestamp(countdown));
   }
 
+  const createdAt = new Date(paymentDet.createdAt);
+  const endDate = new Date(
+    createdAt.getFullYear() + 1,
+    createdAt.getMonth(),
+    createdAt.getDate()
+  );
+
   return (
     <div id="subscription_detail">
       <header>Subscription Data</header>
       <div id="body">
-        <span>Subscription Name</span> <span>Model Portfolio</span>
-        <span>Duration</span> <span>365 Days</span>
-        <span>Price</span> <span>NGN {paymentDet.amount}</span>
+        <span>Subscription Name</span> <span>{paymentDet?.desc}</span>
+        <span>Duration</span> <span>{moment(paymentDet?.endDate ? paymentDet?.endDate : endDate).format("DD-MM-YYYY")}</span>
+        <span>Price</span> <span>NGN {paymentDet?.amount}</span>
         <span>Status</span> <span>Active</span>
         <span>Currency Code</span> <span>NGN</span>
         <span id="note">

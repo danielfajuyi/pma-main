@@ -42,7 +42,7 @@ const ClientPage = ({ showNavbar, setShowNavbar, setClientPage, setNotice, notic
   const [toggleNotice, setToggleNotice] = useState(false); //--> toggle Notification open or close
 
   // Using Hooks  --> [START]
-  useEffect(() => {
+  useEffect(() => { 
     setShowNavbar(false);
   }, [setShowNavbar]); //--> Hides The Navbar
 

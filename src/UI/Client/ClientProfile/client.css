@@ -281,18 +281,19 @@ a {
 
   .about {
     color: white;
-    height: 170px;
+    height: 220px;
     padding: 20px;
     width: 90%;
     background: #000;
     margin: auto;
+    margin-top: 20px;
   }
 
   .industry {
     margin-top: 20px;
     background: black;
     color: white;
-    height: 100px;
+    height: 180px;
     padding: 20px;
     width: 90%;
     margin: 20px auto auto auto;
