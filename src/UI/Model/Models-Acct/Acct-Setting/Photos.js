@@ -9,7 +9,6 @@ import { AlertModal } from "../../../../Pages/LoginSignup/Sign-Up/signUpForm/Mod
 import { userRequest } from "../../../../redux/requestMethod";
 
 function Photos({ handleModal, resetDiscard }) {
-
   const [photos, setPhotos] = useState([]);
   const [photo, setPhoto] = useState(undefined);
   const [polaroids, setPolaroids] = useState([]);
@@ -129,16 +128,16 @@ function Photos({ handleModal, resetDiscard }) {
 
         setImage(selected[0]);
       } else if (action === "trash") {
-        //checking if photo delete limit has been exceeded
-        if (photos.length <= 6) {
-          handleModal("trash-photo");
-        } else {
-          setActiveModal("alert");
+        // //checking if photo delete limit has been exceeded
+        // if (photos.length <= 6) {
+        //   handleModal("trash-photo");
+        // } else {
+        setActiveModal("alert");
 
-          setToggleModal((prev) => !prev);
+        setToggleModal((prev) => !prev);
 
-          setTrash({ section: section, id: id });
-        }
+        setTrash({ section: section, id: id });
+        // }
       }
     } else if (section === "polaroids") {
       //viewing polaroid photos
@@ -191,8 +190,8 @@ function Photos({ handleModal, resetDiscard }) {
     try {
       await userRequest.put("/model/upload-photo", { ...inputs });
       setModalTxt("save");
-      setPhotos([])
-      setPolaroids([])
+      setPhotos([]);
+      setPolaroids([]);
     } catch (error) {}
   };
 

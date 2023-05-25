@@ -353,7 +353,7 @@ const SignUpForm = ({ activeSignup, setActiveSignup, userRole }) => {
                     handleChange={handleChange}
                   />
                 </div>
-                {userRole === "model" && userRole === "agency" && (
+                {userRole === "model" ? (
                   <div className="input-container">
                     <label className="Input-rapper">
                       Coupon code
@@ -367,7 +367,21 @@ const SignUpForm = ({ activeSignup, setActiveSignup, userRole }) => {
                       />
                     </label>
                   </div>
-                )}
+                ) : userRole === "agency" ? (
+                  <div className="input-container">
+                    <label className="Input-rapper">
+                      Coupon code
+                      <input
+                        className="input-field"
+                        type="text"
+                        name="coupon"
+                        placeholder="Enter coupon code..."
+                        label="Coupon code"
+                        onChange={handleChange}
+                      />
+                    </label>
+                  </div>
+                ) : null}
               </div>
 
               <div className="other-container">
