@@ -1,7 +1,20 @@
+import { useState } from "react";
 import Transaction from "./transaction";
 import { NavLink } from "react-router-dom";
 
 function TransactionHistory({ transactions, currentUser }) {
+  const [viewDetails, setViewDetails] = useState(false);
+  const [detailsId, setDetailsId] = useState("");
+
+  function handleViewDetails(id) {
+    if (viewDetails && id === detailsId) {
+      setViewDetails(false);
+    } else {
+      setDetailsId(id);
+      setViewDetails(true);
+    }
+  }
+
   return (
     <div className="wallet-home-container">
       <section className="transaction-section">
@@ -15,7 +28,15 @@ function TransactionHistory({ transactions, currentUser }) {
           {transactions.length < 1 ? (
             <li className="no-transaction">No Transaction!</li>
           ) : (
-            transactions.map((item) => <Transaction key={item.id} details={item} />)
+            transactions.map((item) => (
+              <Transaction
+                key={item.id}
+                details={item}
+                detailsId={detailsId}
+                viewDetails={viewDetails}
+                handleViewDetails={handleViewDetails}
+              />
+            ))
           )}
         </ul>
       </section>

@@ -113,16 +113,35 @@ legend {
   font-weight: 500;
   padding: 2px 8px;
 }
+.button-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin: 1rem 0;
+}
+
+.button-container p {
+  font-size: 13px;
+  color: var(--Light-color);
+}
 .send-button {
   border-radius: 30px;
-  padding: 0.7rem 0;
-  width: 70%;
+  padding: 0.6rem 0;
+  width: 80%;
   font-size: 1.3rem;
   font-weight: 600;
   align-self: center;
 }
 .send-button:hover {
   cursor: pointer;
+}
+.contact-link {
+  color: var(--Light-color);
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: underline;
 }
 .btm-margin {
   margin-bottom: 4px;
@@ -143,6 +162,12 @@ legend {
 @media screen and (max-height: 800px) {
   .wallet-form {
     margin-top: 25rem;
+  }
+}
+
+@media screen and (max-height: 800px) {
+  .fund-form {
+    margin-top: 0rem;
   }
 }
 

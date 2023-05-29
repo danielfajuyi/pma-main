@@ -3,7 +3,7 @@ import Transaction from "./transaction";
 import { NavLink } from "react-router-dom";
 
 import { useState, useEffect } from "react";
-import { SendForm, WithdrawForm } from "./wallet-forms";
+import { SendForm, WithdrawForm, FundForm } from "./wallet-forms";
 
 function Wallet({ transactions, settings, currentUser }) {
   let NigeriaNGN = Intl.NumberFormat("en-US");
@@ -79,15 +79,15 @@ function Wallet({ transactions, settings, currentUser }) {
         <section className="balance-section">
           <div className="balance-top-text">
             <h3 className="balance-title">Current Balance</h3>
-            <i className="fa-solid fa-angle-down balance-more-icon colored-hover"></i>
+            <NavLink to={`${currentUser}/transaction-history`}>
+              <i class="fa-solid fa-clock-rotate-left balance-more-icon colored-hover"></i>
+            </NavLink>
           </div>
 
           <p className="balance-figure"> &#8358;{NigeriaNGN.format(balance || "0")}</p>
           <div className="balance-credit">
             <div className="credit">
-              <>
-                <i className="fa-solid fa-arrow-down credit-icon "></i>
-              </>
+              <i className="fa-solid fa-arrow-down credit-icon "></i>
 
               <div>
                 <p className="credit-figure">
@@ -112,7 +112,10 @@ function Wallet({ transactions, settings, currentUser }) {
             </div>
           </div>
           <div className="transaction-buttons">
-            <button className="transfer-btn">fund</button>
+            <button onClick={() => handleForm("fund")} className="transfer-btn">
+              fund
+            </button>
+
             <button onClick={() => handleForm("withdraw")} className="withdraw-btn">
               withdraw
             </button>
@@ -144,11 +147,13 @@ function Wallet({ transactions, settings, currentUser }) {
         <section
           style={{ transform: toggleForm && `translateX(${0}%)` }}
           className="form-modal-section">
-          {activeForm === "pay-form" ? (
+          {activeForm === "fund" ? (
+            <FundForm handleForm={handleForm} time={time} date={date} />
+          ) : activeForm === "pay-form" ? (
             <SendForm handleForm={handleForm} time={time} date={date} />
-          ) : (
+          ) : activeForm === "withdraw" ? (
             <WithdrawForm handleForm={handleForm} time={time} date={date} />
-          )}
+          ) : null}
         </section>
       </div>
     </>

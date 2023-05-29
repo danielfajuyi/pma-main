@@ -36,7 +36,6 @@ import ModelsAcct from "../UI/Model/Models-Acct/Models-Acct";
 import ModelAcctSetting from "../UI/Model/Models-Acct/Acct-Setting/Models-Acct-Setting";
 import ModelPortfolio from "../UI/Model/ModelPortfolio/ModelPortfolio";
 import ProfilePage from "../Pages/FindModel/Models-Profile-page/Profile-Page";
-import MyWallet from "../UI/Model/Models-Acct/Model-Page/wallet/my_wallet";
 import Review from "../UI/Model/Models-Acct/Model-Page/review/review";
 import WriteReview from "../UI/Model/Models-Acct/Model-Page/review/write_review";
 import Reviews from "../UI/Model/Models-Acct/Model-Page/review/view_reviews";
@@ -197,7 +196,7 @@ export const BaseRoutes = () => {
       name: "fourwall magazine",
       brand: "brand",
       amount: 5000,
-      date: "",
+      date: "may-09-24",
       time: "08:25am",
     },
     {
@@ -207,7 +206,7 @@ export const BaseRoutes = () => {
       name: "3touch photography",
       brand: "Photographer",
       amount: 8500,
-      date: "",
+      date: "may-09-24",
       time: "11:05pm",
     },
     {
@@ -217,7 +216,7 @@ export const BaseRoutes = () => {
       name: "swavvy sashion",
       brand: "fashion design",
       amount: 15000,
-      date: "",
+      date: "may-09-24",
       time: "12:30am",
     },
     {
@@ -227,7 +226,7 @@ export const BaseRoutes = () => {
       name: "fourwall magazine",
       brand: "brand",
       amount: 5000,
-      date: "",
+      date: "may-09-24",
       time: "03:00am",
     },
     {
@@ -237,7 +236,7 @@ export const BaseRoutes = () => {
       name: "pixel world",
       brand: "graphics",
       amount: 2500,
-      date: "",
+      date: "may-09-24",
       time: "5:30am",
     },
     {
@@ -247,7 +246,7 @@ export const BaseRoutes = () => {
       name: "3touch photography",
       brand: "Photographer",
       amount: 8500,
-      date: "",
+      date: "may-09-24",
       time: "01:10pm",
     },
     {
@@ -257,7 +256,7 @@ export const BaseRoutes = () => {
       name: "swavvy sashion",
       brand: "fashion design",
       amount: 15000,
-      date: "",
+      date: "may-09-24",
       time: "5:30am",
     },
   ];

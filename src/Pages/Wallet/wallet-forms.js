@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import "./wallet-forms.css";
+import { NavLink } from "react-router-dom";
 
 function SendForm({ handleForm, time, date }) {
   const [payModel, setPayModel] = useState({
@@ -142,7 +143,15 @@ function SendForm({ handleForm, time, date }) {
 
       {/* button */}
 
-      <button className="send-button">Send</button>
+      <div className="button-container">
+        <button className="send-button">Send</button>
+        <p>
+          Do you need help?
+          <NavLink className="contact-link" to={"/contact"}>
+            Contact Us
+          </NavLink>
+        </p>
+      </div>
     </form>
   );
 }
@@ -313,9 +322,97 @@ function WithdrawForm({ handleForm, time, date }) {
 
       {/* button */}
 
-      <button className="send-button">Withdraw</button>
+      <div className="button-container">
+        <button className="send-button">Withdraw</button>
+        <p>
+          Do you need help?
+          <NavLink className="contact-link" to={"/contact"}>
+            Contact Us
+          </NavLink>
+        </p>
+      </div>
     </form>
   );
 }
 
-export { SendForm, WithdrawForm };
+//fund wallet form section
+
+function FundForm({ handleForm, time, date }) {
+  let NigeriaNGN = Intl.NumberFormat("en-US");
+  let balance = 10000.46;
+
+  const [fund, setFund] = useState({
+    id: "",
+    amount: "",
+    transactionDate: "",
+    transactionTime: "",
+  });
+
+  useEffect(() => {
+    setFund((prev) => ({ ...prev, transactionDate: date, transactionTime: time }));
+  }, [time, date]);
+
+  function handleWithdraw(e) {
+    const { name, value } = e.target;
+    setFund((prev) => ({ ...prev, [name]: value }));
+  }
+
+  return (
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        console.log(fund);
+        setFund({
+          id: "",
+          amount: "",
+          transactionDate: date,
+          transactionTime: time,
+        });
+
+        handleForm("");
+      }}
+      className="wallet-form fund-form">
+      <div className="wallet-form-top-text">
+        <i onClick={() => handleForm("")} className="fa-solid fa-angle-left"></i>
+        <h3>Fund Wallet</h3>
+      </div>
+
+      {/* Balanec section */}
+
+      <div className="withdraw-balance">
+        <h4>Wallet Balance</h4>
+        <p className=""> &#8358;{NigeriaNGN.format(balance || "0")}</p>
+      </div>
+
+      {/* Amount */}
+
+      <fieldset>
+        <legend>Amount</legend>
+        <label className="label-1" htmlFor="amount">
+          <input
+            name="amount"
+            value={fund.amount}
+            onChange={(e) => handleWithdraw(e)}
+            type="number"
+            id="amount"
+            placeholder="Amount..."
+          />
+          <span className="label-1-text">NGN</span>
+        </label>
+      </fieldset>
+
+      {/* button */}
+      <div className="button-container">
+        <button className="send-button">Fund wallet</button>
+        <p>
+          Do you need help?
+          <NavLink className="contact-link" to={"/contact"}>
+            Contact Us
+          </NavLink>
+        </p>
+      </div>
+    </form>
+  );
+}
+
+export { FundForm, SendForm, WithdrawForm };
