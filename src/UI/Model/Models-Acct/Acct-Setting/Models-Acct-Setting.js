@@ -1,7 +1,7 @@
 import "./Models-Acct-Setting.css";
 import About from "./About";
 import EmailAndPassword from "./Email-and-password";
-import PaymentInfo from "./Payment-info";
+import PaymentInfo from "./Wallet-setting";
 import Stats from "./Stats";
 import Photos from "./Photos";
 import Videos from "./Videos";
@@ -10,7 +10,7 @@ import { navList1, navList2 } from "../utils";
 import { NavLink } from "react-router-dom";
 import { useEffect } from "react";
 
-function ModelAcctSetting({ handleModal, userData, showNavbar, setShowNavbar }) {
+function ModelAcctSetting({ AlertModal, handleModal, userData, showNavbar, setShowNavbar }) {
   const [activeSet, setActiveSet] = useState("about");
   const [toggleSetMenu, setToggleSetMenu] = useState(false);
   const [activeEdit, setActiveEdit] = useState("");
@@ -89,6 +89,7 @@ function ModelAcctSetting({ handleModal, userData, showNavbar, setShowNavbar }) 
       {!showNavbar && (
         <div className="set_sections">
           {discardAlert()}
+          {AlertModal()}
 
           {/* nav section */}
 
@@ -96,9 +97,7 @@ function ModelAcctSetting({ handleModal, userData, showNavbar, setShowNavbar }) 
             style={{ transform: toggleSetMenu && `translateX(${0}%)` }}
             className="Acct-set-menu">
             <div className="set-nav_title">
-              <h2>
-                Acct-<span className="mobile-nav-text">Settings</span>
-              </h2>
+              <h2>Setting</h2>
               <i className="fa-solid fa-gear"></i>
             </div>
 
