@@ -348,7 +348,7 @@ function Photos({ handleModal, resetDiscard }) {
               className="file-input"
             />
 
-            <span className="bold-text">{polaroids?.length}/18 pics</span>
+            <span className="bold-text">{polaroids?.length}/8 pics</span>
           </div>
           <ul className="set_polaroid-list">
             {polaroids?.map((item, index) =>
