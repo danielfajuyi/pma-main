@@ -22,6 +22,18 @@ const ClientDashboard = () => {
   const dispatch = useDispatch();
 
   const [booking, setBooking] = useState([]);
+  // const [loggedInUser, setLoggedInUser] = useState();
+
+  //   // get logged in user
+  //   const fetchLogedInuser = useCallback(() => {
+  //     makeGet(dispatch, `/user/${user._id}`, setLoggedInUser);
+  //   }, [dispatch]);
+  //   // console.log(loggedInUser)
+  
+    // useEffect(() => {
+    //   let unsubscribed = fetchLogedInuser();
+    //   return () => unsubscribed;
+    // }, []);
 
   // get model booking
   const fetchModelBooking = useCallback(() => {
@@ -175,7 +187,7 @@ const ClientDashboard = () => {
             {/* PROFILE PANEL --> [START] */}
             <div id="profile_panel">
               <div id="cover">
-                <img src={user?.client?.coverPicture} alt="cover-pic" />
+                <img src={user?.client?.coverPicture ? user?.client?.coverPicture : "https://media.sproutsocial.com/uploads/2018/04/Facebook-Cover-Photo-Size.png"} alt="cover-pic" />
               </div>
               <div id="profile">
                 <div id="img_holder">
@@ -187,7 +199,7 @@ const ClientDashboard = () => {
                   </div>
                   {/* <div id="handle">{`@${user?.username}`}</div> */}
                 </div>
-                <Link to="/clientpage/settings">
+                <Link to="/client-Acct-setting">
                   <button>
                     <MdEdit size={14} />
                     <span>Edit Profile</span>

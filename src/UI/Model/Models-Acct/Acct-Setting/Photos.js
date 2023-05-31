@@ -125,16 +125,16 @@ function Photos({ handleModal, resetDiscard }) {
 
         setImage(selected[0]);
       } else if (action === "trash") {
-        //checking if photo delete limit has been exceeded
-        if (photos.length <= 6) {
-          handleModal("trash-photo");
-        } else {
-          setActiveModal("alert");
+        // //checking if photo delete limit has been exceeded
+        // if (photos.length <= 6) {
+        //   handleModal("trash-photo");
+        // } else {
+        setActiveModal("alert");
 
-          setToggleModal((prev) => !prev);
+        setToggleModal((prev) => !prev);
 
-          setTrash({ section: section, id: id });
-        }
+        setTrash({ section: section, id: id });
+        // }
       }
     } else if (section === "polaroids") {
       //viewing polaroid photos
@@ -314,7 +314,7 @@ function Photos({ handleModal, resetDiscard }) {
               className="file-input"
             />
 
-            <span className="bold-text">{polaroids?.length}/18 pics</span>
+            <span className="bold-text">{polaroids?.length}/8 pics</span>
           </div>
           <ul className="set_polaroid-list">
             {polaroids?.map((item, index) =>

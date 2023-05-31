@@ -49,8 +49,13 @@ import ClientAcctSetting from "../UI/Client/Client-Acct/Acct-Setting/Client-Acct
 import ClientProfile from "../UI/Client/ClientProfile/ClientProfile";
 import Chats from "../UI/Inbox/Chats/chats";
 import JobNotice from "../UI/Notification/Job-Notice-Items";
+
 import Wallet from "../Pages/Wallet/wallet-page";
 import TransactionHistory from "../Pages/Wallet/History";
+
+import AgencyPortfolio from "../UI/Agency/AgencyProfile/agency_portfolio";
+import ClientPortfolio from "../UI/Client/ClientProfile/ClientPortfolio";
+
 
 export const BaseRoutes = () => {
   const [showNavbar, setShowNavbar] = useState(true);
@@ -300,6 +305,14 @@ export const BaseRoutes = () => {
         {
           path: "find-model/profile/:id",
           element: <ProfilePage />,
+        },
+        {
+          path: "find-client/profile/:id",
+          element: <ClientPortfolio />,
+        },
+        {
+          path: "find-agency/profile/:id",
+          element: <AgencyPortfolio />,
         },
         {
           path: "faqs",
