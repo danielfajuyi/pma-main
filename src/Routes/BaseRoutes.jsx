@@ -375,6 +375,11 @@ export const BaseRoutes = () => {
                 },
               ],
             },
+            // models under agency portfolio
+            {
+              path: "profile/:id",
+              element: <ModelPortfolio />,
+            },
             {
               path: "chat/:id",
               element: <Chats />,
@@ -476,7 +481,7 @@ export const BaseRoutes = () => {
           element: <ModelsForms showNavbar={showNavbar} setShowNavbar={setShowNavbar} />,
         },
         {
-          path: "model-Acct-setting",
+          path: "model-Acct-setting/:id",
           element: (
             <ModelAcctSetting
               handleModal={handleModal}

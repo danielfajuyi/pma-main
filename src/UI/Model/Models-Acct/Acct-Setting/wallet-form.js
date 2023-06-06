@@ -73,7 +73,7 @@ function NewPin({ handleForm, activeForm, showForm }) {
 
         {/* Confirm  pin  */}
 
-        <div className="set-payment-label">
+        {/* <div className="set-payment-label">
           <label className="set-payment-label-text" htmlFor="confirm-pin">
             Confirm pin:
           </label>
@@ -96,11 +96,11 @@ function NewPin({ handleForm, activeForm, showForm }) {
                 className="fa-solid fa-eye-slash  label-3-icon"></i>
             )}
           </label>
-        </div>
+        </div> */}
 
         {/* password  */}
 
-        <div className="set-payment-label">
+        {/* <div className="set-payment-label">
           <label className="set-payment-label-text" htmlFor="pwd">
             Password:
           </label>
@@ -123,7 +123,7 @@ function NewPin({ handleForm, activeForm, showForm }) {
                 className="fa-solid fa-eye-slash  label-3-icon"></i>
             )}
           </label>
-        </div>
+        </div> */}
 
         <div className="set-payment-btn-2">
           <button

@@ -1,22 +1,53 @@
 import "./Models-Acct-Setting.css";
+import { useCallback, useEffect, useState } from "react";
 import About from "./About";
 import EmailAndPassword from "./Email-and-password";
 import PaymentInfo from "./Wallet-setting";
 import Stats from "./Stats";
 import Photos from "./Photos";
 import Videos from "./Videos";
-import { useState } from "react";
 import { navList1, navList2 } from "../utils";
 import { NavLink } from "react-router-dom";
-import { useEffect } from "react";
+import { makeGet, update } from "../../../../redux/apiCalls";
+import { useLocation } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
 
-function ModelAcctSetting({ AlertModal, handleModal, userData, showNavbar, setShowNavbar }) {
+function ModelAcctSetting({
+  AlertModal,
+  handleModal,
+  userData,
+  showNavbar,
+  setShowNavbar,
+}) {
+  const user = useSelector((state) => state.user.currentUser);
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const path = location.pathname.split("/")[2];
+
   const [activeSet, setActiveSet] = useState("about");
   const [toggleSetMenu, setToggleSetMenu] = useState(false);
   const [activeEdit, setActiveEdit] = useState("");
 
   const [discardFunc, setDiscardFunc] = useState("");
   const [toggleDiscard, setToggleDiscard] = useState(false);
+  const [model, setModel] = useState({});
+
+  const fetchData = useCallback(() => {
+    makeGet(dispatch, `/model/${path}`, setModel);
+  }, [dispatch]);
+
+  useEffect(() => {
+    // if (user?.role === "agency") {
+    let unsubscribed = false;
+    if (!unsubscribed) {
+      fetchData();
+    }
+    return () => {
+      unsubscribed = true;
+    };
+    // }
+  }, []);
+  // console.log(model)
 
   useEffect(() => {
     setShowNavbar(false);
@@ -58,24 +89,28 @@ function ModelAcctSetting({ AlertModal, handleModal, userData, showNavbar, setSh
     return (
       <section
         style={{ transform: toggleDiscard && `translateX(${0}%)` }}
-        className="modal-section">
+        className="modal-section"
+      >
         <div className="alert-box">
           <h2 className="alert-title">Do you want to disCard changes?</h2>
 
           <p className="alert-text">
             <span className="bold-text colored-text">Note: </span>
-            by clicking yes all unsaved changes will be deleted and progress lost!
+            by clicking yes all unsaved changes will be deleted and progress
+            lost!
           </p>
 
           <div className="alert-btn">
             <button
               onClick={() => handleDiscard("No")}
-              className="del-alert-btn bold-text cancel-btn">
+              className="del-alert-btn bold-text cancel-btn"
+            >
               No?
             </button>
             <button
               onClick={() => handleDiscard("Yes")}
-              className="del-alert-btn bold-text yes-btn">
+              className="del-alert-btn bold-text yes-btn"
+            >
               Yes?
             </button>
           </div>
@@ -95,7 +130,8 @@ function ModelAcctSetting({ AlertModal, handleModal, userData, showNavbar, setSh
 
           <section
             style={{ transform: toggleSetMenu && `translateX(${0}%)` }}
-            className="Acct-set-menu">
+            className="Acct-set-menu"
+          >
             <div className="set-nav_title">
               <h2>Setting</h2>
               <i className="fa-solid fa-gear"></i>
@@ -104,7 +140,8 @@ function ModelAcctSetting({ AlertModal, handleModal, userData, showNavbar, setSh
             <nav className="set-nav">
               <i
                 className="fa-solid fa-xmark close-set colored-hover"
-                onClick={handleToggleSetMenu}></i>
+                onClick={handleToggleSetMenu}
+              ></i>
               <ul className="set-nav_list">
                 {navList1.map((item) => {
                   return (
@@ -112,7 +149,8 @@ function ModelAcctSetting({ AlertModal, handleModal, userData, showNavbar, setSh
                       key={item}
                       className="set-nav_item colored-hover"
                       onClick={() => handleActiveSet(item)}
-                      role="button">
+                      role="button"
+                    >
                       {item === "about" ? (
                         <i className="fa-solid fa-address-book"></i>
                       ) : item === "stats" ? (
@@ -130,12 +168,15 @@ function ModelAcctSetting({ AlertModal, handleModal, userData, showNavbar, setSh
               <ul className="set-nav_list">
                 {navList2.map((item) => {
                   return (
-                    <NavLink to={item === "dashboard" && "/modelPage/dashboard"}>
+                    <NavLink
+                      to={item === "dashboard" && "/modelPage/dashboard"}
+                    >
                       <li
                         key={item}
                         className="set-nav_item colored-hover"
                         onClick={() => handleActiveSet(item)}
-                        role="button">
+                        role="button"
+                      >
                         {item === "email/pass" ? (
                           <i className="fa-solid fa-envelope-circle-check"></i>
                         ) : item === "payment" ? (
@@ -154,13 +195,19 @@ function ModelAcctSetting({ AlertModal, handleModal, userData, showNavbar, setSh
 
           {/* main section */}
 
-          <section className="Acct-set-main" style={{ backgroundColor: "white" }}>
+          <section
+            className="Acct-set-main"
+            style={{ backgroundColor: "white" }}
+          >
             {/* settings header */}
             <div className="set_mobile-nav">
               <h2>
                 Acct-<span className="mobile-nav-text">Settings</span>
               </h2>
-              <i className="fa-solid fa-gear colored-hover" onClick={handleToggleSetMenu}></i>
+              <i
+                className="fa-solid fa-gear colored-hover"
+                onClick={handleToggleSetMenu}
+              ></i>
             </div>
 
             {/* About section */}
@@ -172,6 +219,7 @@ function ModelAcctSetting({ AlertModal, handleModal, userData, showNavbar, setSh
                 userData={userData}
                 handleModal={handleModal}
                 resetDiscard={resetDiscard}
+                model={model}
               />
             )}
 
@@ -185,19 +233,29 @@ function ModelAcctSetting({ AlertModal, handleModal, userData, showNavbar, setSh
                 userData={userData}
                 handleModal={handleModal}
                 resetDiscard={resetDiscard}
+                model={model}
               />
             )}
 
             {/* photo section */}
 
             {activeSet === "photos" && (
-              <Photos userData={userData} handleModal={handleModal} resetDiscard={resetDiscard} />
+              <Photos
+                userData={userData}
+                handleModal={handleModal}
+                resetDiscard={resetDiscard}
+                model={model}
+              />
             )}
 
             {/* video section */}
 
             {activeSet === "videos" && (
-              <Videos userData={userData} handleModal={handleModal} resetDiscard={resetDiscard} />
+              <Videos
+                userData={userData}
+                handleModal={handleModal}
+                resetDiscard={resetDiscard}
+              />
             )}
 
             {/* email and password section */}
@@ -214,7 +272,7 @@ function ModelAcctSetting({ AlertModal, handleModal, userData, showNavbar, setSh
 
             {/* payment info section */}
 
-            {activeSet === "payment" && <PaymentInfo userData={userData} />}
+            {activeSet === "payment" && <PaymentInfo userData={userData} model={model} />}
           </section>
         </div>
       )}

@@ -3,17 +3,20 @@ import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { storage } from "../../../../firebase";
 import { AlertModal } from "../../../../Pages/LoginSignup/Sign-Up/signUpForm/Modal";
-import { update } from "../../../../redux/apiCalls";
+import { makeEdit, makeGet, update } from "../../../../redux/apiCalls";
 import { info } from "../utils";
 import "./About.css";
 import EditBtn from "./Edit-btn";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useLocation } from "react-router";
 
-function BasicInfo({ handleActiveEdit, activeEdit, resetDiscard }) {
+function BasicInfo({ handleActiveEdit, activeEdit, resetDiscard, model }) {
   const user = useSelector((state) => state.user.currentUser);
   const { isFetching } = useSelector((state) => state.user);
   const dispatch = useDispatch();
+  const location = useLocation();
+  const path = location.pathname.split("/")[2];
 
   const [inputs, setInputs] = useState({});
   const [progress, setProgress] = useState(0);
@@ -21,6 +24,7 @@ function BasicInfo({ handleActiveEdit, activeEdit, resetDiscard }) {
   const [message, setMessage] = useState("");
   const [modalTxt, setModalTxt] = useState("");
 
+  // upload file/image
   const uploadFile = (file, urlType) => {
     const fileName = new Date().getTime() + file.name;
     const storageRef = ref(storage, `/models/${fileName}`);
@@ -69,8 +73,11 @@ function BasicInfo({ handleActiveEdit, activeEdit, resetDiscard }) {
 
   //handle save
   const handleSave = () => {
-    update(dispatch, "/model/", { ...inputs }, setMessage);
-    setModalTxt("save");
+    if (user?.role === "model") {
+      update(dispatch, "/model/", { ...inputs }, setMessage);
+    }else{
+      makeEdit(dispatch, `/agency/${model?.model?._id}`, { ...inputs }, setMessage);
+    }
   };
 
   return (
@@ -105,7 +112,10 @@ function BasicInfo({ handleActiveEdit, activeEdit, resetDiscard }) {
 
           {activeEdit !== "profile-details" && (
             <div className="set_img-rapper">
-              <img src={user?.picture} alt="" />
+              <img
+                src={user?.role === "agency" ? model?.picture : user?.picture}
+                alt=""
+              />
             </div>
           )}
 
@@ -184,23 +194,39 @@ function BasicInfo({ handleActiveEdit, activeEdit, resetDiscard }) {
               <ul className="set1_info-text-container">
                 <li>
                   <span className="bold-text">Name: </span>
-                  {user?.model?.fullName}
+                  {user?.role === "agency"
+                    ? model?.model?.fullName
+                    : user?.model?.fullName}
                 </li>
                 <li>
                   <span className="bold-text">User Name: </span>
-                  {user?.username}
+                  {user?.role === "agency"
+                    ? model?.model?.username
+                    : user?.username}
                 </li>
-                <li>
-                  <span className="bold-text">Gender: </span>
-                  {user?.model?.gender === "m" ? "Male" : "Female"}
-                </li>
+                {user.role === "model" && (
+                  <li>
+                    <span className="bold-text">Gender: </span>
+                    {user?.model?.gender === "m" ? "Male" : "Female"}
+                  </li>
+                )}
+                {user.role === "agency" && (
+                  <li>
+                    <span className="bold-text">Gender: </span>
+                    {model?.model?.gender === "m" ? "Male" : "Female"}
+                  </li>
+                )}
                 <li>
                   <span className="bold-text">Country: </span>
-                  {user?.model?.country}
+                  {user?.role === "agency"
+                    ? model?.model?.country
+                    : user?.model?.country}
                 </li>
                 <li>
                   <span className="bold-text">State: </span>
-                  {user?.model?.state}
+                  {user?.role === "agency"
+                    ? model?.model?.state
+                    : user?.model?.state}
                 </li>
               </ul>
             )}
@@ -256,7 +282,9 @@ function BasicInfo({ handleActiveEdit, activeEdit, resetDiscard }) {
         {/* bio read only section  */}
 
         {activeEdit !== "model-bio" && (
-          <p className="bio-text">{user?.model?.bio}</p>
+          <p className="bio-text">
+            {user?.role === "agency" ? model?.model?.bio : user?.model?.bio}
+          </p>
         )}
       </div>
 

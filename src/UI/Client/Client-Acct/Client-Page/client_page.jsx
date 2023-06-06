@@ -66,7 +66,7 @@ const ClientPage = ({ showNavbar, setShowNavbar, setClientPage, setNotice, notic
     { name: "Profile", icon: <CgUserList />, path: "profile/" + user._id },
     { name: "Post Job", icon: <MdOutlinePostAdd />, path: "post-a-job" },
     { name: "Find Models", icon: <RiUserSearchLine />, path: "/find-model" },
-    { name: "Wallet", icon: <RiUserSearchLine />, path: "wallet" },
+    { name: "Wallet", icon: <RiUserSearchLine />, path: "mywallet" },
     {
       name: "Review",
       icon: <MdOutlineReviews />,

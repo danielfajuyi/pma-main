@@ -2,8 +2,11 @@ import "./wallet-setting.css";
 import { NewPin, ChangePin } from "./wallet-form";
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
+import { useSelector } from "react-redux";
 
-function WalletSetting() {
+function WalletSetting({model}) {
+  const user = useSelector((state) => state.user.currentUser);
+
   const [showForm, setShowForm] = useState(false);
   const [activeForm, setActiveForm] = useState("");
 
@@ -21,11 +24,11 @@ function WalletSetting() {
       <h2 className="set-payment-title">Payment</h2>
       <div className="set-payment-profile">
         <div className="set-payment-img">
-          <img src="/images/model (23).jpg" alt="" />
+          <img src={user?.picture} alt="" />
         </div>
         <div className="set-payment-text">
-          <h4>Emmanuel Abazu</h4>
-          <i>Wallet Id:{" " + 7062445649}</i>
+          <h4>{user?.firstName} {user?.lastName}</h4>
+          <i>Wallet tag:{ model?.username ? model?.username : "Your model username is the tag to use"}</i>
         </div>
       </div>
 

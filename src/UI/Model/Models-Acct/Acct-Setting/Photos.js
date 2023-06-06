@@ -1,6 +1,6 @@
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { storage } from "../../../../firebase";
 import { makeEdit, update } from "../../../../redux/apiCalls";
 import "./Photos.css";
@@ -8,7 +8,9 @@ import { ToastContainer } from "react-toastify";
 import { AlertModal } from "../../../../Pages/LoginSignup/Sign-Up/signUpForm/Modal";
 import { userRequest } from "../../../../redux/requestMethod";
 
-function Photos({ handleModal, resetDiscard }) {
+function Photos({ handleModal, resetDiscard, model }) {
+  const user = useSelector((state) => state.user.currentUser);
+
   const [photos, setPhotos] = useState([]);
   const [photo, setPhoto] = useState(undefined);
   const [polaroids, setPolaroids] = useState([]);
@@ -39,7 +41,8 @@ function Photos({ handleModal, resetDiscard }) {
     uploadTask.on(
       "state_changed",
       (snapshot) => {
-        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        const progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
         if (urlType === "photos") {
           setProgress(Math.round(progress));
         }
@@ -118,7 +121,9 @@ function Photos({ handleModal, resetDiscard }) {
     if (section === "photos") {
       //viewing photos
       if (action === "view") {
-        let selected = photos.filter((item, index) => (index === id ? item : null));
+        let selected = photos.filter((item, index) =>
+          index === id ? item : null
+        );
         setActiveModal("display");
 
         setToggleModal((prev) => !prev);
@@ -139,7 +144,9 @@ function Photos({ handleModal, resetDiscard }) {
     } else if (section === "polaroids") {
       //viewing polaroid photos
       if (action === "view") {
-        let selected = polaroids.filter((item, index) => (index === id ? item : null));
+        let selected = polaroids.filter((item, index) =>
+          index === id ? item : null
+        );
 
         setActiveModal("display");
 
@@ -165,10 +172,14 @@ function Photos({ handleModal, resetDiscard }) {
   function handleTrash(response) {
     if (response === "Yes") {
       if (trash.section === "photos") {
-        setPhotos(photos.filter((item, index) => (index !== trash.id ? item : null)));
+        setPhotos(
+          photos.filter((item, index) => (index !== trash.id ? item : null))
+        );
         setToggleModal((prev) => !prev);
       } else if (trash.section === "polaroids") {
-        setPolaroids(polaroids.filter((item, index) => (index !== trash.id ? item : null)));
+        setPolaroids(
+          polaroids.filter((item, index) => (index !== trash.id ? item : null))
+        );
         setToggleModal((prev) => !prev);
       }
     } else if (response === "No") {
@@ -179,43 +190,62 @@ function Photos({ handleModal, resetDiscard }) {
   //handle save photos
   const handleSubmit = async () => {
     try {
-      await userRequest.put("/model/upload-photo", { ...inputs });
-      setModalTxt("save");
-      setPhotos([]);
-      setPolaroids([]);
+      if (user?.role === "model") {
+        await userRequest.put("/model/upload-photo", { ...inputs });
+        setModalTxt("save");
+        setPhotos([]);
+        setPolaroids([]);
+      } else {
+        await userRequest.put(`/agency/add_model_photo/${model?.model?._id}`, {
+          ...inputs,
+        });
+        setModalTxt("save");
+        setPhotos([]);
+        setPolaroids([]);
+      }
     } catch (error) {}
   };
-  console.log(photos);
+
   return (
     <form onSubmit={(e) => e.preventDefault()}>
       <AlertModal modalTxt={modalTxt} setModalTxt={setModalTxt} />
       <ToastContainer position="top-center" />
 
-      <section style={{ transform: toggleModal && `translateX(${0}%)` }} className="modal-section">
+      <section
+        style={{ transform: toggleModal && `translateX(${0}%)` }}
+        className="modal-section"
+      >
         {activeModal === "display" ? (
           <div className="modal-img-rapper">
-            <i onClick={() => setToggleModal(false)} className="fa-solid fa-xmark close-alert2"></i>
+            <i
+              onClick={() => setToggleModal(false)}
+              className="fa-solid fa-xmark close-alert2"
+            ></i>
             <img src={image} alt="" width="300" height="320" />
           </div>
         ) : activeModal === "alert" ? (
           <div className="alert-box">
-            <h2 className="alert-title">Are you sure you want to delete Photo?</h2>
+            <h2 className="alert-title">
+              Are you sure you want to delete Photo?
+            </h2>
 
             <p className="alert-text">
               <span className="bold-text colored-text">Note: </span>
-              by clicking yes and saving changes this photo will be permanently deleted from you
-              Profile.
+              by clicking yes and saving changes this photo will be permanently
+              deleted from you Profile.
             </p>
 
             <div className="alert-btn">
               <button
                 onClick={() => handleTrash("No")}
-                className="del-alert-btn bold-text cancel-btn">
+                className="del-alert-btn bold-text cancel-btn"
+              >
                 No?
               </button>
               <button
                 onClick={() => handleTrash("Yes")}
-                className="del-alert-btn bold-text yes-btn">
+                className="del-alert-btn bold-text yes-btn"
+              >
                 Yes?
               </button>
             </div>
@@ -228,14 +258,18 @@ function Photos({ handleModal, resetDiscard }) {
           <h2 className="set_sections-title">Portfolio Photos</h2>
           <p className="set_description">
             <i className="fa-solid fa-angles-right note"></i>
-            We recommend using a variety of high resolution photos that best show off your work!
+            We recommend using a variety of high resolution photos that best
+            show off your work!
           </p>
           <p className="set_description">
             <i className="fa-solid fa-angles-right note"></i>
             Try to include a headShot, a side/profile shot,and a full body shot.
           </p>
           <div className="add-photo_container">
-            <label className="add-photo dark--btn cancel-btn" htmlFor="add-photo">
+            <label
+              className="add-photo dark--btn cancel-btn"
+              htmlFor="add-photo"
+            >
               <i className="fa-solid fa-circle-plus add-icon"></i> Add photo
             </label>
 
@@ -257,10 +291,12 @@ function Photos({ handleModal, resetDiscard }) {
                   <div className="photo-icons">
                     <i
                       onClick={() => handleClick("view", index, "photos")}
-                      className="fa-solid fa-arrow-up-right-from-square view-icon"></i>
+                      className="fa-solid fa-arrow-up-right-from-square view-icon"
+                    ></i>
                     <i
                       onClick={() => handleClick("trash", index, "photos")}
-                      className="fa-regular fa-trash-can trash-icon"></i>
+                      className="fa-regular fa-trash-can trash-icon"
+                    ></i>
                   </div>
                 </li>
               ) : (
@@ -270,10 +306,12 @@ function Photos({ handleModal, resetDiscard }) {
                     <div className="photo-icons">
                       <i
                         onClick={() => handleClick("view", index, "photos")}
-                        className="fa-solid fa-arrow-up-right-from-square view-icon"></i>
+                        className="fa-solid fa-arrow-up-right-from-square view-icon"
+                      ></i>
                       <i
                         onClick={() => handleClick("trash", index, "photos")}
-                        className="fa-regular fa-trash-can trash-icon"></i>
+                        className="fa-regular fa-trash-can trash-icon"
+                      ></i>
                     </div>
                   </li>
                 )
@@ -281,8 +319,11 @@ function Photos({ handleModal, resetDiscard }) {
             )}
           </ul>
           <span
-            onClick={() => setViewAll((prev) => ({ ...prev, photo: !viewAll.photo }))}
-            className="utility-btn cancel-btn">
+            onClick={() =>
+              setViewAll((prev) => ({ ...prev, photo: !viewAll.photo }))
+            }
+            className="utility-btn cancel-btn"
+          >
             {viewAll.photo ? " View Less" : "View All"}
           </span>
         </div>
@@ -294,7 +335,8 @@ function Photos({ handleModal, resetDiscard }) {
           </p>
           <p className="set_description">
             <i className="fa-solid fa-angles-right note"></i>
-            They should be taken in a well-lit space, with a clean (preferable white) background.
+            They should be taken in a well-lit space, with a clean (preferable
+            white) background.
           </p>
           <p className="set_description">
             <i className="fa-solid fa-angles-right note"></i>
@@ -302,7 +344,10 @@ function Photos({ handleModal, resetDiscard }) {
           </p>
 
           <div className="add-polaroid_container">
-            <label className="add-polaroid dark--btn cancel-btn" htmlFor="add-polaroid">
+            <label
+              className="add-polaroid dark--btn cancel-btn"
+              htmlFor="add-polaroid"
+            >
               <i className="fa-solid fa-circle-plus add-icon"></i> Add polaroid
             </label>
 
@@ -324,11 +369,17 @@ function Photos({ handleModal, resetDiscard }) {
                       <img src={item} alt="" />
                       <div className="photo-icons">
                         <i
-                          onClick={() => handleClick("view", index, "polaroids")}
-                          className="fa-solid fa-arrow-up-right-from-square view-icon"></i>
+                          onClick={() =>
+                            handleClick("view", index, "polaroids")
+                          }
+                          className="fa-solid fa-arrow-up-right-from-square view-icon"
+                        ></i>
                         <i
-                          onClick={() => handleClick("trash", index, "polaroids")}
-                          className="fa-regular fa-trash-can trash-icon"></i>
+                          onClick={() =>
+                            handleClick("trash", index, "polaroids")
+                          }
+                          className="fa-regular fa-trash-can trash-icon"
+                        ></i>
                       </div>
                     </li>
                   )
@@ -338,19 +389,28 @@ function Photos({ handleModal, resetDiscard }) {
                       <img src={item} alt="" />
                       <div className="photo-icons">
                         <i
-                          onClick={() => handleClick("view", index, "polaroids")}
-                          className="fa-solid fa-arrow-up-right-from-square view-icon"></i>
+                          onClick={() =>
+                            handleClick("view", index, "polaroids")
+                          }
+                          className="fa-solid fa-arrow-up-right-from-square view-icon"
+                        ></i>
                         <i
-                          onClick={() => handleClick("trash", index, "polaroids")}
-                          className="fa-regular fa-trash-can trash-icon"></i>
+                          onClick={() =>
+                            handleClick("trash", index, "polaroids")
+                          }
+                          className="fa-regular fa-trash-can trash-icon"
+                        ></i>
                       </div>
                     </li>
                   )
             )}
           </ul>
           <span
-            onClick={() => setViewAll((prev) => ({ ...prev, polaroid: !viewAll.polaroid }))}
-            className="utility-btn cancel-btn">
+            onClick={() =>
+              setViewAll((prev) => ({ ...prev, polaroid: !viewAll.polaroid }))
+            }
+            className="utility-btn cancel-btn"
+          >
             {viewAll.polaroid ? " View Less" : "View All"}
           </span>
         </div>
@@ -378,10 +438,14 @@ function Photos({ handleModal, resetDiscard }) {
         <section className="setting_btn-container">
           <button
             onClick={() => resetDiscard(() => handleSubmit)}
-            className="discard-btn dark--btn bold-text cancel-btn">
+            className="discard-btn dark--btn bold-text cancel-btn"
+          >
             Discard
           </button>
-          <button onClick={() => handleSubmit("save")} className="save-btn  bold-text yes-btn">
+          <button
+            onClick={() => handleSubmit("save")}
+            className="save-btn  bold-text yes-btn"
+          >
             Save
           </button>
         </section>
