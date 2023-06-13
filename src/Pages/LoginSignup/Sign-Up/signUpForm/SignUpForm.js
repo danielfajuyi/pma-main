@@ -52,8 +52,8 @@ const SignUpForm = ({ activeSignup, setActiveSignup, userRole }) => {
 
   //paystack payment config
   const amount =
-    inputs.coupon === "PMNT23"
-      ? 1000
+    inputs.referral === "AMB2023"
+      ? 1500
       : inputs.coupon === "PMA24"
       ? 25000
       : userRole === "model"
@@ -353,21 +353,7 @@ const SignUpForm = ({ activeSignup, setActiveSignup, userRole }) => {
                     handleChange={handleChange}
                   />
                 </div>
-                {userRole === "model" ? (
-                  <div className="input-container">
-                    <label className="Input-rapper">
-                      Coupon code
-                      <input
-                        className="input-field"
-                        type="text"
-                        name="coupon"
-                        placeholder="Enter coupon code..."
-                        label="Coupon code"
-                        onChange={handleChange}
-                      />
-                    </label>
-                  </div>
-                ) : userRole === "agency" ? (
+                {userRole === "agency" ? (
                   <div className="input-container">
                     <label className="Input-rapper">
                       Coupon code
