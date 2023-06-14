@@ -8,10 +8,11 @@ import axios from "axios";
 import { AlertModal } from "../Sign-Up/signUpForm/Modal";
 
 function LoginForm() {
-  const { isFetching } = useSelector((state) => state.user);
+  // const { isFetching } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [inputs, setInputs] = useState({});
   const [message, setMessage] = useState("");
   const [modalTxt, setModalTxt] = useState("");
@@ -25,7 +26,7 @@ function LoginForm() {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    login(dispatch, "/auth/login", { ...inputs }, setMessage, setUser);
+    login(dispatch, "/auth/login", { ...inputs }, setMessage, setUser, setIsLoading);
   };
 
   //paystack payment config
@@ -91,7 +92,7 @@ function LoginForm() {
           <a href="/" style={{ textAlign: "center" }}>
             <span className="material-icons">arrow_back</span>
           </a>
-          <h2 className="login-title">welcome Back!</h2>
+          <h2 className="login-title">Welcome Back!</h2>
         </div>
         {message && <p className="login-error">{!message?.message && message}</p>}
 
@@ -141,8 +142,8 @@ function LoginForm() {
         </div>
 
         {/* button section  */}
-        <button disabled={isFetching} className="btn-login dark--btn btn--Login">
-          {isFetching ? "Please wait..." : "Log in"}
+        <button disabled={isLoading} className="btn-login dark--btn btn--Login">
+          {isLoading ? "Please wait..." : "Log in"}
         </button>
         <span>Forgot your password?</span>
         <div className="signup">

@@ -58,15 +58,15 @@ const ModelPage = ({ showNavbar, setShowNavbar, setModelPage, setNotice, notice 
     { name: "Dashboard", icon: <MdOutlineDashboard />, path: "dashboard" },
     { name: "Profile", icon: <CgUserList />, path: "profile/" + user._id },
     { name: "My Wallet", icon: <BiWallet />, path: "mywallet" },
-    {
-      name: "Review",
-      icon: <MdOutlineReviews />,
-      children: [
-        { name: "Write Review", path: "review/writereview" },
-        { name: "Reviews", path: "review/reviews" },
-        { name: "Report", path: "review/report" },
-      ],
-    },
+    // {
+    //   name: "Review",
+    //   icon: <MdOutlineReviews />,
+    //   children: [
+    //     { name: "Write Review", path: "review/writereview" },
+    //     { name: "Reviews", path: "review/reviews" },
+    //     { name: "Report", path: "review/report" },
+    //   ],
+    // },
     {
       name: "Subscription",
       icon: <MdOutlineRssFeed />,

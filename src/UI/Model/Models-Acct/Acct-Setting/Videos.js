@@ -71,8 +71,6 @@ function Photos({ handleModal, resetDiscard }) {
       }
     };
     sendPhoto();
-
-    
   }, [videos, video, setInputs]);
 
   //Setting state and viewing photos
@@ -89,18 +87,18 @@ function Photos({ handleModal, resetDiscard }) {
 
         setImage(selected[0]);
       } else if (action === "trash") {
-        //checking if photo delete limit has been exceeded
-        if (videos.length <= 6) {
-          handleModal("trash-photo");
-        } else {
-          setActiveModal("alert");
+        // //checking if video delete limit has been exceeded
+        // if (videos.length <= 1) {
+        //   handleModal("trash-photo");
+        // } else {
+        setActiveModal("alert");
 
-          setToggleModal((prev) => !prev);
+        setToggleModal((prev) => !prev);
 
-          setTrash({ section: section, id: id });
-        }
+        setTrash({ section: section, id: id });
+        // }
       }
-    } 
+    }
   }
 
   //deleting photo from the list
@@ -125,7 +123,6 @@ function Photos({ handleModal, resetDiscard }) {
       setVideos([]);
     } catch (error) {}
   };
-  console.log(inputs);
 
   return (
     <form onSubmit={(e) => e.preventDefault()}>
@@ -152,7 +149,7 @@ function Photos({ handleModal, resetDiscard }) {
 
             <p className="alert-text">
               <span className="bold-text colored-text">Note: </span>
-              by clicking yes and saving changes this photo will be permanently
+              by clicking yes and saving changes this video will be permanently
               deleted from you Profile.
             </p>
 
@@ -182,17 +179,19 @@ function Photos({ handleModal, resetDiscard }) {
             We recommend using a variety of high resolution videos that best
             show off your work!
           </p>
-          <p className="set_description">
+          {/* <p className="set_description">
             <i className="fa-solid fa-angles-right note"></i>
             Try to include a headShot, a side/profile shot,and a full body shot.
-          </p>
+          </p> */}
           <div className="add-photo_container">
-            <label
-              className="add-photo dark--btn cancel-btn"
-              htmlFor="add-photo"
-            >
-              <i className="fa-solid fa-circle-plus add-icon"></i> Add video
-            </label>
+            {videos?.length < 6 && (
+              <label
+                className="add-photo dark--btn cancel-btn"
+                htmlFor="add-photo"
+              >
+                <i className="fa-solid fa-circle-plus add-icon"></i> Add video
+              </label>
+            )}
 
             <input
               onChange={handlePhotos}
@@ -202,52 +201,32 @@ function Photos({ handleModal, resetDiscard }) {
               className="file-input"
             />
 
-            <span className="num-photo bold-text">{videos.length}/18 pics</span>
+            <span className="num-photo bold-text">{videos.length}/6 video</span>
           </div>
           <ul className="set_photo-list">
-            {progress > 0 && progress < 100 && <p>uploading, {`${progress}%`} done</p>}
-            {videos?.map((item, index) =>
-              viewAll.photo ? (
-                <li className="set_photo-item on-hover" key={index}>
-                  <video src={item} alt="" style={{width: '100%', height:'100%'}} />
-                  <div className="photo-icons">
-                    <i
-                      onClick={() => handleClick("view", index, "photos")}
-                      className="fa-solid fa-arrow-up-right-from-square view-icon"
-                    ></i>
-                    <i
-                      onClick={() => handleClick("trash", index, "photos")}
-                      className="fa-regular fa-trash-can trash-icon"
-                    ></i>
-                  </div>
-                </li>
-              ) : (
-                index <= 5 && (
-                  <li className="set_photo-item on-hover" key={index}>
-                    <video src={item} alt="" style={{width: '100%', height:'100%'}} />
-                    <div className="photo-icons">
-                      <i
-                        onClick={() => handleClick("view", index, "photos")}
-                        className="fa-solid fa-arrow-up-right-from-square view-icon"
-                      ></i>
-                      <i
-                        onClick={() => handleClick("trash", index, "photos")}
-                        className="fa-regular fa-trash-can trash-icon"
-                      ></i>
-                    </div>
-                  </li>
-                )
-              )
+            {progress > 0 && progress < 100 && (
+              <p>uploading, {`${progress}%`} done</p>
             )}
+            {videos?.map((item, index) => (
+              <li className="set_photo-item on-hover" key={index}>
+                <video
+                  src={item}
+                  alt=""
+                  style={{ width: "100%", height: "100%" }}
+                />
+                <div className="photo-icons">
+                  <i
+                    onClick={() => handleClick("view", index, "photos")}
+                    className="fa-solid fa-arrow-up-right-from-square view-icon"
+                  ></i>
+                  <i
+                    onClick={() => handleClick("trash", index, "photos")}
+                    className="fa-regular fa-trash-can trash-icon"
+                  ></i>
+                </div>
+              </li>
+            ))}
           </ul>
-          <span
-            onClick={() =>
-              setViewAll((prev) => ({ ...prev, photo: !viewAll.photo }))
-            }
-            className="utility-btn cancel-btn"
-          >
-            {viewAll.photo ? " View Less" : "View All"}
-          </span>
         </div>
 
         <section className="setting_btn-container">

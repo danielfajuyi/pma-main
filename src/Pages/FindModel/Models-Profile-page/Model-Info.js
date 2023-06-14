@@ -11,6 +11,7 @@ function ModelInfo({ item, handleForm }) {
   const user = useSelector((state) => state.user.currentUser);
   const location = useLocation();
   const path = location.pathname.split("/")[3];
+  // console.log(user)
 
   return (
     <>
@@ -67,7 +68,8 @@ function ModelInfo({ item, handleForm }) {
             </span>
           </div>
 
-          {!user && (
+          {/* {!user && (
+              )} */}
             <div className="interactive-section">
               <InteractiveBtn btnIcon="fa-solid fa-user-plus follow-icon Icon" btnText="Follow" />
               <InteractiveBtn
@@ -81,7 +83,6 @@ function ModelInfo({ item, handleForm }) {
               />
               <InteractiveBtn btnIcon="fa-solid fa-share-nodes share-icon Icon" btnText="Share" />
             </div>
-          )}
           {/* <div className="model__activities">
             <p>
               <span className="semi-bold">Favorite: </span>7.8k
@@ -101,7 +102,7 @@ function ModelInfo({ item, handleForm }) {
           </p>
 
           <div className="profile-btn btn-shadow">
-            <NavLink to={user && user._id === path && "/model-Acct-setting"}>
+            <NavLink to={user && user._id === path && "/model-Acct-setting/"+item?.model?.uuid}>
               <button
                 onClick={user?._id !== path && handleForm}
                 className="model-profilebtn  btn-shadow">

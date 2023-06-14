@@ -52,8 +52,8 @@ const SignUpForm = ({ activeSignup, setActiveSignup, userRole }) => {
 
   //paystack payment config
   const amount =
-    inputs.coupon === "PMNT23"
-      ? 1000
+    inputs.referral === "AMB2023"
+      ? 1500
       : inputs.coupon === "PMA24"
       ? 25000
       : userRole === "model"
@@ -286,7 +286,7 @@ const SignUpForm = ({ activeSignup, setActiveSignup, userRole }) => {
                     type="text"
                     id="firstName"
                     placeholder="Enter FirstName..."
-                    label="FirstName"
+                    label="First Name"
                     handleChange={handleChange}
                     error={error.fNameErr}
                   />
@@ -296,7 +296,7 @@ const SignUpForm = ({ activeSignup, setActiveSignup, userRole }) => {
                     type="text"
                     id="lastName"
                     placeholder="Enter LastName..."
-                    label="LastName"
+                    label="Last Name"
                     handleChange={handleChange}
                     error={error.lNameErr}
                   />
@@ -353,7 +353,7 @@ const SignUpForm = ({ activeSignup, setActiveSignup, userRole }) => {
                     handleChange={handleChange}
                   />
                 </div>
-                {userRole === "model" && userRole === "agency" && (
+                {userRole === "agency" ? (
                   <div className="input-container">
                     <label className="Input-rapper">
                       Coupon code
@@ -367,7 +367,7 @@ const SignUpForm = ({ activeSignup, setActiveSignup, userRole }) => {
                       />
                     </label>
                   </div>
-                )}
+                ) : null}
               </div>
 
               <div className="other-container">
