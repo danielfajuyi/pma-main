@@ -1,6 +1,6 @@
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { storage } from "../../../../firebase";
 import { makeEdit, update } from "../../../../redux/apiCalls";
 import "./Photos.css";
@@ -8,7 +8,9 @@ import { ToastContainer } from "react-toastify";
 import { AlertModal } from "../../../../Pages/LoginSignup/Sign-Up/signUpForm/Modal";
 import { userRequest } from "../../../../redux/requestMethod";
 
-function Photos({ handleModal, resetDiscard }) {
+function Photos({ handleModal, resetDiscard, model }) {
+  const user = useSelector((state) => state.user.currentUser);
+
   const [photos, setPhotos] = useState([]);
   const [photo, setPhoto] = useState(undefined);
   const [polaroids, setPolaroids] = useState([]);
@@ -188,10 +190,19 @@ function Photos({ handleModal, resetDiscard }) {
   //handle save photos
   const handleSubmit = async () => {
     try {
-      await userRequest.put("/model/upload-photo", { ...inputs });
-      setModalTxt("save");
-      setPhotos([]);
-      setPolaroids([]);
+      if (user?.role === "model") {
+        await userRequest.put("/model/upload-photo", { ...inputs });
+        setModalTxt("save");
+        setPhotos([]);
+        setPolaroids([]);
+      } else {
+        await userRequest.put(`/agency/add_model_photo/${model?.model?._id}`, {
+          ...inputs,
+        });
+        setModalTxt("save");
+        setPhotos([]);
+        setPolaroids([]);
+      }
     } catch (error) {}
   };
 
@@ -348,7 +359,7 @@ function Photos({ handleModal, resetDiscard }) {
               className="file-input"
             />
 
-            <span className="bold-text">{polaroids?.length}/18 pics</span>
+            <span className="bold-text">{polaroids?.length}/8 pics</span>
           </div>
           <ul className="set_polaroid-list">
             {polaroids?.map((item, index) =>

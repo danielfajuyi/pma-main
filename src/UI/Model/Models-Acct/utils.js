@@ -227,6 +227,12 @@ export const categoryInput = [
     label: "Petite",
     value: "Petite",
   },
+  {
+    type: "checkbox",
+    id: "Actor",
+    label: "Actor",
+    value: "Actor",
+  },
 ];
 
 export const jobsInput = [

@@ -125,9 +125,10 @@ function ModelsKycForm3({ handleNavigation, inputs, setInputs, path }) {
 
   //handling submit
   function handleSubmit(text) {
-    if (photos.length < 6) {
+    if (photos.length < 4) {
       setModalTxt("add-photo");
-    } else if (path !== "/modelpage" ) {
+    }
+    if (path !== "/modelpage") {
       makePost(dispatch, "/agency/create", { ...inputs }, setInputs);
     } else {
       update(dispatch, "/model/", { ...inputs, isUpdated: true }, setModalTxt);
