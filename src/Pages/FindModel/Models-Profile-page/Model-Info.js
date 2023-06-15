@@ -11,6 +11,7 @@ function ModelInfo({ item, handleForm }) {
   const user = useSelector((state) => state.user.currentUser);
   const location = useLocation();
   const path = location.pathname.split("/")[3];
+  // console.log(user)
 
   return (
     <>
@@ -101,7 +102,7 @@ function ModelInfo({ item, handleForm }) {
           </p>
 
           <div className="profile-btn btn-shadow">
-            <NavLink to={user && user._id === path && "/model-Acct-setting"}>
+            <NavLink to={user && user._id === path && "/model-Acct-setting/"+item?.model?.uuid}>
               <button
                 onClick={user?._id !== path && handleForm}
                 className="model-profilebtn  btn-shadow">

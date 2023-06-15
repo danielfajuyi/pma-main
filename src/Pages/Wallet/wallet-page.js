@@ -1,55 +1,49 @@
 import "./wallet-page.css";
 import Transaction from "./transaction";
-import { NavLink } from "react-router-dom";
-
+import { NavLink, Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
-import { SendForm, WithdrawForm, FundForm } from "./wallet-forms";
+import {
+  SendForm,
+  WithdrawForm,
+  FundForm,
+  TransactionPin,
+} from "./wallet-forms";
+import { makeGet } from "../../redux/apiCalls";
 
 function Wallet({ transactions, settings, currentUser }) {
+  const user = useSelector((state) => state.user.currentUser);
+  const dispatch = useDispatch();
+
   let NigeriaNGN = Intl.NumberFormat("en-US");
-  let balance = 10000.46;
-  let credit = 25000;
-  let debit = 14999;
 
   const [recentTransaction, setRecentTransactions] = useState([]);
 
   const [toggleForm, setToggleForm] = useState(false);
   const [activeForm, setActiveForm] = useState("");
 
-  const [time, setTime] = useState("");
-  const [date, setDate] = useState("");
+  const [loggedUser, setLoggedUser] = useState({});
+  const [isTransact, setIsTransact] = useState(false);
+  const [transactionHistory, setTransactionHistory] = useState([]);
 
-  setInterval(() => {
-    let months = [
-      "Jan",
-      "Feb",
-      " Mar",
-      "Apr",
-      "May",
-      "Jun",
-      "Jul",
-      "Aug",
-      "Sep",
-      "Oct",
-      "Nov",
-      "Dec",
-    ];
+  const getLoggedUser = () => {
+    makeGet(dispatch, `/user/${user._id}`, setLoggedUser);
+  };
 
-    let d = new Date();
-    let minutes = d.getMinutes();
-    let hours = d.getHours();
-    let day = d.getDate();
-    let month = months[d.getMonth()];
-    let year = d.getFullYear();
+  useEffect(() => {
+    let unsubscribed = getLoggedUser();
+    return () => unsubscribed;
+  }, [isTransact]);
 
-    setTime(
-      `${hours < 10 ? `0${hours}` : `${hours > 12 ? `0${hours - 12}` : hours}`}:${
-        minutes < 10 ? `0${minutes}` : minutes
-      } ${hours < 12 ? "am" : "pm"}`
-    );
+  const getTransactionHistory = () => {
+    makeGet(dispatch, "/transaction/wallet_history", setTransactionHistory);
+  };
+  // console.log(transactionHistory)
 
-    setDate(`${day < 10 ? `0${day}` : day}-${month < 10 ? `0${month}` : month}-${year}`);
-  }, 1000);
+  useEffect(() => {
+    let unsubscribed = getTransactionHistory();
+    return () => unsubscribed;
+  }, []);
 
   function handleForm(active) {
     setToggleForm((prev) => !prev);
@@ -71,9 +65,12 @@ function Wallet({ transactions, settings, currentUser }) {
       <div className="wallet-home-container">
         <div className="wallet-top-text">
           <h2 className="wallet-title-text">My Wallet</h2>
-          <NavLink to={settings}>
-            <i className="fa-solid fa-gear colored-hover"></i>
-          </NavLink>
+          {/* <NavLink to={settings}> */}
+          <i
+            onClick={() => handleForm("setting")}
+            className="fa-solid fa-gear colored-hover"
+          ></i>
+          {/* </NavLink> */}
         </div>
 
         <section className="balance-section">
@@ -84,7 +81,18 @@ function Wallet({ transactions, settings, currentUser }) {
             </NavLink>
           </div>
 
-          <p className="balance-figure"> &#8358;{NigeriaNGN.format(balance || "0")}</p>
+          <p className="balance-figure">
+            &#8358;
+            {NigeriaNGN.format(
+              user.role === "client"
+                ? loggedUser?.client?.wallet
+                : user.role === "model"
+                ? loggedUser?.model?.wallet
+                : user.role === "agency"
+                ? loggedUser?.agency?.wallet
+                : 0
+            )}
+          </p>
           <div className="balance-credit">
             <div className="credit">
               <i className="fa-solid fa-arrow-down credit-icon "></i>
@@ -92,7 +100,15 @@ function Wallet({ transactions, settings, currentUser }) {
               <div>
                 <p className="credit-figure">
                   &#8358;
-                  {NigeriaNGN.format(credit || "0")}
+                  {NigeriaNGN.format(
+                    user.role === "client"
+                      ? loggedUser?.client?.total
+                      : user.role === "model"
+                      ? loggedUser?.model?.total
+                      : user.role === "agency"
+                      ? loggedUser?.agency?.total
+                      : 0
+                  )}
                 </p>
                 <p className="credit-text">Credits</p>
               </div>
@@ -105,54 +121,121 @@ function Wallet({ transactions, settings, currentUser }) {
               <div>
                 <p className="debit-figure">
                   &#8358;
-                  {NigeriaNGN.format(debit || "0")}
+                  {NigeriaNGN.format(
+                    user.role === "client"
+                      ? loggedUser?.client?.withdrawn
+                      : user.role === "model"
+                      ? loggedUser?.model?.withdrawn
+                      : user.role === "agency"
+                      ? loggedUser?.agency?.withdrawn
+                      : 0
+                  )}
                 </p>
                 <p className="debit-text">Debits</p>
               </div>
             </div>
+            {user.role === "client" && (
+              <div className="debit">
+                <>
+                  <i className="fa-solid fa-lock debit-icon"></i>
+                </>
+
+                <div>
+                  <p className="debit-figure">
+                    &#8358;
+                    {NigeriaNGN.format(loggedUser?.client?.locked)}
+                  </p>
+                  <p className="debit-text">Locked</p>
+                </div>
+              </div>
+            )}
           </div>
           <div className="transaction-buttons">
-            <button onClick={() => handleForm("fund")} className="transfer-btn">
-              fund
-            </button>
+            {user?.role === "client" && (
+              <button
+                onClick={() => handleForm("fund")}
+                className="transfer-btn"
+              >
+                fund
+              </button>
+            )}
 
-            <button onClick={() => handleForm("withdraw")} className="withdraw-btn">
-              withdraw
-            </button>
-            <button onClick={() => handleForm("pay-form")} className="transfer-btn">
-              send
-            </button>
+            {user?.role !== "client" && (
+              <button
+                onClick={() => handleForm("withdraw")}
+                className="withdraw-btn"
+              >
+                withdraw
+              </button>
+            )}
+            {user?.role === "client" && (
+              <button
+                onClick={() => handleForm("pay-form")}
+                className="transfer-btn"
+              >
+                send
+              </button>
+            )}
           </div>
         </section>
 
         {/* recent transaction section  */}
-
         <section className="transaction-section">
           <div className="transaction-top-text">
             <h3>Recent Transactions</h3>
-            <NavLink to={`${currentUser}/transaction-history`}>
+            <NavLink
+              to={{
+                pathname: `${currentUser}/transaction-history`,
+                state: { data: transactionHistory },
+              }}
+            >
               <button className="transaction-view-all">View all</button>
             </NavLink>
           </div>
 
           {/* recent transaction list */}
           <ul className="transaction-list">
-            {recentTransaction.length < 1 ? (
+            {transactionHistory?.length < 1 ? (
               <li className="no-transaction">No Transaction!</li>
             ) : (
-              recentTransaction.map((item) => <Transaction key={item.id} details={item} />)
+              transactionHistory
+                ?.slice(0, 5)
+                .map((item) => <Transaction key={item._id} details={item} />)
             )}
           </ul>
         </section>
         <section
           style={{ transform: toggleForm && `translateX(${0}%)` }}
-          className="form-modal-section">
+          className="form-modal-section"
+        >
           {activeForm === "fund" ? (
-            <FundForm handleForm={handleForm} time={time} date={date} />
+            <FundForm
+              handleForm={handleForm}
+              loggedUser={loggedUser}
+              setIsTransact={setIsTransact}
+              isTransact={isTransact}
+            />
           ) : activeForm === "pay-form" ? (
-            <SendForm handleForm={handleForm} time={time} date={date} />
+            <SendForm
+              handleForm={handleForm}
+              loggedUser={loggedUser}
+              setIsTransact={setIsTransact}
+              isTransact={isTransact}
+            />
           ) : activeForm === "withdraw" ? (
-            <WithdrawForm handleForm={handleForm} time={time} date={date} />
+            <WithdrawForm
+              handleForm={handleForm}
+              loggedUser={loggedUser}
+              setIsTransact={setIsTransact}
+              isTransact={isTransact}
+            />
+          ) : activeForm === "setting" ? (
+            <TransactionPin
+              handleForm={handleForm}
+              loggedUser={loggedUser}
+              setIsTransact={setIsTransact}
+              isTransact={isTransact}
+            />
           ) : null}
         </section>
       </div>

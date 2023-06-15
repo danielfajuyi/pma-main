@@ -4,12 +4,12 @@ import { useCallback, useState } from "react";
 import { useEffect } from "react";
 import { categoryInput, jobsInput, SocialMedia, statsInput } from "../utils";
 import { useDispatch, useSelector } from "react-redux";
-import { update } from "../../../../redux/apiCalls";
+import { makeEdit, update } from "../../../../redux/apiCalls";
 import { AlertModal } from "../../../../Pages/LoginSignup/Sign-Up/signUpForm/Modal";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-function Stats({ handleActiveEdit, activeEdit, resetDiscard }) {
+function Stats({ handleActiveEdit, activeEdit, resetDiscard, model }) {
   const user = useSelector((state) => state.user.currentUser);
   const { isFetching } = useSelector((state) => state.user);
   const dispatch = useDispatch();
@@ -61,7 +61,11 @@ function Stats({ handleActiveEdit, activeEdit, resetDiscard }) {
 
   //handle save
   const handleSave = () => {
-    update(dispatch, "/model/", { ...inputs }, setMessage, setModalTxt);
+    if (user?.role === "model") {
+      update(dispatch, "/model/", { ...inputs }, setMessage, setModalTxt);
+    } else {
+      makeEdit(dispatch, `/agency/${model?.model?._id}`, { ...inputs }, setMessage, setModalTxt);
+    }
   };
 
   return (
@@ -97,7 +101,7 @@ function Stats({ handleActiveEdit, activeEdit, resetDiscard }) {
           <li className="stats-item">
             <span className="stats-item-text">height: </span>
             <input
-              defaultValue={user?.model?.height}
+              defaultValue={model?.model?.height}
               autoFocus={activeEdit === "model-statistic"}
               readOnly={activeEdit === "model-statistic" ? false : true}
               name="height"
@@ -107,7 +111,7 @@ function Stats({ handleActiveEdit, activeEdit, resetDiscard }) {
           <li className="stats-item">
             <span className="stats-item-text">waist: </span>
             <input
-              defaultValue={user?.model?.waist}
+              defaultValue={model?.model?.waist}
               readOnly={activeEdit === "model-statistic" ? false : true}
               name="waist"
               onChange={handleChange}
@@ -117,14 +121,14 @@ function Stats({ handleActiveEdit, activeEdit, resetDiscard }) {
             <li className="stats-item">
               <span className="stats-item-text">bust: </span>
               <input
-                defaultValue={user?.model?.bust}
+                defaultValue={model?.model?.bust}
                 readOnly={activeEdit === "model-statistic" ? false : true}
                 name="bust"
                 onChange={handleChange}
               />
             </li>
           )}
-          {user?.model?.gender.toLowerCase() !== "m" && (
+          {model?.model?.gender.toLowerCase() !== "m" && (
             <li className="stats-item">
               <span className="stats-item-text">hip: </span>
               <input
@@ -135,7 +139,7 @@ function Stats({ handleActiveEdit, activeEdit, resetDiscard }) {
               />
             </li>
           )}
-          {user?.model?.gender.toLowerCase() === "m" && (
+          {model?.model?.gender.toLowerCase() === "m" && (
             <li className="stats-item">
               <span className="stats-item-text">chest: </span>
               <input
@@ -146,7 +150,7 @@ function Stats({ handleActiveEdit, activeEdit, resetDiscard }) {
               />
             </li>
           )}
-          {user?.model?.gender.toLowerCase() === "m" && (
+          {model?.model?.gender.toLowerCase() === "m" && (
             <li className="stats-item">
               <span className="stats-item-text">shoulder: </span>
               <input
@@ -160,7 +164,7 @@ function Stats({ handleActiveEdit, activeEdit, resetDiscard }) {
           <li className="stats-item">
             <span className="stats-item-text">size: </span>
             <input
-              defaultValue={user?.model?.size}
+              defaultValue={model?.model?.size}
               readOnly={activeEdit === "model-statistic" ? false : true}
               name="size"
               onChange={handleChange}
@@ -169,7 +173,7 @@ function Stats({ handleActiveEdit, activeEdit, resetDiscard }) {
           <li className="stats-item">
             <span className="stats-item-text">shoe: </span>
             <input
-              defaultValue={user?.model?.shoe}
+              defaultValue={model?.model?.shoe}
               readOnly={activeEdit === "model-statistic" ? false : true}
               name="shoe"
               onChange={handleChange}
@@ -178,7 +182,7 @@ function Stats({ handleActiveEdit, activeEdit, resetDiscard }) {
           <li className="stats-item">
             <span className="stats-item-text">eyes: </span>
             <input
-              defaultValue={user?.model?.eyes}
+              defaultValue={model?.model?.eyes}
               readOnly={activeEdit === "model-statistic" ? false : true}
               name="eyes"
               onChange={handleChange}
@@ -187,7 +191,7 @@ function Stats({ handleActiveEdit, activeEdit, resetDiscard }) {
           <li className="stats-item">
             <span className="stats-item-text">skin Color: </span>
             <input
-              defaultValue={user?.model?.skinColor}
+              defaultValue={model?.model?.skinColor}
               readOnly={activeEdit === "model-statistic" ? false : true}
               name="skinColor"
               onChange={handleChange}
@@ -196,7 +200,7 @@ function Stats({ handleActiveEdit, activeEdit, resetDiscard }) {
           <li className="stats-item">
             <span className="stats-item-text">hairColor: </span>
             <input
-              defaultValue={user?.model?.hairColor}
+              defaultValue={model?.model?.hairColor}
               readOnly={activeEdit === "model-statistic" ? false : true}
               name="hairColor"
               onChange={handleChange}
@@ -205,7 +209,7 @@ function Stats({ handleActiveEdit, activeEdit, resetDiscard }) {
           <li className="stats-item">
             <span className="stats-item-text">hairLength: </span>
             <input
-              defaultValue={user?.model?.hairLength}
+              defaultValue={model?.model?.hairLength}
               readOnly={activeEdit === "model-statistic" ? false : true}
               name="hairLength"
               onChange={handleChange}
@@ -219,8 +223,8 @@ function Stats({ handleActiveEdit, activeEdit, resetDiscard }) {
               name="tattoos"
               onChange={handleChange}
             >
-              <option value={user?.model?.tattoos}>
-                {user?.model?.tattoos ? "Yes" : "No"}
+              <option value={model?.model?.tattoos}>
+                {model?.model?.tattoos ? "Yes" : "No"}
               </option>
               <option value="true">Yes</option>
               <option value="false">No</option>
@@ -230,7 +234,7 @@ function Stats({ handleActiveEdit, activeEdit, resetDiscard }) {
           <li className="stats-item">
             <span className="stats-item-text">ethnicity: </span>
             <input
-              defaultValue={user?.model?.ethnicity}
+              defaultValue={model?.model?.ethnicity}
               readOnly={activeEdit === "model-statistic" ? false : true}
               name="ethnicity"
               onChange={handleChange}
@@ -240,7 +244,7 @@ function Stats({ handleActiveEdit, activeEdit, resetDiscard }) {
           <li className="stats-item">
             <span className="stats-item-text">language: </span>
             <input
-              defaultValue={user?.model?.language}
+              defaultValue={model?.model?.language}
               readOnly={activeEdit === "model-statistic" ? false : true}
               name="language"
               onChange={handleChange}
@@ -249,7 +253,7 @@ function Stats({ handleActiveEdit, activeEdit, resetDiscard }) {
           <li className="stats-item">
             <span className="stats-item-text">agency: </span>
             <input
-              defaultValue={user?.model?.agency}
+              defaultValue={model?.model?.agency}
               readOnly={activeEdit === "model-statistic" ? false : true}
               name="agency"
               onChange={handleChange}
@@ -262,8 +266,8 @@ function Stats({ handleActiveEdit, activeEdit, resetDiscard }) {
               name="availableForTravel"
               onChange={handleChange}
             >
-              <option value={user?.model?.availableForTravel}>
-                {user?.model?.availableForTravel ? "Yes" : "No"}
+              <option value={model?.model?.availableForTravel}>
+                {model?.model?.availableForTravel ? "Yes" : "No"}
               </option>
               <option value="true">Yes</option>
               <option value="false">No</option>
@@ -272,7 +276,7 @@ function Stats({ handleActiveEdit, activeEdit, resetDiscard }) {
           <li className="stats-item" style={{ width: "48%" }}>
             <span className="stats-item-text">Mininum booking price: </span>
             <input
-              defaultValue={`#${user?.model?.minPrice}`}
+              defaultValue={`#${model?.model?.minPrice}`}
               readOnly={activeEdit === "model-statistic" ? false : true}
               name="minPrice"
               onChange={handleChange}
@@ -303,7 +307,7 @@ function Stats({ handleActiveEdit, activeEdit, resetDiscard }) {
         {/* category read only section */}
         {activeEdit !== "model-categories" && (
           <ul className="set_category-list">
-            {user?.model?.category.map((item) => (
+            {model?.model?.category.map((item) => (
               <li key={item} className="category-item">
                 {item} Model
               </li>
@@ -363,7 +367,7 @@ function Stats({ handleActiveEdit, activeEdit, resetDiscard }) {
         {/* work-interest read only section */}
         {activeEdit !== "job-interest" && (
           <ul className="set_job-list">
-            {user?.model?.interestedJob?.map((item) => (
+            {model?.model?.interestedJob?.map((item) => (
               <li key={item} className="job-item">
                 {item}
               </li>
@@ -418,7 +422,7 @@ function Stats({ handleActiveEdit, activeEdit, resetDiscard }) {
         {/* social-media  read only section */}
         {activeEdit !== "social-media" && (
           <ul className="set_social-list">
-            <li className="social-item">{user?.model?.instagram}</li>
+            <li className="social-item">{model?.model?.instagram}</li>
           </ul>
         )}
         {/* social-media  edit section */}

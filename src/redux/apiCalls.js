@@ -93,6 +93,7 @@ export const makeEdit = async (dispatch, url, inputs, setMessage) => {
     dispatch(processSuccess());
     setMessage(res.data);
     toast.success("Data uploaded successfully.");
+    window.location.reload()
     // console.log(res.data);
   } catch (err) {
     dispatch(processFailure());

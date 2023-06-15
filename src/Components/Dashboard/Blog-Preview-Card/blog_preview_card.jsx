@@ -22,8 +22,8 @@ const BlogPreviewCard = (props) => {
   const reverse = [...message].reverse();
 
   return (
-    <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "1.3rem" }}>
-      {reverse?.slice(0, 5).map((item) => (
+    <div style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}>
+      {reverse?.slice(0, 4).map((item) => (
         <div className="blog_preview_card" key={item._id}>
           <div className="author_img">
             <img src={item?.photo} alt="author-img" />

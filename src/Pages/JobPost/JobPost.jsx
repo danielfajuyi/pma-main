@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
 import "./JobPost.css";
-import axios from "axios";
 import { Route, Routes } from "react-router-dom";
 import JobPostForm from "./JobPostForm/JobPostForm";
 import Listing from "./JobListing/Listing";
@@ -27,7 +26,6 @@ const JobPost = () => {
       unsubscribed = true;
     };
   }, [setMessage]);
-  // console.log(message);
   const reverse = [...message].reverse();
 
   // Handle Jobform

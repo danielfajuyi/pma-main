@@ -180,7 +180,7 @@ function AgencyKycForm2({ handleNavigation, inputs, setInputs }) {
           {/* photo section */}
 
           <section className="sections--container">
-            <h2 className="sections--title">Jobs Photo</h2>
+            <h2 className="sections--title">Brand Photo</h2>
             <p className="note-text">
               <i className="fa-solid fa-angles-right points"></i>
               Upload pictures of some of the modeling jobs done by your models!

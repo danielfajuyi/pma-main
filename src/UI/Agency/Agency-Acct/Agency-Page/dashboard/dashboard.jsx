@@ -16,7 +16,6 @@ import { Link } from "react-router-dom";
 const AgencyDashboard = () => {
   const user = useSelector((state) => state.user.currentUser);
   const dispatch = useDispatch();
-  console.log(user);
 
   const [message, setMessage] = useState([]); // get model booking
   const [booking, setBooking] = useState([]);
@@ -33,7 +32,9 @@ const AgencyDashboard = () => {
   const totalBooking = booking?.filter((item) => item);
   const rejectedBooking = booking?.filter((item) => item?.isRejected);
   const jobDone = booking?.filter((item) => item?.isJobDone);
-  const rejectedPer = Math.round((rejectedBooking?.length * 100) / totalBooking?.length);
+  const rejectedPer = Math.round(
+    (rejectedBooking?.length * 100) / totalBooking?.length
+  );
   const donePer = Math.round((jobDone?.length * 100) / totalBooking?.length);
 
   // agency models
@@ -181,7 +182,11 @@ const AgencyDashboard = () => {
             <div id="profile_panel">
               <div id="cover" style={{ height: "220px", width: "400px" }}>
                 <img
-                  src={user?.agency?.coverPhoto ? user?.agency?.coverPhoto : user?.agency?.picture}
+                  src={
+                    user?.agency?.coverPhoto
+                      ? user?.agency?.coverPhoto
+                      : user?.agency?.picture
+                  }
                   alt="cover-pic"
                   style={{ height: "100%", width: "100%", objectFit: "fill" }}
                 />
@@ -194,9 +199,8 @@ const AgencyDashboard = () => {
                   <div id="name">
                     Hello, {user?.firstName} {user?.lastName}
                   </div>
-                  {/* <div id="handle">
-                    {user?.username ? `@${user.username}` : "@username"}
-                  </div> */}
+                  <div id="handle">{user?.agency?.about}</div>
+                  {console.log(user)}
                 </div>
                 <Link to="/agency-Acct-setting">
                   <button>
@@ -234,11 +238,13 @@ const AgencyDashboard = () => {
 
               <div id="latest_blogs">
                 <header>
-                  <h4>Latest Blog News</h4>
-                  <a href="/blog">See all</a>
+                  <h4>Our Models</h4>
+                  {/* <a href="./seeall">See all</a> */}
                 </header>
                 <div id="body">
-                  <BlogPreviewCard img={profileImg} model="Premium Models" />
+                  {reverse?.slice(0, 3).map((item) => (
+                    <ModelCard model={item} id={item?._id} />
+                  ))}
                 </div>
               </div>
             </div>
@@ -291,13 +297,11 @@ const AgencyDashboard = () => {
             {/*Our Models --> [START]  */}
             <div id="our_models">
               <header>
-                <h4>Our Models</h4>
-                {/* <a href="./seeall">See all</a> */}
+                <h4>Latest Blog News</h4>
+                <a href="/blog">See all</a>
               </header>
               <div id="body">
-                {reverse?.slice(0, 5).map((item) => (
-                  <ModelCard model={item} id={item?._id} />
-                ))}
+                <BlogPreviewCard img={profileImg} model="Premium Models" />
               </div>
             </div>
             {/*Our Models <-- [END]  */}

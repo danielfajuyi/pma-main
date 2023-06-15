@@ -6,6 +6,11 @@ import UilArrow from "@iconscout/react-unicons/icons/uil-arrow-circle-right";
 import moment from "moment";
 
 const NewsItem = ({ Newsitem }) => {
+  const getText = (html) => {
+    const doc = new DOMParser().parseFromString(html, "text/html");
+    return doc.body.textContent;
+  };
+
   return (
     <div className="newsItem-wrap ">
       <div className="overlay newsItem-img">
