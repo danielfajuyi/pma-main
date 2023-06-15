@@ -111,7 +111,13 @@ const Listing = ({ job }) => {
                   </div>
                 </div>
                 <Link
-                  to={user ? `/jobpost/post/${item?._id}` : ""}
+                  to={
+                    user?.role !== "client" && !item?.isAvailable
+                      ? ""
+                      : user
+                      ? `/jobpost/post/${item?._id}`
+                      : ""
+                  }
                   onClick={() => {
                     if (!user) {
                       alert("Please login to see job details");
@@ -119,7 +125,9 @@ const Listing = ({ job }) => {
                   }}
                 >
                   <button className="more-btn  linkBtn btn-shadow">
-                    More Details
+                    {user?.role !== "client" && !item?.isAvailable
+                      ? "Job is no longer available"
+                      : "More Details"}
                   </button>
                 </Link>
               </div>
