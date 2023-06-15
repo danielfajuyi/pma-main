@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 
 import "./jobpost.css";
-import { Jobpostcard2 } from "./jobpostApl";
 import CategoryLable from "../../../../Components/CategoryLabel/CategoryLable";
 import { Link } from "react-router-dom";
 import Slider from "react-slick";
@@ -33,7 +32,13 @@ const Jobpost2 = () => {
       {
         breakpoint: 920,
         settings: {
-          slidesToShow: 2,
+          slidesToShow: 1,
+        },
+      },
+      {
+        breakpoint: 1800,
+        settings: {
+          slidesToShow: 1,
         },
       },
     ],
@@ -60,13 +65,16 @@ const Jobpost2 = () => {
   return (
     <article className="job-container container">
       <Slider {...settings}>
-        {reverse?.slice(0,5).map((item, index) => {
+        {reverse?.slice(0, 5).map((item, index) => {
           return (
             <div className="job-wrapper" key={index}>
               <div className="job-card">
                 <div className="job-content1">
                   <div className="job-content1-img-wrapper">
-                    <img src={item?.photos?.length > 0 && item?.photos[0]} alt="job1"></img>
+                    <img
+                      src={item?.photos?.length > 0 && item?.photos[0]}
+                      alt="job1"
+                    ></img>
                   </div>
                   <CategoryLable lable={item?.type} id="featured-lable" />
                 </div>
