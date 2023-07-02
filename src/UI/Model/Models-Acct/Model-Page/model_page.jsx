@@ -77,7 +77,7 @@ const ModelPage = ({ showNavbar, setShowNavbar, setModelPage, setNotice, notice 
       icon: <HiOutlineUserGroup />,
       path: "community",
     },
-    { name: "Settings", icon: <IoSettingsOutline />, path: "/model-Acct-setting" },
+    { name: "Settings", icon: <IoSettingsOutline />, path: "/model-Acct-setting/"+user._id },
   ];
   const bottomList = [
     { name: "Help", icon: <MdOutlineLiveHelp />, path: "/faqs" },
