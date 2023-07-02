@@ -19,7 +19,7 @@ function ModelInfo({ item, handleForm }) {
         <div className="model__img-container">
           <img
             className="model__img"
-            src={user?._id === item?.model?.uuid ? item?.picture : item?.model?.picture}
+            src={user?._id === path ? item?.picture : item?.model?.picture}
             alt=""
             width="400"
             height="400"
@@ -70,19 +70,25 @@ function ModelInfo({ item, handleForm }) {
 
           {/* {!user && (
               )} */}
-            <div className="interactive-section">
-              <InteractiveBtn btnIcon="fa-solid fa-user-plus follow-icon Icon" btnText="Follow" />
-              <InteractiveBtn
-                btnIcon="fa-regular fa-heart heart-icon Icon"
-                //btnIcon="fa-solid fa-heart heart-icon Icon"
-                btnText="Favorite"
-              />
-              <InteractiveBtn
-                btnIcon="fa-brands fa-instagram insta-icon Icon"
-                btnText="Instagram"
-              />
-              <InteractiveBtn btnIcon="fa-solid fa-share-nodes share-icon Icon" btnText="Share" />
-            </div>
+          <div className="interactive-section">
+            <InteractiveBtn
+              btnIcon="fa-solid fa-user-plus follow-icon Icon"
+              btnText="Follow"
+            />
+            <InteractiveBtn
+              btnIcon="fa-regular fa-heart heart-icon Icon"
+              //btnIcon="fa-solid fa-heart heart-icon Icon"
+              btnText="Favorite"
+            />
+            <InteractiveBtn
+              btnIcon="fa-brands fa-instagram insta-icon Icon"
+              btnText="Instagram"
+            />
+            <InteractiveBtn
+              btnIcon="fa-solid fa-share-nodes share-icon Icon"
+              btnText="Share"
+            />
+          </div>
           {/* <div className="model__activities">
             <p>
               <span className="semi-bold">Favorite: </span>7.8k
@@ -98,14 +104,22 @@ function ModelInfo({ item, handleForm }) {
             </p>
           </div> */}
           <p>
-            <span className="semi-bold">Minimum booking price: </span> NGN {item?.model?.minPrice}
+            <span className="semi-bold">Minimum booking price: </span> NGN{" "}
+            {item?.model?.minPrice}
           </p>
 
           <div className="profile-btn btn-shadow">
-            <NavLink to={user && user._id === path && "/model-Acct-setting/"+item?.model?.uuid}>
+            <NavLink
+              to={
+                user &&
+                user._id === path &&
+                "/model-Acct-setting/" + item?.model?.uuid
+              }
+            >
               <button
                 onClick={user?._id !== path && handleForm}
-                className="model-profilebtn  btn-shadow">
+                className="model-profilebtn  btn-shadow"
+              >
                 <FaEnvelope />
                 {user?._id !== path || !user ? (
                   <>

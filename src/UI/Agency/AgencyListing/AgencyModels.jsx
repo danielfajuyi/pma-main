@@ -21,6 +21,7 @@ const AgencyModels = () => {
       unsubscribed = true;
     };
   }, [setMessage]);
+  // console.log(message)
 
   return (
     <FadeIn>
