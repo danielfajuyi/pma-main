@@ -7,8 +7,8 @@ import { motion } from "framer-motion";
 
 const 
 ModelCard = ({model}) => {
-  const uuid = model?.uuid;
-  // console.log(model.picture)
+  const uuid = model?._id;
+  // console.log(uuid)
 
   return (
     <div id="model_card" style={{ }}>
