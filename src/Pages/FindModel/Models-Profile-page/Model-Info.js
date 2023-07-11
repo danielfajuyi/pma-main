@@ -11,7 +11,15 @@ function ModelInfo({ item, handleForm }) {
   const user = useSelector((state) => state.user.currentUser);
   const location = useLocation();
   const path = location.pathname.split("/")[3];
-  // console.log(user)
+  const q = location.search;
+  const rq = q.replace("?q=", "");
+  // console.log(rq, user._id)
+
+  const handleDeleteAccount = async () => {
+    try {
+      // const res = await userRequest
+    } catch (error) {}
+  };
 
   return (
     <>
@@ -111,27 +119,45 @@ function ModelInfo({ item, handleForm }) {
           <div className="profile-btn btn-shadow">
             <NavLink
               to={
-                user &&
-                user._id === path &&
-                "/model-Acct-setting/" + item?.model?.uuid
+                user && user._id === path
+                  ? "/model-Acct-setting/" + item?.model?.uuid
+                  : rq
+                  ? "/model-Acct-setting/" + item?.model?.uuid
+                  : null
               }
             >
               <button
-                onClick={user?._id !== path && handleForm}
+                onClick={user?._id !== path && !rq && handleForm}
                 className="model-profilebtn  btn-shadow"
               >
                 <FaEnvelope />
-                {user?._id !== path || !user ? (
+                {!rq && (
                   <>
-                    <span>Book</span> <span>Model</span>
-                  </>
-                ) : (
-                  <>
-                    <span>Edit</span> <span>Portfolio</span>
+                    {user?._id !== path || !user ? (
+                      <>
+                        <span>Book</span> <span>Model</span>
+                      </>
+                    ) : (
+                      <>
+                        <span>Edit</span> <span>Portfolio</span>
+                      </>
+                    )}
                   </>
                 )}
+
+                {rq && <>{user?._id === rq && <span>Edit Portfolio</span>}</>}
               </button>
             </NavLink>
+
+            {rq && (
+              <button
+                className="model-profilebtn  btn-shadow"
+                style={{ marginTop: "10px" }}
+                onClick={handleDeleteAccount}
+              >
+                Delete Account
+              </button>
+            )}
           </div>
         </div>
       </section>
