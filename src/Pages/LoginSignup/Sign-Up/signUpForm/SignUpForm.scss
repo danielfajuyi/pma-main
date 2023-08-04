@@ -24,7 +24,7 @@ section {
         --main-color: hsl(var(--main-hue-2), 100%, 50%);
         --main-color-hover: hsl(var(--main-hue), 92%, 54%);
         --nav-color: hsl(var(--main-hue), 17%, 79%);
-        --bg-color: #fff;
+        --bg-color: #f7f7f7;
         --light-text-color: #9ca7b6;
         --light-main-color: hsl(var(--main-hue), 91%, 55%);
         --input-bg: hsla(var(--main-hue), 50%, 50%, 6.5%);
@@ -84,6 +84,7 @@ section {
                     display: flex;
                     list-style: none;
                     align-items: center;
+                    margin: 0.5rem 0;
 
                     li {
                         .form-logo {
@@ -160,6 +161,7 @@ section {
 
                             .closeform-icon {
                                 cursor: pointer;
+                                font-size: 1.1rem;
                             }
                         }
                     }
@@ -648,10 +650,10 @@ section {
         header {
             .signupforms {
                 .signupform-container {
-                    height: 50px;
                     ul {
                         justify-content: space-between;
                         width: 100%;
+                        margin: 1rem 0 0.3rem 0 !important;
                         li {
                             .form-logo {
                                 margin-right: 0;
@@ -826,5 +828,11 @@ section {
                 }
             }
         }
+    }
+}
+
+@media (max-width: 500px) {
+    .dots-hide-on-mobile {
+        display: none !important;
     }
 }

@@ -6,8 +6,8 @@ import { usePaystackPayment } from "react-paystack";
 import { ToastContainer } from "react-toastify";
 import { FaSun, FaMoon, FaTimes } from "react-icons/fa";
 import axios from "axios";
-import forDark from "./img/logo-forDark.png";
-import forLight from "./img/logo-forLight.png";
+import forDark from "./img/logo.png";
+import forLight from "./img/logo.png";
 import SignUpInput from "./FormInputs";
 import "react-toastify/dist/ReactToastify.css";
 import "./SignUpForm.css";
@@ -361,21 +361,9 @@ const SignUpForm = ({ activeSignup, setActiveSignup, userRole }) => {
                         </div>
                         <div className="logo-02">
                           <span className="logo-color">models</span>
-                          <span className="logo-color">.</span>
+                          <span className="logo-color ">.</span>
                         </div>
                       </h2>
-                    </a>
-                  </li>
-
-                  <li>
-                    <a href="#" className="formnav-link">
-                      Home
-                    </a>
-                  </li>
-
-                  <li>
-                    <a href="" className="formnav-link">
-                      Join
                     </a>
                   </li>
 
@@ -412,7 +400,8 @@ const SignUpForm = ({ activeSignup, setActiveSignup, userRole }) => {
                   <div className="form-left-wrapper">
                     <div className="form-left-heading">
                       <h1>
-                        Uber of modelling <span>.</span>
+                        Uber of modelling{" "}
+                        <span className="dots-hide-on-mobile">.</span>
                       </h1>
                       <p className="form-text">
                         fill in your information for
