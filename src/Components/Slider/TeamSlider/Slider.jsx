@@ -48,6 +48,8 @@ const ImageSlider = () => {
               <h2>
                 Emmanuel<br /> Abazuella 
               </h2>
+
+              <p>hover or click to view profile</p>
             </div>
           </div>
           <ul className="slidersocial-icons">
@@ -90,6 +92,7 @@ const ImageSlider = () => {
                 Folakemi
                 <br /> Orekoya
               </h2>
+              <p>hover or click to view profile</p>
             </div>
           </div>
           <ul className="slidersocial-icons">
@@ -134,6 +137,8 @@ const ImageSlider = () => {
                 <br />
                 Chibuzor
               </h2>
+
+              <p>hover or click to view profile</p>
             </div>
           </div>
           <ul className="slidersocial-icons">
@@ -175,6 +180,8 @@ const ImageSlider = () => {
                 Chioma <br />
                 Okeke
               </h2>
+
+              <p>hover or click to view profile</p>
             </div>
           </div>
           <ul className="slidersocial-icons">
@@ -218,6 +225,8 @@ const ImageSlider = () => {
                 <br />
                 Oluwatosin
               </h2>
+
+              <p>hover or click to view profile</p>
             </div>
           </div>
           <ul className="slidersocial-icons">
@@ -262,6 +271,8 @@ const ImageSlider = () => {
                 <br />
                 Evans
               </h2>
+
+              <p>hover or click to view profile</p>
             </div>
           </div>
           <ul className="slidersocial-icons">
@@ -306,6 +317,8 @@ const ImageSlider = () => {
                 <br />
                 Fajuyi
               </h2>
+
+              <p>hover or click to view profile</p>
             </div>
           </div>
           <ul className="slidersocial-icons">

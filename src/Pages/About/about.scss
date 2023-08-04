@@ -227,8 +227,39 @@
 }
 
 .thankyoupage-container {
-  background-color: black;
-  height: 340px;
+  background: 
+  linear-gradient(to bottom, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.3)),
+  url("../../../public/images/bg-image/lg_bg.jpeg");
+  background-position: 50% 7% ;
+  background-size: cover;
+  height: 380px;
+  position: relative;
+
+        width: 100%;
+        
+        
+        overflow: hidden;
+  &::before {
+    content: "";
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background: 
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.3)),
+    url('../../../public/images/about/thankyou.jpg');
+    background-position: 50% 50% ;
+    background-size: cover;
+    bottom: -13%;
+    right: 10%;
+    transform: translateY(-70%);
+    z-index: 6;
+    transition: 1.8s ease-in-out;
+   
+    
+
+}
+  
 }
 
 .thankyou-wrapper {
@@ -245,6 +276,7 @@
   align-items: center;
   gap: 2rem;
   flex: 8;
+  z-index: 10;
 }
 
 .thankyou-text h2 {
@@ -256,6 +288,8 @@
 
 .thankyou-image {
   flex: 3;
+ 
+  
 }
 
 .thankyou-image img {
@@ -265,6 +299,27 @@
 }
 
 @media screen and (max-width: 500px) {
+
+    .thankyoupage-container {
+   height: 400px;
+    &::before {
+      content: "";
+   
+    
+      width: 140px;
+      height: 140px;
+      bottom: 5%;
+      right: 10%;
+      transform: translate(-160%);
+     
+     
+      
+  
+  }
+
+
+    
+  }
   .thankyou-text {
     flex: 4;
     padding-left: -7px;
@@ -277,3 +332,78 @@
     font-size: 32px;
   }
 }
+
+
+@media screen and (max-width: 1314px) {
+  .thankyoupage-container {
+   
+    &::before {
+      content: "";
+   
+      width: 150px;
+      height: 150px;
+      bottom: 6%;
+      right: 10%;
+      transform: translateY(-70%);
+     
+     
+      
+  
+  }
+    
+  }
+}
+@media screen and (max-width: 800px) {
+  .thankyoupage-container {
+   height: 400px;
+    &::before {
+      content: "";
+   
+    
+      width: 140px;
+      height: 140px;
+      bottom: 5%;
+      right: 10%;
+      transform: translate(-160%);
+     
+     
+      
+  
+  }
+
+
+    
+  }
+
+  .thankyou-text h2 {
+    font-size: 35px;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .thankyoupage-container {
+  
+    &::before {
+      content: "";
+   
+    
+      width: 140px;
+      height: 140px;
+      bottom: 20%;
+      right: 9%;
+      transform: translate(-10%);
+     
+     
+      
+  
+  }
+
+
+    
+  }
+
+  .thankyou-text h2 {
+    font-size: 35px;
+  }
+}
+

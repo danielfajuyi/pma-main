@@ -1,5 +1,7 @@
 import ImgItem from "./ImgItem";
 import { ViewBtn } from "./Buttons";
+import { useState } from "react";
+import { FaTimes } from "react-icons/fa";
 
 function ModelPhoto({
   photos,
@@ -8,12 +10,24 @@ function ModelPhoto({
   handleDisplay,
   viewAll,
   fetchModel,
-  item
+  item,
 }) {
+  const [model, setModel] = useState(false);
+  const [tempImgSrc, setTempImgSrc] = useState(false);
+  const getImg = (imgSrc) => {
+    setTempImgSrc(imgSrc);
+    setModel(true);
+  };
+
   return (
     <section className="section  section-profile photo-section">
+      <div className={model ? "pic-model open-model" : "pic-model"}>
+        <img src={tempImgSrc} />
+        <FaTimes onClick={() => setModel(false)} />
+      </div>
+
       {/* photo display section */}
-      <ul className="imgList">
+      {/* <ul className="imgList">
         {photos?.map((photo, index) =>
           activeDisplay !== "photos" ? (
             index <= displayLimit - 1 && (
@@ -27,7 +41,40 @@ function ModelPhoto({
             <ImgItem key={index} img={photo} fetchModel={fetchModel} item={item} />
           )
         )}
-      </ul>
+      </ul> */}
+
+      <div className="gallery">
+        {photos?.map((photo, index) =>
+          activeDisplay !== "photos" ? (
+            index <= displayLimit - 1 && (
+              <ImgItem
+                index={index}
+                img={photo}
+                getImg={getImg}
+                fetchModel={fetchModel}
+                item={item}
+              />
+            )
+          ) : activeDisplay === "photos" && !viewAll ? (
+            index <= displayLimit - 1 && (
+              <ImgItem
+                key={index}
+                img={photo}
+                getImg={getImg}
+                fetchModel={fetchModel}
+                item={item}
+              />
+            )
+          ) : (
+            <ImgItem
+              index={index}
+              img={photo}
+              fetchModel={fetchModel}
+              item={item}
+            />
+          )
+        )}
+      </div>
 
       {/* No photo posted yet */}
       <div

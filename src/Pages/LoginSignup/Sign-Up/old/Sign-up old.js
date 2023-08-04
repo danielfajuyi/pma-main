@@ -1,7 +1,7 @@
 import "./Sign-up.css";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import SignUpForm from "./signUpForm/SignUpForm";
+import SignUpForm from "../signUpForm/SignUpForm";
 
 export const SignupBtn = ({ btnText, setActiveSignup, setUserRole }) => {
   const handleUserRole = () => {

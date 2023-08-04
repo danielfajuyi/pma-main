@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import SignUpInput from "./FormInputs";
+import SignUpInput from "../FormInputs";
 import "./SignUpForm.css";
-import { AlertModal } from "./Modal";
+import { AlertModal } from "../Modal";
 import { useDispatch, useSelector } from "react-redux";
-import { makePost, register } from "../../../../redux/apiCalls";
+import { makePost, register } from "../../../../../redux/apiCalls";
 import { usePaystackPayment } from "react-paystack";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -281,16 +281,6 @@ const SignUpForm = ({ activeSignup, setActiveSignup, userRole }) => {
             <h2 className="sign-up-text">Sign-up</h2>
             <div className="input-sections">
               <div className="name-section">
-                <div className="input-container">
-                  <SignUpInput
-                    type="text"
-                    id="firstName"
-                    placeholder="Enter FirstName..."
-                    label="First Name"
-                    handleChange={handleChange}
-                    error={error.fNameErr}
-                  />
-                </div>
                 <div className="input-container">
                   <SignUpInput
                     type="text"

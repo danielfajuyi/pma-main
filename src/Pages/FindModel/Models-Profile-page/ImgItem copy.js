@@ -2,17 +2,7 @@ import { useState } from "react";
 import { userRequest } from "../../../redux/requestMethod";
 import { useSelector } from "react-redux";
 
-function ImgItem({
-  img,
-  fetchModel,
-  item,
-  getImg,
-  model,
-  index,
-  setModel,
-  temImgSrc,
-  key,
-}) {
+function ImgItem({ img, fetchModel, item }) {
   const user = useSelector((state) => state.user.currentUser);
 
   const [photo, setPhoto] = useState("");
@@ -22,7 +12,7 @@ function ImgItem({
     setIsClicked(!isClicked);
     setPhoto(pic);
   };
-
+ 
   const handleRemovePic = async () => {
     try {
       await userRequest.put("/model/remove/photo", { photo });
@@ -31,8 +21,12 @@ function ImgItem({
   };
 
   return (
-    <div className="pics" onClick={() => getImg(img)}>
-      {/* {isClicked && (
+    <li
+      style={{ position: "relative" }}
+      className="imgItem"
+      onClick={() => handleClicked(img)}
+    >
+      {isClicked && (
         <div
           style={{
             position: "absolute",
@@ -48,9 +42,9 @@ function ImgItem({
         >
           Delete Photo
         </div>
-      )} */}
-      <img src={img} alt="" style={{ width: "100% " }} />
-    </div>
+      )}
+      <img className="image" src={img} alt="" width="250" height="300" />
+    </li>
   );
 }
 

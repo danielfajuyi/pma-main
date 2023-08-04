@@ -107,7 +107,7 @@ const Navbar = () => {
               Login
             </Link>
             <Link to="/sign-up" onClick={handleMenu} className="btn btn2">
-              Sign-up
+              Signup
             </Link>
           </div>
         </div>

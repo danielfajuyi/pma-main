@@ -1,5 +1,7 @@
 import ImgItem from "./ImgItem";
 import { ViewBtn } from "./Buttons";
+import { useState } from "react";
+import { FaTimes } from "react-icons/fa";
 
 function ModelPolaroid({
   polaroids,
@@ -10,10 +12,21 @@ function ModelPolaroid({
   fetchModel,
   item,
 }) {
+  const [model, setModel] = useState(false);
+  const [tempImgSrc, setTempImgSrc] = useState(false);
+  const getImg = (imgSrc) => {
+    setTempImgSrc(imgSrc);
+    setModel(true);
+  };
+
   return (
     <section className="section section-profile  polaroid-section">
+      <div className={model ? "pic-model open-model" : "pic-model"}>
+        <img src={tempImgSrc} />
+        <FaTimes onClick={() => setModel(false)} />
+      </div>
       {/* image display section  */}
-      <ul className="imgList">
+      {/* <ul className="imgList">
         {polaroids.map((polaroid, index) =>
           activeDisplay !== "polaroids" ? (
             index <= displayLimit - 1 && (
@@ -42,7 +55,40 @@ function ModelPolaroid({
             />
           )
         )}
-      </ul>
+      </ul> */}
+
+      <div className="gallery">
+        {polaroids?.map((polaroid, index) =>
+          activeDisplay !== "polaroids" ? (
+            index <= displayLimit - 1 && (
+              <ImgItem
+                index={index}
+                img={polaroid}
+                getImg={getImg}
+                fetchModel={fetchModel}
+                item={item}
+              />
+            )
+          ) : activeDisplay === "polaroids" && !viewAll ? (
+            index <= displayLimit - 1 && (
+              <ImgItem
+                key={index}
+                img={polaroid}
+                getImg={getImg}
+                fetchModel={fetchModel}
+                item={item}
+              />
+            )
+          ) : (
+            <ImgItem
+              index={index}
+              img={polaroid}
+              fetchModel={fetchModel}
+              item={item}
+            />
+          )
+        )}
+      </div>
 
       {/* No image posted yet */}
 
