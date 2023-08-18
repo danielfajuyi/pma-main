@@ -10,6 +10,8 @@ import {
   FaLock,
   FaTwitter,
 } from "react-icons/fa";
+
+import { AiOutlineArrowLeft } from "react-icons/ai";
 import { login } from "../../../redux/apiCalls";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
@@ -139,6 +141,17 @@ const LoginSignup = () => {
                 className="sign-form sign-in-form "
                 onSubmit={handleLogin}
               >
+                <a
+                  href="/"
+                  // style={{
+                  //   alignSelf: "flex-start",
+                  //   cursor: "pointer",
+                  //   marginLeft: "-2rem",
+                  // }}
+                  className="back-link"
+                >
+                  <AiOutlineArrowLeft size={25} />
+                </a>
                 <h2 className="sign-title">Sign in</h2>
                 {message && (
                   <p className="login-error">{!message?.message && message}</p>
@@ -243,7 +256,7 @@ const LoginSignup = () => {
                 <h3>One of us? Welcome back! </h3>
                 <p>
                   Good to see you again, a professional modeling portfolio is
-                  essential to your success.
+                  essential to your career success.
                 </p>
                 <button
                   className="sign-btn transparent"

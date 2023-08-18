@@ -1,13 +1,13 @@
 import "./Models-Kyc-Form-2.css";
-import FormNavBtn from "./Form-nav-btn";
+import FormNavBtn from "../Form-nav-btn";
 import { useState } from "react";
 import { useEffect } from "react";
-import { categoryInput, jobsInput, SocialMedia, statsInput } from "../utils";
-import { AlertModal } from "../../../../Pages/LoginSignup/Sign-Up/signUpForm/Modal";
+import { categoryInput, jobsInput, SocialMedia, statsInput } from "../../utils";
+import { AlertModal } from "../../../../../Pages/LoginSignup/Sign-Up/signUpForm/Modal";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router";
 
-function ModelsKycForm2({
+function ModelsKycForm12({
   handleNavigation,
   inputs,
   handleChange,
@@ -179,6 +179,8 @@ function ModelsKycForm2({
       handleNavigation(text);
     }
   }
+
+  console.log(inputs);
 
   return (
     <form className="kyc-form" onSubmit={(e) => e.preventDefault()}>
@@ -469,4 +471,4 @@ function ModelsKycForm2({
   );
 }
 
-export default ModelsKycForm2;
+export default ModelsKycForm12;

@@ -166,7 +166,8 @@ const SignUpForm = ({ activeSignup, setActiveSignup, userRole }) => {
     the initial (progress) value is 0, 
     the min progress value is 0 
     the max progress value will be 100;
-    the (newprogress) variable declared above will either adds or substact (16.67) from the (progress)
+    the (newprogress) variable declared above will either adds
+    or substact (16.67) from the (progress)
     
     when it adds 
     16.67 approximately to 16 
@@ -176,7 +177,8 @@ const SignUpForm = ({ activeSignup, setActiveSignup, userRole }) => {
     16 * 3 = 50 
     16 * 4 = 66 
     16 * 5 = 83 
-    16 * 6 = 100 max ( all required input are filled and completed without errors)
+    16 * 6 = 100 max ( all required input are filled and 
+                      completed without errors)
     */
   }
 
@@ -200,7 +202,6 @@ const SignUpForm = ({ activeSignup, setActiveSignup, userRole }) => {
             })) || setProgress(0)
           : setError((prevErr) => ({ ...prevErr, fNameErr: null })) ||
             setProgress(newprogress);
-        console.log(progress);
       }
       inputs.firstName && validateFName();
     }
@@ -315,10 +316,8 @@ const SignUpForm = ({ activeSignup, setActiveSignup, userRole }) => {
     return () => (unsubscribed = true);
   }, [message]);
 
-  console.log(progress);
-  // handle progress bar and progress value decimal removal
   let progressNum = Math.trunc(progress); // returns the exact value of progress without decimal number
-  console.log(progressNum);
+
   return (
     <>
       <section
@@ -342,18 +341,8 @@ const SignUpForm = ({ activeSignup, setActiveSignup, userRole }) => {
                   <li>
                     <a href="#" className="form-logo">
                       <div className="form-images">
-                        <img
-                          src={forDark}
-                          alt=""
-                          title="Publius"
-                          className="logo-forDark"
-                        />
-                        <img
-                          src={forLight}
-                          alt=""
-                          title="Publius"
-                          className="logo-forLight"
-                        />
+                        <img src={forDark} alt="" className="logo-forDark" />
+                        <img src={forLight} alt="" className="logo-forLight" />
                       </div>
                       <h2>
                         <div className="logo-01">
@@ -368,6 +357,18 @@ const SignUpForm = ({ activeSignup, setActiveSignup, userRole }) => {
                   </li>
 
                   <li>
+                    <a href="/" className="formnav-link">
+                      Home
+                    </a>
+                  </li>
+
+                  <li>
+                    <a href="/login" className="formnav-link">
+                      login
+                    </a>
+                  </li>
+
+                  <li className="darkmode-li">
                     <span
                       className="formnav-link theme-toggle "
                       onClick={HandleTheme}
@@ -380,7 +381,7 @@ const SignUpForm = ({ activeSignup, setActiveSignup, userRole }) => {
                     </span>
                   </li>
 
-                  <li>
+                  <li className="close-li">
                     <span className="formnav-link">
                       <FaTimes
                         className="closeform-icon"
@@ -418,7 +419,6 @@ const SignUpForm = ({ activeSignup, setActiveSignup, userRole }) => {
                     </div>
 
                     <form
-                      action="index.html"
                       method="post"
                       className="form-left-form"
                       onSubmit={handleCreateAccount}
@@ -491,7 +491,7 @@ const SignUpForm = ({ activeSignup, setActiveSignup, userRole }) => {
                           type="tel"
                           id="referral"
                           placeholder=""
-                          label="Referral"
+                          label="Referral (optional)"
                           handleChange={handleChange}
                           className=""
                         />
@@ -502,7 +502,7 @@ const SignUpForm = ({ activeSignup, setActiveSignup, userRole }) => {
                           type="text"
                           id="coupon"
                           placeholder=""
-                          label="Coupon code"
+                          label="Coupon code (optional)"
                           handleChange={handleChange}
                           className=""
                         />
@@ -527,16 +527,27 @@ const SignUpForm = ({ activeSignup, setActiveSignup, userRole }) => {
 
                       <div className="form-buttons ">
                         <div
-                          className="form-btn progress-btn"
+                          className="progress-wrapper"
                           style={{
-                            width: `${progressNum}%`,
-                            backgroundColor:
+                            border: `${
                               progressNum === 100
-                                ? "var(--icon-check-color)"
-                                : "var(--main-color)",
+                                ? "1px solid #808080 "
+                                : "1px solid var(--main-color)"
+                            }`,
                           }}
                         >
-                          <span>{progressNum}%</span>
+                          <div
+                            className="form-btn progress-btn"
+                            style={{
+                              width: `${progressNum}%`,
+                              backgroundColor:
+                                progressNum === 100
+                                  ? "#808080"
+                                  : "var(--main-color)",
+                            }}
+                          >
+                            <span>{progressNum}%</span>
+                          </div>
                         </div>
 
                         <button

@@ -1,9 +1,9 @@
 import "./Models-Kyc-Form-1.css";
 import { getDownloadURL, ref, uploadBytesResumable } from "@firebase/storage";
-import FormNavBtn from "./Form-nav-btn";
+import FormNavBtn from "../Form-nav-btn";
 import { useEffect, useState } from "react";
-import { info } from "../utils";
-import { storage } from "../../../../firebase";
+import { info } from "../../utils";
+import { storage } from "../../../../../firebase";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router";
 

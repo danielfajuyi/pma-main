@@ -99,7 +99,7 @@
   font-size: 8px;
 }
 .valid-icon {
-  color: rgb(7, 238, 7);
+  color: var(--icon-check-color);
   font-size: x-small;
 }
 .error-text {

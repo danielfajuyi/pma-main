@@ -1,7 +1,23 @@
-function FormNavBtn({ btnText, name, handleClick, type, isFetching }) {
+import { useEffect } from "react";
+
+function FormNavBtn({
+  btnText,
+  FocusBlur,
+  name,
+  isError,
+  handleClick,
+  type,
+  isFetching,
+}) {
+  // trigger focusblur function
+  useEffect(() => {
+    FocusBlur();
+  }, []);
   return (
     <button
       style={{
+        backgroundColor: !isError ? "var(--main-color)" : "#808080",
+        color: "#fff",
         opacity: isFetching && 0.4,
       }}
       onClick={() => handleClick(btnText)}

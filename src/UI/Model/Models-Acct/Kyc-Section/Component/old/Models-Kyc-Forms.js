@@ -1,23 +1,22 @@
-import { useCallback, useEffect, useState, createContext } from "react";
+import { useCallback, useEffect, useState } from "react";
+import ModelsKycForm1 from "./Models-Kyc-Form-1";
+import ModelsKycForm2 from "./Models-Kyc-Form-2";
+import ModelsKycForm3 from "./Models-Kyc-Form-3";
 import { useLocation } from "react-router";
-import { useSelector } from "react-redux";
-import ModelsKycForm01 from "./Models-Kyc-Forms/Models-Kyc-Form-01";
-import ModelsKycForm02 from "./Models-Kyc-Forms/Models-Kyc-Form-02";
-import ModelsKycForm03 from "./Models-Kyc-Forms/Models-Kyc-Form-03";
+
 import "./Models-Kyc-Forms.css";
-export const FormContext = createContext();
 
 function ModelsForms({ showNavbar, setShowNavbar }) {
   const user = useSelector((state) => state.user.currentUser);
   const location = useLocation();
-
   const path = location.pathname;
-  const [picture, setPicture] = useState(undefined);
   const [activeForm, setActiveForm] = useState(1);
   const [inputs, setInputs] = useState({});
   const [category, setCategory] = useState([]);
   const [interestedJob, setInterestedJob] = useState([]);
   const [darkmode, setDarkMode] = useState(false);
+  const [progress, setProgress] = useState(0);
+
   const handleChange = useCallback(
     (e) => {
       setInputs((prev) => {
@@ -71,7 +70,7 @@ function ModelsForms({ showNavbar, setShowNavbar }) {
     setShowNavbar(false);
   }, [setShowNavbar]); //--> Hides The Navbar
 
-  // handles form transitions on light and dark mode
+  // This function handles form transitions on light and dark mode
   const TransitionHandler = () => {
     const allElement = document.querySelectorAll("*");
     allElement.forEach((el) => {
@@ -82,10 +81,10 @@ function ModelsForms({ showNavbar, setShowNavbar }) {
     });
   };
 
-  // function handles onfocus and onblur mode on form inputs
+  // This function handles onfocus and onblur mode on form inputs
   const FocusBlur = () => {
-    const focusinputs = document.querySelectorAll(".input-textarea");
-    focusinputs.forEach((ipt) => {
+    const inputs = document.querySelectorAll(".input-textarea");
+    inputs.forEach((ipt) => {
       ipt.addEventListener("focus", () => {
         ipt.parentNode.classList.add("focus");
         ipt.parentNode.classList.add("not-empty");
@@ -100,7 +99,7 @@ function ModelsForms({ showNavbar, setShowNavbar }) {
     });
   };
 
-  //  function handles dark and light mode onclick on forms
+  // This function handles dark and light mode onclick on forms
   const HandleTheme = (event) => {
     // 👇️ toggle darkmode state on click
     setDarkMode((current) => !current);
@@ -113,33 +112,56 @@ function ModelsForms({ showNavbar, setShowNavbar }) {
 
   return (
     !showNavbar && (
-      <FormContext.Provider
-        value={{
-          inputs,
-          path,
-          user,
-          darkmode,
-          picture,
-          interestedJob,
-          category,
-          handleNavigation,
-          handleChange,
-          HandleTheme,
-          TransitionHandler,
-          FocusBlur,
-          HandleTheme,
-          setPicture,
-          setInputs,
-          setCategory,
-          setInterestedJob,
-        }}
-      >
-        <div className="kyc">
-          {activeForm === 1 && <ModelsKycForm01 />}
-          {activeForm === 2 && <ModelsKycForm02 />}
-          {activeForm === 3 && <ModelsKycForm03 />}
-        </div>
-      </FormContext.Provider>
+      <div className="kyc">
+        {activeForm === 1 && (
+          <ModelsKycForm1
+            inputs={inputs}
+            handleNavigation={handleNavigation}
+            handleChange={handleChange}
+            setInputs={setInputs}
+            TransitionHandler={TransitionHandler}
+            FocusBlur={FocusBlur}
+            HandleTheme={HandleTheme}
+            darkmode={darkmode}
+            setDarkMode={setDarkMode}
+            path={path}
+            user={user}
+          />
+        )}
+        {activeForm === 2 && (
+          <ModelsKycForm2
+            inputs={inputs}
+            handleNavigation={handleNavigation}
+            handleChange={handleChange}
+            setCategory={setCategory}
+            TransitionHandler={TransitionHandler}
+            FocusBlur={FocusBlur}
+            HandleTheme={HandleTheme}
+            category={category}
+            setInterestedJob={setInterestedJob}
+            interestedJob={interestedJob}
+            darkmode={darkmode}
+            setDarkMode={setDarkMode}
+            path={path}
+            user={user}
+          />
+        )}
+        {activeForm === 3 && (
+          <ModelsKycForm3
+            inputs={inputs}
+            handleNavigation={handleNavigation}
+            handleChange={handleChange}
+            setInputs={setInputs}
+            TransitionHandler={TransitionHandler}
+            FocusBlur={FocusBlur}
+            darkmode={darkmode}
+            setDarkMode={setDarkMode}
+            HandleTheme={HandleTheme}
+            path={path}
+            user={user}
+          />
+        )}
+      </div>
     )
   );
 }

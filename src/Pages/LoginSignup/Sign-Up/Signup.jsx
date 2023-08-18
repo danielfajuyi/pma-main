@@ -1,5 +1,6 @@
 import React from "react";
 import "./Signup.scss";
+import { AiOutlineArrowLeft } from "react-icons/ai";
 
 export const SignupBtn = ({ btnText, setActiveSignup, setUserRole }) => {
   const handleUserRole = () => {
@@ -40,6 +41,17 @@ const SignupSection = ({
   return (
     <>
       <section className="sign-form sign-up-form ">
+        <a
+          href="/"
+          // style={{
+          //   alignSelf: "flex-start",
+          //   cursor: "pointer",
+          //   marginLeft: "-2rem",
+          // }}
+          className="back-link-s"
+        >
+          <AiOutlineArrowLeft size={25} />
+        </a>
         <h2 className="sign-title">Sign up</h2>
         {/* 
      <div className="sign-input-field">

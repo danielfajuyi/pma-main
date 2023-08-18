@@ -15,33 +15,37 @@ section {
         width: 95%;
         margin: auto;
     }
+    &.KycForms {
+        width: 100%;
+    }
     &.light-theme {
         --text-color: #000;
         --main-hue: 208;
-        --main-hue-2: 341;
+        --main-hue-2: 331;
         --main-hue-3: 213;
-
+        --form-transition: 1s cubic-bezier(0.4, 0.1, 0.4, 1) !important;
         --main-color-2: hsl(var(--main-hue), 92%, 54%);
         --main-color: hsl(var(--main-hue-2), 100%, 50%);
         --main-color-hover: hsl(var(--main-hue), 92%, 54%);
         --nav-color: hsl(var(--main-hue), 17%, 79%);
-        --bg-color: #f7f7f7;
+        --bg-color: #f9f9f9;
         --light-text-color: #9ca7b6;
         --light-main-color: hsl(var(--main-hue), 91%, 55%);
         --input-bg: hsla(var(--main-hue), 50%, 50%, 6.5%);
         --input-bg-hover: hsla(var(--main-hue), 50%, 50%, 14%);
-        --input-text: #8c9aaf;
+        --input-text: #d5d7da;
         --input-shadow: hsla(var(--main-hue), 92%, 54%, 0.169);
         --form-bg-opacity: 0;
+        --checkbox-color: #f0f0f0;
         --form-bg-color: transparent;
-        --transform-img: translate(-50%, -50%);
-        --icon-check-color: hsla(144, 100%, 64%, 0.96);
+        --transform-img: translate(-50%, -50%) scale(1.4);
+        --icon-check-color: #26ffed;
     }
 
     &.dark-theme {
         --text-color: #fff;
-
-        --bg-color: hsl(var(--main-hue), 30%, 16.5%);
+        --checkbox-color: #f0f0f0f7;
+        --bg-color: hsl(var(--main-hue-3), 35%, 6%);
         --input-bg: hsla(var(--main-hue), 50%, 50%, 6.5%);
         --input-bg-hover: hsla(var(--main-hue), 50%, 50%, 14%);
         --nav-color: hsl(var(--main-hue), 10%, 47%);
@@ -86,7 +90,6 @@ section {
                     list-style: none;
                     align-items: center;
                     margin: 0.5rem 0;
-                    position: relative;
 
                     li {
                         .form-logo {
@@ -145,7 +148,6 @@ section {
                             font-size: 1rem;
                             color: var(--nav-color);
                             transition: 0.3s;
-
                             &:hover {
                                 color: var(--main-color);
                             }
@@ -164,7 +166,7 @@ section {
 
                             .closeform-icon {
                                 cursor: pointer;
-                                font-size: 1.18rem;
+                                font-size: 1.1rem;
                             }
                         }
                     }
@@ -197,19 +199,23 @@ section {
                     z-index: 3;
 
                     .form-left-wrapper {
-                        max-width: 34rem;
+                        max-width: 40rem;
+
                         .form-left-heading {
                             h1 {
                                 font-weight: 600;
                                 color: var(--text-color);
                                 font-size: 3.5rem;
-                                line-height: 0.9;
-                                white-space: nowrap;
                                 margin-bottom: 1.2rem;
 
                                 span {
                                     color: var(--main-color);
                                 }
+                            }
+
+                            h3 {
+                                font-weight: 600;
+                                color: var(--text-color);
                             }
 
                             .form-text {
@@ -220,6 +226,7 @@ section {
                                 a {
                                     color: var(--main-color);
                                     transition: 0.3s;
+                                    font-weight: 700;
                                     &:hover {
                                         color: var(--main-color-hover);
                                     }
@@ -235,20 +242,137 @@ section {
                             // row-gap: 1rem;
                             margin-bottom: 2rem;
 
+                            .form-titles-wrapper {
+                                position: relative;
+                                width: 100%;
+                                margin: 1.6rem 0;
+                                .form-titles {
+                                    text-align: center;
+                                    text-transform: uppercase;
+
+                                    color: var(--main-color);
+                                }
+
+                                .form-descriptions {
+                                    padding: 1rem 0;
+                                    svg {
+                                        color: var(--main-color);
+                                    }
+                                    span {
+                                        color: var(--text-color);
+                                    }
+                                }
+                            }
+
                             .form-input-column {
                                 display: flex;
                                 column-gap: 20px;
                             }
 
+                            .form-stats-column {
+                                display: grid;
+                                grid-template-columns: 50% 50%;
+                                grid-column-gap: 20px;
+                            }
+
+                            .form-images-column {
+                                display: grid;
+                                grid-template-columns: 50% 50%;
+                                grid-gap: 20px;
+                            }
+
+                            .form-categories-column {
+                                .form-categories {
+                                    position: relative;
+                                    font-size: 15px;
+                                    color: #222;
+                                    display: inline-block;
+                                    line-height: 40px;
+                                    padding: 0 22px;
+                                    background: var(--checkbox-color);
+                                    border-radius: 7px;
+                                    margin: 5px 5px 5px 0;
+                                    transition: all 300ms linear 0ms;
+                                    cursor: pointer;
+
+                                    &:hover {
+                                        background: var(--pink);
+                                        color: white;
+                                    }
+
+                                    .input-checkbox {
+                                        -webkit-appearance: none;
+                                        appearance: none;
+                                        width: 100%;
+                                        appearance: none;
+                                        position: absolute;
+                                        top: 0;
+                                        left: 0;
+                                        z-index: 34;
+                                        height: 100%;
+                                        cursor: pointer;
+                                    }
+
+                                    label {
+                                    }
+                                    .checbox-active {
+                                        background: var(--pink);
+                                        color: white;
+                                        position: absolute;
+                                        top: 0;
+                                        left: 0;
+                                        cursor: pointer;
+                                        width: 100%;
+                                        z-index: 33;
+                                        height: 100%;
+                                        transition: all 300ms linear 0ms;
+                                        border-radius: 7px;
+                                        text-align: center;
+
+                                        &:hover {
+                                        }
+
+                                        svg {
+                                            align-self: center;
+                                        }
+                                    }
+                                }
+                            }
+
                             .form-container {
                                 position: relative;
                                 width: 100%;
+
                                 .form-wrapper {
                                     position: relative;
                                     width: 100%;
                                     margin-top: 20px;
                                     &.w-100 {
                                         grid-column: span 2;
+                                    }
+
+                                    .select-box {
+                                        position: relative;
+                                        height: 50px;
+                                        width: 100%;
+                                        outline: none;
+                                        font-size: 1rem;
+                                        color: #707070;
+                                        margin-top: 8px;
+                                        border: 1px solid #ddd;
+                                        border-radius: 6px;
+                                        padding: 0 15px;
+                                        select {
+                                            height: 100%;
+                                            width: 100%;
+                                            outline: none;
+                                            border: none;
+                                            color: #707070;
+                                            font-size: 1rem;
+                                            background-color: var(--input-bg);
+                                            margin-left: 0 !important;
+                                            font-weight: initial;
+                                        }
                                     }
 
                                     .input-textarea {
@@ -351,6 +475,10 @@ section {
                                             margin-top: -1.8rem;
                                             margin-left: 6px;
                                         }
+
+                                        .errors {
+                                            display: none;
+                                        }
                                     }
 
                                     .form-error-text {
@@ -414,27 +542,16 @@ section {
                                     font-weight: 500;
                                     font-size: 1rem;
                                     cursor: pointer;
-                                    transition: var(--form-transition);
+                                    transition: 0.3s;
 
                                     :hover {
                                         background-color: var(--main-color-hover);
                                     }
 
                                     &.progress-btn {
-                                        padding: 0.3rem 0.6rem;
+                                        height: 100%;
+                                        width: 60%;
                                     }
-                                }
-
-                                .progress-wrapper {
-                                    display: inline-block;
-
-                                    background-color: transparent;
-                                    color: #fff;
-                                    border-radius: 40px;
-
-                                    font-family: inherit;
-
-                                    transition: var(--form-transition);
                                 }
                             }
                         }
@@ -453,7 +570,7 @@ section {
 
                         img {
                             position: absolute;
-                            height: 130%;
+                            height: 110%;
                             left: 70%;
                             top: 60%;
 
@@ -656,6 +773,16 @@ section {
     }
 }
 
+// regulates the grid columns to stack on eachother
+@media (max-width: 1000px) and (min-width: 650px) {
+    .form-left {
+        grid-template-columns: none !important;
+    }
+    .form-img-wrapper {
+        background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.5));
+    }
+}
+
 @media (max-width: 650px) {
     section {
         .form-background {
@@ -798,6 +925,17 @@ section {
                                     flex-direction: column;
                                     column-gap: 20px;
                                 }
+
+                                .form-stats-column {
+                                    display: flex;
+                                    flex-direction: column;
+                                    column-gap: 20px;
+                                }
+                                .form-images-column {
+                                    display: flex;
+                                    flex-direction: column;
+                                    gap: 20px;
+                                }
                                 .form-container {
                                     .form-wrapper {
                                         .input-textarea {
@@ -848,51 +986,5 @@ section {
 @media (max-width: 500px) {
     .dots-hide-on-mobile {
         display: none !important;
-    }
-}
-
-@media (max-width: 445px) {
-    .close-li {
-        position: absolute;
-        right: -2px;
-        bottom: -1.17rem;
-    }
-
-    .darkmode-li {
-        margin-top: 5px;
-    }
-}
-
-@media (min-width: 350px) and (max-width: 370px) {
-    .close-li {
-        position: absolute;
-        right: -20px;
-        bottom: -1.17rem;
-    }
-
-    .darkmode-li {
-        right: 0.9rem;
-        bottom: -1.17rem;
-    }
-}
-
-@media (max-width: 350px) {
-    .close-li {
-        right: 12.5px;
-        bottom: -3rem;
-    }
-    .darkmode-li {
-        right: 0.9rem;
-        bottom: -1.17rem;
-    }
-}
-
-@media (max-width: 330px) {
-    .close-li {
-        right: 12.5px;
-        bottom: -3rem;
-    }
-
-    .darkmode-li {
     }
 }

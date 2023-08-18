@@ -31,19 +31,19 @@
     bottom: 60%;
     left: -28px;
     transform: translateY(50%);
-    opacity: 0.5;
+    opacity: 0.3;
 }
 
 #dashed-wave {
     fill: none;
-    stroke: var(--main-color);
+    stroke: var(--nav-color);
     stroke-width: 1px;
     stroke-dasharray: 6.5;
     opacity: 0.3;
 }
 
 section.dark-theme #dashed-wave {
-    opacity: 0.2;
+    opacity: 0.3;
 }
 
 section.dark-theme .wave-wrap {

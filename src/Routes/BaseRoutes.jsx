@@ -57,6 +57,7 @@ import TransactionHistory from "../Pages/Wallet/History";
 
 import AgencyPortfolio from "../UI/Agency/AgencyProfile/agency_portfolio";
 import ClientPortfolio from "../UI/Client/ClientProfile/ClientPortfolio";
+import ResponsiveForm from "../Components/ResponsiveForm/ResponsiveForm";
 
 export const BaseRoutes = () => {
   const [showNavbar, setShowNavbar] = useState(true);
@@ -285,6 +286,11 @@ export const BaseRoutes = () => {
         {
           path: "about",
           element: <About />,
+        },
+
+        {
+          path: "form",
+          element: <ResponsiveForm />,
         },
         {
           path: "contact",
