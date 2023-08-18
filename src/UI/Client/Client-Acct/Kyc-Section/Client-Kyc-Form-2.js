@@ -1,24 +1,19 @@
 import "./Client-Kyc-Form-2.css";
 import { getDownloadURL, ref, uploadBytesResumable } from "@firebase/storage";
 import FormNavBtn from "./Form-nav-btn";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useEffect } from "react";
 import { Photo } from "../utils";
 import { storage } from "../../../../firebase";
 import { AlertModal } from "../../../../Pages/LoginSignup/Sign-Up/signUpForm/Modal";
 import { useDispatch, useSelector } from "react-redux";
 import { update } from "../../../../redux/apiCalls";
+import { FormContext } from "./Client-Kyc-Forms";
 
-function ClientsKycForm2({
-  DomItems,
-  collectData,
-  handleNavigation,
-  handleModal,
-  form2Data,
-  handleChange,
-  inputs,
-  setInputs,
-}) {
+function ClientsKycForm2({}) {
+  const { handleNavigation, handleChange, setInputs, inputs } =
+    useContext(FormContext);
+
   const { isFetching } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 

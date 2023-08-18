@@ -18,7 +18,7 @@ import "../Component/svg-scss/svg.scss";
 import "../Component/img-scss/img.scss";
 import { FormContext } from "../Models-Kyc-Forms";
 function ModelsKycForm1({}) {
-  const [
+  const {
     handleNavigation,
     inputs,
     handleChange,
@@ -29,7 +29,7 @@ function ModelsKycForm1({}) {
     picture,
     setPicture,
     HandleTheme,
-  ] = useContext(FormContext);
+  } = useContext(FormContext);
   const user = useSelector((state) => state.user.currentUser);
   const imageRef = useRef();
   const [isError, setIsError] = useState(false);

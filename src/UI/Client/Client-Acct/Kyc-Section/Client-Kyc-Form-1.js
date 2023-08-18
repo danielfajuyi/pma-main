@@ -1,10 +1,13 @@
 import "./Client-Kyc-Form-1.css";
 import FormNavBtn from "./Form-nav-btn";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Input1, Input2, Input3 } from "./kyc-input";
 import { Industry, SocialMedia } from "../utils";
+import { FormContext } from "./Client-Kyc-Forms";
+function ClientsKycForm1({}) {
+  const { handleNavigation, handleChange, inputs, setInputs } =
+    useContext(FormContext);
 
-function ClientsKycForm1({ handleNavigation, handleChange, inputs }) {
   //State Error
   const [error, setError] = useState({
     brandName: inputs.brandName,

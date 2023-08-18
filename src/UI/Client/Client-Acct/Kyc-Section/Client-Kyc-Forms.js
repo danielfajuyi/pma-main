@@ -1,9 +1,10 @@
-import { useCallback, useEffect, useState } from "react";
+import { createContext, useCallback, useEffect, useState } from "react";
 import ClientKycForm1 from "./Client-Kyc-Form-1";
 import ClientKycForm2 from "./Client-Kyc-Form-2";
 
 import "./Client-Kyc-Forms.css";
-
+export const FormContext = createContext();
+console.log(FormContext);
 function ClientsForms({ setShowNavbar, showNavbar }) {
   const [activeForm, setActiveForm] = useState(1);
   const [inputs, setInputs] = useState({});
@@ -41,25 +42,15 @@ function ClientsForms({ setShowNavbar, showNavbar }) {
 
   return (
     !showNavbar && (
-      <div style={{ backgroundColor: "white" }}>
-        {activeForm === 1 && (
-          <ClientKycForm1
-            handleNavigation={handleNavigation}
-            handleChange={handleChange}
-            setInputs={setInputs}
-            inputs={inputs}
-          />
-        )}
+      <FormContext.Provider
+        value={{ handleNavigation, handleChange, setInputs, inputs }}
+      >
+        <div style={{ backgroundColor: "white" }}>
+          {activeForm === 1 && <ClientKycForm1 />}
 
-        {activeForm === 2 && (
-          <ClientKycForm2
-            handleNavigation={handleNavigation}
-            handleChange={handleChange}
-            setInputs={setInputs}
-            inputs={inputs}
-          />
-        )}
-      </div>
+          {activeForm === 2 && <ClientKycForm2 />}
+        </div>
+      </FormContext.Provider>
     )
   );
 }

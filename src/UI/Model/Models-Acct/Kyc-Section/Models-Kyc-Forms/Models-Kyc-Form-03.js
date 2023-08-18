@@ -17,7 +17,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { FormContext } from "../Models-Kyc-Forms";
 
 function ModelsKycForm3({}) {
-  const [
+  const {
     handleNavigation,
     inputs,
     setInputs,
@@ -26,10 +26,9 @@ function ModelsKycForm3({}) {
     picture,
     FocusBlur,
     HandleTheme,
-  ] = useContext(FormContext);
+  } = useContext(FormContext);
   const { isFetching } = useSelector((state) => state.user);
   const user = useSelector((state) => state.user.currentUser);
-  console.log(user);
 
   const dispatch = useDispatch();
   const [model, setModel] = useState(false);
