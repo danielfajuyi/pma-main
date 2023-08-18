@@ -25,6 +25,8 @@ function ClientsKycForm2({}) {
   const [submit, setSubmit] = useState(false);
   const [isError, setIsError] = useState(false);
   const [progress, setProgress] = useState(0);
+  const [coverprogress, setCoverProgress] = useState(0);
+  const [brandProgress, setBrandProgress] = useState(0);
   const [modalTxt, setModalTxt] = useState("");
 
   const handlePhotos = (e) => {

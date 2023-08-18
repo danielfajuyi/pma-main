@@ -127,7 +127,6 @@ function ModelsForms({ showNavbar, setShowNavbar }) {
           HandleTheme,
           TransitionHandler,
           FocusBlur,
-          HandleTheme,
           setPicture,
           setInputs,
           setCategory,
