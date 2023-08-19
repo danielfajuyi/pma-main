@@ -346,15 +346,13 @@ export const BaseRoutes = () => {
         {
           path: "agencypage/",
           element: (
-            <ProtectedRoute>
-              <AgencyAcct
-                user={user}
-                showNavbar={showNavbar}
-                setShowNavbar={setShowNavbar}
-                setNotice={setNotice}
-                notice={notice}
-              />
-            </ProtectedRoute>
+            <AgencyAcct
+              user={user}
+              showNavbar={showNavbar}
+              setShowNavbar={setShowNavbar}
+              setNotice={setNotice}
+              notice={notice}
+            />
           ),
           children: [
             {

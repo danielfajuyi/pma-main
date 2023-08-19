@@ -1,6 +1,6 @@
-import { FormContext } from "../Client-Kyc-Forms";
-import { useContext, useEffect, useState } from "react";
-import { Industry, SocialMedia } from "../../utils";
+import { useEffect, useState, useContext } from "react";
+import { FormContext } from "../Agency-Kyc-Forms";
+import { SocialMedia } from "../../utils";
 import {
   FaTimes,
   FaCheckCircle,
@@ -10,121 +10,50 @@ import {
 } from "react-icons/fa";
 import FormNavBtn from "../Component/btn/Form-nav-btn";
 import KycHeader from "../Component/kyc-header/kyc-header";
-import axios from "axios";
-import "../Component/old/Client-Kyc-Form-1.css";
-import "./Client-Kyc-Form.scss";
+import "../Component/old/Agency-Kyc-Form-1.css";
+import "./Agency-Kyc-Form.scss";
 import "../Component/svg-scss/svg.scss";
 import "../Component/img-scss/img.scss";
-function ClientsKycForm1({}) {
+
+function AgencyKycForm1({}) {
   const {
     handleNavigation,
     handleChange,
-    HandleTheme,
-    darkmode,
-    FocusBlur,
     inputs,
-    setInputs,
+    countries,
+    states,
+    darkmode,
     picture,
-    setPicture,
+    FocusBlur,
+    HandleTheme,
   } = useContext(FormContext);
   const [isError, setIsError] = useState(false);
   const [showError, setShowError] = useState(false);
-  const [countries, setCountries] = useState([]);
-  const [states, setStates] = useState([]);
-  const [authToken, setAuthToken] = useState("");
 
-  // get access token for countries api
-  useEffect(() => {
-    const getAccessToken = async () => {
-      try {
-        const res = await axios.get(
-          "https://www.universal-tutorial.com/api/getaccesstoken",
-          {
-            headers: {
-              Accept: "application/json",
-              "api-token":
-                "Ku2uq0eMGByhMQmQdP5tKH3bbR4dD3ZNXjRqllWOT-srDfzC-wXRnd7Kcym_A_9MpP4",
-              "user-email": "tosinadebayo55@gmail.com",
-            },
-          }
-        );
-        setAuthToken(res.data);
-      } catch (error) {
-        // console.log(error?.response?.data);
-      }
-    };
-    getAccessToken();
-  }, []);
-
-  // get list of countries
-  useEffect(() => {
-    const getCountries = async () => {
-      try {
-        const res = await axios.get(
-          "https://www.universal-tutorial.com/api/countries/",
-          {
-            headers: {
-              Authorization: `Bearer ${authToken.auth_token}`,
-              Accept: "application/json",
-            },
-          }
-        );
-        setCountries(res.data);
-      } catch (error) {
-        // console.log(error?.response?.data);
-      }
-    };
-    getCountries();
-  }, [authToken]);
-
-  // get list of states
-  useEffect(() => {
-    const getStates = async () => {
-      try {
-        const res = await axios.get(
-          `https://www.universal-tutorial.com/api/states/${inputs?.country}`,
-          {
-            headers: {
-              Authorization: `Bearer ${authToken.auth_token}`,
-              Accept: "application/json",
-            },
-          }
-        );
-        setStates(res.data);
-      } catch (error) {
-        // console.log(error?.response?.data);
-      }
-    };
-    getStates();
-  }, [inputs.country]);
-
-  // error state
+  //State Error
   const [error, setError] = useState({
-    brandName: inputs.brandName,
-    brandUrl: inputs.brandUrl,
+    agencyName: inputs.agencyName,
+    agencyUrl: inputs.agencyUrl,
     address: inputs.address,
     state: inputs.state,
     country: inputs.country,
-    bio: inputs.bio,
+    about: inputs.about,
     instagram: inputs.instagram,
-    industry: inputs.industry,
   });
 
   //setting error messages
   useEffect(() => {
     function handleError() {
       let errorText = "This detail is required.!";
-      let bioErr = "The Bio section is required.!";
-      let industryErr = "Please choose an industry.!";
-      let socialErr = "You social-media link is required.!";
+      let socialErr = "Your social-media link is required.!";
 
-      !inputs.brandName
-        ? setError((prev) => ({ ...prev, brandName: errorText }))
-        : setError((prev) => ({ ...prev, brandName: "" }));
+      !inputs.agencyName
+        ? setError((prev) => ({ ...prev, agencyName: errorText }))
+        : setError((prev) => ({ ...prev, name: "" }));
 
-      !inputs.brandUrl
-        ? setError((prev) => ({ ...prev, brandUrl: errorText }))
-        : setError((prev) => ({ ...prev, brandUrl: "" }));
+      !inputs.agencyUrl
+        ? setError((prev) => ({ ...prev, agencyUrl: errorText }))
+        : setError((prev) => ({ ...prev, url: "" }));
 
       !inputs.address
         ? setError((prev) => ({ ...prev, address: errorText }))
@@ -138,13 +67,12 @@ function ClientsKycForm1({}) {
         ? setError((prev) => ({ ...prev, country: errorText }))
         : setError((prev) => ({ ...prev, country: "" }));
 
-      !inputs.bio
-        ? setError((prev) => ({ ...prev, bio: bioErr }))
-        : setError((prev) => ({ ...prev, bio: "" }));
-
-      !inputs.industry
-        ? setError((prev) => ({ ...prev, industry: industryErr }))
-        : setError((prev) => ({ ...prev, industry: "" }));
+      !inputs.about
+        ? setError((prev) => ({
+            ...prev,
+            about: "The Bio section is required.!",
+          }))
+        : setError((prev) => ({ ...prev, about: "" }));
 
       !inputs.instagram
         ? setError((prev) => ({ ...prev, instagram: socialErr }))
@@ -158,14 +86,13 @@ function ClientsKycForm1({}) {
   useEffect(() => {
     let err = false;
     if (
-      !inputs.brandName ||
-      !inputs.brandUrl ||
+      !inputs.agencyName ||
+      !inputs.agencyUrl ||
       !inputs.address ||
       !inputs.state ||
       !inputs.country ||
-      !inputs.bio ||
-      !inputs.instagram ||
-      !inputs.industry
+      !inputs.about ||
+      !inputs.instagram
     ) {
       err = true;
     } else {
@@ -175,11 +102,6 @@ function ClientsKycForm1({}) {
     setIsError(err);
   }, [inputs]);
 
-  // trigger focusblur function
-  useEffect(() => {
-    FocusBlur();
-  }, []);
-
   //submit and go to the next page
   function handleSubmit(text) {
     if (isError) {
@@ -188,7 +110,7 @@ function ClientsKycForm1({}) {
       handleNavigation(text);
     }
   }
-
+  console.log(inputs);
   return (
     <section
       className={
@@ -207,7 +129,7 @@ function ClientsKycForm1({}) {
               <div className="form-left-wrapper">
                 <div className="form-left-heading">
                   <h1 style={{ lineHeight: "4.5rem" }}>
-                    Setting Up Your Client
+                    Setting Up Your Agency
                     <br></br> Portfolio
                     <span className="dots-hide-on-mobile">.</span>
                   </h1>
@@ -230,37 +152,40 @@ function ClientsKycForm1({}) {
                       </p>
                       <p className="form-descriptions">
                         <FaAngleDoubleRight />
-                        <span> Fill out some basic info about your Brand.</span>
+                        <span>
+                          {" "}
+                          Fill out some basic info about your Agency.
+                        </span>
                       </p>
                     </div>
 
                     <div className="form-input-column">
-                      <div className="form-container" id="brandName">
+                      <div className="form-container" id="agencyName">
                         <div className={`form-wrapper  `}>
                           <input
                             className="input-textarea"
                             onChange={handleChange}
                             type="text"
-                            id="brandName"
-                            name="brandName"
+                            id="agencyName"
+                            name="agencyName"
                             placeholder=""
                             required
                           />
 
-                          <label htmlFor={"brandName"}>
-                            {"Your Brand Name..."}
+                          <label htmlFor={"agencyName"}>
+                            {"Your Agency Name..."}
                           </label>
                         </div>
 
                         <div
                           className={
-                            error.brandName === ""
+                            error.agencyName === ""
                               ? "form-error-controller error-mtop"
                               : "form-error-controller"
                           }
                         >
                           <span className="form-error-btn">
-                            {error.brandName === "" ? (
+                            {error.agencyName === "" ? (
                               <FaCheckCircle className="required-icon valid-icon " />
                             ) : (
                               <FaStar
@@ -271,37 +196,37 @@ function ClientsKycForm1({}) {
                           </span>
 
                           {showError && (
-                            <p className="error-text">{error.brandName}</p>
+                            <p className="error-text">{error.agencyName}</p>
                           )}
                         </div>
                       </div>
 
-                      <div className="form-container" id="brandUrl">
+                      <div className="form-container" id="agencyUrl">
                         <div className={`form-wrapper  `}>
                           <input
                             className="input-textarea"
                             onChange={handleChange}
                             type="text"
-                            id="brandUrl"
-                            name="brandUrl"
+                            id="agencyUrl"
+                            name="agencyUrl"
                             placeholder=""
                             required
                           />
 
-                          <label htmlFor={"brandUrl"}>
-                            {"Your Brand Url..."}
+                          <label htmlFor={"agencyUrl"}>
+                            {"Your Agency Url..."}
                           </label>
                         </div>
 
                         <div
                           className={
-                            error.brandUrl === ""
+                            error.agencyUrl === ""
                               ? "form-error-controller error-mtop"
                               : "form-error-controller"
                           }
                         >
                           <span className="form-error-btn">
-                            {error.brandUrl === "" ? (
+                            {error.agencyUrl === "" ? (
                               <FaCheckCircle className="required-icon valid-icon " />
                             ) : (
                               <FaStar
@@ -312,7 +237,7 @@ function ClientsKycForm1({}) {
                           </span>
 
                           {showError && (
-                            <p className="error-text">{error.brandUrl}</p>
+                            <p className="error-text">{error.agencyUrl}</p>
                           )}
                         </div>
                       </div>
@@ -330,7 +255,7 @@ function ClientsKycForm1({}) {
                           required
                         />
 
-                        <label htmlFor={"address"}>{"Office Address..."}</label>
+                        <label htmlFor={"address"}>{"Agency Address..."}</label>
                       </div>
 
                       <div
@@ -366,7 +291,7 @@ function ClientsKycForm1({}) {
                               onChange={handleChange}
                               name="country"
                             >
-                              <option hidden> --Select Country--</option>
+                              <option hidden> --Select Agency Country--</option>
                               {countries?.map((getCountry, index) => {
                                 const { country_name } = getCountry;
                                 return (
@@ -411,7 +336,7 @@ function ClientsKycForm1({}) {
                               onChange={handleChange}
                               name="state"
                             >
-                              <option hidden> --Select State--</option>
+                              <option hidden> --Select Agency State--</option>
                               {inputs?.country && (
                                 <>
                                   {states.map((state, index) => {
@@ -464,76 +389,12 @@ function ClientsKycForm1({}) {
                     </div>
 
                     <div className="form-titles-wrapper">
-                      <h2 className="form-titles">Client's Industry</h2>
+                      <h2 className="form-titles">Agency Bio</h2>
                       <p className="form-descriptions">
                         <FaAngleDoubleRight />
                         <span>
                           {" "}
-                          Pick an industry from the list of industries in the
-                          drop down.
-                        </span>
-                      </p>
-                      <p className="form-descriptions">
-                        <FaAngleDoubleRight />
-                        <span>
-                          {" "}
-                          Please ensure that your chosen industry compliments
-                          your Brand.
-                        </span>
-                      </p>
-                    </div>
-                    <div className="form-container" id="industry">
-                      <div className={`form-wrapper `}>
-                        <div className="select-box">
-                          <select
-                            className=""
-                            onChange={handleChange}
-                            name="industry"
-                          >
-                            <option hidden> --Choose an industry--</option>
-                            {Industry.map((item, index) => {
-                              return (
-                                <option value={item} key={index}>
-                                  {item}
-                                </option>
-                              );
-                            })}
-                          </select>
-                        </div>
-                      </div>
-
-                      <div
-                        className={
-                          error.industry === ""
-                            ? "form-error-controller error-mtop"
-                            : "form-error-controller"
-                        }
-                      >
-                        <span className="form-error-btn">
-                          {error.industry === "" ? (
-                            <FaCheckCircle className="required-icon valid-icon " />
-                          ) : (
-                            <FaStar
-                              hidden
-                              className="required-icon errors"
-                              style={{ visibility: "0" }}
-                            />
-                          )}
-                        </span>
-
-                        {showError && (
-                          <p className="error-text">{error.industry}</p>
-                        )}
-                      </div>
-                    </div>
-
-                    <div className="form-titles-wrapper">
-                      <h2 className="form-titles">Client's Bio</h2>
-                      <p className="form-descriptions">
-                        <FaAngleDoubleRight />
-                        <span>
-                          {" "}
-                          Share a little about your Brand, including years of
+                          Share a little about your Agency, including years of
                           experience, achievements etc.
                         </span>
                       </p>
@@ -549,27 +410,27 @@ function ClientsKycForm1({}) {
                     <div className="form-container" id="bio">
                       <div className="form-wrapper">
                         <textarea
-                          name="bio"
+                          name="about"
                           onChange={handleChange}
-                          id="bio"
+                          id="about"
                           cols="30"
                           rows="10"
                           className="input-textarea"
                           required
                         ></textarea>
-                        <label>Brief infomation about your Brand... </label>
+                        <label>Brief infomation about your Agency... </label>
                         <FaInbox />
                       </div>
 
                       <div
                         className={
-                          error.bio === ""
+                          error.about === ""
                             ? "form-error-controller error-mtop"
                             : "form-error-controller"
                         }
                       >
                         <span className="form-error-btn">
-                          {error.bio === "" ? (
+                          {error.about === "" ? (
                             <FaCheckCircle className="required-icon valid-icon " />
                           ) : (
                             <FaStar
@@ -580,7 +441,9 @@ function ClientsKycForm1({}) {
                           )}
                         </span>
 
-                        {showError && <p className="error-text">{error.bio}</p>}
+                        {showError && (
+                          <p className="error-text">{error.about}</p>
+                        )}
                       </div>
                     </div>
 
@@ -713,4 +576,4 @@ function ClientsKycForm1({}) {
   );
 }
 
-export default ClientsKycForm1;
+export default AgencyKycForm1;

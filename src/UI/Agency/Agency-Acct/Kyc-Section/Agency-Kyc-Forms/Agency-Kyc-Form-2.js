@@ -1,11 +1,12 @@
-import { FormContext } from "../Client-Kyc-Forms";
-import { getDownloadURL, ref, uploadBytesResumable } from "@firebase/storage";
+import { FormContext } from "../Agency-Kyc-Forms";
 import { useState, useEffect, useContext } from "react";
 import { Photo } from "../../utils";
-import { storage } from "../../../../../firebase";
-import { AlertModal } from "../../../../../Pages/LoginSignup/Sign-Up/signUpForm/Modal";
 import { useDispatch, useSelector } from "react-redux";
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import { storage } from "../../../../../firebase";
 import { update } from "../../../../../redux/apiCalls";
+import { AlertModal } from "../../../../../Pages/LoginSignup/Sign-Up/signUpForm/Modal";
+import { ToastContainer } from "react-toastify";
 import { BiCloudUpload } from "react-icons/bi";
 import {
   FaTimes,
@@ -16,11 +17,13 @@ import {
 } from "react-icons/fa";
 import FormNavBtn from "../Component/btn/Form-nav-btn";
 import KycHeader from "../Component/kyc-header/kyc-header";
-import "../Component/old/Client-Kyc-Form-2.css";
-import "./Client-Kyc-Form.scss";
+import "react-toastify/dist/ReactToastify.css";
+import "../Component/old/Agency-Kyc-Form-2.css";
 import "../Component/svg-scss/svg.scss";
 import "../Component/img-scss/img.scss";
-function ClientsKycForm2({}) {
+import "./Agency-Kyc-Form.scss";
+
+function AgencyKycForm2({}) {
   const {
     handleNavigation,
     handleChange,
@@ -30,7 +33,6 @@ function ClientsKycForm2({}) {
     inputs,
     setInputs,
   } = useContext(FormContext);
-
   const { isFetching } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const [model, setModel] = useState(false);
@@ -38,14 +40,11 @@ function ClientsKycForm2({}) {
   const [jobPhotos, setJobPhotos] = useState([]);
   const [jobPhoto, setJobPhoto] = useState(undefined);
   const [previewPhotos, setPreviewPhotos] = useState([]);
-  const [coverPicture, setCoverPicture] = useState(undefined);
-  const [picture, setPicture] = useState(undefined);
-  const [submit, setSubmit] = useState(false);
-  const [isError, setIsError] = useState(false);
-  const [showError, setShowError] = useState(false);
+  const [photo, setPhoto] = useState(undefined);
+  const [coverPhoto, setCoverPhoto] = useState(undefined);
   const [progress, setProgress] = useState(0);
   const [coverProgress, setCoverProgress] = useState(0);
-  const [brandProgress, setBrandProgress] = useState(0);
+  const [agencyProgress, setAgencyProgress] = useState(0);
   const [modalTxt, setModalTxt] = useState("");
 
   // preview image modal
@@ -62,7 +61,7 @@ function ClientsKycForm2({}) {
 
   const uploadFile = (file, urlType) => {
     const fileName = new Date().getTime() + file.name;
-    const storageRef = ref(storage, `/test/${fileName}`);
+    const storageRef = ref(storage, `/agency/${fileName}`);
     const uploadTask = uploadBytesResumable(storageRef, file);
 
     uploadTask.on(
@@ -71,28 +70,29 @@ function ClientsKycForm2({}) {
         const progress =
           (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
         if (urlType === "jobPhotos") {
-          setBrandProgress(Math.round(progress));
+          setAgencyProgress(Math.round(progress));
         }
         if (urlType === "picture") {
           setProgress(Math.round(progress));
         }
-        if (urlType === "coverPicture") {
+        if (urlType === "coverPhoto") {
           setCoverProgress(Math.round(progress));
         }
         switch (snapshot.state) {
           case "paused":
-            console.log("Upload is paused");
+            console.log(`Upload is paused`);
+
             break;
           case "running":
             console.log(`Upload is running at ${progress} `);
-            console.log(`brand Upload is running at ${brandProgress} `);
+            console.log(`brand Upload is running at ${agencyProgress} `);
             console.log(`cover Upload is running at ${coverProgress} `);
             break;
           default:
             break;
         }
       },
-      (error) => {},
+      () => {},
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           if (urlType === "jobPhotos") {
@@ -103,7 +103,7 @@ function ClientsKycForm2({}) {
               return { ...prev, [urlType]: downloadURL };
             });
           }
-          if (urlType === "coverPicture") {
+          if (urlType === "coverPhoto") {
             setInputs((prev) => {
               return { ...prev, [urlType]: downloadURL };
             });
@@ -128,31 +128,32 @@ function ClientsKycForm2({}) {
 
     const sendPicture = (urlType) => {
       urlType = "picture";
-      if (picture) {
-        uploadFile(picture, "picture");
+      if (photo) {
+        uploadFile(photo, "picture");
         // setPicture(undefined);
       }
     };
     sendPicture();
 
     const sendCoverPicture = (urlType) => {
-      urlType = "coverPicture";
-      if (coverPicture) {
-        uploadFile(coverPicture, "coverPicture");
+      urlType = "coverPhoto";
+      if (coverPhoto) {
+        uploadFile(coverPhoto, "coverPhoto");
         // setCoverPicture(undefined);
       }
     };
     sendCoverPicture();
-  }, [setInputs, coverPicture, jobPhoto, jobPhotos, picture]);
+  }, [setInputs, coverPhoto, jobPhoto, jobPhotos, photo]);
 
   //handling submit
   function handleSubmit() {
-    if (jobPhotos.length < 6 && !picture) {
-      setModalTxt("add-photo");
+    if (jobPhotos.length > 3) {
+      update(dispatch, "/agency/", { ...inputs, isUpdated: true }, setModalTxt);
     } else {
-      update(dispatch, "/client/", { ...inputs, isUpdated: true }, setModalTxt);
+      setModalTxt("add-photo");
     }
   }
+
   console.log(inputs);
   return (
     <section
@@ -173,7 +174,7 @@ function ClientsKycForm2({}) {
               <div className="form-left-wrapper polariods-wrapper">
                 <div className="form-left-heading">
                   <h1 style={{ lineHeight: "4.5rem" }}>
-                    Setting Up Your Client
+                    Setting Up Your Agency
                     <br></br> Portfolio
                     <span className="dots-hide-on-mobile">.</span>
                   </h1>
@@ -188,7 +189,7 @@ function ClientsKycForm2({}) {
                   onSubmit={(e) => e.preventDefault()}
                 >
                   <AlertModal modalTxt={modalTxt} setModalTxt={setModalTxt} />
-
+                  <ToastContainer />
                   <section>
                     <div className="form-titles-wrapper">
                       <h2 className="form-titles">Profile Photo</h2>
@@ -222,7 +223,7 @@ function ClientsKycForm2({}) {
                         <FaAngleDoubleRight />
                         <span>
                           {" "}
-                          You can also make use of your Brand logo image or
+                          You can also make use of your Agency logo image or
                           design
                         </span>
                       </p>
@@ -241,22 +242,22 @@ function ClientsKycForm2({}) {
                           type="file"
                           name="picture"
                           id="picture"
-                          className="client-picture"
-                          onChange={(e) => setPicture(e.target.files[0])}
+                          className="agency-picture"
+                          onChange={(e) => setPhoto(e.target.files[0])}
                           hidden
                         />
-                        {picture ? (
+                        {photo ? (
                           <div
                             className={"img-area active"}
                             data-img={
                               progress < 100
                                 ? `uploading ${progress}%`
-                                : "preview picture"
+                                : "preview photo"
                             }
-                            onClick={() => getImg(URL.createObjectURL(picture))}
+                            onClick={() => getImg(URL.createObjectURL(photo))}
                           >
-                            {picture && (
-                              <img src={URL.createObjectURL(picture)} alt="" />
+                            {photo && (
+                              <img src={URL.createObjectURL(photo)} alt="" />
                             )}
                           </div>
                         ) : (
@@ -268,7 +269,7 @@ function ClientsKycForm2({}) {
                                 : "preview picture"
                             }
                             onClick={() =>
-                              document.querySelector(`.client-picture`).click()
+                              document.querySelector(`.agency-picture`).click()
                             }
                           >
                             <BiCloudUpload />
@@ -279,16 +280,16 @@ function ClientsKycForm2({}) {
                               Client Photo is <span>required! </span>
                             </p>
 
-                            {picture && (
-                              <img src={URL.createObjectURL(picture)} alt="" />
+                            {photo && (
+                              <img src={URL.createObjectURL(photo)} alt="" />
                             )}
                           </div>
                         )}
 
-                        {picture ? (
+                        {photo ? (
                           <span
                             onClick={() =>
-                              document.querySelector(`.client-picture`).click()
+                              document.querySelector(`.agency-picture`).click()
                             }
                             className="select-image"
                             style={{ textAlign: "center" }}
@@ -301,7 +302,7 @@ function ClientsKycForm2({}) {
                         ) : (
                           <span
                             onClick={() =>
-                              document.querySelector(`.client-picture`).click()
+                              document.querySelector(`.agency-picture`).click()
                             }
                             className="select-image"
                             style={{ textAlign: "center" }}
@@ -354,7 +355,7 @@ function ClientsKycForm2({}) {
                             <input
                               type="file"
                               name="jobPhotos"
-                              className={`picture-${item.id}`}
+                              className={`photo-${item.id}`}
                               id={item.id}
                               onChange={handlePhotos}
                               hidden
@@ -364,9 +365,9 @@ function ClientsKycForm2({}) {
                               <div
                                 className={"img-area area-2 active"}
                                 data-img={
-                                  brandProgress > 0 && brandProgress < 100
-                                    ? `uploading ${brandProgress}%`
-                                    : "preview picture"
+                                  agencyProgress > 0 && agencyProgress < 100
+                                    ? `uploading ${agencyProgress}%`
+                                    : "preview photo"
                                 }
                                 onClick={() => getImg(previewPhotos[item.id])}
                               >
@@ -378,13 +379,13 @@ function ClientsKycForm2({}) {
                               <div
                                 className={"img-area area-2"}
                                 data-img={
-                                  brandProgress > 0 && brandProgress < 100
-                                    ? `uploading ${brandProgress}%`
-                                    : "preview picture"
+                                  agencyProgress > 0 && agencyProgress < 100
+                                    ? `uploading ${agencyProgress}%`
+                                    : "preview photo"
                                 }
                                 onClick={() =>
                                   document
-                                    .querySelector(`.picture-${item.id}`)
+                                    .querySelector(`.photo-${item.id}`)
                                     .click()
                                 }
                               >
@@ -402,26 +403,26 @@ function ClientsKycForm2({}) {
                               <span
                                 onClick={() =>
                                   document
-                                    .querySelector(`.picture-${item.id}`)
+                                    .querySelector(`.photo-${item.id}`)
                                     .click()
                                 }
                                 className="select-image"
                                 style={{ textAlign: "center" }}
                                 disabled={
-                                  brandProgress > 0 && brandProgress < 100
+                                  agencyProgress > 0 && agencyProgress < 100
                                 }
                               >
-                                {brandProgress > 0 &&
-                                brandProgress < 100 &&
+                                {agencyProgress > 0 &&
+                                agencyProgress < 100 &&
                                 item.id === item.id
-                                  ? ` uploading ${brandProgress}`
+                                  ? ` uploading ${agencyProgress}`
                                   : "Change Picture"}
                               </span>
                             ) : (
                               <span
                                 onClick={() =>
                                   document
-                                    .querySelector(`.picture-${item.id}`)
+                                    .querySelector(`.photo-${item.id}`)
                                     .click()
                                 }
                                 className="select-image"
@@ -465,13 +466,13 @@ function ClientsKycForm2({}) {
                         </div>
                         <input
                           type="file"
-                          name="coverPicture"
-                          id="coverPicture"
-                          className="cover-picture"
-                          onChange={(e) => setCoverPicture(e.target.files[0])}
+                          name="coverPhoto"
+                          id="coverPhoto"
+                          className="cover-photo"
+                          onChange={(e) => setCoverPhoto(e.target.files[0])}
                           hidden
                         />
-                        {coverPicture ? (
+                        {coverPhoto ? (
                           <div
                             className={"img-area active"}
                             data-img={
@@ -480,12 +481,12 @@ function ClientsKycForm2({}) {
                                 : "preview cover picture"
                             }
                             onClick={() =>
-                              getImg(URL.createObjectURL(coverPicture))
+                              getImg(URL.createObjectURL(coverPhoto))
                             }
                           >
-                            {coverPicture && (
+                            {coverPhoto && (
                               <img
-                                src={URL.createObjectURL(coverPicture)}
+                                src={URL.createObjectURL(coverPhoto)}
                                 alt=""
                               />
                             )}
@@ -499,23 +500,23 @@ function ClientsKycForm2({}) {
                                 : "preview picture"
                             }
                             onClick={() =>
-                              document.querySelector(`.cover-picture`).click()
+                              document.querySelector(`.cover-photo`).click()
                             }
                           >
                             <BiCloudUpload />
 
                             <h3>Upload Cover Photo</h3>
 
-                            {coverPicture && (
-                              <img src={URL.createObjectURL(picture)} alt="" />
+                            {coverPhoto && (
+                              <img src={URL.createObjectURL(photo)} alt="" />
                             )}
                           </div>
                         )}
 
-                        {coverPicture ? (
+                        {coverPhoto ? (
                           <span
                             onClick={() =>
-                              document.querySelector(`.cover-picture`).click()
+                              document.querySelector(`.cover-photo`).click()
                             }
                             className="select-image"
                             style={{ textAlign: "center" }}
@@ -528,7 +529,7 @@ function ClientsKycForm2({}) {
                         ) : (
                           <span
                             onClick={() =>
-                              document.querySelector(`.cover-picture`).click()
+                              document.querySelector(`.cover-photo`).click()
                             }
                             className="select-image"
                             style={{ textAlign: "center" }}
@@ -543,7 +544,6 @@ function ClientsKycForm2({}) {
                       <FormNavBtn
                         btnText="Back"
                         name="form3"
-                        isError={isError}
                         FocusBlur={FocusBlur}
                         handleClick={handleNavigation}
                         type="button"
@@ -551,9 +551,8 @@ function ClientsKycForm2({}) {
                       <FormNavBtn
                         btnText={isFetching ? "A moment..." : "Submit"}
                         name="form3"
-                        isError={isError}
                         FocusBlur={FocusBlur}
-                        submit={submit}
+                        submit={progress > 0 && progress < 100}
                         handleClick={handleSubmit}
                         type="submit"
                       />
@@ -600,4 +599,4 @@ function ClientsKycForm2({}) {
   );
 }
 
-export default ClientsKycForm2;
+export default AgencyKycForm2;

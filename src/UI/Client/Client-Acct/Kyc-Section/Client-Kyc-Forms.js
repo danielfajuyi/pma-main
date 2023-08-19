@@ -52,8 +52,8 @@ function ClientsForms({ setShowNavbar, showNavbar }) {
   };
 
   // function handles onfocus and onblur mode on form inputs
+  const focusinputs = document.querySelectorAll(".input-textarea");
   const FocusBlur = () => {
-    const focusinputs = document.querySelectorAll(".input-textarea");
     focusinputs.forEach((ipt) => {
       ipt.addEventListener("focus", () => {
         ipt.parentNode.classList.add("focus");
@@ -78,7 +78,7 @@ function ClientsForms({ setShowNavbar, showNavbar }) {
 
   useEffect(() => {
     FocusBlur();
-  }, []);
+  }, [focusinputs]);
 
   return (
     !showNavbar && (
