@@ -5,6 +5,7 @@ import ModelsKycForm01 from "./Models-Kyc-Forms/Models-Kyc-Form-01";
 import ModelsKycForm02 from "./Models-Kyc-Forms/Models-Kyc-Form-02";
 import ModelsKycForm03 from "./Models-Kyc-Forms/Models-Kyc-Form-03";
 import "./Models-Kyc-Forms.css";
+import "../../../../scss/kyc-forms.scss";
 export const FormContext = createContext();
 
 function ModelsForms({ showNavbar, setShowNavbar }) {

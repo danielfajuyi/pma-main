@@ -1,8 +1,8 @@
 import { createContext, useCallback, useEffect, useState } from "react";
 import ClientKycForm1 from "./Client-Kyc-Forms/Client-Kyc-Form-1";
 import ClientKycForm2 from "./Client-Kyc-Forms/Client-Kyc-Form-2";
-
 import "./Client-Kyc-Forms.css";
+import "../../../../scss/kyc-forms.scss";
 export const FormContext = createContext();
 function ClientsForms({ setShowNavbar, showNavbar }) {
   const [activeForm, setActiveForm] = useState(1);

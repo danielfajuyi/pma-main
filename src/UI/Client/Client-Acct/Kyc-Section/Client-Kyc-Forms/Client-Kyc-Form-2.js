@@ -16,8 +16,6 @@ import {
 } from "react-icons/fa";
 import FormNavBtn from "../Component/btn/Form-nav-btn";
 import KycHeader from "../Component/kyc-header/kyc-header";
-import "../Component/old/Client-Kyc-Form-2.css";
-import "./Client-Kyc-Form.scss";
 import "../Component/svg-scss/svg.scss";
 import "../Component/img-scss/img.scss";
 function ClientsKycForm2({}) {
@@ -172,7 +170,7 @@ function ClientsKycForm2({}) {
             <div className="form-left  polariods">
               <div className="form-left-wrapper polariods-wrapper">
                 <div className="form-left-heading">
-                  <h1 style={{ lineHeight: "4.5rem" }}>
+                  <h1>
                     Setting Up Your Client
                     <br></br> Portfolio
                     <span className="dots-hide-on-mobile">.</span>

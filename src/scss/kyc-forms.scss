@@ -39,7 +39,7 @@ section {
         --checkbox-color: #f0f0f0;
         --form-bg-color: transparent;
         --transform-img: translate(-50%, -50%) scale(1.4);
-        --icon-check-color: #26ffed;
+        --icon-check-color: var(--main-color);
     }
 
     &.dark-theme {
@@ -55,6 +55,7 @@ section {
         --form-bg-opacity: 1;
         --form-bg-color: hsla(var(--main-hue), 30%, 16.5%, 60%);
         --transform-img: translate(-50%, -50%) scale(1.7);
+        --icon-check-color: #26ffed;
     }
 
     .form-background {
@@ -207,6 +208,7 @@ section {
                                 color: var(--text-color);
                                 font-size: 3.5rem;
                                 margin-bottom: 1.2rem;
+                                line-height: 4.5rem;
 
                                 span {
                                     color: var(--main-color);
@@ -235,13 +237,7 @@ section {
                         }
 
                         .form-left-form {
-                            // display: grid;
-                            // margin-top: 2.55rem;
-                            // grid-template-columns: repeat(2, 1fr);
-                            // column-gap: 2rem;
-                            // row-gap: 1rem;
                             margin-bottom: 2rem;
-
                             .form-titles-wrapper {
                                 position: relative;
                                 width: 100%;
@@ -249,7 +245,6 @@ section {
                                 .form-titles {
                                     text-align: center;
                                     text-transform: uppercase;
-
                                     color: var(--main-color);
                                 }
 
@@ -313,8 +308,6 @@ section {
                                         cursor: pointer;
                                     }
 
-                                    label {
-                                    }
                                     .checbox-active {
                                         background: var(--pink);
                                         color: white;
@@ -328,9 +321,6 @@ section {
                                         transition: all 300ms linear 0ms;
                                         border-radius: 7px;
                                         text-align: center;
-
-                                        &:hover {
-                                        }
 
                                         svg {
                                             align-self: center;
@@ -680,7 +670,6 @@ section {
                             .form-left-heading {
                                 h1 {
                                     font-size: 2.5rem;
-
                                     white-space: normal;
                                     margin-bottom: 1rem;
                                 }
@@ -826,6 +815,7 @@ section {
                             padding: 1rem 0;
                             .form-left-heading {
                                 h1 {
+                                    line-height: 2.5rem;
                                 }
 
                                 .form-text {
@@ -912,7 +902,6 @@ section {
                             .form-left-heading {
                                 h1 {
                                     font-size: 1.9rem;
-                                    line-height: 1;
                                 }
 
                                 .form-text {

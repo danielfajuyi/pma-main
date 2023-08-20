@@ -13,7 +13,6 @@ import {
 import FormNavBtn from "../Component/btn/Form-nav-btn";
 import KycHeader from "../Component/kyc-header/kyc-header";
 import axios from "axios";
-import "./Models-Kyc-Form.scss";
 import "../Component/svg-scss/svg.scss";
 import "../Component/img-scss/img.scss";
 import { FormContext } from "../Models-Kyc-Forms";
@@ -250,7 +249,7 @@ function ModelsKycForm1({}) {
             <div className="form-left">
               <div className="form-left-wrapper">
                 <div className="form-left-heading">
-                  <h1 style={{ lineHeight: "4.5rem" }}>
+                  <h1>
                     Setting Up Your Model
                     <br></br> Portfolio
                     <span className="dots-hide-on-mobile">.</span>

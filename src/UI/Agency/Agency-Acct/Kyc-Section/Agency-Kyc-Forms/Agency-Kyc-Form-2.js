@@ -18,10 +18,8 @@ import {
 import FormNavBtn from "../Component/btn/Form-nav-btn";
 import KycHeader from "../Component/kyc-header/kyc-header";
 import "react-toastify/dist/ReactToastify.css";
-import "../Component/old/Agency-Kyc-Form-2.css";
 import "../Component/svg-scss/svg.scss";
 import "../Component/img-scss/img.scss";
-import "./Agency-Kyc-Form.scss";
 
 function AgencyKycForm2({}) {
   const {
@@ -173,7 +171,7 @@ function AgencyKycForm2({}) {
             <div className="form-left  polariods">
               <div className="form-left-wrapper polariods-wrapper">
                 <div className="form-left-heading">
-                  <h1 style={{ lineHeight: "4.5rem" }}>
+                  <h1>
                     Setting Up Your Agency
                     <br></br> Portfolio
                     <span className="dots-hide-on-mobile">.</span>

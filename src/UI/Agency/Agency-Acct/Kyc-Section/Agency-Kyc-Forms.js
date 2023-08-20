@@ -4,6 +4,7 @@ import AgencyKycForm2 from "./Agency-Kyc-Forms/Agency-Kyc-Form-2";
 import { ToastContainer } from "react-toastify";
 import axios from "axios";
 import "./Agency-Kyc-Forms.css";
+import "../../../../scss/kyc-forms.scss";
 import "react-toastify/dist/ReactToastify.css";
 
 export const FormContext = createContext();

@@ -427,15 +427,13 @@ export const BaseRoutes = () => {
         {
           path: "modelpage/",
           element: (
-            <ProtectedRoute>
-              <ModelsAcct
-                user={user}
-                showNavbar={showNavbar}
-                setShowNavbar={setShowNavbar}
-                setNotice={setNotice}
-                notice={notice}
-              />
-            </ProtectedRoute>
+            <ModelsAcct
+              user={user}
+              showNavbar={showNavbar}
+              setShowNavbar={setShowNavbar}
+              setNotice={setNotice}
+              notice={notice}
+            />
           ),
           children: [
             {
@@ -516,15 +514,13 @@ export const BaseRoutes = () => {
         {
           path: "clientpage/",
           element: (
-            <ProtectedRoute>
-              <ClientsAcct
-                user={user}
-                showNavbar={showNavbar}
-                setShowNavbar={setShowNavbar}
-                setNotice={setNotice}
-                notice={notice}
-              />
-            </ProtectedRoute>
+            <ClientsAcct
+              user={user}
+              showNavbar={showNavbar}
+              setShowNavbar={setShowNavbar}
+              setNotice={setNotice}
+              notice={notice}
+            />
           ),
           children: [
             {

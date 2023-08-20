@@ -1,11 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
+import { ImageSlider } from "../../Components/Slider/TeamSlider/Slider";
 import Counter from "../../Components/Counter/counter";
 import SectionHead from "../../Components/SectionHead/sectionhead";
-import ImageSlider from "../../Components/Slider/TeamSlider/Slider";
 import Footer from "../../Pages/Home/Layout/FooterSection/Footer/footer";
-
 import "./about.scss";
 
 const About = () => {
@@ -21,7 +19,9 @@ const About = () => {
             models for their projects.
           </span>
 
-         <a href="/signup" className="btn btn2">Start Now</a>
+          <a href="/signup" className="btn btn2">
+            Start Now
+          </a>
         </div>
       </div>
 
@@ -121,8 +121,6 @@ const About = () => {
           <div className="thankyou-text">
             <h2>Thank you for visting us!</h2>
           </div>
-
-          
         </div>
       </div>
 

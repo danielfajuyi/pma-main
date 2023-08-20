@@ -10,8 +10,6 @@ import {
 } from "react-icons/fa";
 import FormNavBtn from "../Component/btn/Form-nav-btn";
 import KycHeader from "../Component/kyc-header/kyc-header";
-import "../Component/old/Agency-Kyc-Form-1.css";
-import "./Agency-Kyc-Form.scss";
 import "../Component/svg-scss/svg.scss";
 import "../Component/img-scss/img.scss";
 
@@ -53,7 +51,7 @@ function AgencyKycForm1({}) {
 
       !inputs.agencyUrl
         ? setError((prev) => ({ ...prev, agencyUrl: errorText }))
-        : setError((prev) => ({ ...prev, url: "" }));
+        : setError((prev) => ({ ...prev, url: "" })); 
 
       !inputs.address
         ? setError((prev) => ({ ...prev, address: errorText }))
@@ -128,7 +126,7 @@ function AgencyKycForm1({}) {
             <div className="form-left">
               <div className="form-left-wrapper">
                 <div className="form-left-heading">
-                  <h1 style={{ lineHeight: "4.5rem" }}>
+                  <h1>
                     Setting Up Your Agency
                     <br></br> Portfolio
                     <span className="dots-hide-on-mobile">.</span>
@@ -144,355 +142,185 @@ function AgencyKycForm1({}) {
                   onSubmit={(e) => e.preventDefault()}
                 >
                   <>
-                    <div className="form-titles-wrapper">
-                      <h2 className="form-titles">Profile Details</h2>
-                      <p className="form-descriptions">
-                        <FaAngleDoubleRight />
-                        <span> Let's get to know you better.!</span>
-                      </p>
-                      <p className="form-descriptions">
-                        <FaAngleDoubleRight />
-                        <span>
-                          {" "}
-                          Fill out some basic info about your Agency.
-                        </span>
-                      </p>
-                    </div>
-
-                    <div className="form-input-column">
-                      <div className="form-container" id="agencyName">
-                        <div className={`form-wrapper  `}>
-                          <input
-                            className="input-textarea"
-                            onChange={handleChange}
-                            type="text"
-                            id="agencyName"
-                            name="agencyName"
-                            placeholder=""
-                            required
-                          />
-
-                          <label htmlFor={"agencyName"}>
-                            {"Your Agency Name..."}
-                          </label>
-                        </div>
-
-                        <div
-                          className={
-                            error.agencyName === ""
-                              ? "form-error-controller error-mtop"
-                              : "form-error-controller"
-                          }
-                        >
-                          <span className="form-error-btn">
-                            {error.agencyName === "" ? (
-                              <FaCheckCircle className="required-icon valid-icon " />
-                            ) : (
-                              <FaStar
-                                className="required-icon errors"
-                                style={{ visibility: "0" }}
-                              />
-                            )}
+                    <section id="agencyName && agencyUrl">
+                      <div className="form-titles-wrapper">
+                        <h2 className="form-titles">Profile Details</h2>
+                        <p className="form-descriptions">
+                          <FaAngleDoubleRight />
+                          <span> Let's get to know you better.!</span>
+                        </p>
+                        <p className="form-descriptions">
+                          <FaAngleDoubleRight />
+                          <span>
+                            {" "}
+                            Fill out some basic info about your Agency.
                           </span>
-
-                          {showError && (
-                            <p className="error-text">{error.agencyName}</p>
-                          )}
-                        </div>
+                        </p>
                       </div>
 
-                      <div className="form-container" id="agencyUrl">
-                        <div className={`form-wrapper  `}>
-                          <input
-                            className="input-textarea"
-                            onChange={handleChange}
-                            type="text"
-                            id="agencyUrl"
-                            name="agencyUrl"
-                            placeholder=""
-                            required
-                          />
-
-                          <label htmlFor={"agencyUrl"}>
-                            {"Your Agency Url..."}
-                          </label>
-                        </div>
-
-                        <div
-                          className={
-                            error.agencyUrl === ""
-                              ? "form-error-controller error-mtop"
-                              : "form-error-controller"
-                          }
-                        >
-                          <span className="form-error-btn">
-                            {error.agencyUrl === "" ? (
-                              <FaCheckCircle className="required-icon valid-icon " />
-                            ) : (
-                              <FaStar
-                                className="required-icon errors"
-                                style={{ visibility: "0" }}
-                              />
-                            )}
-                          </span>
-
-                          {showError && (
-                            <p className="error-text">{error.agencyUrl}</p>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="form-container" id="address">
-                      <div className={`form-wrapper  `}>
-                        <input
-                          className="input-textarea"
-                          onChange={handleChange}
-                          type="text"
-                          id="address"
-                          name="address"
-                          placeholder=""
-                          required
-                        />
-
-                        <label htmlFor={"address"}>{"Agency Address..."}</label>
-                      </div>
-
-                      <div
-                        className={
-                          error.address === ""
-                            ? "form-error-controller error-mtop"
-                            : "form-error-controller"
-                        }
-                      >
-                        <span className="form-error-btn">
-                          {error.address === "" ? (
-                            <FaCheckCircle className="required-icon valid-icon " />
-                          ) : (
-                            <FaStar
-                              className="required-icon errors"
-                              style={{ visibility: "0" }}
-                            />
-                          )}
-                        </span>
-
-                        {showError && (
-                          <p className="error-text">{error.address}</p>
-                        )}
-                      </div>
-                    </div>
-
-                    <div className="form-input-column">
-                      <div className="form-container" id="country">
-                        <div className={`form-wrapper `}>
-                          <div className="select-box">
-                            <select
-                              className=""
+                      <div className="form-input-column">
+                        <div className="form-container" id="agencyName">
+                          <div className={`form-wrapper  `}>
+                            <input
+                              className="input-textarea"
                               onChange={handleChange}
-                              name="country"
-                            >
-                              <option hidden> --Select Agency Country--</option>
-                              {countries?.map((getCountry, index) => {
-                                const { country_name } = getCountry;
-                                return (
-                                  <option value={country_name} key={index}>
-                                    {country_name}
-                                  </option>
-                                );
-                              })}
-                            </select>
-                          </div>
-                        </div>
-
-                        <div
-                          className={
-                            error.country === ""
-                              ? "form-error-controller error-mtop"
-                              : "form-error-controller"
-                          }
-                        >
-                          <span className="form-error-btn">
-                            {error.country === "" ? (
-                              <FaCheckCircle className="required-icon valid-icon " />
-                            ) : (
-                              <FaStar
-                                hidden
-                                className="required-icon errors"
-                                style={{ visibility: "0" }}
-                              />
-                            )}
-                          </span>
-
-                          {showError && (
-                            <p className="error-text">{error.country}</p>
-                          )}
-                        </div>
-                      </div>
-                      <div className="form-container" id="state">
-                        <div className={`form-wrapper `}>
-                          <div className="select-box">
-                            <select
-                              className=""
-                              onChange={handleChange}
-                              name="state"
-                            >
-                              <option hidden> --Select Agency State--</option>
-                              {inputs?.country && (
-                                <>
-                                  {states.map((state, index) => {
-                                    return (
-                                      <option
-                                        value={
-                                          state.state_name ===
-                                          "Abuja Federal Capital Territor"
-                                            ? "Abuja"
-                                            : state.state_name
-                                        }
-                                        key={index}
-                                      >
-                                        {state.state_name ===
-                                        "Abuja Federal Capital Territor"
-                                          ? "Abuja"
-                                          : state.state_name}
-                                      </option>
-                                    );
-                                  })}
-                                </>
-                              )}
-                            </select>
-                          </div>
-                        </div>
-
-                        <div
-                          className={
-                            error.state === ""
-                              ? "form-error-controller error-mtop"
-                              : "form-error-controller"
-                          }
-                        >
-                          <span className="form-error-btn">
-                            {error.state === "" ? (
-                              <FaCheckCircle className="required-icon valid-icon " />
-                            ) : (
-                              <FaStar
-                                className="required-icon errors"
-                                style={{ visibility: "none" }}
-                              />
-                            )}
-                          </span>
-
-                          {showError && (
-                            <p className="error-text">{error.state}</p>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="form-titles-wrapper">
-                      <h2 className="form-titles">Agency Bio</h2>
-                      <p className="form-descriptions">
-                        <FaAngleDoubleRight />
-                        <span>
-                          {" "}
-                          Share a little about your Agency, including years of
-                          experience, achievements etc.
-                        </span>
-                      </p>
-                      <p className="form-descriptions">
-                        <FaAngleDoubleRight />
-                        <span>
-                          {" "}
-                          Include a credible and verifiable information so you
-                          can stand out from the crowd.
-                        </span>
-                      </p>
-                    </div>
-                    <div className="form-container" id="bio">
-                      <div className="form-wrapper">
-                        <textarea
-                          name="about"
-                          onChange={handleChange}
-                          id="about"
-                          cols="30"
-                          rows="10"
-                          className="input-textarea"
-                          required
-                        ></textarea>
-                        <label>Brief infomation about your Agency... </label>
-                        <FaInbox />
-                      </div>
-
-                      <div
-                        className={
-                          error.about === ""
-                            ? "form-error-controller error-mtop"
-                            : "form-error-controller"
-                        }
-                      >
-                        <span className="form-error-btn">
-                          {error.about === "" ? (
-                            <FaCheckCircle className="required-icon valid-icon " />
-                          ) : (
-                            <FaStar
-                              hidden
-                              className="required-icon errors"
-                              style={{ visibility: "0" }}
+                              type="text"
+                              id="agencyName"
+                              name="agencyName"
+                              placeholder=""
+                              required
                             />
-                          )}
-                        </span>
 
-                        {showError && (
-                          <p className="error-text">{error.about}</p>
-                        )}
-                      </div>
-                    </div>
-
-                    <div className="form-titles-wrapper">
-                      <h2 className="form-titles">Social Media Handle</h2>
-
-                      <p
-                        className="form-descriptions"
-                        style={{ margin: " 1rem 0 -2rem 0" }}
-                      >
-                        <FaAngleDoubleRight />
-                        <span> Enter your instagram username </span>
-                      </p>
-                    </div>
-                    {SocialMedia.map((item) => {
-                      let name = [item.id];
-                      return (
-                        <div
-                          className="form-container "
-                          id={item.id}
-                          key={item.id}
-                        >
-                          <div className="form-wrapper ">
-                            <>
-                              <input
-                                className="input-textarea"
-                                onChange={handleChange}
-                                type={item.type}
-                                id={item.id}
-                                name={item.id}
-                                placeholder=""
-                                spellCheck={false}
-                                required
-                              />
-                              <label htmlFor={item.id}>
-                                {item.placeholder}
-                              </label>
-                            </>
+                            <label htmlFor={"agencyName"}>
+                              {"Your Agency Name..."}
+                            </label>
                           </div>
 
                           <div
                             className={
-                              error[name] === ""
+                              error.agencyName === ""
                                 ? "form-error-controller error-mtop"
                                 : "form-error-controller"
                             }
                           >
                             <span className="form-error-btn">
-                              {error[name] === "" ? (
+                              {error.agencyName === "" ? (
+                                <FaCheckCircle className="required-icon valid-icon " />
+                              ) : (
+                                <FaStar
+                                  className="required-icon errors"
+                                  style={{ visibility: "0" }}
+                                />
+                              )}
+                            </span>
+
+                            {showError && (
+                              <p className="error-text">{error.agencyName}</p>
+                            )}
+                          </div>
+                        </div>
+
+                        <div className="form-container" id="agencyUrl">
+                          <div className={`form-wrapper  `}>
+                            <input
+                              className="input-textarea"
+                              onChange={handleChange}
+                              type="text"
+                              id="agencyUrl"
+                              name="agencyUrl"
+                              placeholder=""
+                              required
+                            />
+
+                            <label htmlFor={"agencyUrl"}>
+                              {"Your Agency Url..."}
+                            </label>
+                          </div>
+
+                          <div
+                            className={
+                              error.agencyUrl === ""
+                                ? "form-error-controller error-mtop"
+                                : "form-error-controller"
+                            }
+                          >
+                            <span className="form-error-btn">
+                              {error.agencyUrl === "" ? (
+                                <FaCheckCircle className="required-icon valid-icon " />
+                              ) : (
+                                <FaStar
+                                  className="required-icon errors"
+                                  style={{ visibility: "0" }}
+                                />
+                              )}
+                            </span>
+
+                            {showError && (
+                              <p className="error-text">{error.agencyUrl}</p>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    </section>
+
+                    <section id="address">
+                      <div className="form-container" id="address">
+                        <div className={`form-wrapper  `}>
+                          <input
+                            className="input-textarea"
+                            onChange={handleChange}
+                            type="text"
+                            id="address"
+                            name="address"
+                            placeholder=""
+                            required
+                          />
+
+                          <label htmlFor={"address"}>
+                            {"Agency Address..."}
+                          </label>
+                        </div>
+
+                        <div
+                          className={
+                            error.address === ""
+                              ? "form-error-controller error-mtop"
+                              : "form-error-controller"
+                          }
+                        >
+                          <span className="form-error-btn">
+                            {error.address === "" ? (
+                              <FaCheckCircle className="required-icon valid-icon " />
+                            ) : (
+                              <FaStar
+                                className="required-icon errors"
+                                style={{ visibility: "0" }}
+                              />
+                            )}
+                          </span>
+
+                          {showError && (
+                            <p className="error-text">{error.address}</p>
+                          )}
+                        </div>
+                      </div>
+                    </section>
+
+                    <section id="country && state">
+                      <div className="form-input-column">
+                        <div className="form-container" id="country">
+                          <div className={`form-wrapper `}>
+                            <div className="select-box">
+                              <select
+                                className=""
+                                onChange={handleChange}
+                                name="country"
+                              >
+                                <option hidden>
+                                  {" "}
+                                  --Select Agency Country--
+                                </option>
+                                {countries?.map((getCountry, index) => {
+                                  const { country_name } = getCountry;
+                                  return (
+                                    <option value={country_name} key={index}>
+                                      {country_name}
+                                    </option>
+                                  );
+                                })}
+                              </select>
+                            </div>
+                          </div>
+
+                          <div
+                            className={
+                              error.country === ""
+                                ? "form-error-controller error-mtop"
+                                : "form-error-controller"
+                            }
+                          >
+                            <span className="form-error-btn">
+                              {error.country === "" ? (
                                 <FaCheckCircle className="required-icon valid-icon " />
                               ) : (
                                 <FaStar
@@ -504,26 +332,213 @@ function AgencyKycForm1({}) {
                             </span>
 
                             {showError && (
-                              <p className="error-text">{error[item.id]}</p>
+                              <p className="error-text">{error.country}</p>
                             )}
                           </div>
                         </div>
-                      );
-                    })}
+                        <div className="form-container" id="state">
+                          <div className={`form-wrapper `}>
+                            <div className="select-box">
+                              <select
+                                className=""
+                                onChange={handleChange}
+                                name="state"
+                              >
+                                <option hidden> --Select Agency State--</option>
+                                {inputs?.country && (
+                                  <>
+                                    {states.map((state, index) => {
+                                      return (
+                                        <option
+                                          value={
+                                            state.state_name ===
+                                            "Abuja Federal Capital Territor"
+                                              ? "Abuja"
+                                              : state.state_name
+                                          }
+                                          key={index}
+                                        >
+                                          {state.state_name ===
+                                          "Abuja Federal Capital Territor"
+                                            ? "Abuja"
+                                            : state.state_name}
+                                        </option>
+                                      );
+                                    })}
+                                  </>
+                                )}
+                              </select>
+                            </div>
+                          </div>
 
-                    <div
-                      className="kyc-btn-container"
-                      style={{ margin: "1.5rem 0 2rem 0" }}
-                    >
-                      <FormNavBtn
-                        btnText="Next"
-                        name="form1"
-                        isError={isError}
-                        FocusBlur={FocusBlur}
-                        handleClick={handleSubmit}
-                        type="button"
-                      />
-                    </div>
+                          <div
+                            className={
+                              error.state === ""
+                                ? "form-error-controller error-mtop"
+                                : "form-error-controller"
+                            }
+                          >
+                            <span className="form-error-btn">
+                              {error.state === "" ? (
+                                <FaCheckCircle className="required-icon valid-icon " />
+                              ) : (
+                                <FaStar
+                                  className="required-icon errors"
+                                  style={{ visibility: "none" }}
+                                />
+                              )}
+                            </span>
+
+                            {showError && (
+                              <p className="error-text">{error.state}</p>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    </section>
+
+                    <section id="bio">
+                      <div className="form-titles-wrapper">
+                        <h2 className="form-titles">Agency Bio</h2>
+                        <p className="form-descriptions">
+                          <FaAngleDoubleRight />
+                          <span>
+                            {" "}
+                            Share a little about your Agency, including years of
+                            experience, achievements etc.
+                          </span>
+                        </p>
+                        <p className="form-descriptions">
+                          <FaAngleDoubleRight />
+                          <span>
+                            {" "}
+                            Include a credible and verifiable information so you
+                            can stand out from the crowd.
+                          </span>
+                        </p>
+                      </div>
+                      <div className="form-container" id="bio">
+                        <div className="form-wrapper">
+                          <textarea
+                            name="about"
+                            onChange={handleChange}
+                            id="about"
+                            cols="30"
+                            rows="10"
+                            className="input-textarea"
+                            required
+                          ></textarea>
+                          <label>Brief infomation about your Agency... </label>
+                          <FaInbox />
+                        </div>
+
+                        <div
+                          className={
+                            error.about === ""
+                              ? "form-error-controller error-mtop"
+                              : "form-error-controller"
+                          }
+                        >
+                          <span className="form-error-btn">
+                            {error.about === "" ? (
+                              <FaCheckCircle className="required-icon valid-icon " />
+                            ) : (
+                              <FaStar
+                                hidden
+                                className="required-icon errors"
+                                style={{ visibility: "0" }}
+                              />
+                            )}
+                          </span>
+
+                          {showError && (
+                            <p className="error-text">{error.about}</p>
+                          )}
+                        </div>
+                      </div>
+                    </section>
+
+                    <section id="social-media">
+                      <div className="form-titles-wrapper">
+                        <h2 className="form-titles">Social Media Handle</h2>
+
+                        <p
+                          className="form-descriptions"
+                          style={{ margin: " 1rem 0 -2rem 0" }}
+                        >
+                          <FaAngleDoubleRight />
+                          <span> Enter your instagram username </span>
+                        </p>
+                      </div>
+                      {SocialMedia.map((item) => {
+                        let name = [item.id];
+                        return (
+                          <div
+                            className="form-container "
+                            id={item.id}
+                            key={item.id}
+                          >
+                            <div className="form-wrapper ">
+                              <>
+                                <input
+                                  className="input-textarea"
+                                  onChange={handleChange}
+                                  type={item.type}
+                                  id={item.id}
+                                  name={item.id}
+                                  placeholder=""
+                                  spellCheck={false}
+                                  required
+                                />
+                                <label htmlFor={item.id}>
+                                  {item.placeholder}
+                                </label>
+                              </>
+                            </div>
+
+                            <div
+                              className={
+                                error[name] === ""
+                                  ? "form-error-controller error-mtop"
+                                  : "form-error-controller"
+                              }
+                            >
+                              <span className="form-error-btn">
+                                {error[name] === "" ? (
+                                  <FaCheckCircle className="required-icon valid-icon " />
+                                ) : (
+                                  <FaStar
+                                    hidden
+                                    className="required-icon errors"
+                                    style={{ visibility: "0" }}
+                                  />
+                                )}
+                              </span>
+
+                              {showError && (
+                                <p className="error-text">{error[item.id]}</p>
+                              )}
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </section>
+
+                    <section id="kyc-form-button">
+                      <div
+                        className="kyc-btn-container"
+                        style={{ margin: "1.5rem 0 2rem 0" }}
+                      >
+                        <FormNavBtn
+                          btnText="Next"
+                          name="form1"
+                          isError={isError}
+                          FocusBlur={FocusBlur}
+                          handleClick={handleSubmit}
+                          type="button"
+                        />
+                      </div>
+                    </section>
                   </>
                 </form>
               </div>
