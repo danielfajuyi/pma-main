@@ -22,79 +22,13 @@ function ClientsKycForm1({}) {
     FocusBlur,
     inputs,
     setInputs,
+    states,
+    countries,
     picture,
     setPicture,
   } = useContext(FormContext);
   const [isError, setIsError] = useState(false);
   const [showError, setShowError] = useState(false);
-  const [countries, setCountries] = useState([]);
-  const [states, setStates] = useState([]);
-  const [authToken, setAuthToken] = useState("");
-
-  // get access token for countries api
-  useEffect(() => {
-    const getAccessToken = async () => {
-      try {
-        const res = await axios.get(
-          "https://www.universal-tutorial.com/api/getaccesstoken",
-          {
-            headers: {
-              Accept: "application/json",
-              "api-token":
-                "Ku2uq0eMGByhMQmQdP5tKH3bbR4dD3ZNXjRqllWOT-srDfzC-wXRnd7Kcym_A_9MpP4",
-              "user-email": "tosinadebayo55@gmail.com",
-            },
-          }
-        );
-        setAuthToken(res.data);
-      } catch (error) {
-        // console.log(error?.response?.data);
-      }
-    };
-    getAccessToken();
-  }, []);
-
-  // get list of countries
-  useEffect(() => {
-    const getCountries = async () => {
-      try {
-        const res = await axios.get(
-          "https://www.universal-tutorial.com/api/countries/",
-          {
-            headers: {
-              Authorization: `Bearer ${authToken.auth_token}`,
-              Accept: "application/json",
-            },
-          }
-        );
-        setCountries(res.data);
-      } catch (error) {
-        // console.log(error?.response?.data);
-      }
-    };
-    getCountries();
-  }, [authToken]);
-
-  // get list of states
-  useEffect(() => {
-    const getStates = async () => {
-      try {
-        const res = await axios.get(
-          `https://www.universal-tutorial.com/api/states/${inputs?.country}`,
-          {
-            headers: {
-              Authorization: `Bearer ${authToken.auth_token}`,
-              Accept: "application/json",
-            },
-          }
-        );
-        setStates(res.data);
-      } catch (error) {
-        // console.log(error?.response?.data);
-      }
-    };
-    getStates();
-  }, [inputs.country]);
 
   // error state
   const [error, setError] = useState({

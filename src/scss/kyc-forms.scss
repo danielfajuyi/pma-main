@@ -31,6 +31,7 @@ section {
         --bg-color: #f9f9f9;
         --light-text-color: #9ca7b6;
         --light-main-color: hsl(var(--main-hue), 91%, 55%);
+        --border-color: hsl(331.29deg 100% 50%);
         --input-bg: hsla(var(--main-hue), 50%, 50%, 6.5%);
         --input-bg-hover: hsla(var(--main-hue), 50%, 50%, 14%);
         --input-text: #d5d7da;
@@ -50,6 +51,7 @@ section {
         --input-bg-hover: hsla(var(--main-hue), 50%, 50%, 14%);
         --nav-color: hsl(var(--main-hue), 10%, 47%);
         --light-text-color: hsl(var(--main-hue), 12%, 46%);
+        --border-color: var(--light-main-color);
         --input-text: hsl(var(--main-hue), 10%, 55%);
         --input-shadow: hsla(var(--main-hue), 92%, 58%, 0.2);
         --form-bg-opacity: 1;

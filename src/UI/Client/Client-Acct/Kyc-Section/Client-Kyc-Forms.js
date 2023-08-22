@@ -3,12 +3,82 @@ import ClientKycForm1 from "./Client-Kyc-Forms/Client-Kyc-Form-1";
 import ClientKycForm2 from "./Client-Kyc-Forms/Client-Kyc-Form-2";
 import "./Client-Kyc-Forms.css";
 import "../../../../scss/kyc-forms.scss";
+import axios from "axios";
 export const FormContext = createContext();
 function ClientsForms({ setShowNavbar, showNavbar }) {
   const [activeForm, setActiveForm] = useState(1);
   const [inputs, setInputs] = useState({});
   const [darkmode, setDarkMode] = useState(false);
   const [picture, setPicture] = useState(undefined);
+  const [countries, setCountries] = useState([]);
+  const [states, setStates] = useState([]);
+  const [authToken, setAuthToken] = useState("");
+
+  // get access token for countries api
+  useEffect(() => {
+    const getAccessToken = async () => {
+      try {
+        const res = await axios.get(
+          "https://www.universal-tutorial.com/api/getaccesstoken",
+          {
+            headers: {
+              Accept: "application/json",
+              "api-token":
+                "Ku2uq0eMGByhMQmQdP5tKH3bbR4dD3ZNXjRqllWOT-srDfzC-wXRnd7Kcym_A_9MpP4",
+              "user-email": "tosinadebayo55@gmail.com",
+            },
+          }
+        );
+        setAuthToken(res.data);
+      } catch (error) {
+        // console.log(error?.response?.data);
+      }
+    };
+    getAccessToken();
+  }, []);
+
+  // get list of countries
+  useEffect(() => {
+    const getCountries = async () => {
+      try {
+        const res = await axios.get(
+          "https://www.universal-tutorial.com/api/countries/",
+          {
+            headers: {
+              Authorization: `Bearer ${authToken.auth_token}`,
+              Accept: "application/json",
+            },
+          }
+        );
+        setCountries(res.data);
+      } catch (error) {
+        // console.log(error?.response?.data);
+      }
+    };
+    getCountries();
+  }, [authToken]);
+
+  // get list of states
+  useEffect(() => {
+    const getStates = async () => {
+      try {
+        const res = await axios.get(
+          `https://www.universal-tutorial.com/api/states/${inputs?.country}`,
+          {
+            headers: {
+              Authorization: `Bearer ${authToken.auth_token}`,
+              Accept: "application/json",
+            },
+          }
+        );
+        setStates(res.data);
+      } catch (error) {
+        // console.log(error?.response?.data);
+      }
+    };
+    getStates();
+  }, [inputs.country]);
+
   const handleChange = useCallback(
     (e) => {
       setInputs((prev) => {
@@ -92,6 +162,8 @@ function ClientsForms({ setShowNavbar, showNavbar }) {
           handleChange,
           setInputs,
           setPicture,
+          countries,
+          states,
           picture,
           darkmode,
           inputs,

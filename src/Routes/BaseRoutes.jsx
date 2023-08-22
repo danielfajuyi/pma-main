@@ -57,7 +57,6 @@ import TransactionHistory from "../Pages/Wallet/History";
 
 import AgencyPortfolio from "../UI/Agency/AgencyProfile/agency_portfolio";
 import ClientPortfolio from "../UI/Client/ClientProfile/ClientPortfolio";
-import ResponsiveForm from "../Components/ResponsiveForm/ResponsiveForm";
 
 export const BaseRoutes = () => {
   const [showNavbar, setShowNavbar] = useState(true);
@@ -287,11 +286,6 @@ export const BaseRoutes = () => {
           path: "about",
           element: <About />,
         },
-
-        {
-          path: "form",
-          element: <ResponsiveForm />,
-        },
         {
           path: "contact",
           element: <Contact />,
@@ -346,13 +340,15 @@ export const BaseRoutes = () => {
         {
           path: "agencypage/",
           element: (
-            <AgencyAcct
-              user={user}
-              showNavbar={showNavbar}
-              setShowNavbar={setShowNavbar}
-              setNotice={setNotice}
-              notice={notice}
-            />
+            <ProtectedRoute>
+              <AgencyAcct
+                user={user}
+                showNavbar={showNavbar}
+                setShowNavbar={setShowNavbar}
+                setNotice={setNotice}
+                notice={notice}
+              />
+            </ProtectedRoute>
           ),
           children: [
             {
@@ -427,13 +423,15 @@ export const BaseRoutes = () => {
         {
           path: "modelpage/",
           element: (
-            <ModelsAcct
-              user={user}
-              showNavbar={showNavbar}
-              setShowNavbar={setShowNavbar}
-              setNotice={setNotice}
-              notice={notice}
-            />
+            <ProtectedRoute>
+              <ModelsAcct
+                user={user}
+                showNavbar={showNavbar}
+                setShowNavbar={setShowNavbar}
+                setNotice={setNotice}
+                notice={notice}
+              />
+            </ProtectedRoute>
           ),
           children: [
             {
@@ -514,13 +512,15 @@ export const BaseRoutes = () => {
         {
           path: "clientpage/",
           element: (
-            <ClientsAcct
-              user={user}
-              showNavbar={showNavbar}
-              setShowNavbar={setShowNavbar}
-              setNotice={setNotice}
-              notice={notice}
-            />
+            <ProtectedRoute>
+              <ClientsAcct
+                user={user}
+                showNavbar={showNavbar}
+                setShowNavbar={setShowNavbar}
+                setNotice={setNotice}
+                notice={notice}
+              />
+            </ProtectedRoute>
           ),
           children: [
             {

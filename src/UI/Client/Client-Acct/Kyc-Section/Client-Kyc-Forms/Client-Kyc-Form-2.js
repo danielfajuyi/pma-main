@@ -60,7 +60,7 @@ function ClientsKycForm2({}) {
 
   const uploadFile = (file, urlType) => {
     const fileName = new Date().getTime() + file.name;
-    const storageRef = ref(storage, `/test/${fileName}`);
+    const storageRef = ref(storage, `/clients/${fileName}`);
     const uploadTask = uploadBytesResumable(storageRef, file);
 
     uploadTask.on(
@@ -142,6 +142,7 @@ function ClientsKycForm2({}) {
     };
     sendCoverPicture();
   }, [setInputs, coverPicture, jobPhoto, jobPhotos, picture]);
+  console.log(isFetching);
 
   //handling submit
   function handleSubmit() {

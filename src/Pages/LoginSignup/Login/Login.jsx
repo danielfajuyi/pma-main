@@ -27,15 +27,35 @@ const LoginSignup = () => {
   const [isActive, setIsActive] = useState(false);
   const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
+  const [passwordsvg, setPasswordSvg] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [inputs, setInputs] = useState({});
   const [message, setMessage] = useState("");
   const [modalTxt, setModalTxt] = useState("");
   const [user, setUser] = useState({});
-
   // For Signup
   const [userRole, setUserRole] = useState("");
   const [activeSignup, setActiveSignup] = useState(false);
+
+  // function handles onfocus and onblur mode on form inputs
+  const FocusBlur = () => {
+    const focusinputs = document.querySelectorAll(".signinput-textarea");
+    focusinputs.forEach((ipt) => {
+      ipt.addEventListener("focus", () => {
+        ipt.parentNode.classList.add("focus");
+        ipt.parentNode.classList.add("not-empty");
+        setPasswordSvg(true);
+      });
+
+      ipt.addEventListener("blur", () => {
+        if (ipt.value == "") {
+          ipt.parentNode.classList.remove("not-empty");
+          ipt.parentNode.classList.remove("focus");
+          setPasswordSvg(false);
+        }
+      });
+    });
+  };
 
   const handleClick = (event) => {
     // 👇️ toggle isActive state on click
@@ -110,6 +130,10 @@ const LoginSignup = () => {
   };
 
   useEffect(() => {
+    FocusBlur();
+  }, []);
+
+  useEffect(() => {
     if (user?.userRole1) {
       handlePayment();
     }
@@ -117,7 +141,7 @@ const LoginSignup = () => {
 
   return (
     <>
-      <section className="signups-section">
+      <section className="signups-section light-theme">
         <AlertModal
           modalTxt={modalTxt}
           setModalTxt={setModalTxt}
@@ -157,46 +181,57 @@ const LoginSignup = () => {
                   <p className="login-error">{!message?.message && message}</p>
                 )}
 
-                <div className="sign-input-field">
-                  <FaEnvelope />
-                  <input
-                    onChange={handleChange}
-                    type="email"
-                    id="email"
-                    name="email"
-                    placeholder="Email"
-                    required
-                    spellCheck={false}
-                    autoComplete="off"
-                  />
-                </div>
-                <div className="sign-input-field">
-                  <FaLock />
-                  <input
-                    onChange={handleChange}
-                    type={showPassword ? "text" : "password"}
-                    id="password"
-                    name="password"
-                    placeholder="Password"
-                    required
-                    spellCheck={false}
-                    autoComplete="off"
-                  />
+                <section className="signinput-section">
+                  <div className="signinput-container">
+                    <div className="signinput-wrapper">
+                      <input
+                        onChange={handleChange}
+                        type="email"
+                        id="email"
+                        className="signinput-textarea"
+                        name="email"
+                        placeholder=""
+                        required
+                        spellCheck={false}
+                        autoComplete="off"
+                      />
 
-                  <div className="view-password">
-                    {showPassword ? (
-                      <FaEye
-                        onClick={() => setShowPassword((prev) => !prev)}
-                        className=" viewPwd"
-                      />
-                    ) : (
-                      <FaEyeSlash
-                        onClick={() => setShowPassword((prev) => !prev)}
-                        className=" viewPwd"
-                      />
-                    )}
+                      <label htmlFor="email">Email</label>
+                      <FaEnvelope />
+                    </div>
                   </div>
-                </div>
+
+                  <div className="signinput-container">
+                    <div className="signinput-wrapper ">
+                      <input
+                        onChange={handleChange}
+                        type={showPassword ? "text" : "password"}
+                        id="password"
+                        name="password"
+                        className="signinput-textarea"
+                        placeholder=""
+                        required
+                        spellCheck={false}
+                        autoComplete="off"
+                      />
+                      <label htmlFor="password">Password</label>
+                    </div>
+
+                    <div className="view-passwords ">
+                      {showPassword ? (
+                        <FaEye
+                          onClick={() => setShowPassword((prev) => !prev)}
+                          className={passwordsvg ? "passwordsvg" : ""}
+                        />
+                      ) : (
+                        <FaEyeSlash
+                          onClick={() => setShowPassword((prev) => !prev)}
+                          className={passwordsvg ? "passwordsvg" : ""}
+                        />
+                      )}
+                    </div>
+                  </div>
+                </section>
 
                 <button className="sign-btn">
                   {" "}
