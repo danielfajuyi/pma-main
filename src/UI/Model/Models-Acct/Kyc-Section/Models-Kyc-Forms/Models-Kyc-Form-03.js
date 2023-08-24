@@ -63,7 +63,7 @@ function ModelsKycForm3({}) {
   // upload images
   const uploadFile = (file, urlType) => {
     const fileName = new Date().getTime() + file.name;
-    const storageRef = ref(storage, `/models/${fileName}`);
+    const storageRef = ref(storage, `/model/${inputs.username}/${fileName}`);
     const uploadTask = uploadBytesResumable(storageRef, file);
 
     uploadTask.on(
@@ -156,6 +156,7 @@ function ModelsKycForm3({}) {
       update(dispatch, "/model/", { ...inputs, isUpdated: true }, setModalTxt);
     }
   }
+  console.log(inputs);
 
   return (
     <section

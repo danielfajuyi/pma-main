@@ -23,6 +23,7 @@ section {
         --main-hue: 208;
         --main-hue-2: 331;
         --main-hue-3: 213;
+
         --form-transition: 1s cubic-bezier(0.4, 0.1, 0.4, 1) !important;
         --main-color-2: hsl(var(--main-hue), 92%, 54%);
         --main-color: hsl(var(--main-hue-2), 100%, 50%);
@@ -32,6 +33,7 @@ section {
         --light-text-color: #9ca7b6;
         --light-main-color: hsl(var(--main-hue), 91%, 55%);
         --border-color: hsl(331.29deg 100% 50%);
+        --main-color-change: hsl(331.29deg 100% 50%);
         --input-bg: hsla(var(--main-hue), 50%, 50%, 6.5%);
         --input-bg-hover: hsla(var(--main-hue), 50%, 50%, 14%);
         --input-text: #d5d7da;
@@ -41,11 +43,15 @@ section {
         --form-bg-color: transparent;
         --transform-img: translate(-50%, -50%) scale(1.4);
         --icon-check-color: var(--main-color);
+        --box-shadow-color: var(--main-hue-2);
     }
 
     &.dark-theme {
         --text-color: #fff;
         --checkbox-color: #f0f0f0f7;
+        --box-shadow-color: var(--main-hue);
+        --main-color-change: var(--light-main-color);
+        --box-shadow: 0 0 0 5px hsla(var(--main-hue), 91%, 55%, 0.11);
         --bg-color: hsl(var(--main-hue-3), 35%, 6%);
         --input-bg: hsla(var(--main-hue), 50%, 50%, 6.5%);
         --input-bg-hover: hsla(var(--main-hue), 50%, 50%, 14%);
@@ -428,16 +434,16 @@ section {
                                     &.focus {
                                         .input-textarea {
                                             background-color: var(--bg-color);
-                                            border: 2px solid var(--light-main-color);
-                                            box-shadow: 0 0 0 5px hsla(var(--main-hue), 91%, 55%, 0.11);
+                                            border: 2px solid var(--border-color);
+                                            box-shadow: 0 0 0 5px hsla(var(--box-shadow-color), 91%, 55%, 3%);
                                         }
 
                                         label {
-                                            color: var(--light-main-color) !important;
+                                            color: var(--main-color-change) !important;
                                         }
 
                                         svg {
-                                            color: var(--light-main-color) !important;
+                                            color: var(--main-color-change) !important;
                                         }
                                     }
 
@@ -714,7 +720,6 @@ section {
 
                                         &.focus {
                                             .input-textarea {
-                                                box-shadow: 0 0 0 3.5px var(--input-shadow);
                                             }
 
                                             label {

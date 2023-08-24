@@ -59,7 +59,10 @@ function AgencyKycForm2({}) {
 
   const uploadFile = (file, urlType) => {
     const fileName = new Date().getTime() + file.name;
-    const storageRef = ref(storage, `/agency/${fileName}`);
+    const storageRef = ref(
+      storage,
+      `/agencys/${inputs.agencyName}/${fileName}`
+    );
     const uploadTask = uploadBytesResumable(storageRef, file);
 
     uploadTask.on(
@@ -141,7 +144,7 @@ function AgencyKycForm2({}) {
       }
     };
     sendCoverPicture();
-  }, [setInputs, coverPhoto, jobPhoto, jobPhotos, photo]);
+  }, [coverPhoto, jobPhoto, jobPhotos, photo]);
 
   //handling submit
   function handleSubmit() {
@@ -152,7 +155,6 @@ function AgencyKycForm2({}) {
     }
   }
 
-  console.log(inputs);
   return (
     <section
       className={
@@ -275,7 +277,7 @@ function AgencyKycForm2({}) {
                             <h3>Upload Profile Picture</h3>
 
                             <p style={{ zIndex: 1, color: "var(--pink)" }}>
-                              Client Photo is <span>required! </span>
+                              Agency Photo is <span>required! </span>
                             </p>
 
                             {photo && (

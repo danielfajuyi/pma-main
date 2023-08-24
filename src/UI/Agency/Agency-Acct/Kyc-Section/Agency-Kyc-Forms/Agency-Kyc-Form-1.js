@@ -51,7 +51,7 @@ function AgencyKycForm1({}) {
 
       !inputs.agencyUrl
         ? setError((prev) => ({ ...prev, agencyUrl: errorText }))
-        : setError((prev) => ({ ...prev, url: "" })); 
+        : setError((prev) => ({ ...prev, url: "" }));
 
       !inputs.address
         ? setError((prev) => ({ ...prev, address: errorText }))
@@ -108,7 +108,7 @@ function AgencyKycForm1({}) {
       handleNavigation(text);
     }
   }
-  console.log(inputs);
+
   return (
     <section
       className={

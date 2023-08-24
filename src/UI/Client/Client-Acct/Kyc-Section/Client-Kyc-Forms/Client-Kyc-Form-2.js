@@ -28,7 +28,6 @@ function ClientsKycForm2({}) {
     inputs,
     setInputs,
   } = useContext(FormContext);
-
   const { isFetching } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const [model, setModel] = useState(false);
@@ -60,7 +59,7 @@ function ClientsKycForm2({}) {
 
   const uploadFile = (file, urlType) => {
     const fileName = new Date().getTime() + file.name;
-    const storageRef = ref(storage, `/clients/${fileName}`);
+    const storageRef = ref(storage, `/client/${inputs.brandName}/${fileName}`);
     const uploadTask = uploadBytesResumable(storageRef, file);
 
     uploadTask.on(
@@ -141,8 +140,7 @@ function ClientsKycForm2({}) {
       }
     };
     sendCoverPicture();
-  }, [setInputs, coverPicture, jobPhoto, jobPhotos, picture]);
-  console.log(isFetching);
+  }, [coverPicture, jobPhoto, jobPhotos, picture]);
 
   //handling submit
   function handleSubmit() {
@@ -153,6 +151,7 @@ function ClientsKycForm2({}) {
     }
   }
   console.log(inputs);
+
   return (
     <section
       className={

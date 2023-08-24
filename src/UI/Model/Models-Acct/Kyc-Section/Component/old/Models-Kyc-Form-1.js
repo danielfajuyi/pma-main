@@ -31,7 +31,7 @@ function ModelsKycForm1({
 
   const uploadFile = (file, urlType) => {
     const fileName = new Date().getTime() + file.name;
-    const storageRef = ref(storage, `/models/${fileName}`);
+    const storageRef = ref(storage, `/models/${inputs.username}/${fileName}`);
     const uploadTask = uploadBytesResumable(storageRef, file);
 
     uploadTask.on(

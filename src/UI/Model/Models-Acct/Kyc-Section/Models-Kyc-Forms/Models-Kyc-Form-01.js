@@ -53,7 +53,7 @@ function ModelsKycForm1({}) {
   // upload image
   const uploadFile = (file, urlType) => {
     const fileName = new Date().getTime() + file.name;
-    const storageRef = ref(storage, `/models/${fileName}`);
+    const storageRef = ref(storage, `/model/${inputs.username}/${fileName}`);
     const uploadTask = uploadBytesResumable(storageRef, file);
 
     uploadTask.on(
@@ -203,6 +203,7 @@ function ModelsKycForm1({}) {
                     <div className="form-titles-wrapper">
                       <h2 className="form-titles">Profile Details</h2>
                     </div>
+
                     <div className="form-input-column">
                       <div className="form-container" id="username">
                         <div className={`form-wrapper  `}>
@@ -407,6 +408,7 @@ function ModelsKycForm1({}) {
                         </span>
                       </p>
                     </div>
+
                     <div className="form-container" id="bio">
                       <div className="form-wrapper">
                         <textarea
