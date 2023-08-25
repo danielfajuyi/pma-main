@@ -131,7 +131,7 @@ function AgencyKycForm2({}) {
       urlType = "picture";
       if (photo) {
         uploadFile(photo, "picture");
-        // setPicture(undefined);
+        setPhoto(undefined);
       }
     };
     sendPicture();
@@ -140,7 +140,7 @@ function AgencyKycForm2({}) {
       urlType = "coverPhoto";
       if (coverPhoto) {
         uploadFile(coverPhoto, "coverPhoto");
-        // setCoverPicture(undefined);
+        setCoverPhoto(undefined);
       }
     };
     sendCoverPicture();
@@ -154,7 +154,7 @@ function AgencyKycForm2({}) {
       setModalTxt("add-photo");
     }
   }
-
+  console.log(inputs);
   return (
     <section
       className={
@@ -246,7 +246,7 @@ function AgencyKycForm2({}) {
                           onChange={(e) => setPhoto(e.target.files[0])}
                           hidden
                         />
-                        {photo ? (
+                        {inputs?.picture ? (
                           <div
                             className={"img-area active"}
                             data-img={
@@ -254,10 +254,10 @@ function AgencyKycForm2({}) {
                                 ? `uploading ${progress}%`
                                 : "preview photo"
                             }
-                            onClick={() => getImg(URL.createObjectURL(photo))}
+                            onClick={() => getImg(inputs?.picture)}
                           >
-                            {photo && (
-                              <img src={URL.createObjectURL(photo)} alt="" />
+                            {inputs?.picture && (
+                              <img src={inputs?.picture} alt="" />
                             )}
                           </div>
                         ) : (
@@ -280,13 +280,13 @@ function AgencyKycForm2({}) {
                               Agency Photo is <span>required! </span>
                             </p>
 
-                            {photo && (
-                              <img src={URL.createObjectURL(photo)} alt="" />
+                            {inputs?.picture && (
+                              <img src={inputs?.picture} alt="" />
                             )}
                           </div>
                         )}
 
-                        {photo ? (
+                        {inputs?.picture ? (
                           <span
                             onClick={() =>
                               document.querySelector(`.agency-picture`).click()
@@ -295,7 +295,7 @@ function AgencyKycForm2({}) {
                             style={{ textAlign: "center" }}
                             disabled={progress > 0 && progress < 100}
                           >
-                            {progress > 0 && progress < 100
+                            {photo && progress > 0 && progress < 100
                               ? ` uploading ${progress}%`
                               : "Change Picture"}
                           </span>
@@ -337,7 +337,7 @@ function AgencyKycForm2({}) {
                       </p>
                     </div>
                     <div className="form-images-column" id="jobPhotos">
-                      {Photo.map((item) => {
+                      {Photo.map((item, index) => {
                         return (
                           <div
                             className="image-container color-codes"
@@ -361,7 +361,7 @@ function AgencyKycForm2({}) {
                               hidden
                             />
 
-                            {previewPhotos[item.id] ? (
+                            {jobPhotos[index] ? (
                               <div
                                 className={"img-area area-2 active"}
                                 data-img={
@@ -369,10 +369,10 @@ function AgencyKycForm2({}) {
                                     ? `uploading ${agencyProgress}%`
                                     : "preview photo"
                                 }
-                                onClick={() => getImg(previewPhotos[item.id])}
+                                onClick={() => getImg(jobPhotos[index])}
                               >
-                                {previewPhotos[item.id] && (
-                                  <img src={previewPhotos[item.id]} alt="" />
+                                {jobPhotos[index] && (
+                                  <img src={jobPhotos[index]} alt="" />
                                 )}
                               </div>
                             ) : (
@@ -393,13 +393,13 @@ function AgencyKycForm2({}) {
 
                                 <h3>Upload Brand Photo</h3>
 
-                                {previewPhotos[item.id] && (
-                                  <img src={previewPhotos[item.id]} alt="" />
+                                {jobPhotos[index] && (
+                                  <img src={jobPhotos[index]} alt="" />
                                 )}
                               </div>
                             )}
 
-                            {previewPhotos[item.id] ? (
+                            {jobPhotos[index] ? (
                               <span
                                 onClick={() =>
                                   document
@@ -472,7 +472,7 @@ function AgencyKycForm2({}) {
                           onChange={(e) => setCoverPhoto(e.target.files[0])}
                           hidden
                         />
-                        {coverPhoto ? (
+                        {inputs?.coverPhoto ? (
                           <div
                             className={"img-area active"}
                             data-img={
@@ -480,15 +480,10 @@ function AgencyKycForm2({}) {
                                 ? `uploading ${coverProgress}%`
                                 : "preview cover picture"
                             }
-                            onClick={() =>
-                              getImg(URL.createObjectURL(coverPhoto))
-                            }
+                            onClick={() => getImg(inputs?.coverPhoto)}
                           >
-                            {coverPhoto && (
-                              <img
-                                src={URL.createObjectURL(coverPhoto)}
-                                alt=""
-                              />
+                            {inputs?.coverPhoto && (
+                              <img src={inputs?.coverPhoto} alt="" />
                             )}
                           </div>
                         ) : (
@@ -507,13 +502,13 @@ function AgencyKycForm2({}) {
 
                             <h3>Upload Cover Photo</h3>
 
-                            {coverPhoto && (
-                              <img src={URL.createObjectURL(photo)} alt="" />
+                            {inputs?.coverPhoto && (
+                              <img src={inputs?.coverPhoto} alt="" />
                             )}
                           </div>
                         )}
 
-                        {coverPhoto ? (
+                        {inputs?.coverPhoto ? (
                           <span
                             onClick={() =>
                               document.querySelector(`.cover-photo`).click()

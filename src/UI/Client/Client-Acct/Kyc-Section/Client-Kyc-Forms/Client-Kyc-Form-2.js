@@ -127,7 +127,7 @@ function ClientsKycForm2({}) {
       urlType = "picture";
       if (picture) {
         uploadFile(picture, "picture");
-        // setPicture(undefined);
+        setPicture(undefined);
       }
     };
     sendPicture();
@@ -136,7 +136,7 @@ function ClientsKycForm2({}) {
       urlType = "coverPicture";
       if (coverPicture) {
         uploadFile(coverPicture, "coverPicture");
-        // setCoverPicture(undefined);
+        setCoverPicture(undefined);
       }
     };
     sendCoverPicture();
@@ -243,7 +243,7 @@ function ClientsKycForm2({}) {
                           onChange={(e) => setPicture(e.target.files[0])}
                           hidden
                         />
-                        {picture ? (
+                        {inputs?.picture ? (
                           <div
                             className={"img-area active"}
                             data-img={
@@ -251,10 +251,10 @@ function ClientsKycForm2({}) {
                                 ? `uploading ${progress}%`
                                 : "preview picture"
                             }
-                            onClick={() => getImg(URL.createObjectURL(picture))}
+                            onClick={() => getImg(inputs?.picture)}
                           >
-                            {picture && (
-                              <img src={URL.createObjectURL(picture)} alt="" />
+                            {inputs?.picture && (
+                              <img src={inputs?.picture} alt="" />
                             )}
                           </div>
                         ) : (
@@ -277,13 +277,13 @@ function ClientsKycForm2({}) {
                               Client Photo is <span>required! </span>
                             </p>
 
-                            {picture && (
-                              <img src={URL.createObjectURL(picture)} alt="" />
+                            {inputs?.picture && (
+                              <img src={inputs?.picture} alt="" />
                             )}
                           </div>
                         )}
 
-                        {picture ? (
+                        {inputs?.picture ? (
                           <span
                             onClick={() =>
                               document.querySelector(`.client-picture`).click()
@@ -334,7 +334,7 @@ function ClientsKycForm2({}) {
                       </p>
                     </div>
                     <div className="form-images-column" id="jobPhotos">
-                      {Photo.map((item) => {
+                      {Photo.map((item, index) => {
                         return (
                           <div
                             className="image-container color-codes"
@@ -358,7 +358,7 @@ function ClientsKycForm2({}) {
                               hidden
                             />
 
-                            {previewPhotos[item.id] ? (
+                            {jobPhotos[index] ? (
                               <div
                                 className={"img-area area-2 active"}
                                 data-img={
@@ -366,10 +366,10 @@ function ClientsKycForm2({}) {
                                     ? `uploading ${brandProgress}%`
                                     : "preview picture"
                                 }
-                                onClick={() => getImg(previewPhotos[item.id])}
+                                onClick={() => getImg(jobPhotos[index])}
                               >
-                                {previewPhotos[item.id] && (
-                                  <img src={previewPhotos[item.id]} alt="" />
+                                {jobPhotos[index] && (
+                                  <img src={jobPhotos[index]} alt="" />
                                 )}
                               </div>
                             ) : (
@@ -390,13 +390,13 @@ function ClientsKycForm2({}) {
 
                                 <h3>Upload Brand Photo</h3>
 
-                                {previewPhotos[item.id] && (
-                                  <img src={previewPhotos[item.id]} alt="" />
+                                {jobPhotos[index] && (
+                                  <img src={jobPhotos[index]} alt="" />
                                 )}
                               </div>
                             )}
 
-                            {previewPhotos[item.id] ? (
+                            {jobPhotos[index] ? (
                               <span
                                 onClick={() =>
                                   document
@@ -469,7 +469,7 @@ function ClientsKycForm2({}) {
                           onChange={(e) => setCoverPicture(e.target.files[0])}
                           hidden
                         />
-                        {coverPicture ? (
+                        {inputs?.coverPhoto ? (
                           <div
                             className={"img-area active"}
                             data-img={
@@ -477,15 +477,10 @@ function ClientsKycForm2({}) {
                                 ? `uploading ${coverProgress}%`
                                 : "preview cover picture"
                             }
-                            onClick={() =>
-                              getImg(URL.createObjectURL(coverPicture))
-                            }
+                            onClick={() => getImg(inputs?.coverPhoto)}
                           >
-                            {coverPicture && (
-                              <img
-                                src={URL.createObjectURL(coverPicture)}
-                                alt=""
-                              />
+                            {inputs?.coverPicture && (
+                              <img src={inputs?.coverPicture} alt="" />
                             )}
                           </div>
                         ) : (
@@ -504,13 +499,13 @@ function ClientsKycForm2({}) {
 
                             <h3>Upload Cover Photo</h3>
 
-                            {coverPicture && (
-                              <img src={URL.createObjectURL(picture)} alt="" />
+                            {inputs?.coverPicture && (
+                              <img src={inputs?.coverPicture} alt="" />
                             )}
                           </div>
                         )}
 
-                        {coverPicture ? (
+                        {inputs?.coverPicture ? (
                           <span
                             onClick={() =>
                               document.querySelector(`.cover-picture`).click()

@@ -47,11 +47,11 @@ function AgencyKycForm1({}) {
 
       !inputs.agencyName
         ? setError((prev) => ({ ...prev, agencyName: errorText }))
-        : setError((prev) => ({ ...prev, name: "" }));
+        : setError((prev) => ({ ...prev, agencyName: null }));
 
       !inputs.agencyUrl
         ? setError((prev) => ({ ...prev, agencyUrl: errorText }))
-        : setError((prev) => ({ ...prev, url: "" }));
+        : setError((prev) => ({ ...prev, agencyUrl: null }));
 
       !inputs.address
         ? setError((prev) => ({ ...prev, address: errorText }))
@@ -108,7 +108,7 @@ function AgencyKycForm1({}) {
       handleNavigation(text);
     }
   }
-
+  console.log(inputs);
   return (
     <section
       className={
@@ -178,13 +178,13 @@ function AgencyKycForm1({}) {
 
                           <div
                             className={
-                              error.agencyName === ""
+                              error.agencyName === null
                                 ? "form-error-controller error-mtop"
                                 : "form-error-controller"
                             }
                           >
                             <span className="form-error-btn">
-                              {error.agencyName === "" ? (
+                              {error.agencyName === null ? (
                                 <FaCheckCircle className="required-icon valid-icon " />
                               ) : (
                                 <FaStar
@@ -219,13 +219,13 @@ function AgencyKycForm1({}) {
 
                           <div
                             className={
-                              error.agencyUrl === ""
+                              error.agencyUrl === null
                                 ? "form-error-controller error-mtop"
                                 : "form-error-controller"
                             }
                           >
                             <span className="form-error-btn">
-                              {error.agencyUrl === "" ? (
+                              {error.agencyUrl === null ? (
                                 <FaCheckCircle className="required-icon valid-icon " />
                               ) : (
                                 <FaStar

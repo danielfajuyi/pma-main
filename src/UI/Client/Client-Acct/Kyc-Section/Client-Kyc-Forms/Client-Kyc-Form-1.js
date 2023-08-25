@@ -121,6 +121,8 @@ function ClientsKycForm1({}) {
     }
   }
 
+  console.log(inputs);
+
   return (
     <section
       className={
