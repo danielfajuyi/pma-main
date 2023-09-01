@@ -12,7 +12,8 @@ function AlertBox({ title, note, icon, setToggleModal }) {
       <div className="alert-btn">
         <button
           onClick={() => setToggleModal((prev) => !prev)}
-          className="del-alert-btn bold-text yes-btn">
+          className="del-alert-btn bold-text yes-btn"
+        >
           Got it
         </button>
       </div>
