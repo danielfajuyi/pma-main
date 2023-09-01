@@ -8,17 +8,84 @@
     padding: 0 12px;
 
     .pics {
-        -webkit-transition: all 350ms ease;
-        transition: all 350ms ease;
+        transition: 0.7s ease-in-out;
         cursor: pointer;
         margin-bottom: 12px;
 
         img {
             border-radius: 20px;
+            transition: 0.7s ease-in-out;
+        }
+
+        &:hover img {
+            transform: scale(0.98);
+        }
+
+        .hover-state {
+            cursor: pointer;
+            color: #fff;
+            background: var(--pink);
+            text-transform: uppercase;
+            font-weight: 600;
+            text-align: center;
+            border-radius: 10px;
+            border: none;
+            font-weight: 600;
+            font-size: 0.7rem;
+            padding: 8px;
+            transition: 1.1s 0.4s ease-in-out;
+            position: absolute;
+            bottom: 7px;
+            z-index: 300;
+            transform: scale(0.98);
+        }
+
+        .preview-img {
+            left: -2px;
+            transition: 0.2s ease-in-out;
+            &:hover {
+                transform: scale(0.9);
+            }
+        }
+
+        .delete-img {
+            right: -2px;
+            background: var(--dim-black);
+            transition: 0.2s ease-in-out;
+
+            &:hover {
+                transform: scale(0.9);
+            }
         }
 
         &:hover {
-            filter: opacity(0.8);
+            filter: drop-shadow(0.3px 0.9px 1.5px rgba(255, 0, 123, 0.785));
+        }
+
+        &:hover::before {
+            content: attr(data-img);
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 50%;
+            height: 98.6%;
+            background: rgba(0, 0, 0, 0.05);
+            transition: all 1s ease;
+
+            border-radius: 20px;
+        }
+
+        &:hover::after {
+            content: attr(data-img);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 50%;
+            height: 98.6%;
+            background: rgba(255, 0, 122, 0.05);
+            transition: all 1s ease;
+
+            border-radius: 20px;
         }
     }
 }
@@ -79,6 +146,24 @@
         -webkit-column-count: 2;
         -moz-column-count: 2;
         column-count: 2;
+    }
+}
+
+@media (max-width: 580px) {
+    .hover-state {
+        width: 98.6%;
+        margin: 0 0.5rem;
+        width: 90%;
+        font-size: 0.6rem !important;
+    }
+
+    .delete-img {
+        right: initial !important;
+    }
+
+    .preview-img {
+        left: initial !important;
+        bottom: 2.5rem !important;
     }
 }
 

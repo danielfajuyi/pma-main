@@ -97,9 +97,11 @@
 .required-icon {
   color: var(--Colored-color);
   font-size: 8px;
+  transition: 1s cubic-bezier(0.4, 0.1, 0.4, 1) !important;
 }
 .valid-icon {
-  color: rgb(7, 238, 7);
+  color: var(--icon-check-color);
+  transition: 1s cubic-bezier(0.4, 0.1, 0.4, 1) !important;
   font-size: x-small;
 }
 .error-text {

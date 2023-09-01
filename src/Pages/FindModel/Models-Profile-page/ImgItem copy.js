@@ -12,7 +12,7 @@ function ImgItem({ img, fetchModel, item }) {
     setIsClicked(!isClicked);
     setPhoto(pic);
   };
- 
+
   const handleRemovePic = async () => {
     try {
       await userRequest.put("/model/remove/photo", { photo });
