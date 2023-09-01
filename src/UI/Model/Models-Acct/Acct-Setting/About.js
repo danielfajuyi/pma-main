@@ -75,8 +75,13 @@ function BasicInfo({ handleActiveEdit, activeEdit, resetDiscard, model }) {
   const handleSave = () => {
     if (user?.role === "model") {
       update(dispatch, "/model/", { ...inputs }, setMessage);
-    }else{
-      makeEdit(dispatch, `/agency/${model?.model?._id}`, { ...inputs }, setMessage);
+    } else {
+      makeEdit(
+        dispatch,
+        `/agency/${model?.model?._id}`,
+        { ...inputs },
+        setMessage
+      );
     }
   };
 
@@ -102,7 +107,9 @@ function BasicInfo({ handleActiveEdit, activeEdit, resetDiscard, model }) {
             <p className="set_description">
               <i className="fa-solid fa-angles-right note"></i>
               Include a well-lit headShort, generally framed between the top of
-              your head to just below your shoulders.
+              your head to just below your shoulders. Includes a well-lit
+              headShort, generally framed between the top of your head to jutst
+              below your shoulders.
             </p>
           )}
         </div>
@@ -257,7 +264,8 @@ function BasicInfo({ handleActiveEdit, activeEdit, resetDiscard, model }) {
           <p className="set_description">
             <i className="fa-solid fa-angles-right note"></i>
             Don't be afraid to express your personality so you can stand out
-            from the crowd.
+            from the crowd. Don't be afraid to express your personality so you
+            can stand out from the crowd.
           </p>
         )}
 

@@ -2,6 +2,7 @@ import ImgItem from "./ImgItem";
 import { ViewBtn } from "./Buttons";
 import { useState } from "react";
 import { FaTimes } from "react-icons/fa";
+import { AlertModal } from "../../LoginSignup/Sign-Up/signUpForm/Modal";
 
 function ModelPhoto({
   photos,
@@ -14,6 +15,7 @@ function ModelPhoto({
 }) {
   const [model, setModel] = useState(false);
   const [tempImgSrc, setTempImgSrc] = useState(false);
+  const [modalTxt, setModalTxt] = useState("");
   const getImg = (imgSrc) => {
     setTempImgSrc(imgSrc);
     setModel(true);
@@ -44,11 +46,14 @@ function ModelPhoto({
       </ul> */}
 
       <div className="gallery">
+        <AlertModal modalTxt={modalTxt} setModalTxt={setModalTxt} />
         {photos?.map((photo, index) =>
           activeDisplay !== "photos" ? (
             index <= displayLimit - 1 && (
               <ImgItem
                 index={index}
+                modalTxt={modalTxt}
+                setModalTxt={setModalTxt}
                 img={photo}
                 getImg={getImg}
                 fetchModel={fetchModel}
@@ -60,6 +65,8 @@ function ModelPhoto({
               <ImgItem
                 key={index}
                 img={photo}
+                modalTxt={modalTxt}
+                setModalTxt={setModalTxt}
                 getImg={getImg}
                 fetchModel={fetchModel}
                 item={item}
@@ -69,6 +76,8 @@ function ModelPhoto({
             <ImgItem
               index={index}
               img={photo}
+              modalTxt={modalTxt}
+              setModalTxt={setModalTxt}
               fetchModel={fetchModel}
               item={item}
             />

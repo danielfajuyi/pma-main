@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { userRequest } from "../../../redux/requestMethod";
 import { useSelector } from "react-redux";
+import { AlertModal } from "../../LoginSignup/Sign-Up/signUpForm/Modal";
 
 function ImgItem({
   img,
@@ -9,6 +10,8 @@ function ImgItem({
   getImg,
   model,
   index,
+  ModalTxt,
+  setModalTxt,
   setModel,
   temImgSrc,
   key,
@@ -17,8 +20,9 @@ function ImgItem({
 
   const [photo, setPhoto] = useState("");
   const [isClicked, setIsClicked] = useState(false);
+  const [isDeleted, setIsDeleted] = useState(false);
 
-  const handleClicked = (pic) => {
+  const handleHoverIn = (pic) => {
     setIsClicked(!isClicked);
     setPhoto(pic);
   };
@@ -26,29 +30,40 @@ function ImgItem({
   const handleRemovePic = async () => {
     try {
       await userRequest.put("/model/remove/photo", { photo });
+      setModalTxt("deleted");
+      setIsDeleted(!isDeleted);
       fetchModel();
     } catch (error) {}
   };
 
   return (
-    <div className="pics" onClick={() => getImg(img)}>
-      {/* {isClicked && (
-        <div
-          style={{
-            position: "absolute",
-            width: "100%",
-            height: "10%",
-            textAlign: "center",
-            backgroundColor: "white",
-            bottom: "0",
-            cursor: "pointer",
-            display: item && "none",
-          }}
-          onClick={handleRemovePic}
-        >
-          Delete Photo
-        </div>
-      )} */}
+    <div
+      className="pics"
+      style={{
+        position: "relative",
+      }}
+      onClick={() => handleHoverIn(img)}
+    >
+      {isClicked && (
+        <>
+          <div
+            className="hover-state preview-img"
+            onClick={() => getImg(img)}
+            style={{ display: item && "none" }}
+          >
+            Preview Photo
+          </div>
+
+          <div
+            className="hover-state delete-img"
+            onClick={handleRemovePic}
+            style={{ display: item && "none" }}
+          >
+            Delete Photo
+          </div>
+        </>
+      )}
+
       <img src={img} alt="" style={{ width: "100% " }} />
     </div>
   );
