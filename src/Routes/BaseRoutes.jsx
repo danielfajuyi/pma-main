@@ -57,6 +57,7 @@ import TransactionHistory from "../Pages/Wallet/History";
 
 import AgencyPortfolio from "../UI/Agency/AgencyProfile/agency_portfolio";
 import ClientPortfolio from "../UI/Client/ClientProfile/ClientPortfolio";
+import LoginSignups from "../Pages/LoginSignup/Login/Signup";
 
 export const BaseRoutes = () => {
   const [showNavbar, setShowNavbar] = useState(true);
@@ -614,8 +615,8 @@ export const BaseRoutes = () => {
       ],
     },
     {
-      path: "sign-up",
-      element: <LoginSignup />,
+      path: "signup",
+      element: <LoginSignups />,
     },
     {
       path: "login",

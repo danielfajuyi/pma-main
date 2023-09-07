@@ -53,20 +53,6 @@ const SignupSection = ({
           <AiOutlineArrowLeft size={25} />
         </a>
         <h2 className="sign-title">Sign up</h2>
-        {/* 
-     <div className="sign-input-field">
-      <FaUser />
-      <input type="text" placeholder="Username" />
-    </div>
-    <div className="sign-input-field">
-      <FaEnvelope />
-      <input type="text" placeholder="Email" />
-    </div>
-    <div className="sign-input-field">
-      <FaLock />
-      <input type="password" placeholder="Password" />
-    </div>
-    */}
 
         <p className="info-text">I want to sign up</p>
         <div className="sign-btn-section">

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import "./Login.scss";
 import {
   FaEnvelope,
@@ -23,7 +24,7 @@ import axios from "axios";
 import SignupSection from "../Sign-Up/Signup";
 import SignUpForm from "../Sign-Up/signUpForm/SignUpForm";
 
-const LoginSignup = () => {
+const LoginSignups = () => {
   const [isActive, setIsActive] = useState(false);
   const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
@@ -36,6 +37,10 @@ const LoginSignup = () => {
   // For Signup
   const [userRole, setUserRole] = useState("");
   const [activeSignup, setActiveSignup] = useState(false);
+  const location = useLocation();
+
+  const path = location.pathname;
+  const navigate = useNavigate();
 
   // function handles onfocus and onblur mode on form inputs
   const FocusBlur = () => {
@@ -60,7 +65,8 @@ const LoginSignup = () => {
   const handleClick = (event) => {
     // 👇️ toggle isActive state on click
     setIsActive((current) => !current);
-    // const { isFetching } = useSelector((state) => state.user);
+    path === "/signup" && navigate("/login");
+    path === "/login" && navigate("/signup");
   };
 
   const handleChange = (e) => {
@@ -149,17 +155,24 @@ const LoginSignup = () => {
         />
         <div
           className={
-            isActive ? "signups-container sign-up-mode" : "signups-container"
+            !isActive ? "signups-container sign-up-mode" : "signups-container"
           }
         >
           <div className="signups-forms">
             <div
               className={
-                isActive ? "signin-signup effect-mode " : "signin-signup"
+                !isActive ? "signin-signup effect-mode " : "signin-signup"
               }
             >
               <div className="sign-line"></div>
               <div className="sign-line l2"></div>
+              <SignupSection
+                activeSignup={activeSignup}
+                userRole={userRole}
+                setActiveSignup={setActiveSignup}
+                setUserRole={setUserRole}
+              />
+
               <form className="sign-form sign-in-form " onSubmit={handleLogin}>
                 <a
                   href="/"
@@ -249,13 +262,6 @@ const LoginSignup = () => {
                   </a>
                 </div>
               </form>
-
-              <SignupSection
-                activeSignup={activeSignup}
-                userRole={userRole}
-                setActiveSignup={setActiveSignup}
-                setUserRole={setUserRole}
-              />
             </div>
           </div>
 
@@ -281,7 +287,6 @@ const LoginSignup = () => {
               </div>
               <img src={log} className="sign-image" alt="" />
             </div>
-
             <div className="panel right-panel">
               <div className="sign-content">
                 <h3>One of us? Welcome back! </h3>
@@ -317,4 +322,4 @@ const LoginSignup = () => {
   );
 };
 
-export default LoginSignup;
+export default LoginSignups;

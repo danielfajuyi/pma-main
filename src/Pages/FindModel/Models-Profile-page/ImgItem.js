@@ -49,7 +49,7 @@ function ImgItem({
           <div
             className="hover-state preview-img"
             onClick={() => getImg(img)}
-            style={{ display: item && "none" }}
+            style={{ display: !item && "none" }}
           >
             Preview Photo
           </div>
