@@ -349,6 +349,49 @@ section {
                                         grid-column: span 2;
                                     }
 
+                                    .read-only-wrapper {
+                                        svg {
+                                            color: var(--main-color-change) !important;
+                                        }
+
+                                        &:hover {
+                                            svg {
+                                                color: var(--input-text) !important;
+                                            }
+                                        }
+                                    }
+
+                                    .read-only-container {
+                                        .read-only-title {
+                                        }
+                                        .read-only-infobox {
+                                            position: relative;
+                                            height: 50px;
+                                            width: 100%;
+                                            outline: none;
+                                            font-size: 1rem;
+                                            color: var(--text-color);
+                                            margin-top: 8px;
+                                            border: 1px solid #ddd;
+                                            border-radius: 10px;
+                                            padding: 0 15px;
+                                            display: flex;
+                                            align-items: center;
+                                            background-color: var(--bg-color);
+                                            border: 2px solid var(--border-color);
+                                            box-shadow: 0 0 0 5px hsla(var(--box-shadow-color), 91%, 55%, 3%);
+
+                                            &:hover {
+                                                background-color: var(--bg-color);
+                                                border: 1px solid #ddd;
+                                                box-shadow: 0 0 0 5px hsla(var(--box-shadow-color), 91%, 55%, 3%);
+                                            }
+
+                                            .info {
+                                            }
+                                        }
+                                    }
+
                                     .select-box {
                                         position: relative;
                                         height: 50px;
@@ -392,6 +435,18 @@ section {
 
                                         &:hover {
                                             background-color: var(--input-bg-hover);
+                                        }
+
+                                        &.read-only-textarea {
+                                            background-color: var(--bg-color);
+                                            border: 2px solid var(--border-color);
+                                            box-shadow: 0 0 0 5px hsla(var(--box-shadow-color), 91%, 55%, 3%);
+                                            &:hover {
+                                                border: 2px solid transparent;
+                                                box-shadow: 0 0 0 0px var(--input-shadow);
+
+                                                background-color: var(--input-bg);
+                                            }
                                         }
                                     }
 

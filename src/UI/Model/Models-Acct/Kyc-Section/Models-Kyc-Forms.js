@@ -12,7 +12,6 @@ export const FormContext = createContext();
 function ModelsForms({ showNavbar, setShowNavbar }) {
   const user = useSelector((state) => state.user.currentUser);
   const location = useLocation();
-
   const path = location.pathname;
   const [picture, setPicture] = useState(undefined);
   const [activeForm, setActiveForm] = useState(1);

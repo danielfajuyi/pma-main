@@ -1,6 +1,6 @@
 import React from "react";
 import { FaMoon, FaSun, FaTimes } from "react-icons/fa";
-
+import logo from "../logo/logo.png";
 const KycHeader = ({ HandleTheme, darkmode }) => {
   return (
     <>
@@ -11,13 +11,13 @@ const KycHeader = ({ HandleTheme, darkmode }) => {
               <a href="/" className="form-logo">
                 <div className="form-images">
                   <img
-                    src="./images/logo-01.png"
+                    src={logo}
                     alt="premiummodelapp-logo"
                     title="premiummodelapp-logo"
                     className="logo-forDark"
                   />
                   <img
-                    src="./images/logo-01.png"
+                    src={logo}
                     alt="premiummodelapp-logo"
                     title="premiummodelapp-logo"
                     className="logo-forLight"
