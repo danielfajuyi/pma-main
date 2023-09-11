@@ -178,6 +178,16 @@ section {
                                 font-size: 1.1rem;
                             }
                         }
+                        .settings-navlink {
+                            text-transform: capitalize;
+                            padding: 0 2rem;
+                            color: var(--nav-color);
+                            transition: 0.3s;
+                            cursor: pointer;
+                            &:hover {
+                                color: var(--main-color);
+                            }
+                        }
                     }
                 }
             }
