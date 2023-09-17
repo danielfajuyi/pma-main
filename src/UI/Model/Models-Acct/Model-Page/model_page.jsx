@@ -37,6 +37,8 @@ const ModelPage = ({
   setModelPage,
   setNotice,
   notice,
+  darkmode,
+  HandleTheme,
 }) => {
   const user = useSelector((state) => state.user.currentUser);
   // Using Hooks  --> [START]
@@ -136,11 +138,19 @@ const ModelPage = ({
 
   return (
     !showNavbar && (
-      <div id="model_page">
+      <div
+        className={
+          darkmode
+            ? "model_page  dashboards-styles  darkmode"
+            : " model_page  dashboards-styles"
+        }
+      >
         {/* Model Page Sidebar Navigation --> [START] */}
         {mQ1050px ? (
           <Sidebar
             topList={topList}
+            darkmode={darkmode}
+            HandleTheme={HandleTheme}
             bottomList={bottomList}
             setSidebarVisibility={setSidebarVisibility}
           />
@@ -148,6 +158,8 @@ const ModelPage = ({
           <Background childState={setSidebarVisibility}>
             <Sidebar
               topList={topList}
+              darkmode={darkmode}
+              HandleTheme={HandleTheme}
               bottomList={bottomList}
               setSidebarVisibility={setSidebarVisibility}
             />
@@ -155,7 +167,11 @@ const ModelPage = ({
         ) : null}
         {/*[END] */}
 
-        <main>
+        <main
+          className={
+            darkmode ? " dashboards-styles  darkmode " : "dashboards-styles "
+          }
+        >
           {/* Model Page Topbar --> [START] */}
           <DashboardTopbar
             lastItem={button}
@@ -168,7 +184,7 @@ const ModelPage = ({
           {/* [END] */}
 
           {/* Render The Current Sidebar Navigation Link --> [START] */}
-          <Outlet />
+          <Outlet darkmode={darkmode} HandleTheme={HandleTheme} />
           {/* [END] */}
 
           <Notification

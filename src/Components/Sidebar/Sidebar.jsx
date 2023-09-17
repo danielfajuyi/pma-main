@@ -17,30 +17,31 @@ import { BsSun } from "react-icons/bs";
 import { BsMoon } from "react-icons/bs";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useRef } from "react";
-
 import logo from "../../Images/dashboard/logo.png";
-
 import { useDispatch } from "react-redux";
 import { userLogout } from "../../redux/apiCalls";
 import { FaBars, FaTimes } from "react-icons/fa";
 import useMediaQuery from "../../custom_hooks/useMediaQuery";
+import "../../scss/dashboards.scss";
 
-const Sidebar = ({ topList, bottomList, setSidebarVisibility }) => {
+const Sidebar = ({
+  topList,
+  bottomList,
+  setSidebarVisibility,
+  darkmode,
+  HandleTheme,
+}) => {
   const navigate = useNavigate();
   const mQ1050px = useMediaQuery("(min-width: 1050px)");
-
+  const location = useLocation();
+  const path = location.pathname;
   const [close, setClose] = useState(false);
-  const [darkmode, setDarkmode] = useState(false);
 
   const dispatch = useDispatch();
 
   const handleLogout = () => {
     userLogout(dispatch);
     window.location.reload();
-  };
-
-  const handleDarkMode = () => {
-    setDarkmode(!darkmode);
   };
 
   const handleClose = () => {
@@ -50,7 +51,11 @@ const Sidebar = ({ topList, bottomList, setSidebarVisibility }) => {
   return (
     <>
       <div
-        className={darkmode ? "sidebar-container dark" : "sidebar-container"}
+        className={
+          darkmode
+            ? "sidebar-container dashboards-styles dark darkmode"
+            : "sidebar-container dashboards-styles"
+        }
         id={close ? "close-sidebar" : ""}
       >
         <nav className={close ? "sidebar-menu close" : "sidebar-menu"}>
@@ -91,7 +96,14 @@ const Sidebar = ({ topList, bottomList, setSidebarVisibility }) => {
               <ul className="navigate-links">
                 {topList.map((item, index) => {
                   return item.path ? (
-                    <li className="navigate-link" key={index}>
+                    <li
+                      className={
+                        item.path === path
+                          ? "navigate-link active"
+                          : "navigate-link"
+                      }
+                      key={index}
+                    >
                       <div
                         className="link-item"
                         onClick={(e) => navigate(item.path)}
@@ -109,7 +121,14 @@ const Sidebar = ({ topList, bottomList, setSidebarVisibility }) => {
                       </div>
                     </li>
                   ) : (
-                    <li className="navigate-link close-link" key={index}>
+                    <li
+                      className={
+                        item.close === path
+                          ? "navigate-link close-link active"
+                          : "navigate-link close-link"
+                      }
+                      key={index}
+                    >
                       <div
                         className="link-item"
                         onClick={() => setSidebarVisibility(item.close)}
@@ -133,7 +152,7 @@ const Sidebar = ({ topList, bottomList, setSidebarVisibility }) => {
 
             <div className="bottom-content">
               <li onClick={handleLogout}>
-                <a href="">
+                <div className="link-item">
                   <Logout className="icon" />
                   <span
                     className={
@@ -144,7 +163,7 @@ const Sidebar = ({ topList, bottomList, setSidebarVisibility }) => {
                   >
                     Logout
                   </span>
-                </a>
+                </div>
               </li>
 
               <li className="mode">
@@ -165,7 +184,7 @@ const Sidebar = ({ topList, bottomList, setSidebarVisibility }) => {
                   {darkmode ? "Light Mode" : "Dark Mode"}
                 </span>
 
-                <div className="toggle-switch" onClick={handleDarkMode}>
+                <div className="toggle-switch" onClick={HandleTheme}>
                   <span
                     className={darkmode ? "switch dark-switch" : "switch"}
                   ></span>
