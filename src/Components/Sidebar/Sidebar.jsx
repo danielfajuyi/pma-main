@@ -103,6 +103,7 @@ const Sidebar = ({
                           : "navigate-link"
                       }
                       key={index}
+                      style={{Cursor: "pointer"}}
                     >
                       <div
                         className="link-item"
