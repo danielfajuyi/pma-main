@@ -11,7 +11,15 @@ function ModelInfo({ item, handleForm }) {
   const user = useSelector((state) => state.user.currentUser);
   const location = useLocation();
   const path = location.pathname.split("/")[3];
-  // console.log(user)
+  const q = location.search;
+  const rq = q.replace("?q=", "");
+  // console.log(rq, user._id)
+
+  const handleDeleteAccount = async () => {
+    try {
+      // const res = await userRequest
+    } catch (error) {}
+  };
 
   return (
     <>
@@ -19,7 +27,7 @@ function ModelInfo({ item, handleForm }) {
         <div className="model__img-container">
           <img
             className="model__img"
-            src={user?._id === item?.model?.uuid ? item?.picture : item?.model?.picture}
+            src={user?._id === path ? item?.picture : item?.model?.picture}
             alt=""
             width="400"
             height="400"
@@ -70,19 +78,25 @@ function ModelInfo({ item, handleForm }) {
 
           {/* {!user && (
               )} */}
-            <div className="interactive-section">
-              <InteractiveBtn btnIcon="fa-solid fa-user-plus follow-icon Icon" btnText="Follow" />
-              <InteractiveBtn
-                btnIcon="fa-regular fa-heart heart-icon Icon"
-                //btnIcon="fa-solid fa-heart heart-icon Icon"
-                btnText="Favorite"
-              />
-              <InteractiveBtn
-                btnIcon="fa-brands fa-instagram insta-icon Icon"
-                btnText="Instagram"
-              />
-              <InteractiveBtn btnIcon="fa-solid fa-share-nodes share-icon Icon" btnText="Share" />
-            </div>
+          <div className="interactive-section">
+            <InteractiveBtn
+              btnIcon="fa-solid fa-user-plus follow-icon Icon"
+              btnText="Follow"
+            />
+            <InteractiveBtn
+              btnIcon="fa-regular fa-heart heart-icon Icon"
+              //btnIcon="fa-solid fa-heart heart-icon Icon"
+              btnText="Favorite"
+            />
+            <InteractiveBtn
+              btnIcon="fa-brands fa-instagram insta-icon Icon"
+              btnText="Instagram"
+            />
+            <InteractiveBtn
+              btnIcon="fa-solid fa-share-nodes share-icon Icon"
+              btnText="Share"
+            />
+          </div>
           {/* <div className="model__activities">
             <p>
               <span className="semi-bold">Favorite: </span>7.8k
@@ -98,26 +112,52 @@ function ModelInfo({ item, handleForm }) {
             </p>
           </div> */}
           <p>
-            <span className="semi-bold">Minimum booking price: </span> NGN {item?.model?.minPrice}
+            <span className="semi-bold">Minimum booking price: </span> NGN{" "}
+            {item?.model?.minPrice}
           </p>
 
           <div className="profile-btn btn-shadow">
-            <NavLink to={user && user._id === path && "/model-Acct-setting/"+item?.model?.uuid}>
+            <NavLink
+              to={
+                user && user._id === path
+                  ? "/model-Acct-setting/" + item?.model?.uuid
+                  : rq
+                  ? "/model-Acct-setting/" + item?.model?.uuid
+                  : null
+              }
+            >
               <button
-                onClick={user?._id !== path && handleForm}
-                className="model-profilebtn  btn-shadow">
+                onClick={user?._id !== path && !rq && handleForm}
+                className="model-profilebtn  btn-shadow"
+              >
                 <FaEnvelope />
-                {user?._id !== path || !user ? (
+                {!rq && (
                   <>
-                    <span>Book</span> <span>Model</span>
-                  </>
-                ) : (
-                  <>
-                    <span>Edit</span> <span>Portfolio</span>
+                    {user?._id !== path || !user ? (
+                      <>
+                        <span>Book</span> <span>Model</span>
+                      </>
+                    ) : (
+                      <>
+                        <span>Edit</span> <span>Portfolio</span>
+                      </>
+                    )}
                   </>
                 )}
+
+                {rq && <>{user?._id === rq && <span>Edit Portfolio</span>}</>}
               </button>
             </NavLink>
+
+            {rq && (
+              <button
+                className="model-profilebtn  btn-shadow"
+                style={{ marginTop: "10px" }}
+                onClick={handleDeleteAccount}
+              >
+                Delete Account
+              </button>
+            )}
           </div>
         </div>
       </section>

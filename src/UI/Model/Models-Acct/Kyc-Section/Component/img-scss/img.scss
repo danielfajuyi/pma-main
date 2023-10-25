@@ -1,0 +1,131 @@
+.image-container {
+    position: relative;
+
+    &.color-codes {
+        --blue: #0071ff;
+        --light-blue: #86d8f6;
+        --dark-blue: #005dd1;
+        --grey: #f2f2f2;
+    }
+
+    width: 100%;
+    background: var(--input-bg);
+    padding: 30px;
+    border-radius: 30px;
+    transition: 0.3s;
+
+    &:hover {
+        background: var(--input-bg-hover);
+    }
+
+    .img-area {
+        position: relative;
+        width: 100%;
+        height: 300px;
+        background: var(--input-bg);
+        margin-bottom: 30px;
+        overflow: hidden;
+        border-radius: 15px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        &.area-2 {
+            height: 250px;
+            justify-content: center;
+        }
+
+        &.read-only {
+            height: 500px;
+        }
+
+        &:hover {
+            background: var(--input-bg-hover);
+        }
+
+        &::before {
+            content: attr(data-img);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            color: #fff;
+            font-weight: 500;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 200;
+        }
+
+        &.active:hover::before {
+            opacity: 1;
+        }
+
+        svg {
+            font-size: 100px;
+            color: var(--text-color);
+        }
+
+        h3 {
+            font-size: 20px;
+            font-weight: 500;
+            margin-bottom: 6px;
+            color: var(--text-color);
+        }
+
+        p {
+            color: #999;
+        }
+
+        span {
+            font-weight: 600;
+
+            &.uploading {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+
+                z-index: 200;
+            }
+        }
+
+        img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            z-index: 100;
+        }
+    }
+
+    .select-image {
+        display: block;
+        width: 100%;
+        padding: 16px 0;
+        border-radius: 15px;
+        background: var(--pink);
+        color: #fff;
+        font-weight: 500;
+        font-size: 16px;
+        border: none;
+        cursor: pointer;
+        transition: all 0.3s ease;
+
+        &:disabled {
+            filter: opacity(0.3);
+            background: var(--grey) !important;
+        }
+    }
+}

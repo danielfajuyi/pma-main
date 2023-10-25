@@ -9,8 +9,7 @@ import JobPost from "../Pages/JobPost/JobPost";
 import JobPostForm from "../Pages/JobPost/JobPostForm/JobPostForm";
 import Home from "../Pages/Home/home";
 import HowItWorks from "../Pages/HowItWorks/HowItWorks";
-import LoginForm from "../Pages/LoginSignup/Login/Login-Form";
-import SignUp from "../Pages/LoginSignup/Sign-Up/Sign-up";
+import LoginSignup from "../Pages/LoginSignup/Login/Login";
 import NotFound from "../Pages/NotFound/notfound";
 import {
   createBrowserRouter,
@@ -58,6 +57,8 @@ import TransactionHistory from "../Pages/Wallet/History";
 
 import AgencyPortfolio from "../UI/Agency/AgencyProfile/agency_portfolio";
 import ClientPortfolio from "../UI/Client/ClientProfile/ClientPortfolio";
+import LoginSignups from "../Pages/LoginSignup/Login/Signup";
+import Sidebar from "../Components/Sidebar/Sidebar";
 
 export const BaseRoutes = () => {
   const [showNavbar, setShowNavbar] = useState(true);
@@ -299,10 +300,19 @@ export const BaseRoutes = () => {
           path: "jobpost/*",
           element: <JobPost />,
         },
+
         {
           path: "blog/",
           element: <Blogs />,
         },
+
+        {
+          path: "sidebar/",
+          element: (
+            <Sidebar showNavbar={showNavbar} setShowNavbar={setShowNavbar} />
+          ),
+        },
+
         {
           path: "post/:id",
           element: <Single />,
@@ -323,6 +333,7 @@ export const BaseRoutes = () => {
           path: "faqs",
           element: <FAQs />,
         },
+
         {
           path: "howitworks",
           element: <HowItWorks />,
@@ -612,13 +623,13 @@ export const BaseRoutes = () => {
       ],
     },
     {
-      path: "sign-up",
-      element: <SignUp />,
+      path: "signup",
+      element: <LoginSignups />,
     },
     {
       path: "login",
       element: !user ? (
-        <LoginForm />
+        <LoginSignup />
       ) : (
         <Navigate
           to={

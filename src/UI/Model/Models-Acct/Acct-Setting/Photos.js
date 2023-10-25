@@ -35,7 +35,7 @@ function Photos({ handleModal, resetDiscard, model }) {
 
   const uploadFile = (file, urlType) => {
     const fileName = new Date().getTime() + file.name;
-    const storageRef = ref(storage, `/models/${fileName}`);
+    const storageRef = ref(storage, `/model/${user.username}/${fileName}`);
     const uploadTask = uploadBytesResumable(storageRef, file);
 
     uploadTask.on(

@@ -1,4 +1,5 @@
 import "./Profile.css";
+import "./Profile-gallery.scss";
 import ModelInfo from "./Model-Info";
 import Links from "./Links";
 import ModelPhoto from "./Model-Photo";

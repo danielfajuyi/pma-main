@@ -1,6 +1,6 @@
 import React from "react";
 
-import "../About/about.css";
+import "../About/about.scss";
 import "./HowItWorks.css";
 import Line from "../../Components/Line/line";
 import Footer from "../Home/Layout/FooterSection/Footer/footer";

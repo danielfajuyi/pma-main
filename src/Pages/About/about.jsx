@@ -1,12 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
+import { ImageSlider } from "../../Components/Slider/TeamSlider/Slider";
 import Counter from "../../Components/Counter/counter";
 import SectionHead from "../../Components/SectionHead/sectionhead";
-import ImageSlider from "../../Components/Slider/TeamSlider/Slider";
 import Footer from "../../Pages/Home/Layout/FooterSection/Footer/footer";
-
-import "./about.css";
+import "./about.scss";
 
 const About = () => {
   return (
@@ -20,6 +18,10 @@ const About = () => {
             booking platform, which helps clients around the world to source for
             models for their projects.
           </span>
+
+          <a href="/signup" className="btn btn2">
+            Start Now
+          </a>
         </div>
       </div>
 
@@ -118,10 +120,6 @@ const About = () => {
         <div className="thankyou-wrapper  ">
           <div className="thankyou-text">
             <h2>Thank you for visting us!</h2>
-          </div>
-
-          <div className="thankyou-image">
-            <img src="./images/about/thankyou.jpg" alt="thankyou" />
           </div>
         </div>
       </div>
