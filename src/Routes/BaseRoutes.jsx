@@ -33,7 +33,7 @@ import AgencyModels from "../UI/Agency/AgencyListing/AgencyModels";
 //importing models components
 import ModelDashboard from "../UI/Model/Models-Acct/Model-Page/dashboard/dashboard";
 import ModelsAcct from "../UI/Model/Models-Acct/Models-Acct";
-import ModelAcctSetting from "../UI/Model/Models-Acct/Acct-Setting/Models-Acct-Setting";
+import ModelAcctSetting from "../UI/Model/Models-Acct/Settings/model-settings";
 import ModelPortfolio from "../UI/Model/ModelPortfolio/ModelPortfolio";
 import ProfilePage from "../Pages/FindModel/Models-Profile-page/Profile-Page";
 import Review from "../UI/Model/Models-Acct/Model-Page/review/review";
@@ -41,6 +41,14 @@ import WriteReview from "../UI/Model/Models-Acct/Model-Page/review/write_review"
 import Reviews from "../UI/Model/Models-Acct/Model-Page/review/view_reviews";
 import ModelSubscription from "../UI/Model/Models-Acct/Model-Page/subscription/subscription";
 import ModelsForms from "../UI/Model/Models-Acct/Kyc-Section/Models-Kyc-Forms";
+
+//importing models setting components
+import ModelProfile from "../UI/Model/Models-Acct/Settings/Profile";
+import ModelStats from "../UI/Model/Models-Acct/Settings/Stats";
+import ModelPhotos from "../UI/Model/Models-Acct/Settings/Photos";
+import ModelVideos from "../UI/Model/Models-Acct/Settings/Videos";
+import ModelWallet from "../UI/Model/Models-Acct/Settings/Wallet-setting";
+import ModelLogins from "../UI/Model/Models-Acct/Settings/Logins";
 
 //importing clients components
 import ClientDashboard from "../UI/Client/Client-Acct/Client-Page/dashboard/dashboard";
@@ -419,7 +427,7 @@ export const BaseRoutes = () => {
               element: (
                 <Wallet
                   transactions={transactions}
-                  settings={"/model-Acct-setting"}
+                  settings={"/model-Acct-setting/wallet"}
                   currentUser={"/modelpage"}
                 />
               ),
@@ -472,6 +480,14 @@ export const BaseRoutes = () => {
               setShowNavbar={setShowNavbar}
             />
           ),
+          children: [
+            { path: "profile", element: <ModelProfile /> },
+            { path: "stats", element: <ModelStats /> },
+            { path: "photos", element: <ModelPhotos /> },
+            { path: "videos", element: <ModelVideos /> },
+            { path: "wallet", element: <ModelWallet /> },
+            { path: "logins", element: <ModelLogins /> },
+          ],
         },
         {
           path: "clientpage/",
