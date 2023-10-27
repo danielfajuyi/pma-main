@@ -221,6 +221,16 @@ export const AlertModal = ({
         />
       )}
 
+      {/* Deleted modal text */}
+      {modalTxt === "deleted" && (
+        <AlertBox
+          title="Photo Deleted"
+          note="Continue viewin your profile!"
+          icon={true}
+          setModalTxt={setModalTxt}
+        />
+      )}
+
       {/* category modal text */}
 
       {modalTxt === "category" && (

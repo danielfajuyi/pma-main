@@ -71,7 +71,8 @@ function ListItem({ firstCategory, secondCategory, uuid, id, item }) {
 
             <div className="text5 model__viewprofiles">
               <button type="button" className="viewprofile__btn shadow-fit">
-                <Link to={`/find-model/profile/${uuid ? uuid : id}`}>
+                {/* uuid to be removeduuid ? uuid :  */}
+                <Link to={`/find-model/profile/${id}`}>
                   View Portfolio
                 </Link>
               </button>

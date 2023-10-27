@@ -1,6 +1,5 @@
 import { React, useState, useEffect, useCallback } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
+import { useLocation, useNavigate } from "react-router-dom";
 import { MdLocationOn } from "react-icons/md";
 import { FaArrowLeft, FaClock, FaRegClock } from "react-icons/fa";
 import { AiFillDollarCircle } from "react-icons/ai";
@@ -12,6 +11,8 @@ import "./Details.scss";
 import "../JobListing/Listing.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { makeGet } from "../../../redux/apiCalls";
+import { ToastContainer, toast } from "react-toastify";
+import { userRequest } from "../../../redux/requestMethod";
 
 function Details({ job }) {
   const user = useSelector((state) => state.user.currentUser);
@@ -21,6 +22,7 @@ function Details({ job }) {
   const path = location.pathname.split("/")[3];
 
   const [message, setMessage] = useState({});
+  const [isAvailable, setIsAvailable] = useState("");
 
   const fetchJob = useCallback(() => {
     makeGet(dispatch, `/job/job/${path}`, setMessage);
@@ -35,16 +37,38 @@ function Details({ job }) {
       unsubscribed = true;
     };
   }, [setMessage]);
-  // console.log(message);
 
   const HandleNavigate = () => {
     navigate("/jobpost");
+  };
+
+  const JobApplication = async () => {
+    try {
+      const res = await userRequest.post(`/job/job/apply/${path}`);
+      toast.success(res.data);
+    } catch (err) {
+      toast.error(err?.response?.data);
+    }
+  };
+
+  const updateJobAvailability = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await userRequest.put(
+        `/job/job/availability/${message._id}`,
+        { isAvailable }
+      );
+      toast.success(res.data);
+    } catch (err) {
+      toast.error(err?.response?.data);
+    }
   };
 
   return (
     <>
       <Line className="jobs-line" />
       <section className="Jobdetail-container mtop-2 container ">
+        <ToastContainer position="top" />
         <div className="jobdetail-view">
           <header>
             <div className="titlebar">
@@ -94,7 +118,27 @@ function Details({ job }) {
 
             <div className="button-wrapper">
               {user && user?.role !== "client" && (
-                <button className="btn-shadow ">Apply Now</button>
+                <button className="btn-shadow" onClick={JobApplication}>
+                  Apply Now
+                </button>
+              )}
+              {user && user?.role === "client" && (
+                <form onSubmit={updateJobAvailability}>
+                  <h3>Is job still available?</h3>
+                  <select
+                    name="isAvailable"
+                    id=""
+                    required
+                    onChange={(e) => setIsAvailable(e.target.value)}
+                  >
+                    <option value="">
+                      {message?.isAvailable ? "Yes" : "No"}
+                    </option>
+                    <option value={true}>Yes</option>
+                    <option value={false}>No</option>
+                  </select>
+                  <button className="btn-shadow">Update</button>
+                </form>
               )}
             </div>
           </header>
@@ -162,7 +206,9 @@ function Details({ job }) {
 
           <div className="button-section mtop-2 ">
             {user && user?.role !== "client" && (
-              <button className="btn-shadow ">Apply Now</button>
+              <button className="btn-shadow" onClick={JobApplication}>
+                Apply Now
+              </button>
             )}
           </div>
         </div>

@@ -3,16 +3,16 @@ export const navList1 = ["about", "jobs", "email/pass"];
 export const navList2 = ["payment", "dashboard"];
 
 export const Industry = [
-  "agent",
-  "brand",
-  "stylist",
-  "makeup artist",
-  "event planner",
-  "photographer",
-  "casting director",
-  "fashion designer",
-  "modeling agency",
-  "advertising agency",
+  "Agent",
+  "Brand",
+  "Stylist",
+  "Makeup artist",
+  "Event planner",
+  "Photographer",
+  "Casting director",
+  "Fashion designer",
+  "Modeling agency",
+  "Advertising agency",
 ];
 export const SocialMedia = [
   {

@@ -10,10 +10,13 @@ import ModelPolaroid from "../../../Pages/FindModel/Models-Profile-page/Model-Po
 import BookingForm from "../../../Pages/FindModel/Models-Profile-page/BookingForm";
 import Links from "../../../Pages/FindModel/Models-Profile-page/Links";
 import { makeGet } from "../../../redux/apiCalls";
+import { useLocation } from "react-router";
 
 function ModelPortfolio({ item, postMsg }) {
   const user = useSelector((state) => state.user.currentUser);
   const dispatch = useDispatch();
+  const location = useLocation();
+  const path = location.pathname.split("/")[3];
 
   const [activeSection, setActiveSection] = useState("Photos");
   const [toggleForm, setToggleForm] = useState(false);
@@ -57,18 +60,19 @@ function ModelPortfolio({ item, postMsg }) {
   }
 
   const fetchModel = () => {
-    makeGet(dispatch, `/model/${user._id}`, setModel);
+    makeGet(dispatch, `/model/${path}`, setModel);
   };
 
   useEffect(() => {
     let unsubscribed = fetchModel();
     return () => unsubscribed;
   }, []);
+  // console.log(model)
 
   return (
     <div style={{ backgroundColor: "white" }}>
       <>
-        <ModelInfo item={user} handleForm={handleForm} />
+        <ModelInfo item={user.role === 'model'? user : model} handleForm={handleForm} />
         <Links handleSection={handleSection} activeSection={activeSection} />
         {activeSection === "Photos" && (
           <ModelPhoto
@@ -80,8 +84,8 @@ function ModelPortfolio({ item, postMsg }) {
             fetchModel={fetchModel}
           />
         )}
-        {activeSection === "Stats" && <ModelStats item={user?.model} />}
-        {activeSection === "Bio" && <ModelBio item={user?.model} />}
+        {activeSection === "Stats" && <ModelStats item={model?.model} />}
+        {activeSection === "Bio" && <ModelBio item={model?.model} />}
         {activeSection === "Videos" && (
           <ModelVideo
             videos={model?.model?.videos}

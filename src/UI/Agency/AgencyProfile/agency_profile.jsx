@@ -55,9 +55,7 @@ const AgencyProfile = ({ showNavbar, setShowNavbar }) => {
       <div id="agency_profile">
         <div id="hero">
           <img
-            src={
-              user?.agency?.coverPhoto && user?.agency?.coverPhoto
-            }
+            src={user?.agency?.coverPhoto && user?.agency?.coverPhoto}
             alt="profile-img"
             style={{ height: "100%", width: "100%", objectFit: "cover" }}
           />
@@ -114,7 +112,7 @@ const AgencyProfile = ({ showNavbar, setShowNavbar }) => {
                 <span>{user?.agency?.agencyUrl}</span>
               </div>
             </header>
-            <div id="follow_container">
+            {/* <div id="follow_container">
               <button className="btn">
                 <IoPersonAddOutline />
                 <span>Follow</span>
@@ -131,17 +129,17 @@ const AgencyProfile = ({ showNavbar, setShowNavbar }) => {
                   <div>547</div>
                 </span>
               </div>
-            </div>
+            </div> */}
             <div id="socials">
-              <a href="/social">
+              <a href={`https://www.instagram.com/${user?.agency?.instagram}`} target="_blanc" >
                 <FaInstagram />
               </a>
-              <a href="/social">
+              {/* <a href="/social">
                 <FaFacebook />
               </a>
               <a href="/social">
                 <FaTwitter size={19} />
-              </a>
+              </a> */}
             </div>
           </div>
           <ul id="navbar_body">

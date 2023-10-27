@@ -12,8 +12,9 @@ import { useEffect, useState, useCallback } from "react";
 import { makeGet, update } from "../../../../../redux/apiCalls";
 import { storage } from "../../../../../firebase";
 import BlogCard from "../../../../../Components/Dashboard/Blog-Card/Blog_card";
+import { userRequest } from "../../../../../redux/requestMethod";
 
-const ModelDashboard = () => {
+const ModelDashboard = ({ darkmode, HandleTheme }) => {
   const user = useSelector((state) => state.user.currentUser);
   const dispatch = useDispatch();
 
@@ -23,6 +24,9 @@ const ModelDashboard = () => {
   const [progress, setProgress] = useState(0);
   const [message, setMessage] = useState([]);
   const [booking, setBooking] = useState([]);
+
+  //  get user stat
+  const [stat, setStat] = useState([]);
 
   // update profile
   const handleChange = (e) => {
@@ -39,7 +43,8 @@ const ModelDashboard = () => {
     uploadTask.on(
       "state_changed",
       (snapshot) => {
-        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        const progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
         urlType === "picture" && setProgress(Math.round(progress));
         switch (snapshot.state) {
           case "paused":
@@ -95,22 +100,47 @@ const ModelDashboard = () => {
   const totalBooking = booking?.filter((item) => item);
   const rejectedBooking = booking?.filter((item) => item?.isRejected);
   const jobDone = booking?.filter((item) => item?.isJobDone);
-  const rejectedPer = Math.round((rejectedBooking?.length * 100) / totalBooking?.length);
+  const rejectedPer = Math.round(
+    (rejectedBooking?.length * 100) / totalBooking?.length
+  );
   const donePer = Math.round((jobDone?.length * 100) / totalBooking?.length);
+
+  useEffect(() => {
+    const fetchStat = async () => {
+      const res = await userRequest.get("/model/stats");
+      setStat(res.data);
+    };
+    fetchStat();
+  }, []);
+
+  const dataList = Array(12).fill(null); // Initialize the array with default value "Dec"
+  stat.forEach((s) => {
+    if (s.month >= 1 && s.month <= 12) {
+      dataList[s.month - 1] = s.visitors;
+    }
+  });
 
   // Visitor Stats Graph Data -> (VisitorStats Component) --> [STRAT]
   const data = {
-    labels: ["Aug", "Sept", "Oct", "Nov", "Dec", "Jan", "Feb"],
+    labels: [
+      "Jan",
+      "Feb",
+      "Mar",
+      "April",
+      "May",
+      "June",
+      "July",
+      "Aug",
+      "Sept",
+      "Oct",
+      "Nov",
+      "Dec",
+    ],
     datasets: [
       {
+        label: "VISITORS",
         backgroundColor: "royalblue",
-        data: [1200, 1700, 1000, 1200, 1000, 1000, 1700],
-        barPercentage: 0.2,
-        borderRadius: 4,
-      },
-      {
-        backgroundColor: "lightgray",
-        data: [600, 800, 500, 600, 500, 600, 800],
+        data: dataList,
         barPercentage: 0.2,
         borderRadius: 4,
       },
@@ -192,7 +222,7 @@ const ModelDashboard = () => {
   return (
     <FadeIn>
       {user?.isUpdated && (
-        <div id="model_dashboard">
+        <div className="model_dashboard">
           {/* GRID  --> [START]*/}
           <div id="pane">
             {/* Grid Area 1 */}
@@ -219,7 +249,9 @@ const ModelDashboard = () => {
                     />
                     {isEdit && (
                       <label htmlFor="profilePic" className="ppLabel">
-                        <span className="material-icons photo_icon">add_a_photo</span>
+                        <span className="material-icons photo_icon">
+                          add_a_photo
+                        </span>
                       </label>
                     )}
                   </div>
@@ -237,14 +269,22 @@ const ModelDashboard = () => {
                   </div>
                   <div className="mDet">
                     <label htmlFor="email">Email</label>
-                    <input id="email" name="email" value={user?.email} readOnly />
+                    <input
+                      id="email"
+                      name="email"
+                      value={user?.email}
+                      readOnly
+                    />
                     <label htmlFor="gender">Gender</label>
                     <select
                       name="gender"
                       id="gender"
                       disabled={!isEdit && true}
-                      onChange={handleChange}>
-                      <option value="">{user?.model?.gender === "m" ? "MALE" : "FEMALE"}</option>
+                      onChange={handleChange}
+                    >
+                      <option value="">
+                        {user?.model?.gender === "m" ? "MALE" : "FEMALE"}
+                      </option>
                       <option value="m">Male</option>
                       <option value="f">Female</option>
                     </select>
@@ -252,13 +292,21 @@ const ModelDashboard = () => {
                     <input
                       id="bio"
                       name="bio"
-                      defaultValue={user?.model?.bio ? user?.model?.bio : "A little about myself"}
+                      defaultValue={
+                        user?.model?.bio
+                          ? user?.model?.bio
+                          : "A little about myself"
+                      }
                       readOnly={!isEdit && true}
                       autoFocus={isEdit}
                       onChange={handleChange}
                     />
                     {isEdit && (
-                      <button type="submit" className="update" onClick={handleUpdateProfile}>
+                      <button
+                        type="submit"
+                        className="update"
+                        onClick={handleUpdateProfile}
+                      >
                         Update
                       </button>
                     )}
@@ -303,9 +351,18 @@ const ModelDashboard = () => {
               </div>
               <div className="earnings">
                 <EarningCard type="total" amount={`#${user?.model?.total}`} />
-                <EarningCard type="pending" amount={`#${user?.model?.pending}`} />
-                <EarningCard type="withdraw" amount={`#${user?.model?.withdrawn}`} />
-                <EarningCard type="available" amount={`#${user?.model?.wallet}`} />
+                <EarningCard
+                  type="pending"
+                  amount={`#${user?.model?.pending}`}
+                />
+                <EarningCard
+                  type="withdraw"
+                  amount={`#${user?.model?.withdrawn}`}
+                />
+                <EarningCard
+                  type="available"
+                  amount={`#${user?.model?.wallet}`}
+                />
               </div>
               <VisitorStats data={data} options={options} user={user} />
             </div>

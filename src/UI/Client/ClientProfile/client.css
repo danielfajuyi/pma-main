@@ -1,303 +1,306 @@
-
-.client-profile{
-    background: rgb(238, 234, 234);
-    overflow: hidden !important;
-    /* height: 120vh; */
-    /* width: 50%; */
+.client-profile {
+  background: rgb(238, 234, 234);
+  overflow: hidden !important;
+  /* height: 120vh; */
+  /* width: 50%; */
 }
 
-.cbox{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 20px;
-    overflow: hidden !important;
+.cbox {
+  display: flex;
+  justify-content: space-between;
+  /* align-items: center;
+   */
+  gap: 20px;
+  overflow: hidden !important;
 
-    /* position: relative; */
-    
-    /* width: 100%; */
-    /* overflow-y: hidden; */
+  /* position: relative; */
+
+  /* width: 100%; */
+  /* overflow-y: hidden; */
 }
 
-.client-nav{
-    display: flex;
-    justify-content: space-between;
+.client-nav {
+  display: flex;
+  justify-content: space-between;
 }
 
-.clientBox-1{
-    background: white;
-    width: 25%;
-    height: 80vh;
-    /* position: absolute; */
-    /* top: 100px;
+.clientBox-1 {
+  background: white;
+  width: 25%;
+  height: 30vh;
+  /* position: absolute; */
+  /* top: 100px;
     left: -20px; */
-    display: flex;
-    flex-direction: column;
-    /* justify-content: center; */
-    padding-top: 20px;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  padding-top: 20px;
+  align-items: center;
 }
 
-.clientBox-1 button{
-    background:  rgb(248, 4, 155);
-    color: white;
-    border: none;
-    margin: 10px 0;
-    height: 20px;
-    width: 70px;
-    cursor: pointer;
+.clientBox-1 button {
+  background: rgb(248, 4, 155);
+  color: white;
+  border: none;
+  margin: 10px 0;
+  height: 20px;
+  width: 70px;
+  cursor: pointer;
 }
 
-.clientBox-2{
-    width: 80%;
-    /* display: flex;
+.clientBox-2 {
+  width: 80%;
+  /* display: flex;
     flex-direction: column;
     width: 75%;
     position: absolute;
     top: 200px;
     left: 390px; */
-
 }
 
-.about{
-    background-color: white;
-    height: 250px;
-    padding: 20px;
-    width:80%;
+.about {
+  background-color: white;
+  height: 250px;
+  padding: 20px;
+  width: 80%;
 }
 
-.industry{
-    margin-top: 20px;  
-    background: white;
-    height: 100px;
-    padding: 20px;
-    width: 80%;
+.industry {
+  margin-top: 20px;
+  background: white;
+  height: 100px;
+  padding: 20px;
+  width: 80%;
 }
 
-.industry h2, .about h2{
-    margin-bottom: 10px;
+.industry h2,
+.about h2 {
+  margin-bottom: 10px;
 }
 
-.top-nav{
-    position: relative;
+.top-nav {
+  position: relative;
 }
 .client-img img {
-    width: 35vh;
-    border-radius: 50%;
-    height: 35vh;
-    position: absolute;
-    z-index: 3;
-    top: 20px;
-    margin-left: 10px;
+  width: 35vh;
+  border-radius: 50%;
+  height: 35vh;
+  position: absolute;
+  z-index: 3;
+  top: 20px;
+  margin-left: 10px;
 }
 
-.nav-links{
-    background-color: black;
-    color: white;
-    display: flex;
+.nav-links {
+  background-color: black;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 10vh;
+  /* position: relative; */
+  top: 100px;
+  z-index: 2;
+}
+
+.nav-links p {
+  margin-right: 30px;
+}
+
+a {
+  color: black;
+  text-decoration: none;
+}
+
+.about-nav,
+.jobs-nav,
+.portfolio-nav {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: white;
+}
+
+.about-nav:hover,
+.jobs-nav:hover,
+.portfolio-nav:hover {
+  color: rgb(248, 4, 155);
+}
+
+.socialMediaButtons {
+  display: flex;
+}
+
+.socialMediaButtons a {
+  margin-right: 10px;
+  color: black;
+}
+
+.followSection {
+  display: flex;
+  margin: 10px 0 20px 0;
+}
+
+.following {
+  margin-right: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.followers {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.nav-img {
+  width: 100%;
+  /* position: absolute; */
+  height: 200px;
+  z-index: 1;
+}
+
+@media screen and (max-width: 1020px) {
+  .client-img img {
+    width: 160px;
+    border-radius: 50%;
+    height: 160px;
+    position: absolute;
+    z-index: 1;
+    /* top: 100px; */
+    margin-left: 10px;
+  }
+
+  .nav-links {
+    background-color: transparent;
     justify-content: center;
     align-items: center;
     width: 100%;
     height: 10vh;
-    /* position: relative; */
-    top: 100px;
-    z-index: 2;
-}
-
-.nav-links p{
-    margin-right: 30px;
-}
-
-a{
+    position: absolute;
+    top: 310px;
+    z-index: 9999;
+  }
+  .about-nav,
+  .jobs-nav,
+  .portfolio-nav {
     color: black;
-    text-decoration: none;
-}
+  }
 
-.about-nav, .jobs-nav, .portfolio-nav{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    color: white;
-}
-
-.about-nav:hover, .jobs-nav:hover, .portfolio-nav:hover{
-    color: rgb(248, 4, 155);
-}
-
-.socialMediaButtons{
-    display: flex;
-}
-
-.socialMediaButtons a{
-    margin-right: 10px;
+  .nav-links a {
     color: black;
-}
+  }
 
-.followSection{
-    display: flex;
-    margin: 10px 0 20px 0;
-}
-
-.following{
-    margin-right: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.followers{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.nav-img{
+  .nav-img {
     width: 100%;
-    /* position: absolute; */
-    height: 200px;
-    z-index: 1;
-}
+    position: absolute;
+    height: 15vh;
+  }
 
+  .cbox {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    margin: 30px 20px;
+  }
 
-/* @media screen and (max-width: 1020px) {
-    .client-img img {
-        width: 160px;
-        border-radius: 50%;
-        height: 160px;
-        position: absolute;
-        z-index: 1;
-        top: 100px;
-        margin-left: 10px;
-    }
-    
-    
-    .nav-links{
-        background-color: transparent;
-        justify-content: center;
-        align-items: center;
-        width: 100%;
-        height: 10vh;
-        position: absolute;
-        top: 450px;
-        z-index: 9999;
-    }
+  .top-nav {
+    width: 100%;
+  }
 
-    .nav-links a{
-        color: black;
-    }
- 
-    .nav-img{
-        width: 100%;
-        position: absolute;
-        height: 15vh;
-    }
-    
-    .cbox{
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        align-items: center;
-        margin: 30px 20px;
-    }
-    
-    .top-nav{
-        width: 100%;
-    }
-
-    
-.cbox{
+  .cbox {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin: 0;
-}
+  }
 
-
-.about{
+  .about {
     background-color: white;
     height: 250px;
-    width:80%;
-}
+    width: 80%;
+  }
 
-.clientBox-1{
-    background: transparent;
+  .clientBox-1 {
+    background-color: white;
     width: 100%;
-    height: 500px;
+    height: 300px;
     position: relative;
-    top: 200px;
+    /* top: 200px; */
     left: 0;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-}
+    padding-top: 180px;
+  }
 
-.clientBox-1 h2, .clientBox-1 p{
+  /* .clientBox-1 h2,
+  .clientBox-1 p {
     position: relative;
     top: -140px;
     left: 80px;
-}
+  } */
 
-.socialMediaButtons a{
+  .socialMediaButtons a {
     position: relative;
-    top: -230px;
-    left: 80px;
+    /* top: -230px; */
+    /* left: 80px; */
     font-size: 28px;
-}
+  }
 
-
-.clientBox-2{
-    
+  .clientBox-2 {
     display: flex;
     flex-direction: column;
     width: 100%;
     position: relative;
     top: 100px;
-}
+  }
 
-.followSection{
+  .followSection {
     display: flex;
     position: relative;
     top: 30px;
     right: 60px;
     font-size: 20px;
-}
+  }
 
-    
-.clientBox-2{
-    
+  .clientBox-2 {
     display: flex;
     flex-direction: column;
     width: 100%;
     top: 40px;
     left: 0;
     background: rgb(238, 234, 234);
-}
+  }
 
-    
-.about{
+  .about {
     color: white;
-    height: 170px;
+    height: 220px;
     padding: 20px;
-    width:90%;
+    width: 90%;
     background: #000;
     margin: auto;
-}
+    margin-top: 20px;
+  }
 
-.industry{
-    margin-top: 20px;  
+  .industry {
+    margin-top: 20px;
     background: black;
     color: white;
-    height: 100px;
+    height: 180px;
     padding: 20px;
     width: 90%;
     margin: 20px auto auto auto;
-}
+  }
 
-.clientBox-1 button{
-    background:  rgb(248, 4, 155);
+  .clientBox-1 button {
+    background: rgb(248, 4, 155);
     color: white;
     border: none;
     border-radius: 8px;
@@ -305,7 +308,5 @@ a{
     height: 33px;
     width: 120px;
     font-size: 16px;
+  }
 }
-} */
-
-

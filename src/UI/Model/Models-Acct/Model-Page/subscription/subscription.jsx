@@ -1,12 +1,31 @@
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import FadeIn from "../../../../../Components/FadeIn/fade_in";
 import "./subscription.scss";
 import SubscriptionDetail from "./subscription_detail";
+import { useDispatch } from "react-redux";
+import { makeGet } from "../../../../../redux/apiCalls";
+import moment from "moment";
 
 const ModelSubscription = () => {
+  const dispatch = useDispatch();
+
   const [showDetails, setShowDetails] = useState(false);
-  const openDetails = () => {
+  const [paymentInvoice, setPaymentInvoice] = useState([]);
+  const [paymentInvoiceId, setPaymentInvoiceId] = useState("");
+
+  const fetchInvoice = useCallback(() => {
+    makeGet(dispatch, "/payment/payments/user", setPaymentInvoice);
+  }, [dispatch]);
+
+  useEffect(() => {
+    let unsubscribe = fetchInvoice();
+    return () => unsubscribe;
+  }, []);
+  const reverse = [...paymentInvoice].reverse();
+
+  const openDetails = (id) => {
     setShowDetails(true);
+    setPaymentInvoiceId(id);
   };
   const removeDetails = (e) => {
     if (e.target.id === "bg") setShowDetails(false);
@@ -30,30 +49,33 @@ const ModelSubscription = () => {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>
-                  #123 <span>model</span>
-                </td>
-                <td>Model Portfolio</td>
-                <td>2,000</td>
-                <td>365 Days</td>
-                <td className="active">Active</td>
-                <td>
-                  <button onClick={openDetails}>View</button>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  #245 <span>model</span>
-                </td>
-                <td>Featured</td>
-                <td>1,000</td>
-                <td>120 Days</td>
-                <td className="active">Active</td>
-                <td>
-                  <button onClick={openDetails}>View</button>
-                </td>
-              </tr>
+              {reverse?.length === 0 && (
+                <p style={{ textAlign: "center" }}>No subscription found!</p>
+              )}
+              {reverse.map((item, index) => {
+                const createdAt = new Date(item.createdAt);
+                const endDate = new Date(
+                  createdAt.getFullYear() + 1,
+                  createdAt.getMonth(),
+                  createdAt.getDate()
+                );
+                return (
+                  <tr key={index}>
+                    <td>
+                      #123 <span>model</span>
+                    </td>
+                    <td>{item?.desc}</td>
+                    <td>NGN {item?.amount}</td>
+                    <td>{moment(item?.endDate ? item?.endDate : endDate).format("DD-MM-YYYY")}</td>
+                    <td className="active">Active</td>
+                    <td>
+                      <button onClick={() => openDetails(item?._id)}>
+                        View
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
             <tfoot></tfoot>
           </table>
@@ -61,7 +83,7 @@ const ModelSubscription = () => {
 
         {showDetails && (
           <div id="bg" onClick={removeDetails}>
-            <SubscriptionDetail />
+            <SubscriptionDetail paymentInvoiceId={paymentInvoiceId} />
           </div>
         )}
       </div>

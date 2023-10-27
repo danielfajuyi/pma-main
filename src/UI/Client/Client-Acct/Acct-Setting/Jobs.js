@@ -187,7 +187,7 @@ function Photos({ handleModal, resetDiscard }) {
       {/* content section */}
       <section className="--content-container">
         <section className="--set_sections-container">
-          <h2 className="--set_sections-title">Jobs Photos</h2>
+          <h2 className="--set_sections-title">Brand Photos</h2>
           <p className="--set_note-text">
             <i className="fa-solid fa-angles-right --points"></i>
             We recommend using a variety of high resolution photos that best

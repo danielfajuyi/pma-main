@@ -17,7 +17,7 @@ import { CgUserList } from "react-icons/cg"; //[END]
 import DashboardSidebar from "../../../../Components/Dashboard/Sidebar/sidebar";
 import DashboardTopbar from "../../../../Components/Dashboard/Topbar/topbar";
 import Background from "../../../../Components/Dashboard/Background/background"; //[END]
-
+import Sidebar from "../../../../Components/Sidebar/Sidebar";
 // Custom Hooks  --> [START]
 import useMediaQuery from "../../../../custom_hooks/useMediaQuery"; //[END]
 
@@ -29,8 +29,17 @@ import { useSelector } from "react-redux";
 
 //--> importing notification component
 import Notification from "../../../Notification/Notification";
+import { FaTimes } from "react-icons/fa";
 
-const ModelPage = ({ showNavbar, setShowNavbar, setModelPage, setNotice, notice }) => {
+const ModelPage = ({
+  showNavbar,
+  setShowNavbar,
+  setModelPage,
+  setNotice,
+  notice,
+  darkmode,
+  HandleTheme,
+}) => {
   const user = useSelector((state) => state.user.currentUser);
   // Using Hooks  --> [START]
 
@@ -55,34 +64,67 @@ const ModelPage = ({ showNavbar, setShowNavbar, setModelPage, setNotice, notice 
 
   // Array For Composing Sidebar Navigation -> (Sidebar Componet) --> [START]
   const topList = [
-    { name: "Dashboard", icon: <MdOutlineDashboard />, path: "dashboard" },
-    { name: "Profile", icon: <CgUserList />, path: "profile/" + user._id },
-    { name: "My Wallet", icon: <BiWallet />, path: "mywallet" },
     {
-      name: "Review",
-      icon: <MdOutlineReviews />,
-      children: [
-        { name: "Write Review", path: "review/writereview" },
-        { name: "Reviews", path: "review/reviews" },
-        { name: "Report", path: "review/report" },
-      ],
+      name: "Dashboard",
+      icon: <MdOutlineDashboard className="icon" />,
+      path: "dashboard",
     },
     {
+      name: "Profile",
+      icon: <CgUserList className="icon" />,
+      path: "profile/" + user._id,
+    },
+    {
+      name: "My Wallet",
+      icon: <BiWallet className="icon" />,
+      path: "mywallet",
+    },
+    // {
+    //   name: "Review",
+    //   icon: <MdOutlineReviews />,
+    //   children: [
+    //     { name: "Write Review", path: "review/writereview" },
+    //     { name: "Reviews", path: "review/reviews" },
+    //     { name: "Report", path: "review/report" },
+    //   ],
+    // },
+    {
       name: "Subscription",
-      icon: <MdOutlineRssFeed />,
+      icon: <MdOutlineRssFeed className="icon" />,
       path: "subscription",
     },
     {
       name: "Community",
-      icon: <HiOutlineUserGroup />,
+      icon: <HiOutlineUserGroup className="icon" />,
       path: "community",
     },
-    { name: "Settings", icon: <IoSettingsOutline />, path: "/model-Acct-setting" },
+    {
+      name: "Settings",
+      icon: <IoSettingsOutline className="icon" />,
+
+      path: "/model-Acct-setting/" + user._id,
+    },
+
+    {
+      name: "Close Bar",
+      icon: <FaTimes className="icon" />,
+      close: false,
+    },
   ];
   const bottomList = [
-    { name: "Help", icon: <MdOutlineLiveHelp />, path: "/faqs" },
-    { name: "Contact us", icon: <MdOutlineContactPhone />, path: "/contact" },
-    { name: "Log out", icon: <BiLogOut />, path: "" },
+    {
+      name: "Help",
+
+      icon: <MdOutlineLiveHelp className="icon" />,
+      path: "/faqs",
+    },
+    {
+      name: "Contact us",
+
+      icon: <MdOutlineContactPhone className="icon" />,
+      path: "/contact",
+    },
+    { name: "Log out", icon: <BiLogOut className="icon" />, path: "" },
   ];
   //[END]
 
@@ -96,22 +138,40 @@ const ModelPage = ({ showNavbar, setShowNavbar, setModelPage, setNotice, notice 
 
   return (
     !showNavbar && (
-      <div id="model_page">
+      <div
+        className={
+          darkmode
+            ? "model_page  dashboards-styles  darkmode"
+            : " model_page  dashboards-styles"
+        }
+      >
         {/* Model Page Sidebar Navigation --> [START] */}
         {mQ1050px ? (
-          <DashboardSidebar top={topList} bottom={bottomList} />
+          <Sidebar
+            topList={topList}
+            darkmode={darkmode}
+            HandleTheme={HandleTheme}
+            bottomList={bottomList}
+            setSidebarVisibility={setSidebarVisibility}
+          />
         ) : sidebarVisibility ? (
           <Background childState={setSidebarVisibility}>
-            <DashboardSidebar
-              top={topList}
-              bottom={bottomList}
+            <Sidebar
+              topList={topList}
+              darkmode={darkmode}
+              HandleTheme={HandleTheme}
+              bottomList={bottomList}
               setSidebarVisibility={setSidebarVisibility}
             />
           </Background>
         ) : null}
         {/*[END] */}
 
-        <main>
+        <main
+          className={
+            darkmode ? " dashboards-styles  darkmode " : "dashboards-styles "
+          }
+        >
           {/* Model Page Topbar --> [START] */}
           <DashboardTopbar
             lastItem={button}
@@ -124,7 +184,7 @@ const ModelPage = ({ showNavbar, setShowNavbar, setModelPage, setNotice, notice 
           {/* [END] */}
 
           {/* Render The Current Sidebar Navigation Link --> [START] */}
-          <Outlet />
+          <Outlet darkmode={darkmode} HandleTheme={HandleTheme} />
           {/* [END] */}
 
           <Notification

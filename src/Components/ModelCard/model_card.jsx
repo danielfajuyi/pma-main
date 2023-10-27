@@ -7,8 +7,9 @@ import { motion } from "framer-motion";
 
 const 
 ModelCard = ({model}) => {
-  const uuid = model?._id;
-  // console.log(model.picture)
+  const id = model?._id;
+  const uuid = model?.uuid
+  // console.log(uuid)
 
   return (
     <div id="model_card" style={{ }}>
@@ -45,7 +46,7 @@ ModelCard = ({model}) => {
             </span>
           )}
         </div>
-        <a href={`/find-model/profile/${uuid}`}>
+        <a href={`/agencypage/profile/${id}?q=${uuid}`}>
           <button id="card_btn">See Portfolio</button>
         </a>
       </motion.div>

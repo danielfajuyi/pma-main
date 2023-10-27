@@ -16,6 +16,7 @@ function JobNotice({ setToggle }) {
   const [message, setMessage] = useState("");
   const [booking, setBooking] = useState({});
   const [bookId, setBookId] = useState("");
+  const [notFrom, setNotFrom] = useState({});
 
   const getNotification = useCallback(() => {
     makeGet(dispatch, `/notification/single-not/${path}`, setNotification);
@@ -27,6 +28,15 @@ function JobNotice({ setToggle }) {
 
   useEffect(() => {
     let unsubscribe = getNotification();
+    return () => unsubscribe;
+  }, []);
+
+  const getNotFrom = useCallback(() => {
+    makeGet(dispatch, `/user/user/${notification?.notFrom}`, setNotFrom);
+  }, [dispatch]);
+
+  useEffect(() => {
+    let unsubscribe = getNotFrom();
     return () => unsubscribe;
   }, []);
 
@@ -52,7 +62,21 @@ function JobNotice({ setToggle }) {
     <div className="noti-job">
       {!booking?.isAccepted && !booking?.isRejected && (
         <>
-          <p className="noti-job-title">{notification?.notTitle}</p>
+          <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+            <a href={ notFrom.role === "model"
+          ? `/find-model/profile/${notification?.notFrom}`
+          : notFrom.role === "agency"
+          ? `/find-agency/profile/${notification?.notFrom}`
+          : `/find-client/profile/${notification?.notFrom}`}>
+              <img
+                className="noti-avater"
+                src="/images/fav-icon.png"
+                alt=""
+                style={{ marginTop: "30px", cursor: "pointer" }}
+              />
+            </a>
+            <p className="noti-job-title">{notification?.notTitle}</p>
+          </div>
 
           {notification?.notification && (
             <div className="noti-job-list">

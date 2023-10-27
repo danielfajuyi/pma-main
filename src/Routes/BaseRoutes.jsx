@@ -9,12 +9,14 @@ import JobPost from "../Pages/JobPost/JobPost";
 import JobPostForm from "../Pages/JobPost/JobPostForm/JobPostForm";
 import Home from "../Pages/Home/home";
 import HowItWorks from "../Pages/HowItWorks/HowItWorks";
-import LoginForm from "../Pages/LoginSignup/Login/Login-Form";
-import SignUp from "../Pages/LoginSignup/Sign-Up/Sign-up";
+import LoginSignup from "../Pages/LoginSignup/Login/Login";
 import NotFound from "../Pages/NotFound/notfound";
-import AdminPage from "../UI/Admin-UI/AdminPage/admin_page";
-import AdminDashboard from "../UI/Admin-UI/AdminPage/dashboard/dashboard";
-import { createBrowserRouter, RouterProvider, Navigate, Outlet } from "react-router-dom";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  Navigate,
+  Outlet,
+} from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { userLogout } from "../redux/apiCalls";
 import Blogs from "../Pages/Blog/Blogs";
@@ -57,8 +59,14 @@ import ClientAcctSetting from "../UI/Client/Client-Acct/Acct-Setting/Client-Acct
 import ClientProfile from "../UI/Client/ClientProfile/ClientProfile";
 import Chats from "../UI/Inbox/Chats/chats";
 import JobNotice from "../UI/Notification/Job-Notice-Items";
+
 import Wallet from "../Pages/Wallet/wallet-page";
 import TransactionHistory from "../Pages/Wallet/History";
+
+import AgencyPortfolio from "../UI/Agency/AgencyProfile/agency_portfolio";
+import ClientPortfolio from "../UI/Client/ClientProfile/ClientPortfolio";
+import LoginSignups from "../Pages/LoginSignup/Login/Signup";
+import Sidebar from "../Components/Sidebar/Sidebar";
 
 export const BaseRoutes = () => {
   const [showNavbar, setShowNavbar] = useState(true);
@@ -110,7 +118,10 @@ export const BaseRoutes = () => {
   function AlertModal() {
     /* modal section */
     return (
-      <section style={{ transform: toggleModal && `translateX(${0}%)` }} className="alert-section">
+      <section
+        style={{ transform: toggleModal && `translateX(${0}%)` }}
+        className="alert-section"
+      >
         {/* successful saving */}
 
         {activeModel === "save" && (
@@ -297,10 +308,19 @@ export const BaseRoutes = () => {
           path: "jobpost/*",
           element: <JobPost />,
         },
+
         {
           path: "blog/",
           element: <Blogs />,
         },
+
+        {
+          path: "sidebar/",
+          element: (
+            <Sidebar showNavbar={showNavbar} setShowNavbar={setShowNavbar} />
+          ),
+        },
+
         {
           path: "post/:id",
           element: <Single />,
@@ -310,22 +330,21 @@ export const BaseRoutes = () => {
           element: <ProfilePage />,
         },
         {
+          path: "find-client/profile/:id",
+          element: <ClientPortfolio />,
+        },
+        {
+          path: "find-agency/profile/:id",
+          element: <AgencyPortfolio />,
+        },
+        {
           path: "faqs",
           element: <FAQs />,
         },
+
         {
           path: "howitworks",
           element: <HowItWorks />,
-        },
-        {
-          path: "adminpage/",
-          element: <AdminPage showNavbar={showNavbar} setShowNavbar={setShowNavbar} />,
-          children: [
-            {
-              path: "dashboard",
-              element: <AdminDashboard />,
-            },
-          ],
         },
         {
           path: "inbox",
@@ -351,7 +370,12 @@ export const BaseRoutes = () => {
           children: [
             {
               path: "dashboard",
-              element: <AgencyDashboard showNavbar={showNavbar} setShowNavbar={setShowNavbar} />,
+              element: (
+                <AgencyDashboard
+                  showNavbar={showNavbar}
+                  setShowNavbar={setShowNavbar}
+                />
+              ),
             },
             {
               path: "profile",
@@ -369,6 +393,11 @@ export const BaseRoutes = () => {
                   element: <AgencyModels />,
                 },
               ],
+            },
+            // models under agency portfolio
+            {
+              path: "profile/:id",
+              element: <ModelPortfolio />,
             },
             {
               path: "chat/:id",
@@ -391,14 +420,22 @@ export const BaseRoutes = () => {
             {
               path: "transaction-history",
               element: (
-                <TransactionHistory transactions={transactions} currentUser={"/agencypage"} />
+                <TransactionHistory
+                  transactions={transactions}
+                  currentUser={"/agencypage"}
+                />
               ),
             },
           ],
         },
         {
           path: "Agency-Acct-setting",
-          element: <AgencyAcctSetting showNavbar={showNavbar} setShowNavbar={setShowNavbar} />,
+          element: (
+            <AgencyAcctSetting
+              showNavbar={showNavbar}
+              setShowNavbar={setShowNavbar}
+            />
+          ),
         },
         {
           path: "modelpage/",
@@ -435,7 +472,10 @@ export const BaseRoutes = () => {
             {
               path: "transaction-history",
               element: (
-                <TransactionHistory transactions={transactions} currentUser={"/modelpage"} />
+                <TransactionHistory
+                  transactions={transactions}
+                  currentUser={"/modelpage"}
+                />
               ),
             },
             {
@@ -468,10 +508,15 @@ export const BaseRoutes = () => {
         },
         {
           path: "model-kyc",
-          element: <ModelsForms showNavbar={showNavbar} setShowNavbar={setShowNavbar} />,
+          element: (
+            <ModelsForms
+              showNavbar={showNavbar}
+              setShowNavbar={setShowNavbar}
+            />
+          ),
         },
         {
-          path: "model-Acct-setting",
+          path: "model-Acct-setting/:id",
           element: (
             <ModelAcctSetting
               handleModal={handleModal}
@@ -528,7 +573,10 @@ export const BaseRoutes = () => {
             {
               path: "transaction-history",
               element: (
-                <TransactionHistory transactions={transactions} currentUser={"/clientpage"} />
+                <TransactionHistory
+                  transactions={transactions}
+                  currentUser={"/clientpage"}
+                />
               ),
             },
             {
@@ -565,7 +613,12 @@ export const BaseRoutes = () => {
         },
         {
           path: "Client-Acct-setting",
-          element: <ClientAcctSetting showNavbar={showNavbar} setShowNavbar={setShowNavbar} />,
+          element: (
+            <ClientAcctSetting
+              showNavbar={showNavbar}
+              setShowNavbar={setShowNavbar}
+            />
+          ),
         },
         // {
         //   path: "profile/:id",
@@ -586,13 +639,13 @@ export const BaseRoutes = () => {
       ],
     },
     {
-      path: "sign-up",
-      element: <SignUp />,
+      path: "signup",
+      element: <LoginSignups />,
     },
     {
       path: "login",
       element: !user ? (
-        <LoginForm />
+        <LoginSignup />
       ) : (
         <Navigate
           to={

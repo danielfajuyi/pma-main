@@ -24,11 +24,13 @@ export const register = async (dispatch, url, user, setMessage, setUser) => {
   }
 };
 
-export const login = async (dispatch, url, user, setMessage, setUser) => {
+export const login = async (dispatch, url, user, setMessage, setUser, setIsLoading) => {
   dispatch(loginStart());
+  setIsLoading(true)
   try {
     const res = await userRequest.post(url, user);
     dispatch(loginSuccess(res.data));
+    setIsLoading(false)
     setMessage("Login successful!");
     window.location.reload();
   } catch (err) {
@@ -36,6 +38,7 @@ export const login = async (dispatch, url, user, setMessage, setUser) => {
     setMessage(err?.response?.data);
     err?.response?.data?.message && alert(err?.response?.data?.message);
     dispatch(loginFailure());
+    setIsLoading(false)
   }
 };
 
@@ -90,6 +93,7 @@ export const makeEdit = async (dispatch, url, inputs, setMessage) => {
     dispatch(processSuccess());
     setMessage(res.data);
     toast.success("Data uploaded successfully.");
+    window.location.reload()
     // console.log(res.data);
   } catch (err) {
     dispatch(processFailure());
