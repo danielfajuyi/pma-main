@@ -1,0 +1,29 @@
+.terms-container {
+  min-width: 600px;
+  max-width: 1250px;
+  margin: auto;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  line-height: 1.8;
+}
+.terms-container h1 {
+  text-decoration: underline;
+}
+
+.terms-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.terms-list li {
+  padding: 5px;
+}
+.terms-link {
+  color: rgb(0, 191, 255);
+  text-decoration: underline;
+}
+.terms-link:hover {
+  color: rgb(255, 47, 0);
+}

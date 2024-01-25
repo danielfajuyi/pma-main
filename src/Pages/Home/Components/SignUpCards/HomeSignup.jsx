@@ -20,7 +20,7 @@ const HomeSignup = () => {
               You’re in charge of your time – and you pick the jobs you want to
               do.
             </p>
-            <a href="/sign-up" className="btn_shadow">
+            <a href="/signup" className="btn_shadow">
               Signup Now
             </a>
           </div>
@@ -38,7 +38,7 @@ const HomeSignup = () => {
               relevant age groups. The process of finding and booking models is
               quick and simple. In fact, it is tailored to clients' demands.
             </p>
-            <a href="/sign-up" className="btn_shadow">
+            <a href="/signup" className="btn_shadow">
               Signup Now
             </a>
           </div>
@@ -56,7 +56,7 @@ const HomeSignup = () => {
               register your agency with us. Easier booking processes,
               commissions and quick payouts.
             </p>
-            <a href="/sign-up" className="btn_shadow">
+            <a href="/signup" className="btn_shadow">
               Signup Now
             </a>
           </div>

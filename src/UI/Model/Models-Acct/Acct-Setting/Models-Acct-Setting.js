@@ -10,7 +10,11 @@ import { navList1, navList2 } from "../utils";
 import { NavLink } from "react-router-dom";
 import { makeGet, update } from "../../../../redux/apiCalls";
 import { useLocation } from "react-router";
+import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
+import "../../../../scss/kyc-forms.scss";
+import "../Kyc-Section/Component/img-scss/img.scss";
+import "../Kyc-Section/Component/svg-scss/svg.scss";
 
 function ModelAcctSetting({
   AlertModal,
@@ -23,14 +27,120 @@ function ModelAcctSetting({
   const dispatch = useDispatch();
   const location = useLocation();
   const path = location.pathname.split("/")[2];
-
   const [activeSet, setActiveSet] = useState("about");
   const [toggleSetMenu, setToggleSetMenu] = useState(false);
   const [activeEdit, setActiveEdit] = useState("");
-
+  const [authToken, setAuthToken] = useState("");
+  const [inputs, setInputs] = useState({});
   const [discardFunc, setDiscardFunc] = useState("");
   const [toggleDiscard, setToggleDiscard] = useState(false);
   const [model, setModel] = useState({});
+  const [countries, setCountries] = useState([]);
+  const [states, setStates] = useState([]);
+  const [darkmode, setDarkMode] = useState(false);
+  // get access token for countries api
+  useEffect(() => {
+    const getAccessToken = async () => {
+      try {
+        const res = await axios.get(
+          "https://www.universal-tutorial.com/api/getaccesstoken",
+          {
+            headers: {
+              Accept: "application/json",
+              "api-token":
+                "Ku2uq0eMGByhMQmQdP5tKH3bbR4dD3ZNXjRqllWOT-srDfzC-wXRnd7Kcym_A_9MpP4",
+              "user-email": "tosinadebayo55@gmail.com",
+            },
+          }
+        );
+        setAuthToken(res.data);
+      } catch (error) {
+        // console.log(error?.response?.data);
+      }
+    };
+    getAccessToken();
+  }, []);
+
+  // get list of countries
+  useEffect(() => {
+    const getCountries = async () => {
+      try {
+        const res = await axios.get(
+          "https://www.universal-tutorial.com/api/countries/",
+          {
+            headers: {
+              Authorization: `Bearer ${authToken.auth_token}`,
+              Accept: "application/json",
+            },
+          }
+        );
+        setCountries(res.data);
+      } catch (error) {
+        // console.log(error?.response?.data);
+      }
+    };
+    getCountries();
+  }, [authToken]);
+
+  // get list of states
+  useEffect(() => {
+    const getStates = async () => {
+      try {
+        const res = await axios.get(
+          `https://www.universal-tutorial.com/api/states/${inputs?.country}`,
+          {
+            headers: {
+              Authorization: `Bearer ${authToken.auth_token}`,
+              Accept: "application/json",
+            },
+          }
+        );
+        setStates(res.data);
+      } catch (error) {
+        // console.log(error?.response?.data);
+      }
+    };
+    getStates();
+  }, [inputs.country]);
+
+  // function handles onfocus and onblur mode on form inputs
+  const FocusBlur = () => {
+    const focusinputs = document.querySelectorAll(".input-textarea");
+    focusinputs.forEach((ipt) => {
+      ipt.addEventListener("focus", () => {
+        ipt.parentNode.classList.add("focus");
+        ipt.parentNode.classList.add("not-empty");
+      });
+
+      ipt.addEventListener("blur", () => {
+        if (ipt.value == "") {
+          ipt.parentNode.classList.remove("not-empty");
+          ipt.parentNode.classList.remove("focus");
+        }
+      });
+    });
+  };
+
+  // handles form transitions on light and dark mode
+  const TransitionHandler = () => {
+    const allElement = document.querySelectorAll("*");
+    allElement.forEach((el) => {
+      el.classList.add("form-transition");
+      setTimeout(() => {
+        el.classList.remove("form-transition");
+      }, 1000);
+    });
+  };
+  //  function handles dark and light mode onclick on forms
+  const HandleTheme = (event) => {
+    // 👇️ toggle darkmode state on click
+    setDarkMode((current) => !current);
+    TransitionHandler();
+  };
+
+  useEffect(() => {
+    FocusBlur();
+  }, []);
 
   const fetchData = useCallback(() => {
     makeGet(dispatch, `/model/${path}`, setModel);
@@ -47,7 +157,6 @@ function ModelAcctSetting({
     };
     // }
   }, []);
-  // console.log(model)
 
   useEffect(() => {
     setShowNavbar(false);
@@ -219,7 +328,15 @@ function ModelAcctSetting({
                 userData={userData}
                 handleModal={handleModal}
                 resetDiscard={resetDiscard}
+                HandleTheme={HandleTheme}
                 model={model}
+                inputs={inputs}
+                setInputs={setInputs}
+                FocusBlur={FocusBlur}
+                handleActiveSet={handleActiveSet}
+                countries={countries}
+                states={states}
+                darkmode={darkmode}
               />
             )}
 
@@ -272,7 +389,9 @@ function ModelAcctSetting({
 
             {/* payment info section */}
 
-            {activeSet === "payment" && <PaymentInfo userData={userData} model={model} />}
+            {activeSet === "payment" && (
+              <PaymentInfo userData={userData} model={model} />
+            )}
           </section>
         </div>
       )}
