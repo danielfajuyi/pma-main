@@ -1,8 +1,11 @@
+import { useEffect } from "react";
+
 function EditBtn({
   btnText,
   section,
   handleActiveEdit,
   handlePassword,
+
   handleEmail,
 }) {
   function handleClick() {
@@ -16,6 +19,7 @@ function EditBtn({
     <button
       onClick={handleClick}
       className="edit-btn colored-hover"
+      style={{ position: "absolute", right: "0", margin: " 0 0 1rem 0 " }}
       type="button"
     >
       {btnText}

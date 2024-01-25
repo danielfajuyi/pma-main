@@ -43,7 +43,10 @@ const Navbar = () => {
                       <li key={index}>
                         <NavLink
                           to={path}
-                          className={({ isActive }) => (isActive ? "active-nav" : "")}>
+                          className={({ isActive }) =>
+                            isActive ? "active-nav" : ""
+                          }
+                        >
                           {name}
                         </NavLink>
                       </li>
@@ -54,7 +57,10 @@ const Navbar = () => {
                     <li key={index}>
                       <NavLink
                         to={path}
-                        className={({ isActive }) => (isActive ? "active-nav" : "")}>
+                        className={({ isActive }) =>
+                          isActive ? "active-nav" : ""
+                        }
+                      >
                         {name}
                       </NavLink>
                     </li>
@@ -68,7 +74,7 @@ const Navbar = () => {
             <Link to="/login" className="btn btn1">
               Login
             </Link>
-            <Link to="/sign-up" className="btn btn2">
+            <Link to="/signup" className="btn btn2">
               Signup
             </Link>
           </div>
@@ -83,10 +89,14 @@ const Navbar = () => {
 
       {/* mobile nav */}
 
-      <nav style={{ transform: toggleMenu && `translateX(${0}%)` }} className="mobile-nav">
+      <nav
+        style={{ transform: toggleMenu && `translateX(${0}%)` }}
+        className="mobile-nav"
+      >
         <div
           style={{ transform: toggleMenu && `translateX(${0}%)` }}
-          className="mobile-nav__container">
+          className="mobile-nav__container"
+        >
           <FaTimes onClick={handleMenu} className="close-menu" />
           <ul className="mobile-nav__list">
             {links.map(({ name, path, id }) => {
@@ -94,8 +104,13 @@ const Navbar = () => {
                 <NavLink
                   to={path}
                   style={{ color: "white" }}
-                  className={({ isActive }) => (isActive ? "active-nav" : "")}>
-                  <li onClick={handleMenu} key={id} className="mobile-nav__item">
+                  className={({ isActive }) => (isActive ? "active-nav" : "")}
+                >
+                  <li
+                    onClick={handleMenu}
+                    key={id}
+                    className="mobile-nav__item"
+                  >
                     {name}
                   </li>
                 </NavLink>
@@ -106,7 +121,7 @@ const Navbar = () => {
             <Link to="/login" onClick={handleMenu} className="btn btn1">
               Login
             </Link>
-            <Link to="/sign-up" onClick={handleMenu} className="btn btn2">
+            <Link to="/signup" onClick={handleMenu} className="btn btn2">
               Signup
             </Link>
           </div>

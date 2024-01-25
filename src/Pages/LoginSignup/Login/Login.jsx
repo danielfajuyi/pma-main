@@ -160,11 +160,7 @@ const LoginSignup = () => {
             >
               <div className="sign-line"></div>
               <div className="sign-line l2"></div>
-              <form
-                action=""
-                className="sign-form sign-in-form "
-                onSubmit={handleLogin}
-              >
+              <form className="sign-form sign-in-form " onSubmit={handleLogin}>
                 <a
                   href="/"
                   // style={{

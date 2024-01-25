@@ -11,12 +11,10 @@ import Home from "../Pages/Home/home";
 import HowItWorks from "../Pages/HowItWorks/HowItWorks";
 import LoginSignup from "../Pages/LoginSignup/Login/Login";
 import NotFound from "../Pages/NotFound/notfound";
-import {
-  createBrowserRouter,
-  RouterProvider,
-  Navigate,
-  Outlet,
-} from "react-router-dom";
+import Terms from "../Pages/Terms/Terms";
+import Privacy from "../Pages/Privacy/Privacy";
+
+import { createBrowserRouter, RouterProvider, Navigate, Outlet } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { userLogout } from "../redux/apiCalls";
 import Blogs from "../Pages/Blog/Blogs";
@@ -35,7 +33,7 @@ import AgencyModels from "../UI/Agency/AgencyListing/AgencyModels";
 //importing models components
 import ModelDashboard from "../UI/Model/Models-Acct/Model-Page/dashboard/dashboard";
 import ModelsAcct from "../UI/Model/Models-Acct/Models-Acct";
-import ModelAcctSetting from "../UI/Model/Models-Acct/Acct-Setting/Models-Acct-Setting";
+import ModelAcctSetting from "../UI/Model/Models-Acct/Settings/model-settings";
 import ModelPortfolio from "../UI/Model/ModelPortfolio/ModelPortfolio";
 import ProfilePage from "../Pages/FindModel/Models-Profile-page/Profile-Page";
 import Review from "../UI/Model/Models-Acct/Model-Page/review/review";
@@ -43,6 +41,14 @@ import WriteReview from "../UI/Model/Models-Acct/Model-Page/review/write_review"
 import Reviews from "../UI/Model/Models-Acct/Model-Page/review/view_reviews";
 import ModelSubscription from "../UI/Model/Models-Acct/Model-Page/subscription/subscription";
 import ModelsForms from "../UI/Model/Models-Acct/Kyc-Section/Models-Kyc-Forms";
+
+//importing models setting components
+import ModelProfile from "../UI/Model/Models-Acct/Settings/Profile";
+import ModelStats from "../UI/Model/Models-Acct/Settings/Stats";
+import ModelPhotos from "../UI/Model/Models-Acct/Settings/Photos";
+import ModelVideos from "../UI/Model/Models-Acct/Settings/Videos";
+import ModelWallet from "../UI/Model/Models-Acct/Settings/Wallet-setting";
+import ModelLogins from "../UI/Model/Models-Acct/Settings/Logins";
 
 //importing clients components
 import ClientDashboard from "../UI/Client/Client-Acct/Client-Page/dashboard/dashboard";
@@ -57,6 +63,8 @@ import TransactionHistory from "../Pages/Wallet/History";
 
 import AgencyPortfolio from "../UI/Agency/AgencyProfile/agency_portfolio";
 import ClientPortfolio from "../UI/Client/ClientProfile/ClientPortfolio";
+import LoginSignups from "../Pages/LoginSignup/Login/Signup";
+import Sidebar from "../Components/Sidebar/Sidebar";
 
 export const BaseRoutes = () => {
   const [showNavbar, setShowNavbar] = useState(true);
@@ -108,10 +116,7 @@ export const BaseRoutes = () => {
   function AlertModal() {
     /* modal section */
     return (
-      <section
-        style={{ transform: toggleModal && `translateX(${0}%)` }}
-        className="alert-section"
-      >
+      <section style={{ transform: toggleModal && `translateX(${0}%)` }} className="alert-section">
         {/* successful saving */}
 
         {activeModel === "save" && (
@@ -305,6 +310,11 @@ export const BaseRoutes = () => {
         },
 
         {
+          path: "sidebar/",
+          element: <Sidebar showNavbar={showNavbar} setShowNavbar={setShowNavbar} />,
+        },
+
+        {
           path: "post/:id",
           element: <Single />,
         },
@@ -323,6 +333,14 @@ export const BaseRoutes = () => {
         {
           path: "faqs",
           element: <FAQs />,
+        },
+        {
+          path: "terms-of-service",
+          element: <Terms showNavbar={showNavbar} setShowNavbar={setShowNavbar} />,
+        },
+        {
+          path: "privacy",
+          element: <Privacy showNavbar={showNavbar} setShowNavbar={setShowNavbar} />,
         },
 
         {
@@ -353,12 +371,7 @@ export const BaseRoutes = () => {
           children: [
             {
               path: "dashboard",
-              element: (
-                <AgencyDashboard
-                  showNavbar={showNavbar}
-                  setShowNavbar={setShowNavbar}
-                />
-              ),
+              element: <AgencyDashboard showNavbar={showNavbar} setShowNavbar={setShowNavbar} />,
             },
             {
               path: "profile",
@@ -403,22 +416,14 @@ export const BaseRoutes = () => {
             {
               path: "transaction-history",
               element: (
-                <TransactionHistory
-                  transactions={transactions}
-                  currentUser={"/agencypage"}
-                />
+                <TransactionHistory transactions={transactions} currentUser={"/agencypage"} />
               ),
             },
           ],
         },
         {
           path: "Agency-Acct-setting",
-          element: (
-            <AgencyAcctSetting
-              showNavbar={showNavbar}
-              setShowNavbar={setShowNavbar}
-            />
-          ),
+          element: <AgencyAcctSetting showNavbar={showNavbar} setShowNavbar={setShowNavbar} />,
         },
         {
           path: "modelpage/",
@@ -447,7 +452,7 @@ export const BaseRoutes = () => {
               element: (
                 <Wallet
                   transactions={transactions}
-                  settings={"/model-Acct-setting"}
+                  settings={"/model-Acct-setting/wallet"}
                   currentUser={"/modelpage"}
                 />
               ),
@@ -455,10 +460,7 @@ export const BaseRoutes = () => {
             {
               path: "transaction-history",
               element: (
-                <TransactionHistory
-                  transactions={transactions}
-                  currentUser={"/modelpage"}
-                />
+                <TransactionHistory transactions={transactions} currentUser={"/modelpage"} />
               ),
             },
             {
@@ -491,12 +493,7 @@ export const BaseRoutes = () => {
         },
         {
           path: "model-kyc",
-          element: (
-            <ModelsForms
-              showNavbar={showNavbar}
-              setShowNavbar={setShowNavbar}
-            />
-          ),
+          element: <ModelsForms showNavbar={showNavbar} setShowNavbar={setShowNavbar} />,
         },
         {
           path: "model-Acct-setting/:id",
@@ -508,6 +505,14 @@ export const BaseRoutes = () => {
               setShowNavbar={setShowNavbar}
             />
           ),
+          children: [
+            { path: "profile", element: <ModelProfile /> },
+            { path: "stats", element: <ModelStats /> },
+            { path: "photos", element: <ModelPhotos /> },
+            { path: "videos", element: <ModelVideos /> },
+            { path: "wallet", element: <ModelWallet /> },
+            { path: "logins", element: <ModelLogins /> },
+          ],
         },
         {
           path: "clientpage/",
@@ -548,10 +553,7 @@ export const BaseRoutes = () => {
             {
               path: "transaction-history",
               element: (
-                <TransactionHistory
-                  transactions={transactions}
-                  currentUser={"/clientpage"}
-                />
+                <TransactionHistory transactions={transactions} currentUser={"/clientpage"} />
               ),
             },
             {
@@ -588,12 +590,7 @@ export const BaseRoutes = () => {
         },
         {
           path: "Client-Acct-setting",
-          element: (
-            <ClientAcctSetting
-              showNavbar={showNavbar}
-              setShowNavbar={setShowNavbar}
-            />
-          ),
+          element: <ClientAcctSetting showNavbar={showNavbar} setShowNavbar={setShowNavbar} />,
         },
         // {
         //   path: "profile/:id",
@@ -614,8 +611,8 @@ export const BaseRoutes = () => {
       ],
     },
     {
-      path: "sign-up",
-      element: <LoginSignup />,
+      path: "signup",
+      element: <LoginSignups />,
     },
     {
       path: "login",

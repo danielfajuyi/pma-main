@@ -2,8 +2,7 @@
 @import "../../../../scss/color";
 @import "../../../../scss/utils";
 
-#model_page {
-  background-color: $dark_gray;
+.model_page {
   width: 100%;
 
   @include mq($width: 1050px) {
@@ -40,7 +39,6 @@
     width: 100%;
 
     @include mq($width: 1050px) {
-      width: 85%;
       overflow-y: auto;
     }
   }

@@ -36,6 +36,10 @@
             justify-content: center;
         }
 
+        &.read-only {
+            height: 500px;
+        }
+
         &:hover {
             background: var(--input-bg-hover);
         }
