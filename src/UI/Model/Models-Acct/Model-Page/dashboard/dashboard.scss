@@ -2,7 +2,8 @@
 @import "../../../../../scss/color";
 @import "../../../../../scss/utils";
 
-#model_dashboard {
+.model_dashboard {
+  background: var(--bg-color);
   #pane {
     display: grid;
     grid-template-columns: 100%;
@@ -41,8 +42,17 @@
     }
   }
   .profile {
-    background-color: $white;
-    border-radius: $box_radius;
+    background-color: var(--color-white);
+    padding: var(--card-padding);
+    border-radius: var(--card-border-radius);
+    margin-top: 1rem;
+    box-shadow: var(--box-shadows);
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:hover {
+      box-shadow: none;
+    }
 
     .head {
       @include d_flex;
@@ -133,9 +143,19 @@
     }
   }
   #latest_post {
-    background-color: $white;
-    border-radius: $box_radius;
     @include box_header($x: 0.5em);
+
+    background-color: var(--color-white);
+    padding: var(--card-padding);
+    border-radius: var(--card-border-radius);
+    margin-top: 1rem;
+    box-shadow: var(--box-shadows);
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:hover {
+      box-shadow: none;
+    }
 
     #body {
       padding: $small_padding;
@@ -164,6 +184,17 @@
   }
 
   #bookings {
+    background-color: var(--color-white);
+    padding: var(--card-padding);
+    border-radius: var(--card-border-radius);
+    margin-top: 1rem;
+    box-shadow: var(--box-shadows);
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:hover {
+      box-shadow: none;
+    }
     & > div {
       width: 31.5%;
     }
@@ -183,8 +214,18 @@
   }
 
   .earnings {
-    background-color: $white;
-    border-radius: $box_radius;
+    background-color: var(--color-white);
+    padding: var(--card-padding);
+    border-radius: var(--card-border-radius);
+    margin-top: 1rem;
+    box-shadow: var(--box-shadows);
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:hover {
+      box-shadow: none;
+    }
+
     display: grid;
     grid-template-columns: 50% 50%;
 
@@ -196,6 +237,17 @@
   }
 
   .visitor_stats {
+    background-color: var(--color-white);
+    padding: var(--card-padding);
+    border-radius: var(--card-border-radius);
+    margin-top: 1rem;
+    box-shadow: var(--box-shadows);
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:hover {
+      box-shadow: none;
+    }
     @include visitor_stats;
   }
 
@@ -228,10 +280,19 @@
   }
 
   #job_posted {
-    background-color: $white;
-    border-radius: $box_radius;
-    padding: $small_padding;
     @include box_header($x: 0.5em);
+
+    background-color: var(--color-white);
+    padding: var(--card-padding);
+    border-radius: var(--card-border-radius);
+    margin-top: 1rem;
+    box-shadow: var(--box-shadows);
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:hover {
+      box-shadow: none;
+    }
 
     #body {
       padding-top: 0.5em;
@@ -248,9 +309,17 @@
   }
 
   #inbox {
-    background-color: $white;
-    border-radius: $box_radius;
-    padding-block: 0.5em;
+    background-color: var(--color-white);
+    padding: var(--card-padding);
+    border-radius: var(--card-border-radius);
+    margin-top: 1rem;
+    box-shadow: var(--box-shadows);
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:hover {
+      box-shadow: none;
+    }
 
     header {
       padding: $small_padding;
@@ -297,8 +366,17 @@
   }
 
   .top_rated {
-    background-color: $white;
-    border-radius: $box_radius;
+    background-color: var(--color-white);
+    padding: var(--card-padding);
+    border-radius: var(--card-border-radius);
+    margin-top: 1rem;
+    box-shadow: var(--box-shadows);
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:hover {
+      box-shadow: none;
+    }
     overflow: hidden;
     @include box_header(0.5em, 0.1em);
 

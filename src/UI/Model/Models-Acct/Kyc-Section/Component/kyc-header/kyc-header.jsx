@@ -1,7 +1,14 @@
 import React from "react";
 import { FaMoon, FaSun, FaTimes } from "react-icons/fa";
-
-const KycHeader = ({ HandleTheme, darkmode }) => {
+import logo from "../logo/logo.png";
+import { navList1 } from "../../../utils";
+const KycHeader = ({
+  HandleTheme,
+  handleActiveSet,
+  ActiveSettings,
+  user,
+  darkmode,
+}) => {
   return (
     <>
       <section className="signupforms">
@@ -10,37 +17,58 @@ const KycHeader = ({ HandleTheme, darkmode }) => {
             <li>
               <a href="/" className="form-logo">
                 <div className="form-images">
-                  <img
-                    src="./images/logo-01.png"
-                    alt="premiummodelapp-logo"
-                    title="premiummodelapp-logo"
-                    className="logo-forDark"
-                  />
-                  <img
-                    src="./images/logo-01.png"
-                    alt="premiummodelapp-logo"
-                    title="premiummodelapp-logo"
-                    className="logo-forLight"
-                  />
+                  {!ActiveSettings && (
+                    <>
+                      <img
+                        src={logo}
+                        alt="premiummodelapp-logo"
+                        title="premiummodelapp-logo"
+                        className="logo-forDark"
+                      />
+                      <img
+                        src={logo}
+                        alt="premiummodelapp-logo"
+                        title="premiummodelapp-logo"
+                        className="logo-forLight"
+                      />
+                    </>
+                  )}
                 </div>
                 <h2>
                   <div className="logo-01">
-                    <span className="logo-color-change">Premium</span>
+                    <span className="logo-color-change">
+                      {user?.lastName ? user?.lastName : "Premium"}
+                    </span>
                   </div>
                   <div className="logo-02">
-                    <span className="logo-color">models</span>
+                    <span className="logo-color">
+                      {user?.firstName ? user?.firstName : "models"}
+                    </span>
                     <span className="logo-color ">.</span>
                   </div>
                 </h2>
               </a>
             </li>
 
-            <li>
-              <a href="/" className="formnav-link">
-                Home
-              </a>
-            </li>
-
+            {!ActiveSettings && (
+              <li>
+                <a href="/" className="formnav-link">
+                  Home
+                </a>
+              </li>
+            )}
+            {ActiveSettings &&
+              navList1.map((item) => {
+                return (
+                  <li
+                    key={item}
+                    onClick={() => handleActiveSet(item)}
+                    role="button"
+                  >
+                    <span className="settings-navlink">{item}</span>
+                  </li>
+                );
+              })}
             <li>
               <span
                 className="formnav-link theme-toggle "
@@ -56,7 +84,7 @@ const KycHeader = ({ HandleTheme, darkmode }) => {
 
             <li>
               <span className="formnav-link">
-                <FaTimes className="closeform-icon" />
+                {ActiveSettings ? "" : <FaTimes className="closeform-icon" />}
               </span>
             </li>
           </ul>
