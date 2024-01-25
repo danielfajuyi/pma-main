@@ -63,8 +63,12 @@ import TransactionHistory from "../Pages/Wallet/History";
 
 import AgencyPortfolio from "../UI/Agency/AgencyProfile/agency_portfolio";
 import ClientPortfolio from "../UI/Client/ClientProfile/ClientPortfolio";
+<<<<<<< HEAD
+import AppPayment from "../Pages/webhook_payment/AppPayment";
+=======
 import LoginSignups from "../Pages/LoginSignup/Login/Signup";
 import Sidebar from "../Components/Sidebar/Sidebar";
+>>>>>>> b2f45dd7c4a4e2726743c19d2dcbdbc1fb36431a
 
 export const BaseRoutes = () => {
   const [showNavbar, setShowNavbar] = useState(true);
@@ -613,6 +617,10 @@ export const BaseRoutes = () => {
     {
       path: "signup",
       element: <LoginSignups />,
+    },
+    {
+      path: "app/payment/model",
+      element: <AppPayment />,
     },
     {
       path: "login",
