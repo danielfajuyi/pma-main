@@ -66,6 +66,7 @@ import ClientPortfolio from "../UI/Client/ClientProfile/ClientPortfolio";
 import AppPayment from "../Pages/webhook_payment/AppPayment";
 import LoginSignups from "../Pages/LoginSignup/Login/Signup";
 import Sidebar from "../Components/Sidebar/Sidebar";
+import AccountDeletion from "../Pages/LoginSignup/Login/AccountDeletion";
 
 export const BaseRoutes = () => {
   const [showNavbar, setShowNavbar] = useState(true);
@@ -618,6 +619,10 @@ export const BaseRoutes = () => {
     {
       path: "app/payment/model",
       element: <AppPayment />,
+    },
+    {
+      path: "user/account/delete",
+      element: <AccountDeletion />,
     },
     {
       path: "login",
