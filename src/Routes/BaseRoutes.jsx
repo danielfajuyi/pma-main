@@ -63,6 +63,7 @@ import TransactionHistory from "../Pages/Wallet/History";
 
 import AgencyPortfolio from "../UI/Agency/AgencyProfile/agency_portfolio";
 import ClientPortfolio from "../UI/Client/ClientProfile/ClientPortfolio";
+import AppPayment from "../Pages/webhook_payment/AppPayment";
 import LoginSignups from "../Pages/LoginSignup/Login/Signup";
 import Sidebar from "../Components/Sidebar/Sidebar";
 
@@ -613,6 +614,10 @@ export const BaseRoutes = () => {
     {
       path: "signup",
       element: <LoginSignups />,
+    },
+    {
+      path: "app/payment/model",
+      element: <AppPayment />,
     },
     {
       path: "login",

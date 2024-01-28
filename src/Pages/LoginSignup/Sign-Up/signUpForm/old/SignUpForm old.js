@@ -61,6 +61,7 @@ const SignUpForm = ({ activeSignup, setActiveSignup, userRole }) => {
       : userRole === "agency"
       ? 49900
       : null;
+
   const config = {
     email: inputs.email,
 
@@ -91,6 +92,7 @@ const SignUpForm = ({ activeSignup, setActiveSignup, userRole }) => {
   };
 
   const initializePayment = usePaystackPayment(config);
+  
   const handlePayment = () => {
     const onSuccess = () => {
       handleInvoice();
