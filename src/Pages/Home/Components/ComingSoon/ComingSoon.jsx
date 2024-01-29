@@ -6,27 +6,32 @@ const ComingSoon = () => {
   return (
     <>
       <div className="container comingsoon-container mtop">
-        <SectionHead
-          title="Coming Soon"
-          description="Premium models mobile app"
-        />
+        <SectionHead title="Now Live!" description="Premium models mobile app" />
         <section className="comingsoon-wrapper ">
           <div className="c-left">
-            <img
-              src="./images/home/appnew.png"
-              alt="comingsoon"
-              className="box_shadow-2"
-            ></img>
+            <img src="./images/home/appnew.png" alt="comingsoon" className="box_shadow-2"></img>
           </div>
 
           <div className="c-right ">
             <p>
-              It is easier with our model mobile app download our mobile app and
-              access your account with your log in details as the website
-              platform
+              It is easier with our model mobile app download our mobile app and access your account
+              with your log in details as the website platform
             </p>
+            <h3>Download Now!</h3>
+            <div className="download-Wrapper">
+              {/* <i className="b-effect"></i> */}
 
-            <h3 className="b-effect">Stay Tuned!</h3>
+              <button className="download--btn apple-store">
+                <i class="fa-brands fa-apple"></i>
+                Apple Store
+              </button>
+
+              <a
+                href="https://play.google.com/store/apps/details?id=com.premiummodels"
+                className="download--btn play-store">
+                <i class="fa-brands fa-google-play"></i>Google Play
+              </a>
+            </div>
           </div>
         </section>
       </div>
