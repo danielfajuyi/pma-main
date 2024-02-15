@@ -27,10 +27,18 @@ const ComingSoon = () => {
               </button>
 
               <a
-                href="https://play.google.com/store/apps/details?id=com.premiummodels"
+                href="https://drive.google.com/uc?id=1To78F4OXka6IBPqdqVFSSDAlUjoPvOWh&Export=download"
+                target="blank"
                 className="download--btn play-store">
                 <i class="fa-brands fa-google-play"></i>Google Play
               </a>
+
+              {/* <a
+                href="https://play.google.com/store/apps/details?id=com.premiummodels"
+                target="blank"
+                className="download--btn play-store">
+                <i class="fa-brands fa-google-play"></i>Google Play
+              </a> */}
             </div>
           </div>
         </section>
