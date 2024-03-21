@@ -50,7 +50,8 @@ const AppPayment = () => {
 
   const handlePayment = () => {
     const onSuccess = () => {
-      handleInvoice();
+      // handleInvoice();
+      window.close();
     };
 
     const onClose = () => {

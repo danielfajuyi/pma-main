@@ -340,7 +340,8 @@ function FundForm({ handleForm, loggedUser, setIsTransact, isTransact }) {
   const handlePayment = (e) => {
     e.preventDefault();
     const onSuccess = () => {
-      handleInvoice();
+      // handleInvoice();
+      window.location.reload();
     };
     const onClose = () => {
       setModalTxt("close-payment");

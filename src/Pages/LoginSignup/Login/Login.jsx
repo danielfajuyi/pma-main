@@ -82,9 +82,9 @@ const LoginSignup = () => {
   };
 
   //paystack payment config
-  const userRole1 = user?.userRole1;
+  const userR = user?.userRole;
   const amount =
-    userRole1 === "model" ? 2000 : userRole1 === "agency" ? 49900 : null;
+    userR === "model" ? 2000 : userR === "agency" ? 49900 : null;
   const config = {
     email: inputs.email,
 
@@ -115,9 +115,10 @@ const LoginSignup = () => {
   };
 
   const initializePayment = usePaystackPayment(config);
+
   const handlePayment = () => {
     const onSuccess = () => {
-      handleInvoice();
+      // handleInvoice();
       setTimeout(() => {
         setModalTxt("confirm-payment");
       }, 2000);
@@ -133,8 +134,10 @@ const LoginSignup = () => {
     FocusBlur();
   }, []);
 
+  console.log(user)
+
   useEffect(() => {
-    if (user?.userRole1) {
+    if (user?.userRole) {
       handlePayment();
     }
   }, [user]);

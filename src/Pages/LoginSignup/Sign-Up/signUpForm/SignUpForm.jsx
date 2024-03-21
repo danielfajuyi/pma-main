@@ -47,7 +47,7 @@ const SignUpForm = ({ activeSignup, setActiveSignup, userRole }) => {
       });
 
       ipt.addEventListener("blur", () => {
-        if (ipt.value == "") {
+        if (ipt.value === "") {
           ipt.parentNode.classList.remove("not-empty");
           ipt.parentNode.classList.remove("focus");
         }
@@ -138,12 +138,13 @@ const SignUpForm = ({ activeSignup, setActiveSignup, userRole }) => {
   };
 
   const initializePayment = usePaystackPayment(config);
+  
   const handlePayment = () => {
     const onSuccess = () => {
-      handleInvoice();
-      setTimeout(() => {
-        setModalTxt("confirm-payment");
-      }, 2000);
+      // handleInvoice();
+      // setTimeout(() => {
+      //   setModalTxt("confirm-payment");
+      // }, 2000);
       window.location.reload();
     };
     const onClose = () => {
