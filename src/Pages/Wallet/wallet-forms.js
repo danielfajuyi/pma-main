@@ -6,11 +6,7 @@ import { usePaystackPayment } from "react-paystack";
 import { AlertModal } from "../LoginSignup/Sign-Up/signUpForm/Modal";
 import { makeGet, makePost } from "../../redux/apiCalls";
 import { userRequest } from "../../redux/requestMethod";
-import {
-  updateFailure,
-  updateStart,
-  updateSuccess,
-} from "../../redux/userRedux";
+import { updateFailure, updateStart, updateSuccess } from "../../redux/userRedux";
 
 function SendForm({ handleForm, setIsTransact, isTransact }) {
   const user = useSelector((state) => state.user.currentUser);
@@ -45,10 +41,7 @@ function SendForm({ handleForm, setIsTransact, isTransact }) {
   return (
     <form onSubmit={handleTransfer} className="wallet-form">
       <div className="wallet-form-top-text">
-        <i
-          onClick={() => handleForm("")}
-          className="fa-solid fa-angle-left"
-        ></i>
+        <i onClick={() => handleForm("")} className="fa-solid fa-angle-left"></i>
         <h3>Pay model</h3>
       </div>
 
@@ -94,8 +87,7 @@ function SendForm({ handleForm, setIsTransact, isTransact }) {
           id="remark"
           cols="30"
           rows="2"
-          placeholder="Transaction purpose..."
-        ></textarea>
+          placeholder="Transaction purpose..."></textarea>
       </fieldset>
 
       {/* Transaction pin  */}
@@ -114,13 +106,11 @@ function SendForm({ handleForm, setIsTransact, isTransact }) {
           {viewPin ? (
             <i
               onClick={() => setViewPin((prev) => !prev)}
-              className="fa-solid fa-eye label-1-text"
-            ></i>
+              className="fa-solid fa-eye label-1-text"></i>
           ) : (
             <i
               onClick={() => setViewPin((prev) => !prev)}
-              className="fa-solid fa-eye-slash label-1-text"
-            ></i>
+              className="fa-solid fa-eye-slash label-1-text"></i>
           )}
         </label>
       </fieldset>
@@ -169,17 +159,14 @@ function WithdrawForm({ handleForm, loggedUser, setIsTransact, isTransact }) {
         setIsTransact(!isTransact);
       }
     } catch (error) {
-      alert(error.response.data)
+      alert(error.response.data);
     }
   };
 
   return (
     <form onSubmit={handleWithdraw} className="wallet-form">
       <div className="wallet-form-top-text">
-        <i
-          onClick={() => handleForm("")}
-          className="fa-solid fa-angle-left"
-        ></i>
+        <i onClick={() => handleForm("")} className="fa-solid fa-angle-left"></i>
         <h3>Withdraw</h3>
       </div>
 
@@ -267,13 +254,11 @@ function WithdrawForm({ handleForm, loggedUser, setIsTransact, isTransact }) {
           {viewPin ? (
             <i
               onClick={() => setViewPin((prev) => !prev)}
-              className="fa-solid fa-eye label-1-text"
-            ></i>
+              className="fa-solid fa-eye label-1-text"></i>
           ) : (
             <i
               onClick={() => setViewPin((prev) => !prev)}
-              className="fa-solid fa-eye-slash  label-1-text"
-            ></i>
+              className="fa-solid fa-eye-slash  label-1-text"></i>
           )}
         </label>
       </fieldset>
@@ -353,10 +338,7 @@ function FundForm({ handleForm, loggedUser, setIsTransact, isTransact }) {
     <>
       <form onSubmit={handlePayment} className="wallet-form fund-form">
         <div className="wallet-form-top-text">
-          <i
-            onClick={() => handleForm("")}
-            className="fa-solid fa-angle-left"
-          ></i>
+          <i onClick={() => handleForm("")} className="fa-solid fa-angle-left"></i>
           <h3>Fund Wallet</h3>
         </div>
 
@@ -455,10 +437,7 @@ function TransactionPin({ handleForm, setIsTransact, isTransact }) {
     <>
       <form onSubmit={handleSubmit} className="wallet-form fund-form">
         <div className="wallet-form-top-text">
-          <i
-            onClick={() => handleForm("")}
-            className="fa-solid fa-angle-left"
-          ></i>
+          <i onClick={() => handleForm("")} className="fa-solid fa-angle-left"></i>
           <h3>Update Transaction Pin</h3>
         </div>
 

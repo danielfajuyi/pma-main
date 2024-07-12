@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { AlertModal } from "./Modal";
 import { useDispatch, useSelector } from "react-redux";
 import { register } from "../../../../redux/apiCalls";
+import { userRequest_2 } from "../../../../redux/requestMethod";
 import { usePaystackPayment } from "react-paystack";
 import { ToastContainer } from "react-toastify";
 import { FaSun, FaMoon, FaTimes } from "react-icons/fa";
@@ -88,13 +89,7 @@ const SignUpForm = ({ activeSignup, setActiveSignup, userRole }) => {
   //submit form and creating account
   const handleCreateAccount = (e) => {
     e.preventDefault();
-    register(
-      dispatch,
-      "/auth/register",
-      { ...inputs, role: userRole },
-      setMessage,
-      setUser
-    );
+    register(dispatch, "/auth/register", { ...inputs, role: userRole }, setMessage, setUser);
   };
 
   //paystack payment config
@@ -125,7 +120,7 @@ const SignUpForm = ({ activeSignup, setActiveSignup, userRole }) => {
 
   const TOKEN = user?.accessToken;
   const postRequest = axios.create({
-    baseURL: process.env.REACT_APP_API_URL,
+    baseURL: process.env.REACT_APP_API_URL_V2,
     headers: { token: `Bearer ${TOKEN}` },
   });
 
@@ -201,8 +196,7 @@ const SignUpForm = ({ activeSignup, setActiveSignup, userRole }) => {
               fNameErr:
                 "Name should have a min of (3), max of (15) characters and must contain only letter A-Z!",
             })) || setProgress(0)
-          : setError((prevErr) => ({ ...prevErr, fNameErr: null })) ||
-            setProgress(newprogress);
+          : setError((prevErr) => ({ ...prevErr, fNameErr: null })) || setProgress(newprogress);
       }
       inputs.firstName && validateFName();
     }
@@ -216,8 +210,7 @@ const SignUpForm = ({ activeSignup, setActiveSignup, userRole }) => {
               lNameErr:
                 "Name should have a min of (3), max of (15) characters and must contain only letter A-Z!",
             })) || setProgress(newprogress)
-          : setError((prevErr) => ({ ...prevErr, lNameErr: null })) ||
-            setProgress(newprogress * 2);
+          : setError((prevErr) => ({ ...prevErr, lNameErr: null })) || setProgress(newprogress * 2);
       }
       inputs.lastName && validateLName();
     }
@@ -228,8 +221,7 @@ const SignUpForm = ({ activeSignup, setActiveSignup, userRole }) => {
               ...prevErr,
               emailErr: "Please ensure you enter a valid email",
             })) || setProgress(newprogress * 2)
-          : setError((prevErr) => ({ ...prevErr, emailErr: null })) ||
-            setProgress(newprogress * 3);
+          : setError((prevErr) => ({ ...prevErr, emailErr: null })) || setProgress(newprogress * 3);
       }
       inputs.email && validateEmail();
     }
@@ -251,8 +243,7 @@ const SignUpForm = ({ activeSignup, setActiveSignup, userRole }) => {
         inputs.confirm !== inputs.password
           ? setError((prevErr) => ({
               ...prevErr,
-              confirmErr:
-                "Ensure password corresponds to previous  password entered ",
+              confirmErr: "Ensure password corresponds to previous  password entered ",
             })) || setProgress(newprogress * 3)
           : setError((prevErr) => ({ ...prevErr, confirmErr: null })) ||
             setProgress(newprogress * 4);
@@ -281,8 +272,7 @@ const SignUpForm = ({ activeSignup, setActiveSignup, userRole }) => {
         }))
       : setError((prevErr) => ({
           ...prevErr,
-          termsErr:
-            "Please click the above button to Accept our terms of service",
+          termsErr: "Please click the above button to Accept our terms of service",
         }));
 
     if (
@@ -327,14 +317,9 @@ const SignUpForm = ({ activeSignup, setActiveSignup, userRole }) => {
           display: message && "none",
           transition: "0.9s ease-in-out",
         }}
-        className="sign-up form-transition"
-      >
+        className="sign-up form-transition">
         <ToastContainer position="top-center" reverseOrder={false} />
-        <section
-          className={
-            darkmode ? "Forms light-theme dark-theme " : "Forms light-theme "
-          }
-        >
+        <section className={darkmode ? "Forms light-theme dark-theme " : "Forms light-theme "}>
           <header>
             <section className="signupforms">
               <div className="signupform-container">
@@ -370,24 +355,14 @@ const SignUpForm = ({ activeSignup, setActiveSignup, userRole }) => {
                   </li>
 
                   <li className="darkmode-li">
-                    <span
-                      className="formnav-link theme-toggle "
-                      onClick={HandleTheme}
-                    >
-                      {darkmode ? (
-                        <FaSun className="sun-icon" />
-                      ) : (
-                        <FaMoon className="moon-icon" />
-                      )}
+                    <span className="formnav-link theme-toggle " onClick={HandleTheme}>
+                      {darkmode ? <FaSun className="sun-icon" /> : <FaMoon className="moon-icon" />}
                     </span>
                   </li>
 
                   <li className="close-li">
                     <span className="formnav-link">
-                      <FaTimes
-                        className="closeform-icon"
-                        onClick={() => setActiveSignup(false)}
-                      />
+                      <FaTimes className="closeform-icon" onClick={() => setActiveSignup(false)} />
                     </span>
                   </li>
                 </ul>
@@ -402,8 +377,7 @@ const SignUpForm = ({ activeSignup, setActiveSignup, userRole }) => {
                   <div className="form-left-wrapper">
                     <div className="form-left-heading">
                       <h1>
-                        Uber of modelling{" "}
-                        <span className="dots-hide-on-mobile">.</span>
+                        Uber of modelling <span className="dots-hide-on-mobile">.</span>
                       </h1>
                       <p className="form-text">
                         fill in your information for
@@ -419,11 +393,7 @@ const SignUpForm = ({ activeSignup, setActiveSignup, userRole }) => {
                       </p>
                     </div>
 
-                    <form
-                      method="post"
-                      className="form-left-form"
-                      onSubmit={handleCreateAccount}
-                    >
+                    <form method="post" className="form-left-form" onSubmit={handleCreateAccount}>
                       <div className="form-input-column">
                         <SignUpInput
                           type="text"
@@ -519,9 +489,7 @@ const SignUpForm = ({ activeSignup, setActiveSignup, userRole }) => {
                             name="terms"
                             checked={inputs.terms}
                           />
-                          <label htmlFor="model">
-                            I agree to the Policy & Terms of Service
-                          </label>
+                          <label htmlFor="model">I agree to the Policy & Terms of Service</label>
                         </div>
                         <p className="form-error-text">{error.termsErr}</p>
                       </div>
@@ -535,18 +503,14 @@ const SignUpForm = ({ activeSignup, setActiveSignup, userRole }) => {
                                 ? "1px solid #808080 "
                                 : "1px solid var(--main-color)"
                             }`,
-                          }}
-                        >
+                          }}>
                           <div
                             className="form-btn progress-btn"
                             style={{
                               width: `${progressNum}%`,
                               backgroundColor:
-                                progressNum === 100
-                                  ? "#808080"
-                                  : "var(--main-color)",
-                            }}
-                          >
+                                progressNum === 100 ? "#808080" : "var(--main-color)",
+                            }}>
                             <span>{progressNum}%</span>
                           </div>
                         </div>
@@ -554,17 +518,14 @@ const SignUpForm = ({ activeSignup, setActiveSignup, userRole }) => {
                         <button
                           className="form-btn "
                           style={{
-                            backgroundColor: !isError
-                              ? "var(--main-color)"
-                              : "#808080",
+                            backgroundColor: !isError ? "var(--main-color)" : "#808080",
                             color: "#fff",
                           }}
                           onClick={() => {
                             isError && setModalTxt("sign-up-Err");
                           }}
                           type="submit"
-                          disabled={isFetching}
-                        >
+                          disabled={isFetching}>
                           {isFetching ? "please wait..." : "Continue"}
                         </button>
                       </div>
@@ -593,8 +554,7 @@ const SignUpForm = ({ activeSignup, setActiveSignup, userRole }) => {
                         className="wave"
                         viewBox="0 0 783 1536"
                         fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
+                        xmlns="http://www.w3.org/2000/svg">
                         <path
                           id="wave"
                           d="M236.705 1356.18C200.542 1483.72 64.5004 1528.54 1 1535V1H770.538C793.858 63.1213 797.23 196.197 624.165 231.531C407.833 275.698 274.374 331.715 450.884 568.709C627.393 805.704 510.079 815.399 347.561 939.282C185.043 1063.17 281.908 1196.74 236.705 1356.18Z"
@@ -605,8 +565,7 @@ const SignUpForm = ({ activeSignup, setActiveSignup, userRole }) => {
                       viewBox="0 0 345 877"
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"
-                      className="dashed-wave"
-                    >
+                      className="dashed-wave">
                       <path
                         id="dashed-wave"
                         d="M0.5 876C25.6667 836.167 73.2 739.8 62 673C48 589.5 35.5 499.5 125.5 462C215.5 424.5 150 365 87 333.5C24 302 44 237.5 125.5 213.5C207 189.5 307 138.5 246 87C185 35.5 297 1 344.5 1"
