@@ -7,14 +7,14 @@ import {
   updateStart,
   updateSuccess,
 } from "./userRedux";
-import { userRequest } from "./requestMethod";
+import { userRequest, userRequest_2 } from "./requestMethod";
 import { toast } from "react-toastify";
 import { processFailure, processStart, processSuccess } from "./processRedux";
 
 export const register = async (dispatch, url, user, setMessage, setUser) => {
   dispatch(processStart());
   try {
-    const res = await userRequest.post(url, user);
+    const res = await userRequest_2.post(url, user);
     setUser(res.data);
     dispatch(processSuccess());
     setMessage("Registration successful!");
@@ -26,11 +26,11 @@ export const register = async (dispatch, url, user, setMessage, setUser) => {
 
 export const login = async (dispatch, url, user, setMessage, setUser, setIsLoading) => {
   dispatch(loginStart());
-  setIsLoading(true)
+  setIsLoading(true);
   try {
     const res = await userRequest.post(url, user);
     dispatch(loginSuccess(res.data));
-    setIsLoading(false)
+    setIsLoading(false);
     setMessage("Login successful!");
     window.location.reload();
   } catch (err) {
@@ -38,7 +38,7 @@ export const login = async (dispatch, url, user, setMessage, setUser, setIsLoadi
     setMessage(err?.response?.data);
     err?.response?.data?.message && alert(err?.response?.data?.message);
     dispatch(loginFailure());
-    setIsLoading(false)
+    setIsLoading(false);
   }
 };
 
@@ -93,7 +93,7 @@ export const makeEdit = async (dispatch, url, inputs, setMessage) => {
     dispatch(processSuccess());
     setMessage(res.data);
     toast.success("Data uploaded successfully.");
-    window.location.reload()
+    window.location.reload();
     // console.log(res.data);
   } catch (err) {
     dispatch(processFailure());

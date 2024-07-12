@@ -16,16 +16,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { FormContext } from "../Models-Kyc-Forms";
 
 function ModelsKycForm3({}) {
-  const {
-    handleNavigation,
-    inputs,
-    setInputs,
-    path,
-    darkmode,
-    picture,
-    FocusBlur,
-    HandleTheme,
-  } = useContext(FormContext);
+  const { handleNavigation, inputs, setInputs, path, darkmode, picture, FocusBlur, HandleTheme } =
+    useContext(FormContext);
   const { isFetching } = useSelector((state) => state.user);
   const user = useSelector((state) => state.user.currentUser);
 
@@ -69,8 +61,7 @@ function ModelsKycForm3({}) {
     uploadTask.on(
       "state_changed",
       (snapshot) => {
-        const progress =
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
         if (urlType === "photos") {
           setProgress(Math.round(progress));
         }
@@ -161,11 +152,8 @@ function ModelsKycForm3({}) {
   return (
     <section
       className={
-        darkmode
-          ? "Forms KycForms light-theme  "
-          : "Forms KycForms light-theme dark-theme"
-      }
-    >
+        darkmode ? "Forms KycForms light-theme  " : "Forms KycForms light-theme dark-theme"
+      }>
       <header>
         <KycHeader HandleTheme={HandleTheme} darkmode={darkmode} />
       </header>
@@ -187,10 +175,7 @@ function ModelsKycForm3({}) {
                   </p>
                 </div>
 
-                <form
-                  className="form-left-form"
-                  onSubmit={(e) => e.preventDefault()}
-                >
+                <form className="form-left-form" onSubmit={(e) => e.preventDefault()}>
                   <AlertModal modalTxt={modalTxt} setModalTxt={setModalTxt} />
                   <ToastContainer position="top-center" />
 
@@ -202,19 +187,15 @@ function ModelsKycForm3({}) {
                         <FaAngleDoubleRight />
                         <span>
                           {" "}
-                          We recommend using a variety of high resolution photos
-                          that best show off your work!
+                          We recommend using a variety of high resolution photos that best show off
+                          your work!
                         </span>
                       </p>
-                      <p
-                        className="form-descriptions"
-                        style={{ margin: " -1rem 0" }}
-                      >
+                      <p className="form-descriptions" style={{ margin: " -1rem 0" }}>
                         <FaAngleDoubleRight />
                         <span>
                           {" "}
-                          Try to include a headShot, a side/profile shot,and a
-                          full body shot.
+                          Try to include a headShot, a side/profile shot,and a full body shot.
                         </span>
                       </p>
                     </div>
@@ -222,15 +203,8 @@ function ModelsKycForm3({}) {
                     <div className="form-images-column">
                       {Photo.map((item) => {
                         return (
-                          <div
-                            className="image-container color-codes"
-                            key={item.id}
-                          >
-                            <div
-                              className={
-                                model ? "pic-model open-model" : "pic-model"
-                              }
-                            >
+                          <div className="image-container color-codes" key={item.id}>
+                            <div className={model ? "pic-model open-model" : "pic-model"}>
                               <img src={tempImgSrc} />
                               <FaTimes onClick={() => setModel(false)} />
                             </div>
@@ -252,8 +226,7 @@ function ModelsKycForm3({}) {
                                     ? `uploading ${progress}%`
                                     : "preview picture"
                                 }
-                                onClick={() => getImg(previewPhotos[item.id])}
-                              >
+                                onClick={() => getImg(previewPhotos[item.id])}>
                                 {previewPhotos[item.id] && (
                                   <img src={previewPhotos[item.id]} alt="" />
                                 )}
@@ -266,12 +239,7 @@ function ModelsKycForm3({}) {
                                     ? `uploading ${progress}%`
                                     : "preview picture"
                                 }
-                                onClick={() =>
-                                  document
-                                    .querySelector(`.pic-${item.id}`)
-                                    .click()
-                                }
-                              >
+                                onClick={() => document.querySelector(`.pic-${item.id}`).click()}>
                                 <BiCloudUpload />
 
                                 <h3>Upload Image</h3>
@@ -284,31 +252,19 @@ function ModelsKycForm3({}) {
 
                             {previewPhotos[item.id] ? (
                               <span
-                                onClick={() =>
-                                  document
-                                    .querySelector(`.pic-${item.id}`)
-                                    .click()
-                                }
+                                onClick={() => document.querySelector(`.pic-${item.id}`).click()}
                                 className="select-image"
                                 style={{ textAlign: "center" }}
-                                disabled={progress > 0 && progress < 100}
-                              >
-                                {progress > 0 &&
-                                progress < 100 &&
-                                item.id === item.id
+                                disabled={progress > 0 && progress < 100}>
+                                {progress > 0 && progress < 100 && item.id === item.id
                                   ? ` uploading ${item.id} ${progress}%`
                                   : "Change Picture"}
                               </span>
                             ) : (
                               <span
-                                onClick={() =>
-                                  document
-                                    .querySelector(`.pic-${item.id}`)
-                                    .click()
-                                }
+                                onClick={() => document.querySelector(`.pic-${item.id}`).click()}
                                 className="select-image"
-                                style={{ textAlign: "center" }}
-                              >
+                                style={{ textAlign: "center" }}>
                                 {"Upload Picture"}
                               </span>
                             )}
@@ -324,47 +280,29 @@ function ModelsKycForm3({}) {
                         <FaAngleDoubleRight />
                         <span>
                           {" "}
-                          Polaroid are natural un-retouched photographs with
-                          minimal makeup.
+                          Polaroid are natural un-retouched photographs with minimal makeup.
                         </span>
                       </p>
-                      <p
-                        className="form-descriptions"
-                        style={{ margin: " -1rem 0" }}
-                      >
+                      <p className="form-descriptions" style={{ margin: " -1rem 0" }}>
                         <FaAngleDoubleRight />
                         <span>
                           {" "}
-                          They should be taken in a well-lit space, with a clean
-                          (preferable white) background.
+                          They should be taken in a well-lit space, with a clean (preferable white)
+                          background.
                         </span>
                       </p>
 
-                      <p
-                        className="form-descriptions"
-                        style={{ margin: " -1rem 0" }}
-                      >
+                      <p className="form-descriptions" style={{ margin: " -1rem 0" }}>
                         <FaAngleDoubleRight />
-                        <span>
-                          {" "}
-                          Try to include a headShot, a side/profile shot,and a
-                          full body
-                        </span>
+                        <span> Try to include a headShot, a side/profile shot,and a full body</span>
                       </p>
                     </div>
 
                     <div className="form-images-column">
                       {Polaroid.map((item) => {
                         return (
-                          <div
-                            className="image-container color-codes"
-                            key={item.id}
-                          >
-                            <div
-                              className={
-                                model ? "pic-model open-model" : "pic-model"
-                              }
-                            >
+                          <div className="image-container color-codes" key={item.id}>
+                            <div className={model ? "pic-model open-model" : "pic-model"}>
                               <img src={tempImgSrc} />
                               <FaTimes onClick={() => setModel(false)} />
                             </div>
@@ -386,10 +324,7 @@ function ModelsKycForm3({}) {
                                     ? `uploading ${progress}%`
                                     : "preview picture"
                                 }
-                                onClick={() =>
-                                  getImg(previewPolaroids[item.id])
-                                }
-                              >
+                                onClick={() => getImg(previewPolaroids[item.id])}>
                                 {previewPolaroids[item.id] && (
                                   <img src={previewPolaroids[item.id]} alt="" />
                                 )}
@@ -403,11 +338,8 @@ function ModelsKycForm3({}) {
                                     : "preview picture"
                                 }
                                 onClick={() =>
-                                  document
-                                    .querySelector(`.polariods-${item.id}`)
-                                    .click()
-                                }
-                              >
+                                  document.querySelector(`.polariods-${item.id}`).click()
+                                }>
                                 <BiCloudUpload />
 
                                 <h3>Upload Picture</h3>
@@ -421,14 +353,11 @@ function ModelsKycForm3({}) {
                             {previewPolaroids[item.id] ? (
                               <span
                                 onClick={() =>
-                                  document
-                                    .querySelector(`.polariods-${item.id}`)
-                                    .click()
+                                  document.querySelector(`.polariods-${item.id}`).click()
                                 }
                                 className="select-image"
                                 style={{ textAlign: "center" }}
-                                disabled={progress > 0 && progress < 100}
-                              >
+                                disabled={progress > 0 && progress < 100}>
                                 {progress > 0 && progress < 100
                                   ? ` uploading ${progress}%`
                                   : "Change Picture"}
@@ -436,13 +365,10 @@ function ModelsKycForm3({}) {
                             ) : (
                               <span
                                 onClick={() =>
-                                  document
-                                    .querySelector(`.polariods-${item.id}`)
-                                    .click()
+                                  document.querySelector(`.polariods-${item.id}`).click()
                                 }
                                 className="select-image"
-                                style={{ textAlign: "center" }}
-                              >
+                                style={{ textAlign: "center" }}>
                                 {"Upload Picture"}
                               </span>
                             )}
@@ -477,23 +403,16 @@ function ModelsKycForm3({}) {
             <div className="form-right">
               <div className="form-img-wrapper">
                 {picture ? (
-                  <img
-                    src={URL.createObjectURL(picture)}
-                    className="form-img"
-                  />
+                  <img src={URL.createObjectURL(picture)} className="form-img" />
                 ) : (
-                  <img
-                    src={"/images/sign-up/model2.jpg"}
-                    className="form-img"
-                  />
+                  <img src={"/images/sign-up/model2.jpg"} className="form-img" />
                 )}
                 <div className="wave-wrap">
                   <svg
                     className="wave"
                     viewBox="0 0 783 1536"
                     fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
+                    xmlns="http://www.w3.org/2000/svg">
                     <path
                       id="wave"
                       d="M236.705 1356.18C200.542 1483.72 64.5004 1528.54 1 1535V1H770.538C793.858 63.1213 797.23 196.197 624.165 231.531C407.833 275.698 274.374 331.715 450.884 568.709C627.393 805.704 510.079 815.399 347.561 939.282C185.043 1063.17 281.908 1196.74 236.705 1356.18Z"
@@ -504,8 +423,7 @@ function ModelsKycForm3({}) {
                   viewBox="0 0 345 877"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
-                  className="dashed-wave"
-                >
+                  className="dashed-wave">
                   <path
                     id="dashed-wave"
                     d="M0.5 876C25.6667 836.167 73.2 739.8 62 673C48 589.5 35.5 499.5 125.5 462C215.5 424.5 150 365 87 333.5C24 302 44 237.5 125.5 213.5C207 189.5 307 138.5 246 87C185 35.5 297 1 344.5 1"
