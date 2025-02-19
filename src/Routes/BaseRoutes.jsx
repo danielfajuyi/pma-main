@@ -1,6 +1,7 @@
 import jwt_decode from "jwt-decode";
 import { useEffect, useState } from "react";
 import Navbar from "../Components/Navbar/navbar";
+import Test from "../Pages/Test/Test";
 import About from "../Pages/About/about";
 import Contact from "../Pages/Contact/contact";
 import FAQs from "../Pages/Faqs/Faq";
@@ -14,7 +15,12 @@ import NotFound from "../Pages/NotFound/notfound";
 import Terms from "../Pages/Terms/Terms";
 import Privacy from "../Pages/Privacy/Privacy";
 
-import { createBrowserRouter, RouterProvider, Navigate, Outlet } from "react-router-dom";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  Navigate,
+  Outlet,
+} from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { userLogout } from "../redux/apiCalls";
 import Blogs from "../Pages/Blog/Blogs";
@@ -118,7 +124,10 @@ export const BaseRoutes = () => {
   function AlertModal() {
     /* modal section */
     return (
-      <section style={{ transform: toggleModal && `translateX(${0}%)` }} className="alert-section">
+      <section
+        style={{ transform: toggleModal && `translateX(${0}%)` }}
+        className="alert-section"
+      >
         {/* successful saving */}
 
         {activeModel === "save" && (
@@ -301,6 +310,7 @@ export const BaseRoutes = () => {
           path: "find-model/",
           element: <FindModel />,
         },
+
         {
           path: "jobpost/*",
           element: <JobPost />,
@@ -310,10 +320,16 @@ export const BaseRoutes = () => {
           path: "blog/",
           element: <Blogs />,
         },
+        {
+          path: "test",
+          element: <Test />,
+        },
 
         {
           path: "sidebar/",
-          element: <Sidebar showNavbar={showNavbar} setShowNavbar={setShowNavbar} />,
+          element: (
+            <Sidebar showNavbar={showNavbar} setShowNavbar={setShowNavbar} />
+          ),
         },
 
         {
@@ -338,11 +354,15 @@ export const BaseRoutes = () => {
         },
         {
           path: "terms-of-service",
-          element: <Terms showNavbar={showNavbar} setShowNavbar={setShowNavbar} />,
+          element: (
+            <Terms showNavbar={showNavbar} setShowNavbar={setShowNavbar} />
+          ),
         },
         {
           path: "privacy",
-          element: <Privacy showNavbar={showNavbar} setShowNavbar={setShowNavbar} />,
+          element: (
+            <Privacy showNavbar={showNavbar} setShowNavbar={setShowNavbar} />
+          ),
         },
 
         {
@@ -373,7 +393,12 @@ export const BaseRoutes = () => {
           children: [
             {
               path: "dashboard",
-              element: <AgencyDashboard showNavbar={showNavbar} setShowNavbar={setShowNavbar} />,
+              element: (
+                <AgencyDashboard
+                  showNavbar={showNavbar}
+                  setShowNavbar={setShowNavbar}
+                />
+              ),
             },
             {
               path: "profile",
@@ -418,14 +443,22 @@ export const BaseRoutes = () => {
             {
               path: "transaction-history",
               element: (
-                <TransactionHistory transactions={transactions} currentUser={"/agencypage"} />
+                <TransactionHistory
+                  transactions={transactions}
+                  currentUser={"/agencypage"}
+                />
               ),
             },
           ],
         },
         {
           path: "Agency-Acct-setting",
-          element: <AgencyAcctSetting showNavbar={showNavbar} setShowNavbar={setShowNavbar} />,
+          element: (
+            <AgencyAcctSetting
+              showNavbar={showNavbar}
+              setShowNavbar={setShowNavbar}
+            />
+          ),
         },
         {
           path: "modelpage/",
@@ -462,7 +495,10 @@ export const BaseRoutes = () => {
             {
               path: "transaction-history",
               element: (
-                <TransactionHistory transactions={transactions} currentUser={"/modelpage"} />
+                <TransactionHistory
+                  transactions={transactions}
+                  currentUser={"/modelpage"}
+                />
               ),
             },
             {
@@ -495,7 +531,12 @@ export const BaseRoutes = () => {
         },
         {
           path: "model-kyc",
-          element: <ModelsForms showNavbar={showNavbar} setShowNavbar={setShowNavbar} />,
+          element: (
+            <ModelsForms
+              showNavbar={showNavbar}
+              setShowNavbar={setShowNavbar}
+            />
+          ),
         },
         {
           path: "model-Acct-setting/:id",
@@ -555,7 +596,10 @@ export const BaseRoutes = () => {
             {
               path: "transaction-history",
               element: (
-                <TransactionHistory transactions={transactions} currentUser={"/clientpage"} />
+                <TransactionHistory
+                  transactions={transactions}
+                  currentUser={"/clientpage"}
+                />
               ),
             },
             {
@@ -592,7 +636,12 @@ export const BaseRoutes = () => {
         },
         {
           path: "Client-Acct-setting",
-          element: <ClientAcctSetting showNavbar={showNavbar} setShowNavbar={setShowNavbar} />,
+          element: (
+            <ClientAcctSetting
+              showNavbar={showNavbar}
+              setShowNavbar={setShowNavbar}
+            />
+          ),
         },
         // {
         //   path: "profile/:id",
