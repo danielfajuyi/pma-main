@@ -29,6 +29,12 @@
   }
 }
 
+@mixin mq-max($width) {
+  @media (max-width: $width) {
+    @content;
+  }
+}
+
 @mixin input_select {
   font-size: 0.94rem;
   font-weight: 700;

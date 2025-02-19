@@ -3,7 +3,7 @@
 @import "../../../../../scss/utils";
 
 .model_dashboard {
-  background: var(--bg-color);
+  background: var(--color-bg);
   #pane {
     display: grid;
     grid-template-columns: 100%;
@@ -42,7 +42,7 @@
     }
   }
   .profile {
-    background-color: var(--color-white);
+    background: var(--color-white);
     padding: var(--card-padding);
     border-radius: var(--card-border-radius);
     margin-top: 1rem;
@@ -146,7 +146,7 @@
   #latest_post {
     @include box_header($x: 0.5em);
 
-    background-color: var(--color-white);
+    background: var(--color-white);
     padding: var(--card-padding);
     border-radius: var(--card-border-radius);
     margin-top: 1rem;
@@ -186,7 +186,7 @@
   }
 
   #bookings {
-    background-color: var(--color-white);
+    background: var(--color-white);
     padding: var(--card-padding);
     border-radius: var(--card-border-radius);
     margin-top: 1rem;
@@ -214,10 +214,17 @@
         width: 31.5%;
       }
     }
+
+    @include mq-max($width: 768px) {
+      @include d_flex($dir: column);
+      & > div {
+        width: 100% !important;
+      }
+    }
   }
 
   .earnings {
-    background-color: var(--color-white);
+    background: var(--color-white);
     padding: var(--card-padding);
     border-radius: var(--card-border-radius);
     margin-top: 1rem;
@@ -240,7 +247,7 @@
     }
   }
   .visitors-cards-wrapper {
-    background-color: var(--color-white);
+    background: var(--color-white);
     padding: var(--card-padding);
     border-radius: var(--card-border-radius);
     margin-top: 1rem;
@@ -296,7 +303,7 @@
   #job_posted {
     @include box_header($x: 0.5em);
 
-    background-color: var(--color-white);
+    background: var(--color-white);
     padding: var(--card-padding);
     border-radius: var(--card-border-radius);
     margin-top: 1rem;
@@ -324,7 +331,7 @@
   }
 
   #inbox {
-    background-color: var(--color-white);
+    background: var(--color-white);
     padding: var(--card-padding);
     border-radius: var(--card-border-radius);
     margin-top: 1rem;
@@ -382,7 +389,7 @@
   }
 
   .top_rated {
-    background-color: var(--color-white);
+    background: var(--color-white);
     padding: var(--card-padding);
     border-radius: var(--card-border-radius);
     margin-top: 1rem;
