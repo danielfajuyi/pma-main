@@ -64,7 +64,7 @@ function LoginForm() {
   const initializePayment = usePaystackPayment(config);
   const handlePayment = () => {
     const onSuccess = () => {
-      handleInvoice();
+      // handleInvoice();
       setTimeout(() => {
         setModalTxt("confirm-payment");
       }, 2000);

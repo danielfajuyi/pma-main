@@ -15,13 +15,7 @@ const BookingsCard = (props) => {
         <span>
           <GoLinkExternal size={14} color="black" />
         </span>
-        <h5
-          style={{
-            fontSize: fs,
-          }}
-        >
-          {props.type}
-        </h5>
+        <h5>{props.type}</h5>
       </header>
       <div className="booking_chart">
         <Line data={props.data} options={props.options} />

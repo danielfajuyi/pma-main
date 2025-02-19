@@ -1,0 +1,9 @@
+{
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.premiummodels",
+      "sha256_cert_fingerprints":
+      ["1F:E9:ED:BB:39:01:07:B0:46:57:70:80:6B:65:54:12:38:0B:FD:0D:42:B7:64:AE:50:7C:27:C0:5E:42:86:1E"]
+    }
+  }

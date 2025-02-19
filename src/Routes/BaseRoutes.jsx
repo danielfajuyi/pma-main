@@ -1,6 +1,7 @@
 import jwt_decode from "jwt-decode";
 import { useEffect, useState } from "react";
 import Navbar from "../Components/Navbar/navbar";
+import Test from "../Pages/Test/Test";
 import About from "../Pages/About/about";
 import Contact from "../Pages/Contact/contact";
 import FAQs from "../Pages/Faqs/Faq";
@@ -11,6 +12,9 @@ import Home from "../Pages/Home/home";
 import HowItWorks from "../Pages/HowItWorks/HowItWorks";
 import LoginSignup from "../Pages/LoginSignup/Login/Login";
 import NotFound from "../Pages/NotFound/notfound";
+import Terms from "../Pages/Terms/Terms";
+import Privacy from "../Pages/Privacy/Privacy";
+
 import {
   createBrowserRouter,
   RouterProvider,
@@ -35,7 +39,7 @@ import AgencyModels from "../UI/Agency/AgencyListing/AgencyModels";
 //importing models components
 import ModelDashboard from "../UI/Model/Models-Acct/Model-Page/dashboard/dashboard";
 import ModelsAcct from "../UI/Model/Models-Acct/Models-Acct";
-import ModelAcctSetting from "../UI/Model/Models-Acct/Acct-Setting/Models-Acct-Setting";
+import ModelAcctSetting from "../UI/Model/Models-Acct/Settings/model-settings";
 import ModelPortfolio from "../UI/Model/ModelPortfolio/ModelPortfolio";
 import ProfilePage from "../Pages/FindModel/Models-Profile-page/Profile-Page";
 import Review from "../UI/Model/Models-Acct/Model-Page/review/review";
@@ -43,6 +47,14 @@ import WriteReview from "../UI/Model/Models-Acct/Model-Page/review/write_review"
 import Reviews from "../UI/Model/Models-Acct/Model-Page/review/view_reviews";
 import ModelSubscription from "../UI/Model/Models-Acct/Model-Page/subscription/subscription";
 import ModelsForms from "../UI/Model/Models-Acct/Kyc-Section/Models-Kyc-Forms";
+
+//importing models setting components
+import ModelProfile from "../UI/Model/Models-Acct/Settings/Profile";
+import ModelStats from "../UI/Model/Models-Acct/Settings/Stats";
+import ModelPhotos from "../UI/Model/Models-Acct/Settings/Photos";
+import ModelVideos from "../UI/Model/Models-Acct/Settings/Videos";
+import ModelWallet from "../UI/Model/Models-Acct/Settings/Wallet-setting";
+import ModelLogins from "../UI/Model/Models-Acct/Settings/Logins";
 
 //importing clients components
 import ClientDashboard from "../UI/Client/Client-Acct/Client-Page/dashboard/dashboard";
@@ -57,8 +69,10 @@ import TransactionHistory from "../Pages/Wallet/History";
 
 import AgencyPortfolio from "../UI/Agency/AgencyProfile/agency_portfolio";
 import ClientPortfolio from "../UI/Client/ClientProfile/ClientPortfolio";
+import AppPayment from "../Pages/webhook_payment/AppPayment";
 import LoginSignups from "../Pages/LoginSignup/Login/Signup";
 import Sidebar from "../Components/Sidebar/Sidebar";
+import AccountDeletion from "../Pages/LoginSignup/Login/AccountDeletion";
 
 export const BaseRoutes = () => {
   const [showNavbar, setShowNavbar] = useState(true);
@@ -296,6 +310,7 @@ export const BaseRoutes = () => {
           path: "find-model/",
           element: <FindModel />,
         },
+
         {
           path: "jobpost/*",
           element: <JobPost />,
@@ -304,6 +319,10 @@ export const BaseRoutes = () => {
         {
           path: "blog/",
           element: <Blogs />,
+        },
+        {
+          path: "test",
+          element: <Test />,
         },
 
         {
@@ -332,6 +351,18 @@ export const BaseRoutes = () => {
         {
           path: "faqs",
           element: <FAQs />,
+        },
+        {
+          path: "terms-of-service",
+          element: (
+            <Terms showNavbar={showNavbar} setShowNavbar={setShowNavbar} />
+          ),
+        },
+        {
+          path: "privacy",
+          element: (
+            <Privacy showNavbar={showNavbar} setShowNavbar={setShowNavbar} />
+          ),
         },
 
         {
@@ -456,7 +487,7 @@ export const BaseRoutes = () => {
               element: (
                 <Wallet
                   transactions={transactions}
-                  settings={"/model-Acct-setting"}
+                  settings={"/model-Acct-setting/wallet"}
                   currentUser={"/modelpage"}
                 />
               ),
@@ -517,6 +548,14 @@ export const BaseRoutes = () => {
               setShowNavbar={setShowNavbar}
             />
           ),
+          children: [
+            { path: "profile", element: <ModelProfile /> },
+            { path: "stats", element: <ModelStats /> },
+            { path: "photos", element: <ModelPhotos /> },
+            { path: "videos", element: <ModelVideos /> },
+            { path: "wallet", element: <ModelWallet /> },
+            { path: "logins", element: <ModelLogins /> },
+          ],
         },
         {
           path: "clientpage/",
@@ -625,6 +664,14 @@ export const BaseRoutes = () => {
     {
       path: "signup",
       element: <LoginSignups />,
+    },
+    {
+      path: "app/payment/model",
+      element: <AppPayment />,
+    },
+    {
+      path: "user/account/delete",
+      element: <AccountDeletion />,
     },
     {
       path: "login",

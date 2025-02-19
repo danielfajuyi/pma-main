@@ -364,7 +364,10 @@ const ModelDashboard = ({ darkmode, HandleTheme }) => {
                   amount={`#${user?.model?.wallet}`}
                 />
               </div>
-              <VisitorStats data={data} options={options} user={user} />
+              <div className="visitors-cards-wrapper">
+                {" "}
+                <VisitorStats data={data} options={options} user={user} />
+              </div>
             </div>
             {/* [END] */}
             {/* Grid Area 3  --> [START] */}
