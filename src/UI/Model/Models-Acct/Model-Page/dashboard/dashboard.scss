@@ -99,6 +99,7 @@
         font-size: 0.74rem;
         text-align: right;
         right: 1.5em;
+        bottom: 60px;
         .edit {
           cursor: pointer;
           font-size: 0.8rem;
@@ -428,7 +429,7 @@
     }
     .body > div {
       margin-right: 0.6em;
-      min-width: 60px;
+      min-width: 70px;
       @include d_flex($dir: column);
       overflow: hidden;
     }

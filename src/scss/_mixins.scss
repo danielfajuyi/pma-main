@@ -1,6 +1,6 @@
 @import "../scss/color";
 
-@mixin img_holder($w: 40px, $h: 40px) {
+@mixin img_holder($w: 70px, $h: 70px) {
   display: inline-block;
   width: $w;
   height: $h;
