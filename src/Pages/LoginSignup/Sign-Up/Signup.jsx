@@ -13,10 +13,10 @@ export const SignupBtn = ({ btnText, setActiveSignup, setUserRole }) => {
         setUserRole("client");
         setActiveSignup(true);
         break;
-      case "As an agency":
-        setUserRole("agency");
-        setActiveSignup(true);
-        break;
+      // case "As an agency":
+      //   setUserRole("agency");
+      //   setActiveSignup(true);
+      //   break;
 
       default:
         break;
@@ -66,11 +66,11 @@ const SignupSection = ({
             setActiveSignup={setActiveSignup}
             setUserRole={setUserRole}
           />
-          <SignupBtn
+          {/* <SignupBtn
             btnText={"As an agency"}
             setActiveSignup={setActiveSignup}
             setUserRole={setUserRole}
-          />
+          /> */}
         </div>
 
         <div className="other-info">

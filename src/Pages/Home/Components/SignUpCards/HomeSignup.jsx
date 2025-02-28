@@ -45,23 +45,6 @@ const HomeSignup = () => {
         </div>
       </div>
 
-      <div className=" SignUpCard">
-        <div className="SignUpBox">
-          <div className="SignUpContent">
-            <h2>03</h2>
-            <h3 id="agencyhover">Agency</h3>
-            <p>
-              Create professional portfolios for your models under one account,
-              quickly and easily. Don't get left behind. Enjoy benefits when you
-              register your agency with us. Easier booking processes,
-              commissions and quick payouts.
-            </p>
-            <a href="/signup" className="btn_shadow">
-              Signup Now
-            </a>
-          </div>
-        </div>
-      </div>
       <SignUpForm />
     </>
   );
