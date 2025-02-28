@@ -39,8 +39,12 @@
       margin-right: $big_padding * 2;
     }
 
+    @include mq($width: 768px) {
+      display: block !important;
+    }
+
     @include mq($width: 1050px) {
-      display: none;
+      display: none !important;
     }
   }
 

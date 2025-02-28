@@ -3,6 +3,7 @@
 }
 
 .dashboards-styles {
+  --color-bg: #f9f9f9;
   --color-primary: #6c9bcf;
   --color-danger: #ff0060;
   --color-success: #1b9c85;
@@ -11,7 +12,7 @@
   --color-info-dark: #7d8da1;
   --color-dark: #363949;
   --color-light: rgba(132, 139, 200, 0.18);
-  --color-shadows: 0 2rem 2rem #11090d;
+  --color-shadows: 0 2rem 2rem #0c1014;
   --color-dark-variant: #677483;
   --color-background: #f6f6f9;
   --card-border-radius: 2rem;
@@ -61,21 +62,21 @@
   --box-shadow-color: var(--main-hue-2);
 
   &.darkmode {
+    --color-bg: hsl(213deg 33.27% 6.02%);
     --color-background: #181a1e;
-    --color-white: #0a0f15;
+    --color-white: transparent
+      linear-gradient(180deg, #111823 0%, #131c2b 0%, #101723 100%);
     --color-dark: #edeffd;
     --color-dark-variant: #a3bdcc;
     --color-light: rgba(0, 0, 0, 0.4);
     --box-shadows: var(--color-shadows);
-    --border-card: 1px solid hsl(331.29deg 53.67% 21.31%);
-    /* sidebar */
+    --border-card: 1px solid hsl(331.29deg 35.03% 82.52% / 25%);
 
+    /* sidebar */
     --sidebar-color: #242526;
     --primary-color-light: #3a3b3c;
     --toggle-color: #fff;
-
     --toggle-arrow-color: #ccc;
-
     --text-color: #fff;
     --checkbox-color: #f0f0f0f7;
     --box-shadow-color: var(--main-hue);
