@@ -1,5 +1,0 @@
-useResposiveText
-    "@iconscout/react-unicons": "^1.1.6",
-    "@mui/icons-material": "^5.11.0",
-        "framer-motion": "^10.16.4",
-           "react-icons": "^4.11.0",
